@@ -5,17 +5,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Struct\V1\CreateWebhooks;
+namespace Shopware\PayPalSDK\Struct\V1;
 
 use Shopware\PayPalSDK\Struct\Collection;
 
 /**
- * @extends Collection<EventType>
+ * @extends Collection<Patch>
  */
-class EventTypeCollection extends Collection
+class PatchCollection extends Collection
 {
     public static function getExpectedClass(): string
     {
-        return EventType::class;
+        return Patch::class;
     }
 }
