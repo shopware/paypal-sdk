@@ -1,0 +1,97 @@
+<?php declare(strict_types=1);
+/*
+ * (c) shopware AG <info@shopware.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Shopware\PayPalSDK;
+
+use Http\Discovery\Psr17Factory;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
+use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
+use Shopware\PayPalSDK\Contract\RequestServiceInterface;
+use Shopware\PayPalSDK\Exception\ExceptionFactory;
+
+class RequestService implements RequestServiceInterface
+{
+    public function __construct(
+        protected readonly Psr17Factory $factory = new Psr17Factory(),
+    ) {}
+
+    public function createRequest(string $method, string $path, ApiContextInterface $context): RequestInterface
+    {
+        $uri = $this->factory
+            ->createUri($context->getSandbox() ? Constants::BASEURL_SANDBOX : Constants::BASEURL_LIVE)
+            ->withPath($path);
+
+        $request = $this->factory->createRequest($method, $uri);
+
+        if ($assertion = $this->getAuthAssertion($context)) {
+            $request = $request->withHeader('PayPal-Auth-Assertion', $assertion);
+        }
+
+        foreach ($context->getHeaders() as $key => $value) {
+            $request = $request->withHeader($key, $value);
+        }
+
+        return $request;
+    }
+
+    public function withBody(RequestInterface $request, array|\JsonSerializable $body): RequestInterface
+    {
+        if ($request->getHeaderLine('Content-Type') === self::CONTENT_TYPE_URL_ENCODED) {
+            return $request
+                ->withBody($this->factory->createStream(\http_build_query(
+                    $body,
+                    encoding_type: \PHP_QUERY_RFC1738,
+                )))
+                ->withHeader('Content-Type', self::CONTENT_TYPE_URL_ENCODED);
+        }
+
+        return $request
+            ->withBody($this->factory->createStream(\json_encode($body, \JSON_THROW_ON_ERROR)))
+            ->withHeader('Content-Type', self::CONTENT_TYPE_JSON);
+    }
+
+    public function handleResponse(ResponseInterface $response, bool $forceBody = false): ?array
+    {
+        $body = (string) $response->getBody();
+
+        if ($response->getStatusCode() >= 400 || $body || $forceBody) {
+            try {
+                $content = \json_decode($body, true, flags: \JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                throw ExceptionFactory::createFromResponse($response);
+            }
+
+            if ($response->getStatusCode() >= 400 || !\is_array($content)) {
+                throw ExceptionFactory::createFromResponse($response);
+            }
+
+            return $content;
+        }
+
+        return null;
+    }
+
+    protected function getAuthAssertion(ApiContextInterface $context): ?string
+    {
+        if (!$context->getThirdParty()) {
+            return null;
+        }
+
+        if (!($oauthContext = $context->getOAuthContext()) instanceof CredentialsOAuthContext) {
+            return null;
+        }
+
+        $payload = [
+            'iss' => $oauthContext->getClientId(),
+            'payer_id' => $context->getMerchantId(),
+        ];
+
+        return \sprintf('%s.%s.', self::ALG_NONE_HEADER, \base64_encode(\json_encode($payload, \JSON_THROW_ON_ERROR)));
+    }
+}
