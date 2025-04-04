@@ -30,7 +30,7 @@ class Patch extends Struct
         new OA\Schema(type: 'boolean'),
         new OA\Schema(type: 'array', items: new OA\Items(type: 'mixed')),
     ])]
-    protected int|float|string|bool|array|null $value;
+    protected int|float|string|bool|array|null $value = null;
 
     #[OA\Property(type: 'string')]
     protected string $from;

@@ -16,3 +16,7 @@ parameters:
 
     ignoreErrors:
         - identifier: symplify.forbiddenExtendOfNonAbstractClass
+
+        - # Tests are allowed to do so
+          identifier: symplify.multipleClassLikeInFile
+          path: tests/*

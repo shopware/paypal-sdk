@@ -39,7 +39,7 @@ class Order extends Struct
     protected Payer $payer;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), nullable: true)]
-    protected ?PurchaseUnitCollection $purchaseUnits;
+    protected ?PurchaseUnitCollection $purchaseUnits = null;
 
     #[OA\Property(ref: ApplicationContext::class)]
     protected ApplicationContext $applicationContext;

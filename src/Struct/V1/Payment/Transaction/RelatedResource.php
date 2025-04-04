@@ -8,8 +8,8 @@
 namespace Shopware\PayPalSDK\Struct\V1\Payment\Transaction;
 
 use OpenApi\Attributes as OA;
-use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\ConstantsV1;
+use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource\Authorization;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource\Capture;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource\Order;

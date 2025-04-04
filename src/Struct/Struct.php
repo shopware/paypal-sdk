@@ -7,50 +7,49 @@
 
 namespace Shopware\PayPalSDK\Struct;
 
+use Shopware\PayPalSDK\Util\CaseConverter;
+
 abstract class Struct implements \JsonSerializable
 {
     final public function __construct() {}
 
     /**
-     * @param array<string, mixed> $arrayDataWithSnakeCaseKeys
+     * @param array<mixed> $data
      */
-    public function assign(array $arrayDataWithSnakeCaseKeys): static
+    public function assign(array $data): static
     {
-        foreach ($arrayDataWithSnakeCaseKeys as $snakeCaseKey => $value) {
-            if ($value === [] || $value === null) {
+        foreach ($data as $key => $value) {
+            $propertyName = CaseConverter::denormalize((string) $key);
+
+            if ($value === null || $value === []) {
                 continue;
             }
 
-            $propertyName = $this->denormalize($snakeCaseKey);
-            $setterMethod = \sprintf('set%s', \ucfirst($propertyName));
-            if (!\method_exists($this, $setterMethod)) {
-                // There is no setter/property for a given data key from PayPal.
-                // Continue here to not break the plugin, if the plugin is not up-to-date with the PayPal API
+            if (!\property_exists($this, $propertyName)) {
                 continue;
             }
 
-            if ($this->isScalar($value)) {
-                $this->{$setterMethod}($value);
+            $property = new \ReflectionProperty($this, $propertyName);
 
-                continue;
-            }
-
-            /** @var class-string<PayPalApiStruct> $className */
-            if ($this->isAssociativeArray($value) && $className = $this->getPropertyType($propertyName)) {
-                $this->{$setterMethod}((new $className())->assign($value));
+            if (!$type = $property->getType()) {
+                $this->assignValue($propertyName, $value);
 
                 continue;
             }
 
-            /** @var class-string<PayPalApiCollection<PayPalApiStruct>> $collectionClass */
-            if ($collectionClass = $this->getCollection($propertyName)) {
-                $this->{$setterMethod}($collectionClass::createFromAssociative($value));
+            if ($className = $this->getPropertyClassType($type, Collection::class)) {
+                $this->assignValue($propertyName, $className::createFromAssociative($value));
 
                 continue;
             }
 
-            // try for scalar value arrays like string[]
-            $this->{$setterMethod}($value);
+            if ($className = $this->getPropertyClassType($type, Struct::class)) {
+                $this->assignValue($propertyName, (new $className())->assign($value));
+
+                continue;
+            }
+
+            $this->assignValue($propertyName, $value);
         }
 
         return $this;
@@ -63,8 +62,8 @@ abstract class Struct implements \JsonSerializable
     {
         $data = [];
 
-        foreach (\array_keys(\get_class_vars(static::class)) as $property) {
-            $snakeCasePropertyName = $this->normalize($property);
+        foreach (\array_keys(\get_class_vars($this::class)) as $property) {
+            $snakeCasePropertyName = CaseConverter::normalize($property);
 
             if ((new \ReflectionProperty($this, $property))->isInitialized($this)) {
                 $data[$snakeCasePropertyName] = $this->{$property};
@@ -84,71 +83,36 @@ abstract class Struct implements \JsonSerializable
         return isset($this->{$propertyName});
     }
 
-    private function isScalar(mixed $value): bool
-    {
-        return !\is_array($value);
-    }
-
-    private function isAssociativeArray(array $value): bool
-    {
-        return \array_keys($value) !== \range(0, \count($value) - 1);
-    }
-
     /**
-     * @return class-string<PayPalApiStruct>|null
-     */
-    private function getPropertyType(string $camelCaseKey): ?string
-    {
-        return $this->getPropertyClassType($camelCaseKey, self::class);
-    }
-
-    /**
-     * @return class-string<PayPalApiCollection<PayPalApiStruct>>|null
-     */
-    private function getCollection(string $camelCaseKey): ?string
-    {
-        return $this->getPropertyClassType($camelCaseKey, Collection::class);
-    }
-
-    /**
-     * @template T of string
+     * @template T
      *
-     * @param T $expectedClass
+     * @param class-string<T> $expectedClass
      *
-     * @return T|null
+     * @return (class-string&T)|class-string<T>|null
      */
-    private function getPropertyClassType(string $camelCaseKey, string $expectedClass): ?string
+    private function getPropertyClassType(\ReflectionType $type, string $expectedClass): ?string
     {
-        $property = new \ReflectionProperty($this, $camelCaseKey);
-        $type = $property->getType();
-        if (!$type instanceof \ReflectionNamedType) {
-            return null;
-        }
-
-        if ($type->isBuiltin()) {
+        if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
             return null;
         }
 
         $name = $type->getName();
-        if (!\class_exists($name)) {
-            return null;
+
+        if (\class_exists($name) && \is_a($name, $expectedClass, true)) {
+            return $name;
         }
 
-        if (!\is_a($name, $expectedClass, true)) {
-            return null;
+        return null;
+    }
+
+    private function assignValue(string $propertyName, mixed $value): void
+    {
+        $setterMethod = \sprintf('set%s', \ucfirst($propertyName));
+
+        if (\method_exists($this, $setterMethod)) {
+            $this->{$setterMethod}($value);
+        } else {
+            $this->{$propertyName} = $value;
         }
-
-        // @phpstan-ignore-next-line  phpstan does not understand class-strings as template types
-        return $name;
-    }
-
-    private function normalize(string $propertyName): string
-    {
-        return strtolower(preg_replace('/[A-Z]/', '_\\0', lcfirst($propertyName)));
-    }
-
-    private function denormalize(string $propertyName): string
-    {
-        return lcfirst(preg_replace_callback('/(^|_|\.)+(.)/', fn ($match) => ($match[1] === '.' ? '_' : '') . strtoupper($match[2]), $propertyName));
     }
 }
