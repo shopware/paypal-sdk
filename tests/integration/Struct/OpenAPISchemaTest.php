@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Tests\Unit\Struct;
+namespace Shopware\PayPalSDK\Tests\Integration\Struct;
 
 use Monolog\Handler\TestHandler;
 use Monolog\Level;
@@ -14,12 +14,14 @@ use Monolog\LogRecord;
 use OpenApi\Annotations\OpenApi;
 use OpenApi\Attributes\Property;
 use OpenApi\Generator;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Util\CaseConverter;
 
 /**
  * @internal
  */
+#[CoversNothing]
 class OpenAPISchemaTest extends TestCase
 {
     public const DIRS = [

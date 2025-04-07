@@ -17,12 +17,7 @@ use Shopware\PayPalSDK\Struct\V1\Subscription\BillingInfo;
 use Shopware\PayPalSDK\Struct\V1\Subscription\Subscriber;
 
 /**
- * @codeCoverageIgnore
- *
  * @experimental
- *
- * This class is experimental and not officially supported.
- * It is currently not used within the plugin itself. Use with caution.
  */
 #[OA\Schema(schema: 'paypal_v1_subscription')]
 class Subscription extends Struct
@@ -126,6 +121,16 @@ class Subscription extends Struct
         $this->subscriber = $subscriber;
     }
 
+    public function getBillingInfo(): ?BillingInfo
+    {
+        return $this->billingInfo;
+    }
+
+    public function setBillingInfo(?BillingInfo $billingInfo): void
+    {
+        $this->billingInfo = $billingInfo;
+    }
+
     public function getApplicationContext(): ApplicationContext
     {
         return $this->applicationContext;
@@ -184,15 +189,5 @@ class Subscription extends Struct
     public function setLinks(LinkCollection $links): void
     {
         $this->links = $links;
-    }
-
-    public function getBillingInfo(): ?BillingInfo
-    {
-        return $this->billingInfo;
-    }
-
-    public function setBillingInfo(?BillingInfo $billingInfo): void
-    {
-        $this->billingInfo = $billingInfo;
     }
 }

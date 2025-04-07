@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource\VaultablePaymentSourceInterface;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Name;
 use Shopware\PayPalSDK\Struct\V2\Common\PhoneNumber;
@@ -48,6 +49,16 @@ class Venmo extends AbstractPaymentSource implements VaultablePaymentSourceInter
     public function setEmailAddress(string $emailAddress): void
     {
         $this->emailAddress = $emailAddress;
+    }
+
+    public function getUserName(): string
+    {
+        return $this->userName;
+    }
+
+    public function setUserName(string $userName): void
+    {
+        $this->userName = $userName;
     }
 
     public function getAccountId(): string
@@ -108,16 +119,6 @@ class Venmo extends AbstractPaymentSource implements VaultablePaymentSourceInter
     public function setAttributes(?Attributes $attributes): void
     {
         $this->attributes = $attributes;
-    }
-
-    public function getUserName(): string
-    {
-        return $this->userName;
-    }
-
-    public function setUserName(string $userName): void
-    {
-        $this->userName = $userName;
     }
 
     public function getVaultIdentifier(): string

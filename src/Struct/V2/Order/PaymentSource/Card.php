@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource\VaultablePaymentSourceInterface;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\AuthenticationResult;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\StoredCredential;
@@ -100,16 +101,6 @@ class Card extends AbstractAPMPaymentSource implements VaultablePaymentSourceInt
         $this->authenticationResult = $authenticationResult;
     }
 
-    public function getAttributes(): ?Attributes
-    {
-        return $this->attributes;
-    }
-
-    public function setAttributes(?Attributes $attributes): void
-    {
-        $this->attributes = $attributes;
-    }
-
     public function getStoredCredential(): ?StoredCredential
     {
         return $this->storedCredential;
@@ -118,6 +109,16 @@ class Card extends AbstractAPMPaymentSource implements VaultablePaymentSourceInt
     public function setStoredCredential(?StoredCredential $storedCredential): void
     {
         $this->storedCredential = $storedCredential;
+    }
+
+    public function getAttributes(): ?Attributes
+    {
+        return $this->attributes;
+    }
+
+    public function setAttributes(?Attributes $attributes): void
+    {
+        $this->attributes = $attributes;
     }
 
     public function getVaultIdentifier(): string

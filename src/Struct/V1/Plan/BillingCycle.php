@@ -13,12 +13,7 @@ use Shopware\PayPalSDK\Struct\V1\Plan\BillingCycle\Frequency;
 use Shopware\PayPalSDK\Struct\V1\Plan\BillingCycle\PricingScheme;
 
 /**
- * @codeCoverageIgnore
- *
  * @experimental
- *
- * This class is experimental and not officially supported.
- * It is currently not used within the plugin itself. Use with caution.
  */
 #[OA\Schema(schema: 'paypal_v1_plan_billing_cycle')]
 class BillingCycle extends Struct

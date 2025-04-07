@@ -20,7 +20,3 @@ parameters:
         - # Tests are allowed to do so
           identifier: symplify.multipleClassLikeInFile
           path: tests/*
-
-        - # Structs are allowed to do so
-          identifier: symplify.requiredInterfaceContractNamespace
-          path: src/Struct/*

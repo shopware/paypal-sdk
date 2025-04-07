@@ -15,12 +15,7 @@ use Shopware\PayPalSDK\Struct\V1\Plan\PaymentPreferences;
 use Shopware\PayPalSDK\Struct\V1\Plan\Taxes;
 
 /**
- * @codeCoverageIgnore
- *
  * @experimental
- *
- * This class is experimental and not officially supported.
- * It is currently not used within the plugin itself. Use with caution.
  */
 #[OA\Schema(schema: 'paypal_v1_plan')]
 class Plan extends Struct

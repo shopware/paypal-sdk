@@ -16,7 +16,7 @@ class Item extends Struct
     public const MAX_LENGTH_NAME = 127;
     public const MAX_LENGTH_SKU = 127;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME)]
     protected string $name;
 
     #[OA\Property(type: 'string')]
@@ -28,7 +28,7 @@ class Item extends Struct
     #[OA\Property(type: 'integer')]
     protected int $quantity;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_SKU)]
     protected ?string $sku = null;
 
     #[OA\Property(type: 'string')]

@@ -57,7 +57,7 @@ class Capture extends Struct
         $this->amount = $amount;
     }
 
-    public function isIsFinalCapture(): bool
+    public function isFinalCapture(): bool
     {
         return $this->isFinalCapture;
     }

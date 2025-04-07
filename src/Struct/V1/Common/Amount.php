@@ -22,16 +22,6 @@ class Amount extends Struct
     #[OA\Property(ref: Details::class)]
     protected Details $details;
 
-    public function getDetails(): Details
-    {
-        return $this->details;
-    }
-
-    public function setDetails(Details $details): void
-    {
-        $this->details = $details;
-    }
-
     public function getTotal(): string
     {
         return $this->total;
@@ -50,5 +40,15 @@ class Amount extends Struct
     public function setCurrency(string $currency): void
     {
         $this->currency = $currency;
+    }
+
+    public function getDetails(): Details
+    {
+        return $this->details;
+    }
+
+    public function setDetails(Details $details): void
+    {
+        $this->details = $details;
     }
 }

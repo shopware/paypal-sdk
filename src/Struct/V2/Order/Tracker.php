@@ -21,7 +21,7 @@ class Tracker extends Struct
     #[OA\Property(type: 'string')]
     protected string $captureId;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_TRACKING_NUMBER)]
     protected string $trackingNumber;
 
     #[OA\Property(type: 'string')]

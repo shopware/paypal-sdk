@@ -13,12 +13,7 @@ use Shopware\PayPalSDK\Struct\V1\Subscription\Subscriber\Name;
 use Shopware\PayPalSDK\Struct\V1\Subscription\Subscriber\ShippingAddress;
 
 /**
- * @codeCoverageIgnore
- *
  * @experimental
- *
- * This class is experimental and not officially supported.
- * It is currently not used within the plugin itself. Use with caution.
  */
 #[OA\Schema(schema: 'paypal_v1_subscription_subscriber')]
 class Subscriber extends Struct

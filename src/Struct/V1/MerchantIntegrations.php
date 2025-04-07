@@ -90,6 +90,32 @@ class MerchantIntegrations extends Struct
         $this->capabilities = $capabilities;
     }
 
+    public function getOauthIntegrations(): OauthIntegrationCollection
+    {
+        return $this->oauthIntegrations;
+    }
+
+    public function setOauthIntegrations(OauthIntegrationCollection $oauthIntegrations): void
+    {
+        $this->oauthIntegrations = $oauthIntegrations;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getGrantedPermissions(): array
+    {
+        return $this->grantedPermissions;
+    }
+
+    /**
+     * @param string[] $grantedPermissions
+     */
+    public function setGrantedPermissions(array $grantedPermissions): void
+    {
+        $this->grantedPermissions = $grantedPermissions;
+    }
+
     public function isPaymentsReceivable(): bool
     {
         return $this->paymentsReceivable;
@@ -128,32 +154,6 @@ class MerchantIntegrations extends Struct
     public function setPrimaryEmailConfirmed(bool $primaryEmailConfirmed): void
     {
         $this->primaryEmailConfirmed = $primaryEmailConfirmed;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getGrantedPermissions(): array
-    {
-        return $this->grantedPermissions;
-    }
-
-    /**
-     * @param string[] $grantedPermissions
-     */
-    public function setGrantedPermissions(array $grantedPermissions): void
-    {
-        $this->grantedPermissions = $grantedPermissions;
-    }
-
-    public function getOauthIntegrations(): OauthIntegrationCollection
-    {
-        return $this->oauthIntegrations;
-    }
-
-    public function setOauthIntegrations(OauthIntegrationCollection $oauthIntegrations): void
-    {
-        $this->oauthIntegrations = $oauthIntegrations;
     }
 
     public function getSpecificCapability(string $name): ?Capability

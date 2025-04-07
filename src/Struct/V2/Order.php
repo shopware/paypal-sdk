@@ -111,7 +111,7 @@ class Order extends Struct
         return $this->purchaseUnits ?? $this->purchaseUnits = new PurchaseUnitCollection();
     }
 
-    public function setPurchaseUnits(PurchaseUnitCollection $purchaseUnits): void
+    public function setPurchaseUnits(?PurchaseUnitCollection $purchaseUnits): void
     {
         $this->purchaseUnits = $purchaseUnits;
     }

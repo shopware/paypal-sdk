@@ -11,7 +11,6 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Name;
 use Shopware\PayPalSDK\Struct\V2\Common\PhoneNumber;
-use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\ExperienceContext;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\PayUponInvoice\DepositBankDetails;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_pay_upon_invoice')]
@@ -106,15 +105,5 @@ class PayUponInvoice extends AbstractPaymentSource
     public function setDepositBankDetails(DepositBankDetails $depositBankDetails): void
     {
         $this->depositBankDetails = $depositBankDetails;
-    }
-
-    public function getExperienceContext(): ExperienceContext
-    {
-        return $this->experienceContext;
-    }
-
-    public function setExperienceContext(ExperienceContext $experienceContext): void
-    {
-        $this->experienceContext = $experienceContext;
     }
 }

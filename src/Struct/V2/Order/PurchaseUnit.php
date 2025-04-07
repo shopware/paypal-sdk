@@ -131,7 +131,7 @@ class PurchaseUnit extends Struct
         return $this->payments;
     }
 
-    public function setPayments(Payments $payments): void
+    public function setPayments(?Payments $payments): void
     {
         $this->payments = $payments;
     }
