@@ -13,6 +13,7 @@ use Psr\SimpleCache\CacheInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Gateway\TokenGatewayInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
+use Shopware\PayPalSDK\Exception\ExceptionFactory;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Util\TokenArrayCache;
@@ -44,8 +45,14 @@ class TokenGateway implements TokenGatewayInterface
             $request = $request->withHeader($key, $value);
         }
 
-        $body = $this->requestService->handleResponse($this->client->sendRequest($request), true);
-        $token = (new Token())->assign($body);
+        $response = $this->client->sendRequest($request);
+        $content = $this->requestService->handleResponse($response);
+
+        if (!$content) {
+            throw ExceptionFactory::createFromResponse($response);
+        }
+
+        $token = (new Token())->assign($content);
 
         $this->setCachedToken($token, $context->getOAuthContext()->getCacheKey());
 

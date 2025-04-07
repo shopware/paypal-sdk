@@ -23,6 +23,7 @@ class Patch extends Struct
     #[OA\Property(type: 'string')]
     protected string $path;
 
+    /** @var int|float|string|bool|mixed[]|null */
     #[OA\Property(nullable: true, oneOf: [
         new OA\Schema(type: 'integer'),
         new OA\Schema(type: 'float'),
@@ -55,11 +56,17 @@ class Patch extends Struct
         $this->path = $path;
     }
 
+    /**
+     * @return array<mixed>|bool|float|int|string|null
+     */
     public function getValue(): array|bool|float|int|string|null
     {
         return $this->value;
     }
 
+    /**
+     * @param array<mixed>|bool|float|int|string|null $value
+     */
     public function setValue(array|bool|float|int|string|null $value): void
     {
         $this->value = $value;

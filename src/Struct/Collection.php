@@ -43,12 +43,16 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     abstract public static function getExpectedClass(): string;
 
     /**
-     * @param array<array<mixed>> $associativeData
+     * @param array<mixed> $associativeData
      */
     public static function createFromAssociative(array $associativeData): static
     {
         $collection = new static();
         foreach (\array_filter($associativeData) as $value) {
+            if (!\is_array($value)) {
+                continue;
+            }
+
             $collection->add((new (static::getExpectedClass())())->assign($value));
         }
 
@@ -113,6 +117,9 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
         return \array_filter($this->map($closure));
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public function map(\Closure $closure): array
     {
         return \array_map($closure, $this->elements);

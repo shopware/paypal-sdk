@@ -7,15 +7,15 @@
 
 namespace Shopware\PayPalSDK\Gateway;
 
-use Psr\Http\Client\ClientInterface;
-use Shopware\PayPalSDK\Struct\Struct;
-use Shopware\PayPalSDK\RequestService;
 use Http\Discovery\Psr18ClientDiscovery;
-use Shopware\PayPalSDK\Struct\Collection;
-use Shopware\PayPalSDK\Exception\ExceptionFactory;
-use Shopware\PayPalSDK\Contract\RequestServiceInterface;
+use Psr\Http\Client\ClientInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Gateway\TokenGatewayInterface;
+use Shopware\PayPalSDK\Contract\RequestServiceInterface;
+use Shopware\PayPalSDK\Exception\ExceptionFactory;
+use Shopware\PayPalSDK\RequestService;
+use Shopware\PayPalSDK\Struct\Collection;
+use Shopware\PayPalSDK\Struct\Struct;
 
 abstract class AbstractGateway
 {
@@ -48,12 +48,11 @@ abstract class AbstractGateway
         }
 
         $response = $this->client->sendRequest($request);
-
-        $content = $this->requestService->handleResponse($response, (bool) $responseClass);
+        $content = $this->requestService->handleResponse($response);
 
         if ($responseClass && !$content) {
             throw ExceptionFactory::createFromResponse($response);
-        } else if ($responseClass) {
+        } elseif ($responseClass) {
             return (new $responseClass())->assign($content);
         }
 
