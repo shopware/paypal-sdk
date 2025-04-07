@@ -21,8 +21,6 @@ interface ApiContextInterface
 
     public function getMerchantId(): string;
 
-    public function getPartnerId(): string;
-
     public function getThirdParty(): bool;
 
     /**
@@ -49,8 +47,6 @@ interface ApiContextInterface
     public function withMerchantId(string $merchantId): static;
 
     public function withHeader(string $name, ?string $value): static;
-
-    public function withPartnerId(string $partnerId): static;
 
     public function withThirdParty(bool $thirdParty): static;
 }
