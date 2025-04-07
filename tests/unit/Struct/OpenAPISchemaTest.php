@@ -98,7 +98,7 @@ class OpenAPISchemaTest extends TestCase
             $failures[] = $record->level->getName() . ': ' . $record->message;
         }
 
-        static::assertEquals([], $failures);
+        static::assertEmpty($failures, \implode(\PHP_EOL, $failures));
     }
 
     public function testClassSchemaNaming(): void

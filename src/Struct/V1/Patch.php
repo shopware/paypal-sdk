@@ -22,7 +22,11 @@ class Patch extends Struct
     #[OA\Property(type: 'string')]
     protected string $path;
 
-    #[OA\Property(oneOf: [new OA\Schema(type: 'string'), new OA\Schema(type: 'array', items: new OA\Items(type: 'mixed'))])]
+    /** @var mixed[]|string */
+    #[OA\Property(oneOf: [
+        new OA\Schema(type: 'string'),
+        new OA\Schema(type: 'array', items: new OA\Items(type: 'mixed')),
+    ])]
     protected array|string $value;
 
     public function getOp(): string
@@ -45,11 +49,17 @@ class Patch extends Struct
         $this->path = $path;
     }
 
+    /**
+     * @return array<mixed>|string
+     */
     public function getValue(): array|string
     {
         return $this->value;
     }
 
+    /**
+     * @param array<mixed>|string $value
+     */
     public function setValue(array|string $value): void
     {
         $this->value = $value;

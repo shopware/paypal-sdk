@@ -1,0 +1,25 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - trunk
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-php
+      - name: Run PHPUnit
+        run: composer phpunit:unit -- --coverage-clover=coverage.xml
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-php
+      - name: Run PHPUnit
+        run: composer phpunit:integration -- --coverage-clover=coverage.xml

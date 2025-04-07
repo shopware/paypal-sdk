@@ -37,13 +37,13 @@ abstract class Struct implements \JsonSerializable
                 continue;
             }
 
-            if ($className = $this->getPropertyClassType($type, Collection::class)) {
+            if (\is_array($value) && $className = $this->getPropertyClassType([$type], Collection::class)) {
                 $this->assignValue($propertyName, $className::createFromAssociative($value));
 
                 continue;
             }
 
-            if ($className = $this->getPropertyClassType($type, Struct::class)) {
+            if (\is_array($value) && $className = $this->getPropertyClassType([$type], Struct::class)) {
                 $this->assignValue($propertyName, (new $className())->assign($value));
 
                 continue;
@@ -86,20 +86,30 @@ abstract class Struct implements \JsonSerializable
     /**
      * @template T
      *
+     * @param \ReflectionType[] $types
      * @param class-string<T> $expectedClass
      *
      * @return (class-string&T)|class-string<T>|null
      */
-    private function getPropertyClassType(\ReflectionType $type, string $expectedClass): ?string
+    private function getPropertyClassType(array $types, string $expectedClass): ?string
     {
-        if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
-            return null;
-        }
+        foreach ($types as $type) {
+            $type = match (true) {
+                $type instanceof \ReflectionNamedType => $type,
+                $type instanceof \ReflectionUnionType => $this->getPropertyClassType($type->getTypes(), $expectedClass),
+                $type instanceof \ReflectionIntersectionType => $this->getPropertyClassType($type->getTypes(), $expectedClass),
+                default => null,
+            };
 
-        $name = $type->getName();
+            if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
+                return null;
+            }
 
-        if (\class_exists($name) && \is_a($name, $expectedClass, true)) {
-            return $name;
+            $name = $type->getName();
+
+            if (\class_exists($name) && \is_a($name, $expectedClass, true)) {
+                return $name;
+            }
         }
 
         return null;
