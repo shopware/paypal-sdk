@@ -56,11 +56,11 @@ class RequestService implements RequestServiceInterface
             ->withHeader('Content-Type', self::CONTENT_TYPE_JSON);
     }
 
-    public function handleResponse(ResponseInterface $response, bool $forceBody = false): ?array
+    public function handleResponse(ResponseInterface $response): ?array
     {
         $body = (string) $response->getBody();
 
-        if ($response->getStatusCode() >= 400 || $body || $forceBody) {
+        if ($response->getStatusCode() >= 400 || $body) {
             try {
                 $content = \json_decode($body, true, flags: \JSON_THROW_ON_ERROR);
             } catch (\JsonException) {

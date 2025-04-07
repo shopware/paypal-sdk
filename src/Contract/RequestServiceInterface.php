@@ -29,7 +29,7 @@ interface RequestServiceInterface
     /**
      * @throws ApiException
      *
-     * @return ($forceBody is true ? array<mixed> : array<mixed>|null)
+     * @return array<mixed>|null
      */
-    public function handleResponse(ResponseInterface $response, bool $forceBody): ?array;
+    public function handleResponse(ResponseInterface $response): ?array;
 }
