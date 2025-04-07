@@ -5,27 +5,28 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Tests\Unit\Struct;
+namespace Shopware\PayPalSDK\Tests\Integration\Struct;
 
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\ConstantsV1;
 use Shopware\PayPalSDK\Struct\ConstantsV2;
 use Shopware\PayPalSDK\Struct\Struct;
-use Shopware\PayPalSDK\Struct\V1\OAuthCredentials;
 use Shopware\PayPalSDK\Struct\V1\Token;
+use Shopware\PayPalSDK\Util\CaseConverter;
 use Symfony\Component\Finder\Finder;
 
 /**
  * @internal
  */
+#[CoversNothing]
 class StructStructureTest extends TestCase
 {
     private const DIR = __DIR__ . '/../../../src/Struct';
 
     private const EXCLUSIONS = [
         Collection::class,
-        OAuthCredentials::class,
         Token::class,
         ConstantsV1::class,
         ConstantsV2::class,
@@ -65,40 +66,50 @@ class StructStructureTest extends TestCase
                     $errors[$fqdn][] = 'Should be initialized with `null`';
                 }
 
+                if ($property->getName() !== ($camelCaseName = CaseConverter::denormalize($property->getName()))) {
+                    $errors[$fqdn][] = 'Should be camelCase (' . $camelCaseName . ') instead of snake_case';
+                }
+
                 $propertyName = \ucfirst(\str_replace('_', '', $property->getName()));
                 $propertyTypeName = $this->getTypeName($propertyType);
 
                 $isBool = $propertyType instanceof \ReflectionNamedType && $propertyType->getName() === 'bool';
-                $getter = ($isBool ? 'is' : 'get') . $propertyName;
+
+                $getter = match ((bool) \preg_match('/^Is[A-Z]/', $propertyName)) {
+                    true => \lcfirst($propertyName),
+                    false => ($isBool ? 'is' : 'get') . $propertyName,
+                };
                 $setter = 'set' . $propertyName;
-
-                if (!$reflectionClass->hasMethod($getter)) {
-                    $errors[$fqdn][] = 'Should have a getter `' . $getter . '`';
-                } else {
-                    $returnType = $reflectionClass->getMethod($getter)->getReturnType();
-
-                    if ($propertyTypeName !== $this->getTypeName($returnType)) {
-                        $errors[$fqdn][] = 'Should have right return type for getter `' . $getter . '`';
-                    }
-                }
 
                 if (!$reflectionClass->hasMethod($setter)) {
                     $errors[$fqdn][] = 'Should have a setter `' . $setter . '`';
                 } else {
-                    $parameters = $reflectionClass->getMethod($setter)->getParameters();
+                    $method = $reflectionClass->getMethod($setter);
 
-                    if (!$parameters || \count($parameters) !== 1) {
+                    if (\count($method->getParameters()) !== 1) {
                         $errors[$fqdn][] = 'Should have one parameter for setter `' . $setter . '`';
-                    } elseif (!\str_contains($this->getTypeName($parameters[0]->getType()) ?? '', $propertyTypeName ?? '')) {
+                    } elseif (!\str_contains($this->getTypeName($method->getParameters()[0]->getType()) ?? '', $propertyTypeName ?? '')) {
                         $errors[$fqdn][] = 'Should have right parameter type for setter `' . $setter . '`';
+                    } elseif (!\str_contains($this->getTypeName($method->getReturnType()) ?? '', 'void')) {
+                        $errors[$fqdn][] = 'Should have return "void" for setter `' . $setter . '`';
+                    } else {
+                        $mockValue = $this->getMockValue($propertyType);
+                        $struct->{$setter}($mockValue);
                     }
                 }
 
-                $value = $this->getMockValue($propertyType);
-                $struct->{$setter}($value);
+                if (!$reflectionClass->hasMethod($getter)) {
+                    $errors[$fqdn][] = 'Should have a getter `' . $getter . '`';
+                } else {
+                    $method = $reflectionClass->getMethod($getter);
 
-                if ($value !== $struct->{$getter}()) {
-                    $errors[$fqdn][] = 'Should same value through getter as set via setter';
+                    if ($propertyTypeName !== $this->getTypeName($reflectionClass->getMethod($getter)->getReturnType())) {
+                        $errors[$fqdn][] = 'Should have right return type for getter `' . $getter . '`';
+                    } elseif (\count($method->getParameters()) !== 0) {
+                        $errors[$fqdn][] = 'Should have no parameters for getter `' . $getter . '`';
+                    } elseif (isset($mockValue) && $mockValue !== $struct->{$getter}()) {
+                        $errors[$fqdn][] = 'Should same value through getter as set via setter';
+                    }
                 }
             }
         }

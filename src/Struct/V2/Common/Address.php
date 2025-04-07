@@ -18,26 +18,26 @@ class Address extends Struct
      * Required for data entry and compliance and risk checks. Must contain the full address.
      */
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $addressLine_1 = null;
+    protected ?string $addressLine1 = null;
 
     /**
      * The second line of the address. For example, suite or apartment number.
      */
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $addressLine_2 = null;
+    protected ?string $addressLine2 = null;
 
     /**
      * A city, town, or village. Smaller than $adminArea1
      */
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $adminArea_2 = null;
+    protected ?string $adminArea2 = null;
 
     /**
      * The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision.
      * Format for postal delivery. For example, CA and not California.
      */
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $adminArea_1 = null;
+    protected ?string $adminArea1 = null;
 
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $postalCode = null;
@@ -47,42 +47,42 @@ class Address extends Struct
 
     public function getAddressLine1(): ?string
     {
-        return $this->addressLine_1;
+        return $this->addressLine1;
     }
 
-    public function setAddressLine1(?string $addressLine_1): void
+    public function setAddressLine1(?string $addressLine1): void
     {
-        $this->addressLine_1 = $addressLine_1;
+        $this->addressLine1 = $addressLine1;
     }
 
     public function getAddressLine2(): ?string
     {
-        return $this->addressLine_2;
+        return $this->addressLine2;
     }
 
-    public function setAddressLine2(?string $addressLine_2): void
+    public function setAddressLine2(?string $addressLine2): void
     {
-        $this->addressLine_2 = $addressLine_2;
+        $this->addressLine2 = $addressLine2;
     }
 
     public function getAdminArea2(): ?string
     {
-        return $this->adminArea_2;
+        return $this->adminArea2;
     }
 
-    public function setAdminArea2(?string $adminArea_2): void
+    public function setAdminArea2(?string $adminArea2): void
     {
-        $this->adminArea_2 = $adminArea_2;
+        $this->adminArea2 = $adminArea2;
     }
 
     public function getAdminArea1(): ?string
     {
-        return $this->adminArea_1;
+        return $this->adminArea1;
     }
 
-    public function setAdminArea1(?string $adminArea_1): void
+    public function setAdminArea1(?string $adminArea1): void
     {
-        $this->adminArea_1 = $adminArea_1;
+        $this->adminArea1 = $adminArea1;
     }
 
     public function getPostalCode(): ?string

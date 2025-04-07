@@ -100,16 +100,6 @@ class ExperienceContext extends Struct
         $this->logoUrl = $logoUrl;
     }
 
-    public function getShippingPreference(): string
-    {
-        return $this->shippingPreference;
-    }
-
-    public function setShippingPreference(string $shippingPreference): void
-    {
-        $this->shippingPreference = $shippingPreference;
-    }
-
     public function getLandingPage(): string
     {
         return $this->landingPage;
@@ -118,6 +108,16 @@ class ExperienceContext extends Struct
     public function setLandingPage(string $landingPage): void
     {
         $this->landingPage = $landingPage;
+    }
+
+    public function getShippingPreference(): string
+    {
+        return $this->shippingPreference;
+    }
+
+    public function setShippingPreference(string $shippingPreference): void
+    {
+        $this->shippingPreference = $shippingPreference;
     }
 
     public function getUserAction(): string

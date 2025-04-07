@@ -31,26 +31,6 @@ class Payer extends Struct
     #[OA\Property(ref: Address::class)]
     protected Address $address;
 
-    public function getEmailAddress(): string
-    {
-        return $this->emailAddress;
-    }
-
-    public function setEmailAddress(string $emailAddress): void
-    {
-        $this->emailAddress = $emailAddress;
-    }
-
-    public function getAddress(): Address
-    {
-        return $this->address;
-    }
-
-    public function setAddress(Address $address): void
-    {
-        $this->address = $address;
-    }
-
     public function getName(): Name
     {
         return $this->name;
@@ -59,6 +39,16 @@ class Payer extends Struct
     public function setName(Name $name): void
     {
         $this->name = $name;
+    }
+
+    public function getEmailAddress(): string
+    {
+        return $this->emailAddress;
+    }
+
+    public function setEmailAddress(string $emailAddress): void
+    {
+        $this->emailAddress = $emailAddress;
     }
 
     public function getPayerId(): string
@@ -79,5 +69,15 @@ class Payer extends Struct
     public function setPhone(?Phone $phone): void
     {
         $this->phone = $phone;
+    }
+
+    public function getAddress(): Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): void
+    {
+        $this->address = $address;
     }
 }

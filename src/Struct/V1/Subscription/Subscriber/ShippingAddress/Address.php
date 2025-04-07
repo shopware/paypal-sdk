@@ -11,27 +11,22 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
- * @codeCoverageIgnore
- *
  * @experimental
- *
- * This class is experimental and not officially supported.
- * It is currently not used within the plugin itself. Use with caution.
  */
 #[OA\Schema(schema: 'paypal_v1_subscription_subscriber_shipping_address_address')]
 class Address extends Struct
 {
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $addressLine_1 = null;
+    protected ?string $addressLine1 = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $addressLine_2 = null;
+    protected ?string $addressLine2 = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $adminArea_1 = null;
+    protected ?string $adminArea1 = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $adminArea_2 = null;
+    protected ?string $adminArea2 = null;
 
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $postalCode = null;
@@ -41,42 +36,42 @@ class Address extends Struct
 
     public function getAddressLine1(): ?string
     {
-        return $this->addressLine_1;
+        return $this->addressLine1;
     }
 
-    public function setAddressLine1(?string $addressLine_1): void
+    public function setAddressLine1(?string $addressLine1): void
     {
-        $this->addressLine_1 = $addressLine_1;
+        $this->addressLine1 = $addressLine1;
     }
 
     public function getAddressLine2(): ?string
     {
-        return $this->addressLine_2;
+        return $this->addressLine2;
     }
 
-    public function setAddressLine2(?string $addressLine_2): void
+    public function setAddressLine2(?string $addressLine2): void
     {
-        $this->addressLine_2 = $addressLine_2;
+        $this->addressLine2 = $addressLine2;
     }
 
     public function getAdminArea1(): ?string
     {
-        return $this->adminArea_1;
+        return $this->adminArea1;
     }
 
-    public function setAdminArea1(?string $adminArea_1): void
+    public function setAdminArea1(?string $adminArea1): void
     {
-        $this->adminArea_1 = $adminArea_1;
+        $this->adminArea1 = $adminArea1;
     }
 
     public function getAdminArea2(): ?string
     {
-        return $this->adminArea_2;
+        return $this->adminArea2;
     }
 
-    public function setAdminArea2(?string $adminArea_2): void
+    public function setAdminArea2(?string $adminArea2): void
     {
-        $this->adminArea_2 = $adminArea_2;
+        $this->adminArea2 = $adminArea2;
     }
 
     public function getPostalCode(): ?string

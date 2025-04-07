@@ -7,6 +7,7 @@
 
 namespace Shopware\PayPalSDK\Tests\Unit\Struct;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
@@ -15,6 +16,7 @@ use Shopware\PayPalSDK\Struct\V2\Common\Money;
 /**
  * @internal
  */
+#[CoversClass(Collection::class)]
 class CollectionTest extends TestCase
 {
     public function testConstructor(): void

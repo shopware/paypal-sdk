@@ -57,17 +57,17 @@ class Patch extends Struct
     }
 
     /**
-     * @return array<mixed>|bool|float|int|string|null
+     * @return float|int|bool|array<mixed>|string|null
      */
-    public function getValue(): array|bool|float|int|string|null
+    public function getValue(): float|int|bool|array|string|null
     {
         return $this->value;
     }
 
     /**
-     * @param array<mixed>|bool|float|int|string|null $value
+     * @param float|int|bool|array<mixed>|string|null $value
      */
-    public function setValue(array|bool|float|int|string|null $value): void
+    public function setValue(float|int|bool|array|string|null $value): void
     {
         $this->value = $value;
     }

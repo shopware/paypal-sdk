@@ -82,6 +82,16 @@ class PaymentSource extends Struct
     #[OA\Property(ref: Venmo::class, nullable: true)]
     protected ?Venmo $venmo = null;
 
+    public function getApplePay(): ?ApplePay
+    {
+        return $this->applePay;
+    }
+
+    public function setApplePay(?ApplePay $applePay): void
+    {
+        $this->applePay = $applePay;
+    }
+
     public function getPayUponInvoice(): ?PayUponInvoice
     {
         return $this->payUponInvoice;
@@ -266,15 +276,5 @@ class PaymentSource extends Struct
         }
 
         return null;
-    }
-
-    public function getApplePay(): ?ApplePay
-    {
-        return $this->applePay;
-    }
-
-    public function setApplePay(?ApplePay $applePay): void
-    {
-        $this->applePay = $applePay;
     }
 }

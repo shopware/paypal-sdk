@@ -15,12 +15,7 @@ use Shopware\PayPalSDK\Struct\V1\Subscription\BillingInfo\LastPayment;
 use Shopware\PayPalSDK\Struct\V1\Subscription\BillingInfo\OutstandingBalance;
 
 /**
- * @codeCoverageIgnore
- *
  * @experimental
- *
- * This class is experimental and not officially supported.
- * It is currently not used within the plugin itself. Use with caution.
  */
 #[OA\Schema(schema: 'paypal_v1_subscription_billing_info')]
 class BillingInfo extends Struct

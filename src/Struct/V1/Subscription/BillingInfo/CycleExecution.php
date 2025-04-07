@@ -11,12 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
- * @codeCoverageIgnore
- *
  * @experimental
- *
- * This class is experimental and not officially supported.
- * It is currently not used within the plugin itself. Use with caution.
  */
 #[OA\Schema(schema: 'paypal_v1_subscription_billing_info_cycle_execution')]
 class CycleExecution extends Struct

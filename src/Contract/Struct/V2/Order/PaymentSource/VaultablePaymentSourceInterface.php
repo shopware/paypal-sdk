@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
+namespace Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource;
 
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 

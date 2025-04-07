@@ -63,10 +63,8 @@ final class Token extends Struct
 
         // Calculate the expiration date manually
         $expirationDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
-        $interval = \DateInterval::createFromDateString(\sprintf('%s seconds', $newToken->getExpiresIn() - self::TTL_THRESHOLD_SEC));
-        $expirationDateTime = $expirationDateTime->add($interval ?: new \DateInterval('PT0S'));
-
-        $newToken->setExpireDateTime($expirationDateTime);
+        $interval = \DateInterval::createFromDateString(\sprintf('%s seconds', $newToken->expiresIn - self::TTL_THRESHOLD_SEC));
+        $newToken->expireDateTime = $expirationDateTime->add($interval ?: new \DateInterval('PT0S'));
 
         return $newToken;
     }

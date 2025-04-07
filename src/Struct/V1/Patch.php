@@ -50,7 +50,7 @@ class Patch extends Struct
     }
 
     /**
-     * @return array<mixed>|string
+     * @return mixed[]|string
      */
     public function getValue(): array|string
     {
@@ -58,7 +58,7 @@ class Patch extends Struct
     }
 
     /**
-     * @param array<mixed>|string $value
+     * @param mixed[]|string $value
      */
     public function setValue(array|string $value): void
     {

@@ -14,6 +14,23 @@ abstract class Struct implements \JsonSerializable
     final public function __construct() {}
 
     /**
+     * @template T of Struct
+     *
+     * @param class-string<T> $class
+     * @param array<mixed> $data
+     *
+     * @return T
+     */
+    final public static function from(string $class, array $data): Struct
+    {
+        if (!\class_exists($class) || !\is_a($class, Struct::class, true)) {
+            throw new \InvalidArgumentException('Class ' . $class . ' is not type of ' . self::class);
+        }
+
+        return (new $class())->assign($data);
+    }
+
+    /**
      * @param array<mixed> $data
      */
     public function assign(array $data): static

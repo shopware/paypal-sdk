@@ -10,12 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1\Subscription;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
 /**
- * @codeCoverageIgnore
- *
  * @experimental
- *
- * This class is experimental and not officially supported.
- * It is currently not used within the plugin itself. Use with caution.
  */
 class ShippingAmount extends Money
 {

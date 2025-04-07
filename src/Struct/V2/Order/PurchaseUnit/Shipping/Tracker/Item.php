@@ -17,20 +17,20 @@ class Item extends Struct
     public const MAX_LENGTH_SKU = 127;
     public const MAX_LENGTH_URL = 2048;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME)]
     protected string $name;
 
     #[OA\Property(type: 'integer')]
     protected int $quantity;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_SKU)]
     protected ?string $sku = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_URL)]
     protected ?string $url = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $image_url = null;
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_URL)]
+    protected ?string $imageUrl = null;
 
     public function getName(): string
     {
@@ -101,20 +101,20 @@ class Item extends Struct
 
     public function getImageUrl(): ?string
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
     /**
      * @throws \LengthException if given parameter is too long
      */
-    public function setImageUrl(?string $image_url): void
+    public function setImageUrl(?string $imageUrl): void
     {
-        if ($image_url !== null && \mb_strlen($image_url) > self::MAX_LENGTH_URL) {
+        if ($imageUrl !== null && \mb_strlen($imageUrl) > self::MAX_LENGTH_URL) {
             throw new \LengthException(
                 \sprintf('%s::$image_url must not be longer than %s characters', self::class, self::MAX_LENGTH_URL)
             );
         }
 
-        $this->image_url = $image_url;
+        $this->imageUrl = $imageUrl;
     }
 }

@@ -49,7 +49,7 @@ class Address extends Struct
         return $this->line2;
     }
 
-    public function setLine2(string $line2): void
+    public function setLine2(?string $line2): void
     {
         $this->line2 = $line2;
     }
@@ -99,7 +99,7 @@ class Address extends Struct
         return $this->phone;
     }
 
-    public function setPhone(string $phone): void
+    public function setPhone(?string $phone): void
     {
         $this->phone = $phone;
     }

@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Refund\SellerPayabl
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_refund')]
 class Refund extends Payment
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_INVOICE_ID)]
     protected ?string $invoiceId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_NOTE_TO_PAYER)]
     protected ?string $noteToPayer = null;
 
     #[OA\Property(ref: SellerPayableBreakdown::class)]

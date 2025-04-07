@@ -50,10 +50,12 @@ abstract class AbstractGateway
         $response = $this->client->sendRequest($request);
         $content = $this->requestService->handleResponse($response);
 
-        if ($responseClass && !$content) {
-            throw ExceptionFactory::createFromResponse($response);
-        } elseif ($responseClass) {
-            return (new $responseClass())->assign($content);
+        if ($responseClass) {
+            if (!$content) {
+                throw ExceptionFactory::createFromResponse($response);
+            }
+
+            return Struct::from($responseClass, $content);
         }
 
         return null;

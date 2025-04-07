@@ -31,10 +31,7 @@ class Tracker extends Struct
     #[OA\Property(type: 'boolean')]
     protected bool $notifyBuyer;
 
-    /**
-     * Pattern: '2022-08-15'
-     */
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time')]
     protected string $shipmentDate;
 
     public function getTransactionId(): string

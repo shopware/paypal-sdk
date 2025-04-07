@@ -15,10 +15,10 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Common\SellerProtec
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_capture')]
 class Capture extends Payment
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_INVOICE_ID)]
     protected ?string $invoiceId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_NOTE_TO_PAYER)]
     protected ?string $noteToPayer = null;
 
     #[OA\Property(ref: SellerProtection::class)]
@@ -104,16 +104,6 @@ class Capture extends Payment
         $this->sellerReceivableBreakdown = $sellerReceivableBreakdown;
     }
 
-    public function getDisbursementMode(): string
-    {
-        return $this->disbursementMode;
-    }
-
-    public function setDisbursementMode(string $disbursementMode): void
-    {
-        $this->disbursementMode = $disbursementMode;
-    }
-
     public function getProcessorResponse(): ProcessorResponse
     {
         return $this->processorResponse;
@@ -122,5 +112,15 @@ class Capture extends Payment
     public function setProcessorResponse(ProcessorResponse $processorResponse): void
     {
         $this->processorResponse = $processorResponse;
+    }
+
+    public function getDisbursementMode(): string
+    {
+        return $this->disbursementMode;
+    }
+
+    public function setDisbursementMode(string $disbursementMode): void
+    {
+        $this->disbursementMode = $disbursementMode;
     }
 }

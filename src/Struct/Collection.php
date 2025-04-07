@@ -53,7 +53,7 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
                 continue;
             }
 
-            $collection->add((new (static::getExpectedClass())())->assign($value));
+            $collection->add(Struct::from(static::getExpectedClass(), $value));
         }
 
         return $collection;

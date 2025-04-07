@@ -60,6 +60,19 @@ class Event extends Struct
     #[OA\Property(type: 'string')]
     protected string $resourceVersion = '1.0';
 
+    public function assign(array $data): static
+    {
+        $resourceData = $data['resource'] ?? null;
+        unset($data['resource']);
+        $webhook = parent::assign($data);
+
+        if (\is_array($resourceData) && $resourceClass = $this->identifyResourceType($this->resourceVersion, $this->resourceType)) {
+            $webhook->resource = Struct::from($resourceClass, $resourceData);
+        }
+
+        return $webhook;
+    }
+
     public function getId(): string
     {
         return $this->id;
@@ -148,27 +161,6 @@ class Event extends Struct
     public function setResourceVersion(string $resourceVersion): void
     {
         $this->resourceVersion = $resourceVersion;
-    }
-
-    public function assign(array $data): static
-    {
-        $resourceData = $data['resource'] ?? null;
-        unset($data['resource']);
-        $webhook = parent::assign($data);
-        if (!\is_array($resourceData)) {
-            return $webhook;
-        }
-
-        $resourceClass = $this->identifyResourceType($this->resourceVersion, $this->resourceType);
-        if ($resourceClass === null) {
-            return $webhook;
-        }
-
-        $resource = new $resourceClass();
-        $resource->assign($resourceData);
-        $webhook->setResource($resource);
-
-        return $webhook;
     }
 
     /**

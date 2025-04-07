@@ -21,16 +21,6 @@ class Address extends Struct
     #[OA\Property(type: 'string', default: self::TYPE_WORK)]
     protected string $type = self::TYPE_WORK;
 
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): void
-    {
-        $this->type = $type;
-    }
-
     public function getCountryCode(): string
     {
         return $this->countryCode;
@@ -39,5 +29,15 @@ class Address extends Struct
     public function setCountryCode(string $countryCode): void
     {
         $this->countryCode = $countryCode;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 }

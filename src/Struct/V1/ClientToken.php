@@ -33,11 +33,9 @@ class ClientToken extends Struct
         $newToken = parent::assign($data);
 
         // Calculate the expiration date manually
-        $expirationDateTime = new \DateTime();
-        $interval = \DateInterval::createFromDateString(\sprintf('%s seconds', $newToken->getExpiresIn()));
-        $expirationDateTime = $expirationDateTime->add($interval ?: new \DateInterval('PT0S'));
-
-        $newToken->setExpireDateTime($expirationDateTime);
+        $expirationDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
+        $interval = \DateInterval::createFromDateString(\sprintf('%s seconds', $newToken->expiresIn));
+        $newToken->expireDateTime = $expirationDateTime->add($interval ?: new \DateInterval('PT0S'));
 
         return $newToken;
     }

@@ -21,7 +21,7 @@ class Item extends Struct
     public const CATEGORY_DIGITAL_GOODS = 'DIGITAL_GOODS';
     public const CATEGORY_DONATION = 'DONATION';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME)]
     protected string $name;
 
     #[OA\Property(ref: Money::class)]
@@ -39,7 +39,7 @@ class Item extends Struct
     #[OA\Property(type: 'integer')]
     protected int $quantity;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_SKU)]
     protected ?string $sku = null;
 
     public function getName(): string
@@ -81,12 +81,12 @@ class Item extends Struct
         $this->tax = $tax;
     }
 
-    public function getTaxRate(): string|int|float
+    public function getTaxRate(): float|int|string
     {
         return $this->taxRate;
     }
 
-    public function setTaxRate(string|int|float $taxRate): void
+    public function setTaxRate(float|int|string $taxRate): void
     {
         $this->taxRate = $taxRate;
     }

@@ -7,12 +7,15 @@
 
 namespace Shopware\PayPalSDK\Tests\Unit\Struct;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Tests\Unit\Struct\_fixtures\TestStruct;
 
 /**
  * @internal
  */
+#[CoversClass(Struct::class)]
 class StructTest extends TestCase
 {
     public function testAssignScalarValue(): void
