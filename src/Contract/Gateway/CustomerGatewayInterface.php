@@ -17,11 +17,11 @@ interface CustomerGatewayInterface
 {
     public const GATEWAY_URL = '/v1/customer';
 
-    public function getMerchantIntegrations(ApiContextInterface $context): MerchantIntegrations;
+    public function getMerchantIntegrations(string $partnerId, ApiContextInterface $context): MerchantIntegrations;
 
     public function getDisputes(?string $disputeStateFilter, ApiContextInterface $context): Disputes;
 
     public function getDispute(string $disputeId, ApiContextInterface $context): DisputeItem;
 
-    public function getCredentials(ApiContextInterface $context): Credentials;
+    public function getCredentials(string $partnerId, ApiContextInterface $context): Credentials;
 }

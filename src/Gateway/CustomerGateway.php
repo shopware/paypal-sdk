@@ -16,11 +16,11 @@ use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Credentials;
 
 class CustomerGateway extends AbstractGateway implements CustomerGatewayInterface
 {
-    public function getMerchantIntegrations(ApiContextInterface $context): MerchantIntegrations
+    public function getMerchantIntegrations(string $partnerId, ApiContextInterface $context): MerchantIntegrations
     {
         return $this->request(
             'GET',
-            self::GATEWAY_URL . '/partners/' . $context->getPartnerId() . '/merchant-integrations/' . $context->getMerchantId(),
+            self::GATEWAY_URL . '/partners/' . $partnerId . '/merchant-integrations/' . $context->getMerchantId(),
             null,
             MerchantIntegrations::class,
             $context,
@@ -54,11 +54,11 @@ class CustomerGateway extends AbstractGateway implements CustomerGatewayInterfac
         );
     }
 
-    public function getCredentials(ApiContextInterface $context): Credentials
+    public function getCredentials(string $partnerId, ApiContextInterface $context): Credentials
     {
         return $this->request(
             'GET',
-            self::GATEWAY_URL . 'customer/partners/' . $context->getPartnerId() . '/merchant-integrations/credentials',
+            self::GATEWAY_URL . 'customer/partners/' . $partnerId . '/merchant-integrations/credentials',
             null,
             Credentials::class,
             $context,

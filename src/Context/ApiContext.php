@@ -26,7 +26,6 @@ class ApiContext implements ApiContextInterface
         protected readonly bool $sandbox,
         protected readonly string $merchantId = '',
         protected readonly array $headers = [],
-        protected readonly string $partnerId = '',
         protected readonly bool $thirdParty = false,
     ) {}
 
@@ -43,11 +42,6 @@ class ApiContext implements ApiContextInterface
     public function getMerchantId(): string
     {
         return $this->merchantId;
-    }
-
-    public function getPartnerId(): string
-    {
-        return $this->partnerId;
     }
 
     public function getThirdParty(): bool
@@ -88,12 +82,6 @@ class ApiContext implements ApiContextInterface
 
         /** @phpstan-ignore-next-line argument.missing - will work */
         return new self(...[...get_object_vars($this), 'headers' => $headers]);
-    }
-
-    public function withPartnerId(string $partnerId): static
-    {
-        /** @phpstan-ignore-next-line argument.missing - will work */
-        return new self(...[...get_object_vars($this), 'partnerId' => $partnerId]);
     }
 
     public function withThirdParty(bool $thirdParty): static
