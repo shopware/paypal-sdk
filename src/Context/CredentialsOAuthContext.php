@@ -13,9 +13,9 @@ class CredentialsOAuthContext implements OAuthContextInterface
 {
     public function __construct(
         #[\SensitiveParameter]
-        protected readonly string $clientId,
+        private readonly string $clientId,
         #[\SensitiveParameter]
-        protected readonly string $clientSecret,
+        private readonly string $clientSecret,
     ) {}
 
     public function getClientId(): string
@@ -23,17 +23,12 @@ class CredentialsOAuthContext implements OAuthContextInterface
         return $this->clientId;
     }
 
-    public function getClientSecret(): string
-    {
-        return $this->clientSecret;
-    }
-
     public function getCacheKey(): ?string
     {
         return \hash('xxh128', \sprintf(
             'credentials-%s-%s',
-            $this->getClientId(),
-            $this->getClientSecret(),
+            $this->clientId,
+            $this->clientSecret,
         ));
     }
 
@@ -46,8 +41,13 @@ class CredentialsOAuthContext implements OAuthContextInterface
     {
         return ['Authorization' => \sprintf('Basic %s', base64_encode(\sprintf(
             '%s:%s',
-            $this->getClientId(),
-            $this->getClientSecret(),
+            $this->clientId,
+            $this->clientSecret,
         )))];
+    }
+
+    public function intoUserIdContext(?string $targetCustomerId = null): UserIdOAuthContext
+    {
+        return new UserIdOAuthContext($this->clientId, $this->clientSecret, $targetCustomerId);
     }
 }
