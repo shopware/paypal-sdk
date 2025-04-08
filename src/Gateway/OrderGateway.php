@@ -8,14 +8,15 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
-use Shopware\PayPalSDK\Contract\Gateway\OrderGatewayInterface;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\Tracker;
 use Shopware\PayPalSDK\Struct\V2\Patch;
 use Shopware\PayPalSDK\Struct\V2\PatchCollection;
 
-class OrderGateway extends AbstractGateway implements OrderGatewayInterface
+class OrderGateway extends AbstractGateway
 {
+    public const GATEWAY_URL = '/v2/checkout/orders';
+
     public function createOrder(Order $order, ApiContextInterface $context): Order
     {
         return $this->request(

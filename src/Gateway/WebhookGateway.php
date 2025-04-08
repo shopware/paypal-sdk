@@ -8,12 +8,13 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
-use Shopware\PayPalSDK\Contract\Gateway\WebhookGatewayInterface;
 use Shopware\PayPalSDK\Struct\V1\PatchCollection;
 use Shopware\PayPalSDK\Struct\V1\Webhook;
 
-class WebhookGateway extends AbstractGateway implements WebhookGatewayInterface
+class WebhookGateway extends AbstractGateway
 {
+    public const GATEWAY_URL = '/v1/notifications/webhooks';
+
     public function createWebhook(Webhook $webhook, ApiContextInterface $context): Webhook
     {
         return $this->request(
