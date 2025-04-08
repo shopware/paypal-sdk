@@ -24,13 +24,17 @@ class RequestService implements RequestServiceInterface
     public function createRequest(string $method, string $path, ApiContextInterface $context): RequestInterface
     {
         $uri = $this->factory
-            ->createUri($context->getSandbox() ? Constants::BASEURL_SANDBOX : Constants::BASEURL_LIVE)
+            ->createUri($context->isSandbox() ? Constants::BASEURL_SANDBOX : Constants::BASEURL_LIVE)
             ->withPath($path);
 
         $request = $this->factory->createRequest($method, $uri);
 
         if ($assertion = $this->getAuthAssertion($context)) {
             $request = $request->withHeader('PayPal-Auth-Assertion', $assertion);
+        }
+
+        if (\in_array(\strtoupper($method), self::JSON_CONTENT_METHODS, true)) {
+            $request = $request->withHeader(self::HEADER_CONTENT_TYPE, self::CONTENT_TYPE_JSON);
         }
 
         foreach ($context->getHeaders() as $key => $value) {
@@ -42,18 +46,18 @@ class RequestService implements RequestServiceInterface
 
     public function withBody(RequestInterface $request, array|\JsonSerializable $body): RequestInterface
     {
-        if (\str_contains($request->getHeaderLine('Content-Type'), self::CONTENT_TYPE_URL_ENCODED)) {
+        if (\str_contains($request->getHeaderLine(self::HEADER_CONTENT_TYPE), self::CONTENT_TYPE_URL_ENCODED)) {
             return $request
                 ->withBody($this->factory->createStream(\http_build_query(
                     $body,
                     encoding_type: \PHP_QUERY_RFC1738,
                 )))
-                ->withHeader('Content-Type', self::CONTENT_TYPE_URL_ENCODED);
+                ->withHeader(self::HEADER_CONTENT_TYPE, self::CONTENT_TYPE_URL_ENCODED);
         }
 
         return $request
             ->withBody($this->factory->createStream(\json_encode($body, \JSON_THROW_ON_ERROR)))
-            ->withHeader('Content-Type', self::CONTENT_TYPE_JSON);
+            ->withHeader(self::HEADER_CONTENT_TYPE, self::CONTENT_TYPE_JSON);
     }
 
     public function handleResponse(ResponseInterface $response): ?array

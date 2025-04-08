@@ -34,7 +34,7 @@ class ApiContext implements ApiContextInterface
         return $this->oauthContext;
     }
 
-    public function getSandbox(): bool
+    public function isSandbox(): bool
     {
         return $this->sandbox;
     }

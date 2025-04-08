@@ -14,8 +14,11 @@ use Shopware\PayPalSDK\Exception\ApiException;
 
 interface RequestServiceInterface
 {
+    public const HEADER_CONTENT_TYPE = 'Content-Type';
+
     public const CONTENT_TYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
     public const CONTENT_TYPE_JSON = 'application/json';
+    public const JSON_CONTENT_METHODS = ['PATCH', 'PUT', 'POST'];
 
     public const ALG_NONE_HEADER = 'eyJhbGciOiJub25lIn0=';
 
