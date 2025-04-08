@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_token')]
-final class Token extends Struct
+class Token extends Struct
 {
     public const TTL_THRESHOLD_SEC = 60 * 60;
 

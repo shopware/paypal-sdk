@@ -13,6 +13,7 @@ use Shopware\PayPalSDK\Struct\V1\Disputes;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item as DisputeItem;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Credentials;
+use Shopware\PayPalSDK\Struct\V2\Referral;
 
 class CustomerGateway extends AbstractGateway implements CustomerGatewayInterface
 {
@@ -20,7 +21,7 @@ class CustomerGateway extends AbstractGateway implements CustomerGatewayInterfac
     {
         return $this->request(
             'GET',
-            self::GATEWAY_URL . '/partners/' . $partnerId . '/merchant-integrations/' . $context->getMerchantId(),
+            self::GATEWAY_URL . '/partners/' . $partnerId . '/merchant-integrations' . ($context->getMerchantId() ? '/' . $context->getMerchantId() : ''),
             null,
             MerchantIntegrations::class,
             $context,
@@ -53,9 +54,20 @@ class CustomerGateway extends AbstractGateway implements CustomerGatewayInterfac
     {
         return $this->request(
             'GET',
-            self::GATEWAY_URL . 'customer/partners/' . $partnerId . '/merchant-integrations/credentials',
+            self::GATEWAY_URL . '/customer/partners/' . $partnerId . '/merchant-integrations/credentials',
             null,
             Credentials::class,
+            $context,
+        );
+    }
+
+    public function createPartnerReferral(Referral $referral, ApiContextInterface $context): Referral
+    {
+        return $this->request(
+            'POST',
+            self::GATEWAY_URL_V2 . '/partner-referrals',
+            $referral,
+            Referral::class,
             $context,
         );
     }
