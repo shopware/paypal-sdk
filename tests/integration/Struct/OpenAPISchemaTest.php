@@ -32,8 +32,8 @@ class OpenAPISchemaTest extends TestCase
 
     public const CONVERSION_EXCEPTIONS = [
         'Shopware' => null,
-        'PayPalSDK' => 'paypal',
         'Struct' => null,
+        'PayPalSDK' => 'paypal',
         'OAuth' => 'oauth',
         'ThreeDSecure' => '3d_secure',
     ];
@@ -144,7 +144,7 @@ class OpenAPISchemaTest extends TestCase
             $input
         );
 
-        return CaseConverter::normalize($input);
+        return CaseConverter::normalize($input, false);
     }
 
     private function ignorableRecord(LogRecord $record): bool

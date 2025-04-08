@@ -7,7 +7,7 @@
 
 namespace Shopware\PayPalSDK\Gateway;
 
-use Http\Discovery\Psr18ClientDiscovery;
+use Http\Discovery\Psr18Client;
 use Psr\Http\Client\ClientInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Gateway\TokenGatewayInterface;
@@ -19,15 +19,11 @@ use Shopware\PayPalSDK\Struct\Struct;
 
 abstract class AbstractGateway
 {
-    protected readonly ClientInterface $client;
-
     public function __construct(
+        protected readonly ClientInterface $client = new Psr18Client(),
         protected readonly TokenGatewayInterface $tokenGateway = new TokenGateway(),
         protected readonly RequestServiceInterface $requestService = new RequestService(),
-        ?ClientInterface $client = null,
-    ) {
-        $this->client = $client ?? Psr18ClientDiscovery::find();
-    }
+    ) {}
 
     /**
      * @template T of Struct

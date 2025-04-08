@@ -12,10 +12,10 @@ final class CaseConverter
     /**
      * Convert from snake_case to camelCase
      */
-    public static function normalize(string $propertyName): string
+    public static function normalize(string $propertyName, bool $withNumbers = true): string
     {
         /** @phpstan-ignore-next-line argument.type */
-        return strtolower(preg_replace('/[A-Z]/', '_\\0', lcfirst($propertyName)));
+        return strtolower(preg_replace('/[A-Z' . ($withNumbers ? '0-9' : '') . ']/', '_\\0', lcfirst($propertyName)));
     }
 
     /**
