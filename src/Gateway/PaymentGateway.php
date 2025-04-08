@@ -8,13 +8,14 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
-use Shopware\PayPalSDK\Contract\Gateway\PaymentGatewayInterface;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Refund;
 
-class PaymentGateway extends AbstractGateway implements PaymentGatewayInterface
+class PaymentGateway extends AbstractGateway
 {
+    public const GATEWAY_URL = '/v2/payments';
+
     public function getCapture(string $captureId, ApiContextInterface $context): Capture
     {
         return $this->request(

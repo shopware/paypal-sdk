@@ -8,15 +8,17 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
-use Shopware\PayPalSDK\Contract\Gateway\CustomerGatewayInterface;
 use Shopware\PayPalSDK\Struct\V1\Disputes;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item as DisputeItem;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Credentials;
 use Shopware\PayPalSDK\Struct\V2\Referral;
 
-class CustomerGateway extends AbstractGateway implements CustomerGatewayInterface
+class CustomerGateway extends AbstractGateway
 {
+    public const GATEWAY_URL = '/v1/customer';
+    public const GATEWAY_URL_V2 = '/v2/customer';
+
     public function getMerchantIntegrations(string $partnerId, ApiContextInterface $context): MerchantIntegrations
     {
         return $this->request(

@@ -11,6 +11,7 @@ use Http\Discovery\Psr18Client;
 use Psr\Http\Client\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
+use Shopware\PayPalSDK\Contract\Gateway\GatewayInterface;
 use Shopware\PayPalSDK\Contract\Gateway\TokenGatewayInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
 use Shopware\PayPalSDK\Exception\ExceptionFactory;
@@ -18,8 +19,10 @@ use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Util\TokenArrayCache;
 
-class TokenGateway implements TokenGatewayInterface
+class TokenGateway implements TokenGatewayInterface, GatewayInterface
 {
+    public const GATEWAY_URL = '/v1/oauth2/token';
+
     public function __construct(
         protected readonly ClientInterface $client = new Psr18Client(),
         protected readonly CacheInterface $tokenCache = new TokenArrayCache(),

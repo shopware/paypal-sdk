@@ -8,15 +8,16 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
-use Shopware\PayPalSDK\Contract\Gateway\PaymentV1GatewayInterface;
 use Shopware\PayPalSDK\Struct\V1\Capture;
 use Shopware\PayPalSDK\Struct\V1\Payment;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource\Authorization;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource\Order;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource\Sale;
 
-class PaymentV1Gateway extends AbstractGateway implements PaymentV1GatewayInterface
+class PaymentV1Gateway extends AbstractGateway
 {
+    public const GATEWAY_URL = '/v1/payments';
+
     public function getAuthorization(string $authorizationId, ApiContextInterface $context): Authorization
     {
         return $this->request(

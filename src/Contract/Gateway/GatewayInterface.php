@@ -7,10 +7,6 @@
 
 namespace Shopware\PayPalSDK\Contract\Gateway;
 
-use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
-use Shopware\PayPalSDK\Struct\V1\Token;
-
-interface TokenGatewayInterface
+interface GatewayInterface
 {
-    public function getToken(ApiContextInterface $context): Token;
 }
