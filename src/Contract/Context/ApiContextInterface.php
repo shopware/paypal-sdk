@@ -34,6 +34,16 @@ interface ApiContextInterface
     public function getHeader(string $name): ?string;
 
     /**
+     * @return array<string, string> $headers
+     */
+    public function getQueryParameters(): array;
+
+    /**
+     * @return ?string Value of header or null if unset
+     */
+    public function getQueryParameter(string $name): ?string;
+
+    /**
      * @template I of OAuthContextInterface
      *
      * @param I $oauthContext
@@ -47,6 +57,8 @@ interface ApiContextInterface
     public function withMerchantId(string $merchantId): static;
 
     public function withHeader(string $name, ?string $value): static;
+
+    public function withQueryParameter(string $name, ?string $value): static;
 
     public function withThirdParty(bool $thirdParty): static;
 }

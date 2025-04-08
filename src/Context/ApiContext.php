@@ -20,12 +20,14 @@ class ApiContext implements ApiContextInterface
     /**
      * @param T $oauthContext
      * @param array<string, string> $headers
+     * @param array<string, string> $queryParameters
      */
     public function __construct(
         protected readonly OAuthContextInterface $oauthContext,
         protected readonly bool $sandbox,
         protected readonly string $merchantId = '',
         protected readonly array $headers = [],
+        protected readonly array $queryParameters = [],
         protected readonly bool $thirdParty = false,
     ) {}
 
@@ -54,6 +56,11 @@ class ApiContext implements ApiContextInterface
         return $this->headers;
     }
 
+    public function getQueryParameters(): array
+    {
+        return $this->queryParameters;
+    }
+
     public function withOAuthContext(OAuthContextInterface $oauthContext): static
     {
         /** @phpstan-ignore-next-line argument.missing - will work */
@@ -72,7 +79,7 @@ class ApiContext implements ApiContextInterface
         return new self(...[...get_object_vars($this), 'merchantId' => $merchantId]);
     }
 
-    public function withHeader(string $name, mixed $value): static
+    public function withHeader(string $name, ?string $value): static
     {
         $headers = [...$this->headers, $name => $value];
 
@@ -82,6 +89,18 @@ class ApiContext implements ApiContextInterface
 
         /** @phpstan-ignore-next-line argument.missing - will work */
         return new self(...[...get_object_vars($this), 'headers' => $headers]);
+    }
+
+    public function withQueryParameter(string $name, ?string $value): static
+    {
+        $queryParameters = [...$this->queryParameters, $name => $value];
+
+        if ($value === null) {
+            unset($queryParameters[$name]);
+        }
+
+        /** @phpstan-ignore-next-line argument.missing - will work */
+        return new self(...[...get_object_vars($this), 'queryParameters' => $queryParameters]);
     }
 
     public function withThirdParty(bool $thirdParty): static
@@ -114,6 +133,17 @@ class ApiContext implements ApiContextInterface
     {
         foreach ($this->headers as $key => $value) {
             if (\strtolower($key) === \strtolower($name)) {
+                return $value;
+            }
+        }
+
+        return null;
+    }
+
+    public function getQueryParameter(string $name): ?string
+    {
+        foreach ($this->headers as $key => $value) {
+            if ($key === $name) {
                 return $value;
             }
         }

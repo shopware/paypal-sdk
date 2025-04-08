@@ -25,7 +25,8 @@ class RequestService implements RequestServiceInterface
     {
         $uri = $this->factory
             ->createUri($context->isSandbox() ? Constants::BASEURL_SANDBOX : Constants::BASEURL_LIVE)
-            ->withPath($path);
+            ->withPath($path)
+            ->withQuery(\http_build_query($context->getQueryParameters()));
 
         $request = $this->factory->createRequest($method, $uri);
 
