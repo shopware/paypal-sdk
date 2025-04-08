@@ -42,7 +42,7 @@ class RequestService implements RequestServiceInterface
 
     public function withBody(RequestInterface $request, array|\JsonSerializable $body): RequestInterface
     {
-        if ($request->getHeaderLine('Content-Type') === self::CONTENT_TYPE_URL_ENCODED) {
+        if (\str_contains($request->getHeaderLine('Content-Type'), self::CONTENT_TYPE_URL_ENCODED)) {
             return $request
                 ->withBody($this->factory->createStream(\http_build_query(
                     $body,

@@ -7,7 +7,7 @@
 
 namespace Shopware\PayPalSDK\Gateway;
 
-use Http\Discovery\Psr18ClientDiscovery;
+use Http\Discovery\Psr18Client;
 use Psr\Http\Client\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
@@ -20,15 +20,11 @@ use Shopware\PayPalSDK\Util\TokenArrayCache;
 
 class TokenGateway implements TokenGatewayInterface
 {
-    protected readonly ClientInterface $client;
-
     public function __construct(
+        protected readonly ClientInterface $client = new Psr18Client(),
         protected readonly CacheInterface $tokenCache = new TokenArrayCache(),
         protected readonly RequestServiceInterface $requestService = new RequestService(),
-        ?ClientInterface $client = null,
-    ) {
-        $this->client = $client ?? Psr18ClientDiscovery::find();
-    }
+    ) {}
 
     public function getToken(ApiContextInterface $context): Token
     {
@@ -38,7 +34,9 @@ class TokenGateway implements TokenGatewayInterface
             return $token;
         }
 
-        $request = $this->requestService->createRequest('POST', self::GATEWAY_URL, $context);
+        $request = $this->requestService
+            ->createRequest('POST', self::GATEWAY_URL, $context)
+            ->withHeader('Content-Type', RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
         $request = $this->requestService->withBody($request, $context->getOAuthContext()->getBody());
 
         foreach ($context->getOAuthContext()->getHeaders() as $key => $value) {
