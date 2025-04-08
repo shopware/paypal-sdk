@@ -27,16 +27,11 @@ class CustomerGateway extends AbstractGateway implements CustomerGatewayInterfac
         );
     }
 
-    public function getDisputes(?string $disputeStateFilter, ApiContextInterface $context): Disputes
+    public function getDisputes(ApiContextInterface $context): Disputes
     {
-        $queryParameter = [];
-        if ($disputeStateFilter !== null) {
-            $queryParameter['dispute_state'] = $disputeStateFilter;
-        }
-
         return $this->request(
             'GET',
-            self::GATEWAY_URL . '/disputes?' . \http_build_query($queryParameter),
+            self::GATEWAY_URL . '/disputes',
             null,
             Disputes::class,
             $context,

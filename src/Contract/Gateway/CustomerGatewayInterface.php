@@ -19,7 +19,7 @@ interface CustomerGatewayInterface
 
     public function getMerchantIntegrations(string $partnerId, ApiContextInterface $context): MerchantIntegrations;
 
-    public function getDisputes(?string $disputeStateFilter, ApiContextInterface $context): Disputes;
+    public function getDisputes(ApiContextInterface $context): Disputes;
 
     public function getDispute(string $disputeId, ApiContextInterface $context): DisputeItem;
 
