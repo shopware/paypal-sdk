@@ -12,10 +12,12 @@ use Shopware\PayPalSDK\Struct\V1\Disputes;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item as DisputeItem;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Credentials;
+use Shopware\PayPalSDK\Struct\V2\Referral;
 
 interface CustomerGatewayInterface
 {
     public const GATEWAY_URL = '/v1/customer';
+    public const GATEWAY_URL_V2 = '/v2/customer';
 
     public function getMerchantIntegrations(string $partnerId, ApiContextInterface $context): MerchantIntegrations;
 
@@ -24,4 +26,6 @@ interface CustomerGatewayInterface
     public function getDispute(string $disputeId, ApiContextInterface $context): DisputeItem;
 
     public function getCredentials(string $partnerId, ApiContextInterface $context): Credentials;
+
+    public function createPartnerReferral(Referral $referral, ApiContextInterface $context): Referral;
 }
