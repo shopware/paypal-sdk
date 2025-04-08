@@ -17,7 +17,7 @@ interface ApiContextInterface
      */
     public function getOAuthContext(): OAuthContextInterface;
 
-    public function getSandbox(): bool;
+    public function isSandbox(): bool;
 
     public function getMerchantId(): string;
 

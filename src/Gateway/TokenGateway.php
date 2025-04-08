@@ -28,15 +28,13 @@ class TokenGateway implements TokenGatewayInterface
 
     public function getToken(ApiContextInterface $context): Token
     {
-        $context = $context->withHeader('Content-Type', RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
+        $context = $context->withHeader(RequestServiceInterface::HEADER_CONTENT_TYPE, RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
 
         if ($token = $this->getCachedToken($context->getOAuthContext()->getCacheKey())) {
             return $token;
         }
 
-        $request = $this->requestService
-            ->createRequest('POST', self::GATEWAY_URL, $context)
-            ->withHeader('Content-Type', RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
+        $request = $this->requestService->createRequest('POST', self::GATEWAY_URL, $context);
         $request = $this->requestService->withBody($request, $context->getOAuthContext()->getBody());
 
         foreach ($context->getOAuthContext()->getHeaders() as $key => $value) {
