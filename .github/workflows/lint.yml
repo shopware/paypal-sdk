@@ -30,7 +30,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-php
       - name: Prepare repo
-        run: git fetch
+        run: |
+          set -e
+          git remote set-url origin ${{ github.server_url }}/${{ github.repository }}
+          git fetch origin --tags
       - name: Run PHPStan
         if: github.event_name == 'pull_request' && !contains(github.base_ref, '/feature/')
         run: composer bc-check -- --format=github-actions --from="origin/${{ github.base_ref }}"
