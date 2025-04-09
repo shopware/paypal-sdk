@@ -36,4 +36,4 @@ jobs:
           git fetch bc-check-upstream
       - name: Run PHPStan
         if: github.event_name == 'pull_request' && !contains(github.base_ref, '/feature/')
-        run: composer bc-check -- --format=github-actions --from="origin/${{ github.base_ref }}"
+        run: composer bc-check -- --format=github-actions --from="bc-check-upstream/${{ github.base_ref }}"
