@@ -9,6 +9,9 @@ namespace Shopware\PayPalSDK\Context;
 
 use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
 
+/**
+ * A context typically used to retrieve a token based on given credentials.
+ */
 class CredentialsOAuthContext implements OAuthContextInterface
 {
     public function __construct(

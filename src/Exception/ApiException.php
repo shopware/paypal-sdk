@@ -9,6 +9,9 @@ namespace Shopware\PayPalSDK\Exception;
 
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Exception used for any PayPal API related error.
+ */
 class ApiException extends \Exception implements \JsonSerializable
 {
     public const CODE_UNKNOWN = 'UNKNOWN';
@@ -44,6 +47,11 @@ class ApiException extends \Exception implements \JsonSerializable
     public const CODE_DUPLICATE_ORDER_NUMBER = 'DUPLICATE_TRANSACTION';
     public const CODE_DUPLICATE_INVOICE_ID = 'DUPLICATE_INVOICE_ID';
 
+    /**
+     * @param string $errorCode error code or name given.
+     * @param string $reason reason or message given.
+     * @param ResponseInterface $response original response that come back.
+     */
     public function __construct(
         public readonly string $errorCode,
         public readonly string $reason,

@@ -8,38 +8,52 @@
 namespace Shopware\PayPalSDK\Contract\Context;
 
 /**
+ * A context used to make a request against the PayPal API.
+ *
  * @template T of OAuthContextInterface = OAuthContextInterface
  */
 interface ApiContextInterface
 {
     /**
+     * A context used for authenticating against the token endpoint.
+     *
      * @return T
      */
     public function getOAuthContext(): OAuthContextInterface;
 
+    /**
+     * Whether sandbox is enabled or not.
+     */
     public function isSandbox(): bool;
 
+    /**
+     * A merchant ID if available. Is an empty string if unset.
+     */
     public function getMerchantId(): string;
 
+    /**
+     * Whether third party is enabled or not.
+     * In a third party context some additional headers have to be set.
+     */
     public function getThirdParty(): bool;
 
     /**
-     * @return array<string, string> $headers
+     * @return array<string, string>
      */
     public function getHeaders(): array;
 
     /**
-     * @return ?string Value of header or null if unset
+     * @return ?string Value of header or null if unset.
      */
     public function getHeader(string $name): ?string;
 
     /**
-     * @return array<string, string> $headers
+     * @return array<string, string>
      */
     public function getQueryParameters(): array;
 
     /**
-     * @return ?string Value of header or null if unset
+     * @return ?string Value of header or null if unset.
      */
     public function getQueryParameter(string $name): ?string;
 

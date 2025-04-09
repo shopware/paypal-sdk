@@ -12,5 +12,8 @@ use Shopware\PayPalSDK\Struct\V1\Token;
 
 interface TokenGatewayInterface
 {
+    /**
+     * Request an {@see Token} from PayPal's OAuth2 endpoint.
+     */
     public function getToken(ApiContextInterface $context): Token;
 }
