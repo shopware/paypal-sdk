@@ -56,7 +56,7 @@ class CustomerGateway extends AbstractGateway
     {
         return $this->request(
             'GET',
-            self::GATEWAY_URL . '/customer/partners/' . $partnerId . '/merchant-integrations/credentials',
+            self::GATEWAY_URL . '/partners/' . $partnerId . '/merchant-integrations/credentials',
             null,
             Credentials::class,
             $context,
