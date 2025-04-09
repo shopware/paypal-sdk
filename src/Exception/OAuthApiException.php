@@ -7,6 +7,9 @@
 
 namespace Shopware\PayPalSDK\Exception;
 
+/**
+ * Exception used for authentication errors.
+ */
 class OAuthApiException extends ApiException
 {
 }

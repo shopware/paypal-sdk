@@ -11,12 +11,20 @@ use Psr\Http\Message\ResponseInterface;
 use Shopware\PayPalSDK\Struct\Error\DetailCollection;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 
+/**
+ * Exception used for (validation) errors.
+ */
 class ErrorApiException extends ApiException
 {
     public readonly LinkCollection $links;
 
     public readonly DetailCollection $details;
 
+    /**
+     * @param string $debugId debugId given.
+     * @param LinkCollection|null $links Any HATEOAS links given.
+     * @param DetailCollection|null $details Any details given about the error. Typically fields that have an error.
+     */
     public function __construct(
         string $errorCode,
         string $reason,

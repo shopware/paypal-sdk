@@ -7,6 +7,10 @@
 
 namespace Shopware\PayPalSDK\Context;
 
+/**
+ * A context typically used to retrieve a token for a target user based on credentials.
+ * Useful for third-party contexts.
+ */
 class UserIdOAuthContext extends CredentialsOAuthContext
 {
     public function __construct(

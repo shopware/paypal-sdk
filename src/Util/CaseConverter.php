@@ -7,10 +7,13 @@
 
 namespace Shopware\PayPalSDK\Util;
 
+/**
+ * Converter to convert between snake_case and camelCase.
+ */
 final class CaseConverter
 {
     /**
-     * Convert from snake_case to camelCase
+     * Convert from snake_case to camelCase.
      */
     public static function normalize(string $propertyName, bool $withNumbers = true): string
     {
@@ -19,7 +22,7 @@ final class CaseConverter
     }
 
     /**
-     * Convert from camelCase to snake_case
+     * Convert from camelCase to snake_case.
      */
     public static function denormalize(string $propertyName): string
     {
