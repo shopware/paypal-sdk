@@ -29,6 +29,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-php
+      - name: Prepare repo
+        run: git fetch
       - name: Run PHPStan
         if: github.event_name == 'pull_request' && !contains(github.base_ref, '/feature/')
         run: composer bc-check -- --format=github-actions --from="origin/${{ github.base_ref }}"
