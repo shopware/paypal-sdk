@@ -24,12 +24,7 @@ use Shopware\PayPalSDK\Struct\Struct;
  */
 class StructMethodRule implements Rule
 {
-    private const EXCLUSIONS = [
-        Struct::class,
-        Collection::class,
-        ConstantsV1::class,
-        ConstantsV2::class,
-    ];
+    private const EXCLUSIONS = [Struct::class];
 
     public function getNodeType(): string
     {
@@ -53,11 +48,7 @@ class StructMethodRule implements Rule
         \preg_match_all('/^(is|set|get)(?<name>.*)/', $method->getName(), $matches);
         $propertyName = \lcfirst($matches['name'][0] ?? '');
 
-        if (!$propertyName) {
-            return $errors;
-        }
-
-        if (!$class->hasProperty($propertyName)) {
+        if (!$propertyName || !$class->hasProperty($propertyName)) {
             return $errors;
         }
 
