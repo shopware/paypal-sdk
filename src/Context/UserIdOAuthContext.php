@@ -7,6 +7,8 @@
 
 namespace Shopware\PayPalSDK\Context;
 
+use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
+
 /**
  * A context typically used to retrieve a token for a target user based on credentials.
  * Useful for third-party contexts.
@@ -29,11 +31,11 @@ class UserIdOAuthContext extends CredentialsOAuthContext
         return $this->targetCustomerId;
     }
 
-    public function getCacheKey(): ?string
+    public function getCacheKey(ApiContextInterface $context): ?string
     {
         return \hash('xxh128', \sprintf(
             'user-id-%s-%s',
-            (string) parent::getCacheKey(),
+            (string) parent::getCacheKey($context),
             (string) $this->targetCustomerId,
         ));
     }
@@ -41,6 +43,7 @@ class UserIdOAuthContext extends CredentialsOAuthContext
     public function getBody(): array
     {
         return \array_filter([
+            ...parent::getBody(),
             'response_type' => 'id_token',
             'target_customer_id' => $this->getTargetCustomerId(),
         ]);

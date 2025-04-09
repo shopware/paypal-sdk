@@ -7,6 +7,7 @@
 
 namespace Shopware\PayPalSDK\Context;
 
+use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
 
 /**
@@ -26,12 +27,13 @@ class CredentialsOAuthContext implements OAuthContextInterface
         return $this->clientId;
     }
 
-    public function getCacheKey(): ?string
+    public function getCacheKey(ApiContextInterface $context): ?string
     {
         return \hash('xxh128', \sprintf(
-            'credentials-%s-%s',
+            'credentials-%s-%s-%s',
             $this->clientId,
             $this->clientSecret,
+            $context->isSandbox() ? 'true' : 'false',
         ));
     }
 

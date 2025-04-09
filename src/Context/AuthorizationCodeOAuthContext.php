@@ -7,6 +7,7 @@
 
 namespace Shopware\PayPalSDK\Context;
 
+use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
 
 /**
@@ -23,13 +24,14 @@ class AuthorizationCodeOAuthContext implements OAuthContextInterface
         private readonly string $nonce,
     ) {}
 
-    public function getCacheKey(): ?string
+    public function getCacheKey(ApiContextInterface $context): ?string
     {
         return \hash('xxh128', \sprintf(
-            'authorization-%s-%s-%s',
+            'authorization-%s-%s-%s-%s',
             $this->authCode,
             $this->sharedId,
             $this->nonce,
+            $context->isSandbox() ? 'true' : 'false',
         ));
     }
 

@@ -19,7 +19,7 @@ interface OAuthContextInterface
      *
      * @return string|null If `null` is returned, this context is not cachable.
      */
-    public function getCacheKey(): ?string;
+    public function getCacheKey(ApiContextInterface $context): ?string;
 
     /**
      * Body to send for requesting a {@see Token}.

@@ -33,7 +33,9 @@ class TokenGateway implements TokenGatewayInterface, GatewayInterface
     {
         $context = $context->withHeader(RequestServiceInterface::HEADER_CONTENT_TYPE, RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
 
-        if ($token = $this->getCachedToken($context->getOAuthContext()->getCacheKey())) {
+        $key = $context->getOAuthContext()->getCacheKey($context);
+
+        if ($token = $this->getCachedToken($key)) {
             return $token;
         }
 
@@ -53,7 +55,7 @@ class TokenGateway implements TokenGatewayInterface, GatewayInterface
 
         $token = (new Token())->assign($content);
 
-        $this->setCachedToken($token, $context->getOAuthContext()->getCacheKey());
+        $this->setCachedToken($token, $key);
 
         return $token;
     }
