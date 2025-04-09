@@ -23,3 +23,17 @@ jobs:
       - uses: ./.github/actions/setup-php
       - name: Run PHPStan
         run: composer phpstan
+
+  bc-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-php
+      - name: Prepare repo
+        run: |
+          set -e
+          git remote add bc-check-upstream ${{ github.server_url }}/${{ github.repository }}
+          git fetch bc-check-upstream
+      - name: Run PHPStan
+        if: github.event_name == 'pull_request' && !contains(github.base_ref, '/feature/')
+        run: composer bc-check -- --format=github-actions --from="origin/${{ github.base_ref }}"
