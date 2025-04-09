@@ -5,11 +5,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Tests\Unit\Struct\_fixtures;
+namespace Shopware\PayPalSDK\Tests\Fixture\Struct;
 
 use Shopware\PayPalSDK\Struct\Struct;
-use Shopware\PayPalSDK\Tests\Unit\Struct\_fixtures\TestStruct\Bar;
-use Shopware\PayPalSDK\Tests\Unit\Struct\_fixtures\TestStruct\FooCollection;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\Bar;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\FooCollection;
 
 /**
  * @internal

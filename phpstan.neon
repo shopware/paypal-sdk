@@ -29,3 +29,9 @@ parameters:
         - # Token should be private
           identifier: struct.property.protected
           path: src/Struct/V1/Token.php
+
+        - # That's what they meant for
+          message: '#.*#'
+          paths:
+              - tests/fixture/Struct/PHPStanRuleStruct.php
+              - tests/fixture/Gateway/PHPStanRuleGateway.php

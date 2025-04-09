@@ -10,8 +10,8 @@ namespace Shopware\PayPalSDK;
 use Http\Discovery\Psr17Factory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
+use Shopware\PayPalSDK\Contract\Context\CredentialsOAuthContextInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
 use Shopware\PayPalSDK\Exception\ExceptionFactory;
 
@@ -45,20 +45,23 @@ class RequestService implements RequestServiceInterface
         return $request;
     }
 
+    /**
+     * @throws \JsonException
+     * @throws \InvalidArgumentException
+     */
     public function withBody(RequestInterface $request, array|\JsonSerializable $body): RequestInterface
     {
-        if (\str_contains($request->getHeaderLine(self::HEADER_CONTENT_TYPE), self::CONTENT_TYPE_URL_ENCODED)) {
-            return $request
-                ->withBody($this->factory->createStream(\http_build_query(
-                    $body,
-                    encoding_type: \PHP_QUERY_RFC1738,
-                )))
-                ->withHeader(self::HEADER_CONTENT_TYPE, self::CONTENT_TYPE_URL_ENCODED);
+        if (!($contentType = $request->getHeaderLine(self::HEADER_CONTENT_TYPE))) {
+            return $request;
         }
 
-        return $request
-            ->withBody($this->factory->createStream(\json_encode($body, \JSON_THROW_ON_ERROR)))
-            ->withHeader(self::HEADER_CONTENT_TYPE, self::CONTENT_TYPE_JSON);
+        $body = match (true) {
+            \str_contains($contentType, self::CONTENT_TYPE_URL_ENCODED) => \http_build_query($body),
+            \str_contains($contentType, self::CONTENT_TYPE_JSON) => \json_encode($body, \JSON_THROW_ON_ERROR),
+            default => throw new \InvalidArgumentException(__METHOD__ . ' is unable to handle content-type "' . $contentType . '"'),
+        };
+
+        return $request->withBody($this->factory->createStream($body));
     }
 
     public function handleResponse(ResponseInterface $response): ?array
@@ -84,11 +87,13 @@ class RequestService implements RequestServiceInterface
 
     protected function getAuthAssertion(ApiContextInterface $context): ?string
     {
-        if (!$context->getThirdParty()) {
+        if (!$context->isThirdParty()) {
             return null;
         }
 
-        if (!($oauthContext = $context->getOAuthContext()) instanceof CredentialsOAuthContext) {
+        $oauthContext = $context->getOAuthContext();
+
+        if (!$oauthContext instanceof CredentialsOAuthContextInterface) {
             return null;
         }
 

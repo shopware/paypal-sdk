@@ -64,14 +64,12 @@ final class TokenArrayCache implements CacheInterface
     /**
      * @param null $default
      *
-     * @return iterable<string, Token>
+     * @return iterable<string, ?Token>
      */
     public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
         foreach ($keys as $key) {
-            if ($token = $this->get($key, $default)) {
-                yield $key => $token;
-            }
+            yield $key => $this->get($key, $default);
         }
     }
 
@@ -83,7 +81,7 @@ final class TokenArrayCache implements CacheInterface
     public function setMultiple(iterable $values, int|\DateInterval|null $ttl = null): bool
     {
         foreach ($values as $key => $token) {
-            $this->set($key, $token);
+            $this->set($key, $token, $ttl);
         }
 
         return true;

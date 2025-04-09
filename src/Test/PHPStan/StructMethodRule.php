@@ -17,6 +17,8 @@ use PHPStan\Type\VerbosityLevel;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
+ * @internal
+ *
  * @implements Rule<InClassMethodNode>
  */
 class StructMethodRule implements Rule
@@ -54,8 +56,9 @@ class StructMethodRule implements Rule
         }
 
         $property = $class->getProperty($propertyName, $scope);
+        $propertyType = $property->getReadableType();
 
-        if (!($propertyType = $property->getPhpDocType() ?? $property->getNativeType())) {
+        if (!$property->hasNativeType()) {
             return $errors;
         }
 
@@ -64,14 +67,20 @@ class StructMethodRule implements Rule
                 $errors[] = self::message($node, 'should return void', 'setter.returnType');
             }
 
-            if (\count($method->getParameters()) !== 1) {
+            $paramCount = \count($method->getParameters());
+
+            if ($paramCount !== 1) {
                 $errors[] = self::message($node, 'should have a setter with one parameter', 'setter.parameterCount');
-            } elseif (!$propertyType->isSuperTypeOf($method->getParameters()[0]->getType())->yes()) {
-                $errors[] = self::message($node, 'should have a setter accepting ' . $propertyType->describe(VerbosityLevel::typeOnly()), 'setter.parameterType');
+            } else {
+                $paramType = $method->getParameters()[0]->getType();
+
+                if ($propertyType->accepts($paramType, true)->no()) {
+                    $errors[] = self::message($node, 'should have first param accept ' . $propertyType->describe(VerbosityLevel::typeOnly()) . ' but accepts ' . $paramType->describe(VerbosityLevel::typeOnly()), 'setter.parameterType');
+                }
             }
         } else {
-            if (!$propertyType->isSuperTypeOf($method->getReturnType())->yes()) {
-                $errors[] = self::message($node, 'should return ' . $propertyType->describe(VerbosityLevel::typeOnly()), 'getter.returnType');
+            if ($propertyType->accepts($method->getReturnType(), true)->no()) {
+                $errors[] = self::message($node, 'should return ' . $propertyType->describe(VerbosityLevel::typeOnly()) . ' but returns ' . $method->getReturnType()->describe(VerbosityLevel::typeOnly()), 'getter.returnType');
             }
 
             if (\count($method->getParameters()) !== 0) {

@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Tests\Unit\Struct\_fixtures\TestStruct;
+namespace Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct;
 
 use Shopware\PayPalSDK\Struct\Struct;
 

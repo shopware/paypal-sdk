@@ -15,6 +15,8 @@ use PHPStan\Rules\RuleErrorBuilder;
 use Shopware\PayPalSDK\Contract\Gateway\GatewayInterface;
 
 /**
+ * @internal
+ *
  * @implements Rule<InClassNode>
  */
 class GatewayRule implements Rule
