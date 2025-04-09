@@ -14,9 +14,6 @@ use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\VerbosityLevel;
-use Shopware\PayPalSDK\Struct\Collection;
-use Shopware\PayPalSDK\Struct\ConstantsV1;
-use Shopware\PayPalSDK\Struct\ConstantsV2;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
