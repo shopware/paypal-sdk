@@ -2,6 +2,11 @@ includes:
     - vendor/symplify/phpstan-rules/config/phpunit-rules.neon
     - vendor/symplify/phpstan-rules/config/static-rules.neon
 
+rules:
+    - Shopware\PayPalSDK\Test\PHPStan\StructRule
+    - Shopware\PayPalSDK\Test\PHPStan\StructMethodRule
+    - Shopware\PayPalSDK\Test\PHPStan\GatewayRule
+
 parameters:
     level: max
     tmpDir: var/cache/phpstan
@@ -20,3 +25,7 @@ parameters:
         - # Tests are allowed to do so
           identifier: symplify.multipleClassLikeInFile
           path: tests/*
+
+        - # Token should be private
+          identifier: struct.property.protected
+          path: src/Struct/V1/Token.php

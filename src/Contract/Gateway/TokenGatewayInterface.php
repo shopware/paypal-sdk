@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Contract\Gateway;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Struct\V1\Token;
 
-interface TokenGatewayInterface
+interface TokenGatewayInterface extends GatewayInterface
 {
     /**
      * Request an {@see Token} from PayPal's OAuth2 endpoint.
