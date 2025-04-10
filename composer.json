@@ -3,7 +3,6 @@
     "description": "SDK to communicate with the PayPal API",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "autoload": {
         "psr-4": {
             "Shopware\\PayPalSDK\\": "src/"
@@ -37,6 +36,10 @@
         "guzzlehttp/psr7": "^2.7",
         "php-http/guzzle7-adapter": "^1.1",
         "roave/backward-compatibility-check": "^8.13"
+    },
+    "suggest": {
+        "guzzlehttp/psr7": "HTTP client implementation",
+        "php-http/guzzle7-adapter": "HTTP client implementation"
     },
     "config": {
         "allow-plugins": {
