@@ -11,6 +11,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Shopware\\PayPalSDK\\Tests\\Fixture\\": "tests/fixture",
             "Shopware\\PayPalSDK\\Tests\\Unit\\": "tests/unit",
             "Shopware\\PayPalSDK\\Tests\\Integration\\": "tests/integration"
         }

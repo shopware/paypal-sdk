@@ -104,13 +104,26 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
         return \array_keys($this->elements);
     }
 
+    /**
+     * @template T
+     * @template I
+     *
+     * @param \Closure(I|T, TElement): T $closure
+     * @param I $initial
+     *
+     * @return T|I
+     */
     public function reduce(\Closure $closure, mixed $initial = null): mixed
     {
         return \array_reduce($this->elements, $closure, $initial);
     }
 
     /**
-     * @return array<array-key, mixed>
+     * @template T
+     *
+     * @param \Closure(TElement): T $closure
+     *
+     * @return array<array-key, T>
      */
     public function fmap(\Closure $closure): array
     {
@@ -118,18 +131,28 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     }
 
     /**
-     * @return array<array-key, mixed>
+     * @template T
+     *
+     * @param \Closure(TElement): T $closure
+     *
+     * @return array<array-key, T>
      */
     public function map(\Closure $closure): array
     {
         return \array_map($closure, $this->elements);
     }
 
+    /**
+     * @param \Closure(TElement, TElement): int $closure
+     */
     public function sort(\Closure $closure): void
     {
         \uasort($this->elements, $closure);
     }
 
+    /**
+     * @param \Closure(TElement): bool $closure
+     */
     public function filter(\Closure $closure): static
     {
         return $this->createNew(\array_filter($this->elements, $closure));
@@ -141,7 +164,7 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     }
 
     /**
-     * @return array<TElement>
+     * @return array<array-key, TElement>
      */
     public function getElements(): array
     {
@@ -149,11 +172,11 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     }
 
     /**
-     * @return list<TElement>
+     * @return list<array>
      */
     public function jsonSerialize(): array
     {
-        return \array_values($this->elements);
+        return \array_values($this->map(static fn (Struct $e): array => $e->jsonSerialize()));
     }
 
     /**
@@ -186,7 +209,7 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     }
 
     /**
-     * @return \Generator<TElement>
+     * @return \Traversable<TElement>
      */
     public function getIterator(): \Traversable
     {

@@ -8,15 +8,18 @@
 namespace Shopware\PayPalSDK\Tests\Unit\Struct;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\FooCollection;
 
 /**
  * @internal
  */
 #[CoversClass(Collection::class)]
+#[UsesClass(FooCollection::class)]
 class CollectionTest extends TestCase
 {
     public function testConstructor(): void
@@ -178,7 +181,7 @@ class CollectionTest extends TestCase
         $collection->add($elements[1]);
 
         static::assertEquals(
-            $elements,
+            [$elements[0]->jsonSerialize(), $elements[1]->jsonSerialize()],
             $collection->jsonSerialize()
         );
     }

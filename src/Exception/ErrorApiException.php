@@ -16,9 +16,9 @@ use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
  */
 class ErrorApiException extends ApiException
 {
-    public readonly LinkCollection $links;
+    protected readonly LinkCollection $links;
 
-    public readonly DetailCollection $details;
+    protected readonly DetailCollection $details;
 
     /**
      * @param string $debugId debugId given.
@@ -37,6 +37,16 @@ class ErrorApiException extends ApiException
         $this->details = $details ?? new DetailCollection();
 
         parent::__construct($errorCode, $reason, $response);
+    }
+
+    public function getDetails(): DetailCollection
+    {
+        return $this->details;
+    }
+
+    public function getLinks(): LinkCollection
+    {
+        return $this->links;
     }
 
     public function jsonSerialize(): array

@@ -17,7 +17,7 @@ interface OAuthContextInterface
     /**
      * Key to be used to identify a cached {@see Token}.
      *
-     * @return string|null If `null` is returned, this context is not cachable.
+     * @return string|null If `null` is returned, this context is not cacheable.
      */
     public function getCacheKey(ApiContextInterface $context): ?string;
 
@@ -29,7 +29,7 @@ interface OAuthContextInterface
     public function getBody(): array;
 
     /**
-     * Headers to send for requestung a {@see Token}.
+     * Headers to send for requesting a {@see Token}.
      *
      * @return array<string, string>
      */

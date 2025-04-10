@@ -35,7 +35,7 @@ interface ApiContextInterface
      * Whether third party is enabled or not.
      * In a third party context some additional headers have to be set.
      */
-    public function getThirdParty(): bool;
+    public function isThirdParty(): bool;
 
     /**
      * @return array<string, string>

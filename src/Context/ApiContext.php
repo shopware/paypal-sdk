@@ -17,19 +17,33 @@ use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
  */
 class ApiContext implements ApiContextInterface
 {
+    /** @var array<string, string> */
+    protected readonly array $headers;
+
+    /** @var array<string, string> */
+    protected readonly array $queryParameters;
+
     /**
      * @param T $oauthContext
-     * @param array<string, string> $headers
-     * @param array<string, string> $queryParameters
+     * @param array<string, ?string> $headers
+     * @param array<string, ?string> $queryParameters
      */
     public function __construct(
         protected readonly OAuthContextInterface $oauthContext,
         protected readonly bool $sandbox,
         protected readonly string $merchantId = '',
-        protected readonly array $headers = [],
-        protected readonly array $queryParameters = [],
+        array $headers = [],
+        array $queryParameters = [],
         protected readonly bool $thirdParty = false,
-    ) {}
+    ) {
+        $this->queryParameters = \array_filter($queryParameters, static fn (?string $value): bool => $value !== null);
+
+        $headers = \array_filter($headers, static fn (?string $value): bool => $value !== null);
+        $this->headers = \array_combine(
+            \array_map(static fn (string $key): string => \strtolower($key), \array_keys($headers)),
+            \array_values($headers),
+        );
+    }
 
     public function getOAuthContext(): OAuthContextInterface
     {
@@ -46,7 +60,7 @@ class ApiContext implements ApiContextInterface
         return $this->merchantId;
     }
 
-    public function getThirdParty(): bool
+    public function isThirdParty(): bool
     {
         return $this->thirdParty;
     }
@@ -81,11 +95,7 @@ class ApiContext implements ApiContextInterface
 
     public function withHeader(string $name, ?string $value): static
     {
-        $headers = [...$this->headers, $name => $value];
-
-        if ($value === null) {
-            unset($headers[$name]);
-        }
+        $headers = [...$this->headers, \strtolower($name) => $value];
 
         /** @phpstan-ignore-next-line argument.missing - will work */
         return new self(...[...get_object_vars($this), 'headers' => $headers]);
@@ -94,10 +104,6 @@ class ApiContext implements ApiContextInterface
     public function withQueryParameter(string $name, ?string $value): static
     {
         $queryParameters = [...$this->queryParameters, $name => $value];
-
-        if ($value === null) {
-            unset($queryParameters[$name]);
-        }
 
         /** @phpstan-ignore-next-line argument.missing - will work */
         return new self(...[...get_object_vars($this), 'queryParameters' => $queryParameters]);
@@ -142,7 +148,7 @@ class ApiContext implements ApiContextInterface
 
     public function getQueryParameter(string $name): ?string
     {
-        foreach ($this->headers as $key => $value) {
+        foreach ($this->queryParameters as $key => $value) {
             if ($key === $name) {
                 return $value;
             }

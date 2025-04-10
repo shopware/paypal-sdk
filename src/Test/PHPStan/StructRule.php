@@ -20,6 +20,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Util\CaseConverter;
 
 /**
+ * @internal
+ *
  * @implements Rule<ClassPropertyNode>
  */
 class StructRule implements Rule
@@ -52,11 +54,19 @@ class StructRule implements Rule
             $errors[] = self::message($node, 'should be protected', 'protected');
         }
 
-        if ($node->getName() !== ($camelCaseName = CaseConverter::denormalize($node->getName()))) {
-            $errors[] = self::message($node, 'should have a camelCased name of "' . $camelCaseName . '"', 'name');
+        $type = ($node->getPhpDocType() ?? $node->getNativeType());
+
+        if (!$node->getNativeType()) {
+            $errors[] = self::message($node, 'should have a native type', 'type');
         }
 
-        if ($type = ($node->getPhpDocType() ?? $node->getNativeType())) {
+        if ($node->getName() !== ($camelCaseName = CaseConverter::denormalize($node->getName()))) {
+            $errors[] = self::message($node, 'should have a camelCased name of "' . $camelCaseName . '"', 'name');
+
+            return $errors;
+        }
+
+        if ($type) {
             if (($type->isNull()->maybe() || $type->isNull()->yes()) && !$node->getDefault()) {
                 $errors[] = self::message($node, 'is nullable and should have an default value', 'default');
             }
@@ -75,8 +85,6 @@ class StructRule implements Rule
             if (!$class->hasMethod($getter)) {
                 $errors[] = self::message($node, 'should have a getter "' . $getter . '"', 'getter');
             }
-        } else {
-            $errors[] = self::message($node, 'should have a type', 'type');
         }
 
         return $errors;

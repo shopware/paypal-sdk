@@ -53,13 +53,23 @@ class ApiException extends \Exception implements \JsonSerializable
      * @param ResponseInterface $response original response that come back.
      */
     public function __construct(
-        public readonly string $errorCode,
-        public readonly string $reason,
+        protected readonly string $errorCode,
+        protected readonly string $reason,
         protected readonly ResponseInterface $response,
     ) {
         parent::__construct(
             \sprintf('The error "%s" occurred with the following message: %s', $errorCode, $reason)
         );
+    }
+
+    public function getErrorCode(): string
+    {
+        return $this->errorCode;
+    }
+
+    public function getReason(): string
+    {
+        return $this->reason;
     }
 
     public function getStatusCode(): int
