@@ -15,7 +15,18 @@
             "Shopware\\PayPalSDK\\Tests\\Integration\\": "tests/integration"
         }
     },
-    "authors": [],
+    "authors": [
+        {
+            "name": "shopware AG",
+            "email": "info@shopware.com",
+            "role": "Owner"
+        },
+        {
+            "name": "cyl3x",
+            "email": "cyl3x@posteo.de",
+            "role": "Maintainer"
+        }
+    ],
     "require": {
         "psr/simple-cache": "^3.0",
         "php-http/discovery": "^1.20",
