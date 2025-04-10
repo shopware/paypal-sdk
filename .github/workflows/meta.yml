@@ -1,0 +1,16 @@
+name: Meta
+
+on:
+  pull_request:
+  push:
+    branches:
+      - trunk
+
+jobs:
+  composer-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-php
+      - name: Run composer validate
+        run: composer validate
