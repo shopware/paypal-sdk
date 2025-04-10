@@ -6,7 +6,7 @@
     <h1 align="center">PayPal SDK for PHP</h1>
 </p>
 
-A Paypal PHP SDK that allows integration of PayPal services into PHP applications.
+A PayPal PHP SDK that allows integration of PayPal services into PHP applications.
 This SDK provides a simple and easy-to-use interface for working with PayPal's REST APIs, making it easier to accept payments, handle PayPal-related tasks and errors.
 
 > [!WARNING]
@@ -49,7 +49,6 @@ $toCreateOrder->setPaymentSource(...);
 $createdOrder = $orderGateway->createOrder($toCreateOrder, $context);
 
 $anotherOrder = $orderGateway->getOrder('<orderId>', $context);
-
 ```
 
 ### Usage (Advanced)
@@ -81,5 +80,4 @@ $toCreateOrder->setPaymentSource(...);
 $createdOrder = $orderGateway->createOrder($toCreateOrder, $context);
 
 $anotherOrder = $orderGateway->getOrder('<orderId>', $context);
-
 ```
