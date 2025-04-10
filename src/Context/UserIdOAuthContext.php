@@ -40,12 +40,20 @@ class UserIdOAuthContext extends CredentialsOAuthContext
         ));
     }
 
+    /**
+     * @return array{grant_type: string, response_type: string, target_customer_id?: string}
+     */
     public function getBody(): array
     {
-        return \array_filter([
+        $body = [
             ...parent::getBody(),
             'response_type' => 'id_token',
-            'target_customer_id' => $this->getTargetCustomerId(),
-        ]);
+        ];
+
+        if ($id = $this->getTargetCustomerId()) {
+            $body['target_customer_id'] = $id;
+        }
+
+        return $body;
     }
 }

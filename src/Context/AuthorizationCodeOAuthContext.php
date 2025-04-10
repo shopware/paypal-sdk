@@ -35,6 +35,9 @@ class AuthorizationCodeOAuthContext implements OAuthContextInterface
         ));
     }
 
+    /**
+     * @return array{grant_type: string, code: string, code_verifier: string}
+     */
     public function getBody(): array
     {
         return [
@@ -44,6 +47,9 @@ class AuthorizationCodeOAuthContext implements OAuthContextInterface
         ];
     }
 
+    /**
+     * @return array{Authorization: string}
+     */
     public function getHeaders(): array
     {
         return ['Authorization' => \sprintf('Basic %s', base64_encode(\sprintf('%s:', $this->sharedId)))];

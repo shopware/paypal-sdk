@@ -23,6 +23,7 @@ interface ApiContextInterface
 
     /**
      * Whether sandbox is enabled or not.
+     * If enabled, all request will be sent to the sandbox endpoint.
      */
     public function isSandbox(): bool;
 
@@ -66,13 +67,30 @@ interface ApiContextInterface
      */
     public function withOAuthContext(OAuthContextInterface $oauthContext): static;
 
+    /**
+     * Flag the context as being sandbox.
+     * All request will be sent to the sandbox endpoint.
+     */
     public function withSandbox(bool $sandbox): static;
 
+    /**
+     * Add a merchant ID to the context. Empty strings are allowed.
+     */
     public function withMerchantId(string $merchantId): static;
 
+    /**
+     * Add a header to the context. Setting `null` will remove the header.
+     */
     public function withHeader(string $name, ?string $value): static;
 
+    /**
+     * Add a query parameter to the context. Setting `null` will remove the parameter.
+     */
     public function withQueryParameter(string $name, ?string $value): static;
 
+    /**
+     * Flag the context as being third party.
+     *  In a third party context some additional headers have to be set.
+     */
     public function withThirdParty(bool $thirdParty): static;
 }

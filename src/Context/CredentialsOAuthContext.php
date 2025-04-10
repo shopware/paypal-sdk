@@ -37,11 +37,17 @@ class CredentialsOAuthContext implements CredentialsOAuthContextInterface
         ));
     }
 
+    /**
+     * @return array{grant_type: string}
+     */
     public function getBody(): array
     {
         return ['grant_type' => 'client_credentials'];
     }
 
+    /**
+     * @return array{Authorization: string}
+     */
     public function getHeaders(): array
     {
         return ['Authorization' => \sprintf('Basic %s', base64_encode(\sprintf(
