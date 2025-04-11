@@ -1,0 +1,9 @@
+/.github export-ignore
+/.idea export-ignore
+/.vscode export-ignore
+/tests export-ignore
+/devenv.nix export-ignore
+/.envrc export-ignore
+/.php-cs-fixer.php export-ignore
+/phpstan.neon export-ignore
+/phpunit.xml export-ignore
