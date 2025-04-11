@@ -8,11 +8,13 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Http\Discovery\Psr18Client;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Gateway\TokenGatewayInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
+use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\ExceptionFactory;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\V1\Token;
@@ -28,6 +30,9 @@ class TokenGateway implements TokenGatewayInterface
         protected readonly RequestServiceInterface $requestService = new RequestService(),
     ) {}
 
+    /**
+     * @throws ApiException|ClientExceptionInterface|\JsonException
+     */
     public function getToken(ApiContextInterface $context): Token
     {
         $context = $context->withHeader(RequestServiceInterface::HEADER_CONTENT_TYPE, RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);

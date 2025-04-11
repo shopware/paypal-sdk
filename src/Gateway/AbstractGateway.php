@@ -8,11 +8,13 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Http\Discovery\Psr18Client;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Gateway\GatewayInterface;
 use Shopware\PayPalSDK\Contract\Gateway\TokenGatewayInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
+use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\ExceptionFactory;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\Collection;
@@ -31,6 +33,8 @@ abstract class AbstractGateway implements GatewayInterface
      *
      * @param class-string<T>|null $responseClass
      *
+     * @throws ApiException|ClientExceptionInterface|\JsonException
+     *
      * @return ($responseClass is null ? null : T)
      */
     protected function request(string $method, string $path, Struct|Collection|null $body, ?string $responseClass, ApiContextInterface $context): ?Struct
@@ -48,7 +52,7 @@ abstract class AbstractGateway implements GatewayInterface
         $content = $this->requestService->handleResponse($response);
 
         if ($responseClass) {
-            if (!$content) {
+            if ($content === null) {
                 throw ExceptionFactory::createFromResponse($response);
             }
 
