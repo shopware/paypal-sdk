@@ -23,7 +23,7 @@ class ErrorApiException extends ApiException
     /**
      * @param string $debugId debugId given.
      * @param LinkCollection|null $links Any HATEOAS links given.
-     * @param DetailCollection|null $details Any details given about the error. Typically fields that have an error.
+     * @param DetailCollection|null $details Any details given about the error. Typically, fields that have an error.
      */
     public function __construct(
         string $errorCode,
@@ -37,6 +37,11 @@ class ErrorApiException extends ApiException
         $this->details = $details ?? new DetailCollection();
 
         parent::__construct($errorCode, $reason, $response);
+
+        if ($detailMessage = (string) $this->details) {
+            // @phpstan-ignore-next-line assignOp.invalid - Message is not natively typed but sure a string as we control it.
+            $this->message .= ' | ' . $detailMessage;
+        }
     }
 
     public function getDetails(): DetailCollection
@@ -47,6 +52,13 @@ class ErrorApiException extends ApiException
     public function getLinks(): LinkCollection
     {
         return $this->links;
+    }
+
+    public function is(string ...$codes): bool
+    {
+        $issues = $this->getDetails()->getIssues();
+
+        return parent::is(...$codes) || \array_diff($issues, $codes) !== $issues;
     }
 
     public function jsonSerialize(): array

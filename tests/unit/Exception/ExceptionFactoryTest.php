@@ -44,7 +44,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertInstanceOf(ErrorApiException::class, $exception);
-        static::assertSame('The error "DUPLICATE_INVOICE_ID" occurred with the following message: Duplicate invoice ID', $exception->getMessage());
+        static::assertSame('The error "DUPLICATE_INVOICE_ID" occurred with the following message: Duplicate invoice ID.', $exception->getMessage());
     }
 
     public function testCreateFromResponse401(): void
@@ -61,7 +61,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertInstanceOf(OAuthApiException::class, $exception);
-        static::assertSame('The error "INVALID_CLIENT" occurred with the following message: Client authentication failed', $exception->getMessage());
+        static::assertSame('The error "INVALID_CLIENT" occurred with the following message: Client authentication failed.', $exception->getMessage());
     }
 
     public function testCreateFromResponseOAuthError(): void
@@ -78,7 +78,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertInstanceOf(OAuthApiException::class, $exception);
-        static::assertSame('The error "INVALID_CLIENT" occurred with the following message: Client authentication failed', $exception->getMessage());
+        static::assertSame('The error "INVALID_CLIENT" occurred with the following message: Client authentication failed.', $exception->getMessage());
     }
 
     public function testCreateFromResponse401WithoutBody(): void
@@ -102,7 +102,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertSame(ApiException::class, $exception::class);
-        static::assertSame('The error "UNKNOWN" occurred with the following message: Bad Request', $exception->getMessage());
+        static::assertSame('The error "UNKNOWN" occurred with the following message: Bad Request.', $exception->getMessage());
     }
 
     public function testCreateFromResponseWithBodyMalformed(): void
@@ -115,7 +115,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertSame(ApiException::class, $exception::class);
-        static::assertSame('The error "UNKNOWN" occurred with the following message: something', $exception->getMessage());
+        static::assertSame('The error "UNKNOWN" occurred with the following message: something.', $exception->getMessage());
     }
 
     public function testCreateFromResponseWihBodyEmpty(): void
@@ -128,7 +128,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertSame(ApiException::class, $exception::class);
-        static::assertSame('The error "UNKNOWN" occurred with the following message: Bad Request', $exception->getMessage());
+        static::assertSame('The error "UNKNOWN" occurred with the following message: Bad Request.', $exception->getMessage());
     }
 
     public function testCreateFromResponse501(): void
