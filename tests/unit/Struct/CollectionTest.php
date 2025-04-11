@@ -13,13 +13,12 @@ use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
-use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\FooCollection;
 
 /**
  * @internal
  */
 #[CoversClass(Collection::class)]
-#[UsesClass(FooCollection::class)]
+#[UsesClass(TestCollection::class)]
 class CollectionTest extends TestCase
 {
     public function testConstructor(): void

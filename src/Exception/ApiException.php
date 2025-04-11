@@ -14,6 +14,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ApiException extends \Exception implements \JsonSerializable
 {
+    public const MESSAGE_DELIMITER = ' | ';
+
     public const CODE_UNKNOWN = 'UNKNOWN';
     public const CODE_SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE';
     public const CODE_INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR';
@@ -58,7 +60,7 @@ class ApiException extends \Exception implements \JsonSerializable
         protected readonly ResponseInterface $response,
     ) {
         parent::__construct(
-            \sprintf('The error "%s" occurred with the following message: %s', $errorCode, $reason)
+            \sprintf('The error "%s" occurred with the following message: %s.', $errorCode, \rtrim($reason, '.'))
         );
     }
 
@@ -100,8 +102,8 @@ class ApiException extends \Exception implements \JsonSerializable
         return [
             'status' => (string) $this->getStatusCode(),
             'code' => $this->errorCode,
-            'title' => $this->getMessage(),
-            'detail' => $this->reason,
+            'title' => $this->reason,
+            'detail' => $this->getMessage(),
             'meta' => [],
         ];
     }

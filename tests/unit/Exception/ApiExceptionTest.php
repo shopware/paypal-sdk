@@ -7,7 +7,7 @@
 
 namespace Shopware\PayPalSDK\Tests\Unit\Exception;
 
-use Http\Discovery\Psr17Factory;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Exception\ApiException;
@@ -22,28 +22,42 @@ class ApiExceptionTest extends TestCase
 {
     public function test(): void
     {
-        $factory = new Psr17Factory();
-        $response = $factory
-            ->createResponse(204, 'reason phrase')
-            ->withBody($factory->createStream('{"key":"value"}'));
+        $response = new Response(200, body: '{"key":"value"}');
 
         $exception = new ApiException(
             ApiException::CODE_INVALID_CLIENT,
-            'Some message',
+            'Some reason',
             $response,
         );
 
         static::assertSame(ApiException::CODE_INVALID_CLIENT, $exception->getErrorCode());
-        static::assertSame('Some message', $exception->getReason());
-        static::assertSame(204, $exception->getStatusCode());
+        static::assertSame('Some reason', $exception->getReason());
+        static::assertSame(200, $exception->getStatusCode());
         static::assertSame('{"key":"value"}', $exception->getBody());
         static::assertTrue($exception->is(ApiException::CODE_INVALID_CLIENT));
         static::assertEquals([
-            'status' => '204',
+            'status' => '200',
             'code' => 'INVALID_CLIENT',
-            'title' => 'The error "INVALID_CLIENT" occurred with the following message: Some message',
-            'detail' => 'Some message',
+            'title' => 'Some reason',
+            'detail' => 'The error "INVALID_CLIENT" occurred with the following message: Some reason.',
             'meta' => [],
         ], $exception->jsonSerialize());
+        static::assertSame(
+            'The error "INVALID_CLIENT" occurred with the following message: Some reason.',
+            $exception->getMessage()
+        );
+    }
+
+    public function testDotTrim(): void
+    {
+        $response = new Response(200, body: '{"key":"value"}');
+
+        $exception = new ApiException(
+            ApiException::CODE_INVALID_CLIENT,
+            'Some reason.',
+            $response,
+        );
+
+        static::assertSame('The error "INVALID_CLIENT" occurred with the following message: Some reason.', $exception->getMessage());
     }
 }

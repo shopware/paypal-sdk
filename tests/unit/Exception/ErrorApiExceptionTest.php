@@ -7,8 +7,9 @@
 
 namespace Shopware\PayPalSDK\Tests\Unit\Exception;
 
-use Http\Discovery\Psr17Factory;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\ErrorApiException;
@@ -23,12 +24,10 @@ class ErrorApiExceptionTest extends TestCase
 {
     public function test(): void
     {
-        $factory = new Psr17Factory();
-        $response = $factory
-            ->createResponse(204, 'reason phrase')
-            ->withBody($factory->createStream('{"key":"value"}'));
+        $response = new Response(200, body: '{"key":"value"}');
 
         $details = DetailCollection::createFromAssociative([[
+            'description' => 'Invalid format',
             'field' => 'some-field',
             'value' => 'some-value',
         ]]);
@@ -39,7 +38,7 @@ class ErrorApiExceptionTest extends TestCase
 
         $exception = new ErrorApiException(
             ApiException::CODE_INVALID_CLIENT,
-            'Some message',
+            'Some reason',
             $response,
             'some-debug-id',
             $links,
@@ -49,14 +48,56 @@ class ErrorApiExceptionTest extends TestCase
         static::assertSame($details, $exception->getDetails());
         static::assertSame($links, $exception->getLinks());
         static::assertEquals([
-            'status' => '204',
+            'status' => '200',
             'code' => 'INVALID_CLIENT',
-            'title' => 'The error "INVALID_CLIENT" occurred with the following message: Some message',
-            'detail' => 'Some message',
+            'title' => 'Some reason',
+            'detail' => 'The error "INVALID_CLIENT" occurred with the following message: Some reason. | (some-field: some-value) Invalid format',
             'meta' => [
-                'details' => [['field' => 'some-field', 'value' => 'some-value']],
+                'details' => [['description' => 'Invalid format', 'field' => 'some-field', 'value' => 'some-value']],
                 'links' => [['rel' => 'some-rel', 'enc_type' => null, 'href' => 'some-href']],
             ],
         ], $exception->jsonSerialize());
+        static::assertSame(
+            'The error "INVALID_CLIENT" occurred with the following message: Some reason. | (some-field: some-value) Invalid format',
+            $exception->getMessage()
+        );
+    }
+
+    #[DataProvider('isDataProvider')]
+    public function testIs(bool $is, string ...$codes): void
+    {
+        $response = new Response(200, body: '{"key":"value"}');
+
+        $details = DetailCollection::createFromAssociative([[
+            'description' => 'Invalid format',
+            'field' => 'some-field',
+            'value' => 'some-value',
+            'issue' => ApiException::CODE_DUPLICATE_INVOICE_ID,
+        ]]);
+
+        $exception = new ErrorApiException(
+            ApiException::CODE_INVALID_REQUEST,
+            'Some message',
+            $response,
+            'some-debug-id',
+            details: $details,
+        );
+
+        static::assertSame(
+            'The error "INVALID_REQUEST" occurred with the following message: Some message. | [DUPLICATE_INVOICE_ID] (some-field: some-value) Invalid format',
+            $exception->getMessage(),
+        );
+
+        static::assertSame($is, $exception->is(...$codes));
+    }
+
+    public static function isDataProvider(): \Generator
+    {
+        yield 'is matching single' => [true, ApiException::CODE_INVALID_REQUEST];
+        yield 'is matching multiple' => [true, ApiException::CODE_INVALID_REQUEST, ApiException::CODE_DUPLICATE_INVOICE_ID];
+        yield 'is not matching' => [false, ApiException::CODE_INVALID_CLIENT];
+        yield 'is matching one of issue' => [true, ApiException::CODE_INVALID_CLIENT, ApiException::CODE_DUPLICATE_INVOICE_ID];
+        yield 'is matching one of errorCode' => [true, ApiException::CODE_INVALID_CLIENT, ApiException::CODE_INVALID_REQUEST];
+        yield 'is not matching multiple' => [false, ApiException::CODE_INVALID_CLIENT, ApiException::CODE_INVALID_RESOURCE_ID];
     }
 }
