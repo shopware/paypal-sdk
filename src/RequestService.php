@@ -13,6 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Context\CredentialsOAuthContextInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
+use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\ExceptionFactory;
 
 class RequestService implements RequestServiceInterface
@@ -64,6 +65,9 @@ class RequestService implements RequestServiceInterface
         return $request->withBody($this->factory->createStream($body));
     }
 
+    /**
+     * @throws ApiException
+     */
     public function handleResponse(ResponseInterface $response): ?array
     {
         $body = (string) $response->getBody();
