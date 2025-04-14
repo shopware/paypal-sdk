@@ -33,4 +33,9 @@ class GatewayRuleTest extends RuleTestCase
             ],
         ]);
     }
+
+    public function testRuleSkipped(): void
+    {
+        $this->analyse([__DIR__ . '/../../../fixture/Struct/TestStruct.php'], []);
+    }
 }
