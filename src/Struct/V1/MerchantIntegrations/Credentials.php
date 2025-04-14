@@ -22,6 +22,11 @@ class Credentials extends Struct
     #[OA\Property(type: 'string')]
     protected string $payerId;
 
+    public function assign(#[\SensitiveParameter] array $data): static
+    {
+        return parent::assign($data);
+    }
+
     public function getClientId(): string
     {
         return $this->clientId;
@@ -50,5 +55,18 @@ class Credentials extends Struct
     public function setPayerId(string $payerId): void
     {
         $this->payerId = $payerId;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function __debugInfo(): array
+    {
+        return [];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [];
     }
 }

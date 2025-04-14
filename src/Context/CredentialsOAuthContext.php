@@ -61,4 +61,9 @@ class CredentialsOAuthContext implements CredentialsOAuthContextInterface
     {
         return new UserIdOAuthContext($this->clientId, $this->clientSecret, $targetCustomerId);
     }
+
+    public function __debugInfo(): array
+    {
+        return [];
+    }
 }

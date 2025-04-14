@@ -50,4 +50,15 @@ class UserIdOAuthContextTest extends TestCase
         static::assertSame('53bf912f9ef7bee5ce0e44d7644f5566', $oauthContext->getCacheKey($context));
         static::assertSame('38cc2b78bcff06448a4607ff03ff2f57', $oauthContext->getCacheKey($context->withSandbox(false)));
     }
+
+    public function testDebugInformationSensitive(): void
+    {
+        $oauthContext = new UserIdOAuthContext(
+            'some-client-id',
+            'some-client-secret',
+            'some-target-user-id',
+        );
+
+        static::assertSame(UserIdOAuthContext::class . " Object\n(\n)\n", \print_r($oauthContext, true));
+    }
 }

@@ -81,7 +81,7 @@ class TokenGateway implements TokenGatewayInterface
         return $token;
     }
 
-    protected function setCachedToken(#[\SensitiveParameter] Token $token, ?string $key): void
+    protected function setCachedToken(Token $token, ?string $key): void
     {
         if (!$key) {
             return;

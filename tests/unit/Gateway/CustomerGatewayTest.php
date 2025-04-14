@@ -7,6 +7,7 @@
 
 namespace Shopware\PayPalSDK\Tests\Unit\Gateway;
 
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
@@ -14,7 +15,6 @@ use Shopware\PayPalSDK\Gateway\CustomerGateway;
 use Shopware\PayPalSDK\Struct\V1\Disputes;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
-use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Credentials;
 use Shopware\PayPalSDK\Struct\V2\Referral;
 
 /**
@@ -82,13 +82,16 @@ class CustomerGatewayTest extends AbstractGatewayTestCase
     public function testGetCredentials(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = (new Credentials())->assign(['client_id' => 'some-client-id', 'client_secret' => 'some-client-secret']);
+        $body = ['client_id' => 'some-client-id', 'client_secret' => 'some-client-secret', 'payer_id' => 'some-payer-id'];
+        $json = \json_encode($body, \JSON_THROW_ON_ERROR);
 
         $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->handler->append(new Response(body: $json));
 
         $response = $this->gateway->getCredentials('partnerId', $context);
-        static::assertEquals($body, $response);
+        static::assertSame($body['client_id'], $response->getClientId());
+        static::assertSame($body['client_secret'], $response->getClientSecret());
+        static::assertSame($body['payer_id'], $response->getPayerId());
         static::assertSame('GET', $this->getLast()->getMethod());
         static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/credentials', $this->getLast()->getUri()->getPath());
     }
