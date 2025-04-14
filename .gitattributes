@@ -3,6 +3,8 @@
 /.vscode export-ignore
 /tests export-ignore
 /devenv.nix export-ignore
+/devenv.lock export-ignore
+/README.md export-ignore
 /.envrc export-ignore
 /.php-cs-fixer.php export-ignore
 /phpstan.neon export-ignore
