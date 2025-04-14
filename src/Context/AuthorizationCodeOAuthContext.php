@@ -54,4 +54,9 @@ class AuthorizationCodeOAuthContext implements OAuthContextInterface
     {
         return ['Authorization' => \sprintf('Basic %s', base64_encode(\sprintf('%s:', $this->sharedId)))];
     }
+
+    public function __debugInfo(): array
+    {
+        return [];
+    }
 }

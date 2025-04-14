@@ -20,44 +20,44 @@ class Token extends Struct
      * is expressed as a list of space-delimited, case-sensitive strings.
      */
     #[OA\Property(type: 'string')]
-    private string $scope;
+    protected string $scope;
 
     #[OA\Property(type: 'string')]
-    private string $nonce;
+    protected string $nonce;
 
     /**
      * The access token issued by PayPal. After the access token
      * expires (see $expiresIn), you must request a new access token.
      */
     #[OA\Property(type: 'string')]
-    private string $accessToken;
+    protected string $accessToken;
 
     /**
      * The type of the token issued as described in OAuth2.0 RFC6749,
      * Section 7.1. Value is case insensitive.
      */
     #[OA\Property(type: 'string')]
-    private string $tokenType;
+    protected string $tokenType;
 
     #[OA\Property(type: 'string')]
-    private string $appId;
+    protected string $appId;
 
     #[OA\Property(type: 'string', nullable: true)]
-    private ?string $idToken = null;
+    protected ?string $idToken = null;
 
     /**
      * The lifetime of the access token, in seconds.
      */
     #[OA\Property(type: 'integer')]
-    private int $expiresIn;
+    protected int $expiresIn;
 
     /**
      * Calculated expiration date
      */
     #[OA\Property(type: 'string', format: 'date-time')]
-    private \DateTime $expireDateTime;
+    protected \DateTime $expireDateTime;
 
-    public function assign(array $data): static
+    public function assign(#[\SensitiveParameter] array $data): static
     {
         $newToken = parent::assign($data);
 
@@ -147,5 +147,18 @@ class Token extends Struct
     public function setExpireDateTime(\DateTime $expireDateTime): void
     {
         $this->expireDateTime = $expireDateTime;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function __debugInfo(): array
+    {
+        return [];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [];
     }
 }

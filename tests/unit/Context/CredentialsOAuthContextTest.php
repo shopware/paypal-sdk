@@ -58,4 +58,11 @@ class CredentialsOAuthContextTest extends TestCase
 
         static::assertSame('db4395115b84188b4fe25782e010ac8c', $oauthContext->getCacheKey($context));
     }
+
+    public function testDebugInformationSensitive(): void
+    {
+        $oauthContext = new CredentialsOAuthContext('some-client-id', 'some-client-secret');
+
+        static::assertSame(CredentialsOAuthContext::class . " Object\n(\n)\n", \print_r($oauthContext, true));
+    }
 }
