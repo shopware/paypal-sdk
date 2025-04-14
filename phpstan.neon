@@ -1,6 +1,7 @@
 includes:
     - vendor/symplify/phpstan-rules/config/phpunit-rules.neon
     - vendor/symplify/phpstan-rules/config/static-rules.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 rules:
     - Shopware\PayPalSDK\Test\PHPStan\StructRule
@@ -14,6 +15,17 @@ parameters:
     checkFunctionNameCase: true
     checkInternalClassCaseSensitivity: true
     reportUnmatchedIgnoredErrors: true
+    reportMaybesInMethodSignatures: false
+    reportStaticMethodSignatures: false
+    reportMaybesInPropertyPhpDocTypes: false
+
+    strictRules:
+        allRules: false
+        disallowedLooseComparison: true
+        strictFunctionCalls: true
+        overwriteVariablesWithLoop: true
+        matchingInheritedMethodNames: true
+        disallowedEmpty: true
 
     paths:
         - src

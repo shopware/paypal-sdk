@@ -56,6 +56,11 @@ class RequestService implements RequestServiceInterface
             return $request;
         }
 
+        if ($body instanceof \JsonSerializable) {
+            $body = $body->jsonSerialize();
+            /** @var array<mixed> $body */
+        }
+
         $body = match (true) {
             \str_contains($contentType, self::CONTENT_TYPE_URL_ENCODED) => \http_build_query($body),
             \str_contains($contentType, self::CONTENT_TYPE_JSON) => \json_encode($body, \JSON_THROW_ON_ERROR),
