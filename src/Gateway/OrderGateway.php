@@ -93,7 +93,7 @@ class OrderGateway extends AbstractGateway
                 'path' => '/status',
                 'value' => Order\PurchaseUnit\Shipping\Tracker::STATUS_CANCELLED,
             ]]),
-            Order::class,
+            null,
             $context,
         );
     }
