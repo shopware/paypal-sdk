@@ -9,30 +9,29 @@ namespace Shopware\PayPalSDK\Tests\Unit\Gateway;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\WebhookGateway;
 use Shopware\PayPalSDK\Struct\V1\PatchCollection;
 use Shopware\PayPalSDK\Struct\V1\Webhook;
+use Shopware\PayPalSDK\Test\Gateway\TestGateways;
+use Shopware\PayPalSDK\Test\Request\TestClient;
 
 /**
  * @internal
- *
- * @extends AbstractGatewayTestCase<WebhookGateway>
  */
 #[CoversClass(WebhookGateway::class)]
-class WebhookGatewayTest extends AbstractGatewayTestCase
+class WebhookGatewayTest extends TestCase
 {
-    protected WebhookGateway $gateway;
+    protected TestClient $client;
+
+    protected TestGateways $gateways;
 
     protected function setUp(): void
     {
-        $this->gateway = new WebhookGateway($this->client, $this->tokenGateway);
-    }
-
-    protected function gatewayClass(): string
-    {
-        return WebhookGateway::class;
+        $this->client = new TestClient();
+        $this->gateways = new TestGateways($this->client);
     }
 
     public function testCreateWebhook(): void
@@ -40,14 +39,17 @@ class WebhookGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Webhook())->assign(['id' => 'webhook-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->createWebhook($body, $context);
+        $response = $this->gateways->webhookGateway()->createWebhook($body, $context);
         static::assertEquals($body, $response);
-        static::assertSame('POST', $this->getLast()->getMethod());
-        static::assertSame('/v1/notifications/webhooks', $this->getLast()->getUri()->getPath());
-        static::assertSame(\json_encode($body), (string) $this->getLast()->getBody());
+
+        $last = $this->client->last();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v1/notifications/webhooks', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }
 
     public function testGetWebhook(): void
@@ -55,13 +57,16 @@ class WebhookGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Webhook())->assign(['id' => 'webhook-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->getWebhook('webhookId', $context);
+        $response = $this->gateways->webhookGateway()->getWebhook('webhookId', $context);
+
+        $last = $this->client->last();
+        static::assertNotNull($last);
         static::assertEquals($body, $response);
-        static::assertSame('GET', $this->getLast()->getMethod());
-        static::assertSame('/v1/notifications/webhooks/webhookId', $this->getLast()->getUri()->getPath());
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/notifications/webhooks/webhookId', $last->getRequest()->getUri()->getPath());
     }
 
     public function testUpdateWebhook(): void
@@ -72,24 +77,30 @@ class WebhookGatewayTest extends AbstractGatewayTestCase
             'path' => '/some/path',
         ]]);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->handler->append(new Response());
+        $this->gateways->setCachedToken($context);
+        $this->client->add(new Response());
 
-        $this->gateway->updateWebhook('webhookId', $body, $context);
-        static::assertSame('PATCH', $this->getLast()->getMethod());
-        static::assertSame('/v1/notifications/webhooks/webhookId', $this->getLast()->getUri()->getPath());
-        static::assertSame(\json_encode($body), (string) $this->getLast()->getBody());
+        $this->gateways->webhookGateway()->updateWebhook('webhookId', $body, $context);
+
+        $last = $this->client->last();
+        static::assertNotNull($last);
+        static::assertSame('PATCH', $last->getRequest()->getMethod());
+        static::assertSame('/v1/notifications/webhooks/webhookId', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }
 
     public function testDeleteWebhook(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->handler->append(new Response());
+        $this->gateways->setCachedToken($context);
+        $this->client->add(new Response());
 
-        $this->gateway->deleteWebhook('webhookId', $context);
-        static::assertSame('DELETE', $this->getLast()->getMethod());
-        static::assertSame('/v1/notifications/webhooks/webhookId', $this->getLast()->getUri()->getPath());
+        $this->gateways->webhookGateway()->deleteWebhook('webhookId', $context);
+
+        $last = $this->client->last();
+        static::assertNotNull($last);
+        static::assertSame('DELETE', $last->getRequest()->getMethod());
+        static::assertSame('/v1/notifications/webhooks/webhookId', $last->getRequest()->getUri()->getPath());
     }
 }

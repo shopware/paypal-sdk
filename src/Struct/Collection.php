@@ -11,8 +11,9 @@ namespace Shopware\PayPalSDK\Struct;
  * @template TElement of Struct = Struct
  *
  * @implements \IteratorAggregate<array-key, TElement>
+ * @implements \ArrayAccess<array-key, TElement>
  */
-abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerializable
+abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerializable, \ArrayAccess
 {
     /** @var array<array-key, TElement> */
     protected array $elements = [];
@@ -49,11 +50,11 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     {
         $collection = new static();
         foreach (\array_filter($associativeData) as $value) {
-            if (!\is_array($value)) {
-                continue;
+            if ($value instanceof Struct) {
+                $collection->add($value);
+            } elseif (\is_array($value)) {
+                $collection->add(Struct::from(static::getExpectedClass(), $value));
             }
-
-            $collection->add(Struct::from(static::getExpectedClass(), $value));
         }
 
         return $collection;
@@ -208,12 +209,31 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
         unset($this->elements[$key]);
     }
 
-    /**
-     * @return \Traversable<TElement>
-     */
     public function getIterator(): \Traversable
     {
-        yield from $this->elements;
+        return new \ArrayIterator($this->elements);
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return $this->has($offset);
+    }
+
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if ($offset !== null) {
+            $this->set($offset, $value);
+        }
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        $this->remove($offset);
     }
 
     /**

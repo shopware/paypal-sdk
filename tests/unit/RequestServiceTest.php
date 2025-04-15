@@ -18,6 +18,7 @@ use Shopware\PayPalSDK\Contract\RequestServiceInterface;
 use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\OAuthApiException;
 use Shopware\PayPalSDK\RequestService;
+use Shopware\PayPalSDK\Struct\Struct;
 
 /**
  * @internal
@@ -195,6 +196,30 @@ class RequestServiceTest extends TestCase
         $request = $this->service->createRequest('POST', '/some/endpoint', $context);
 
         $request = $this->service->withBody($request, ['key' => 'value']);
+
+        static::assertSame('POST', $request->getMethod());
+        static::assertSame('https://api-m.paypal.com/some/endpoint', (string) $request->getUri());
+        static::assertEquals([
+            'Host' => ['api-m.paypal.com'],
+            'content-type' => ['application/x-www-form-urlencoded'],
+        ], $request->getHeaders());
+        static::assertSame('key=value', (string) $request->getBody());
+    }
+
+    public function testWithBodyUrlEncodedJsonSerialize(): void
+    {
+        $context = (new ApiContext(
+            new CredentialsOAuthContext('', ''),
+            false,
+        ))->withHeader('Content-Type', RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
+
+        $request = $this->service->createRequest('POST', '/some/endpoint', $context);
+
+        $body = new class extends Struct {
+            protected string $key = 'value';
+        };
+
+        $request = $this->service->withBody($request, $body);
 
         static::assertSame('POST', $request->getMethod());
         static::assertSame('https://api-m.paypal.com/some/endpoint', (string) $request->getUri());
