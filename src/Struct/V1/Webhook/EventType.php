@@ -24,7 +24,7 @@ class EventType extends Struct
     protected string $status;
 
     #[OA\Property(type: 'string')]
-    protected string $resourceVersion = '1.0';
+    protected string $resourceVersion;
 
     public function getName(): string
     {
