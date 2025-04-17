@@ -122,6 +122,20 @@ class RequestServiceTest extends TestCase
         static::assertEmpty((string) $request->getBody());
     }
 
+    public function testCreateRequestWithThirdPartyWithoutMerchantId(): void
+    {
+        $context = (new ApiContext(
+            new CredentialsOAuthContext('', ''),
+            false,
+            thirdParty: true,
+        ));
+
+        static::expectException(\LogicException::class);
+        static::expectExceptionMessage('ApiContext is flagged as third party, but misses a merchant id.');
+
+        $this->service->createRequest('GET', '/some/endpoint', $context);
+    }
+
     public function testCreateRequestWithThirdPartyWithoutCredentialsContext(): void
     {
         $context = (new ApiContext(

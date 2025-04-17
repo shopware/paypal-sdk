@@ -16,6 +16,7 @@ use Shopware\PayPalSDK\Gateway\CustomerGateway;
 use Shopware\PayPalSDK\Struct\V1\Disputes;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
+use Shopware\PayPalSDK\Struct\V1\MerchantTracking;
 use Shopware\PayPalSDK\Struct\V2\Referral;
 use Shopware\PayPalSDK\Test\Gateway\TestGateways;
 use Shopware\PayPalSDK\Test\Request\TestClient;
@@ -38,19 +39,39 @@ class CustomerGatewayTest extends TestCase
 
     public function testGetMerchantIntegrations(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = (new MerchantIntegrations())->assign(['id' => 'merchant-id']);
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
+        $body = (new MerchantIntegrations())->assign(['merchant_id' => 'merchant-id']);
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateways->customerGateway()->getMerchantIntegrations('partnerId', $context);
+        $response = $this->gateways->customerGateway()->getMerchantIntegrations('partnerId', 'merchantId', $context);
         static::assertEquals($body, $response);
 
         $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
-        static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/merchant-id', $last->getRequest()->getUri()->getPath());
+        static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/merchantId', $last->getRequest()->getUri()->getPath());
+        static::assertFalse($last->getContext()->isThirdParty());
+    }
+
+    public function testGetMerchantTracking(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, thirdParty: true);
+        $body = (new MerchantTracking())->assign(['merchant_id' => 'merchant-id', 'tracking_id' => 'tracking-id']);
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->customerGateway()->getMerchantTracking('partnerId', 'tracking-id', $context);
+        static::assertEquals($body, $response);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/partners/partnerId/merchant-integrations', $last->getRequest()->getUri()->getPath());
+        static::assertSame('tracking_id=tracking-id', $last->getRequest()->getUri()->getQuery());
+        static::assertFalse($last->getContext()->isThirdParty());
     }
 
     public function testGetDisputes(): void
@@ -89,7 +110,7 @@ class CustomerGatewayTest extends TestCase
 
     public function testGetCredentials(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
         $body = ['client_id' => 'some-client-id', 'client_secret' => 'some-client-secret', 'payer_id' => 'some-payer-id'];
 
         $this->gateways->setCachedToken($context);
@@ -104,11 +125,12 @@ class CustomerGatewayTest extends TestCase
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/credentials', $last->getRequest()->getUri()->getPath());
+        static::assertFalse($last->getContext()->isThirdParty());
     }
 
     public function testCreatePartnerReferral(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
         $body = (new Referral())->assign(['tracking_id' => 'tracking-id']);
 
         $this->gateways->setCachedToken($context);
@@ -122,5 +144,6 @@ class CustomerGatewayTest extends TestCase
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/customer/partner-referrals', $last->getRequest()->getUri()->getPath());
         static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
+        static::assertFalse($last->getContext()->isThirdParty());
     }
 }

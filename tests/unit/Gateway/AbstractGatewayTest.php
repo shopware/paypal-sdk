@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
-use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Gateway\AbstractGateway;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\Struct;
@@ -147,8 +146,8 @@ class AbstractGatewayTest extends TestCase
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response());
 
-        static::expectException(ApiException::class);
-        static::expectExceptionMessage('The error "UNKNOWN" occurred with the following message: OK.');
+        static::expectException(\LogicException::class);
+        static::expectExceptionMessage('Expected response content for deserializing into ' . Order::class);
 
         $this->gateway->testPost(
             null,

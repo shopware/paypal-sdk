@@ -15,7 +15,6 @@ use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Gateway\TokenGatewayInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
 use Shopware\PayPalSDK\Exception\ApiException;
-use Shopware\PayPalSDK\Exception\ExceptionFactory;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Util\TokenArrayCache;
@@ -31,7 +30,7 @@ class TokenGateway implements TokenGatewayInterface
     ) {}
 
     /**
-     * @throws ApiException|ClientExceptionInterface|\JsonException
+     * @throws ApiException|ClientExceptionInterface|\JsonException|\LogicException
      */
     public function getToken(ApiContextInterface $context): Token
     {
@@ -54,7 +53,7 @@ class TokenGateway implements TokenGatewayInterface
         $content = $this->requestService->handleResponse($response);
 
         if (!$content) {
-            throw ExceptionFactory::createFromResponse($response);
+            throw new \LogicException('Expected response content for deserializing into ' . Token::class);
         }
 
         $token = (new Token())->assign($content);

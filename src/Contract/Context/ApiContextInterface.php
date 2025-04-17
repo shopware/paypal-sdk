@@ -28,9 +28,12 @@ interface ApiContextInterface
     public function isSandbox(): bool;
 
     /**
-     * A merchant ID if available. Is an empty string if unset.
+     * A merchant ID for third party context.
+     * In a third party context some additional headers have to be set.
+     *
+     * @return non-empty-string|null
      */
-    public function getMerchantId(): string;
+    public function getMerchantId(): ?string;
 
     /**
      * Whether third party is enabled or not.
@@ -74,9 +77,10 @@ interface ApiContextInterface
     public function withSandbox(bool $sandbox): static;
 
     /**
-     * Add a merchant ID to the context. Empty strings are allowed.
+     * Add a merchant ID for third party context.
+     * In a third party context some additional headers have to be set.
      */
-    public function withMerchantId(string $merchantId): static;
+    public function withMerchantId(?string $merchantId): static;
 
     /**
      * Add a header to the context. Setting `null` will remove the header.
@@ -90,7 +94,7 @@ interface ApiContextInterface
 
     /**
      * Flag the context as being third party.
-     *  In a third party context some additional headers have to be set.
+     * In a third party context some additional headers have to be set.
      */
     public function withThirdParty(bool $thirdParty): static;
 }
