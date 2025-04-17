@@ -131,7 +131,7 @@ class TestClient implements ClientInterface
         return $content;
     }
 
-    public function add(ResponseInterface $response): void
+    public function addResponse(ResponseInterface $response): void
     {
         $this->responses[] = $response;
     }
@@ -139,7 +139,7 @@ class TestClient implements ClientInterface
     /**
      * Resets all logged requests.
      */
-    public function reset(): void
+    public function resetRequests(): void
     {
         $this->requests = [];
     }
@@ -147,7 +147,7 @@ class TestClient implements ClientInterface
     /**
      * @return list<TestRequestContext>
      */
-    public function all(): array
+    public function getAll(): array
     {
         return $this->requests;
     }
@@ -157,12 +157,12 @@ class TestClient implements ClientInterface
         return $this->requests[$idx] ?? null;
     }
 
-    public function last(): ?TestRequestContext
+    public function getLast(): ?TestRequestContext
     {
         return \end($this->requests) ?: null;
     }
 
-    public function first(): ?TestRequestContext
+    public function getFirst(): ?TestRequestContext
     {
         return $this->requests[0] ?? null;
     }
@@ -170,7 +170,7 @@ class TestClient implements ClientInterface
     /**
      * @param Filter $closure
      */
-    public function firstWhere(\Closure $closure): ?TestRequestContext
+    public function getFirstWhere(\Closure $closure): ?TestRequestContext
     {
         return \current(\array_filter($this->requests, $closure, \ARRAY_FILTER_USE_BOTH)) ?: null;
     }
@@ -178,7 +178,7 @@ class TestClient implements ClientInterface
     /**
      * @param Filter $closure
      */
-    public function lastWhere(\Closure $closure): ?TestRequestContext
+    public function getLastWhere(\Closure $closure): ?TestRequestContext
     {
         return \current(\array_filter(\array_reverse($this->requests, true), $closure, \ARRAY_FILTER_USE_BOTH)) ?: null;
     }

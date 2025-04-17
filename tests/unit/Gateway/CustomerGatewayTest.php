@@ -42,12 +42,12 @@ class CustomerGatewayTest extends TestCase
         $body = (new MerchantIntegrations())->assign(['id' => 'merchant-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->customerGateway()->getMerchantIntegrations('partnerId', $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/merchant-id', $last->getRequest()->getUri()->getPath());
@@ -59,12 +59,12 @@ class CustomerGatewayTest extends TestCase
         $body = (new Disputes())->assign(['items' => [['dispute_id' => 'some-dispute-id']]]);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->customerGateway()->getDisputes($context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v1/customer/disputes', $last->getRequest()->getUri()->getPath());
@@ -76,12 +76,12 @@ class CustomerGatewayTest extends TestCase
         $body = (new Item())->assign(['dispute_id' => 'some-dispute-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->customerGateway()->getDispute('some-dispute-id', $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v1/customer/disputes/some-dispute-id', $last->getRequest()->getUri()->getPath());
@@ -93,14 +93,14 @@ class CustomerGatewayTest extends TestCase
         $body = ['client_id' => 'some-client-id', 'client_secret' => 'some-client-secret', 'payer_id' => 'some-payer-id'];
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->customerGateway()->getCredentials('partnerId', $context);
         static::assertSame($body['client_id'], $response->getClientId());
         static::assertSame($body['client_secret'], $response->getClientSecret());
         static::assertSame($body['payer_id'], $response->getPayerId());
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/credentials', $last->getRequest()->getUri()->getPath());
@@ -112,12 +112,12 @@ class CustomerGatewayTest extends TestCase
         $body = (new Referral())->assign(['tracking_id' => 'tracking-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->customerGateway()->createPartnerReferral($body, $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/customer/partner-referrals', $last->getRequest()->getUri()->getPath());

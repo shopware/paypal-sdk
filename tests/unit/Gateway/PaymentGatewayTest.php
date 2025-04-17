@@ -41,12 +41,12 @@ class PaymentGatewayTest extends TestCase
         $body = (new Capture())->assign(['id' => 'capture-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->paymentGateway()->getCapture('captureId', $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/captures/captureId', $last->getRequest()->getUri()->getPath());
@@ -58,12 +58,12 @@ class PaymentGatewayTest extends TestCase
         $body = (new Authorization())->assign(['id' => 'authorization-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->paymentGateway()->getAuthorization('authorizationId', $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/authorizations/authorizationId', $last->getRequest()->getUri()->getPath());
@@ -75,12 +75,12 @@ class PaymentGatewayTest extends TestCase
         $body = (new Refund())->assign(['id' => 'refund-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->paymentGateway()->getRefund('refundId', $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/refunds/refundId', $last->getRequest()->getUri()->getPath());
@@ -92,12 +92,12 @@ class PaymentGatewayTest extends TestCase
         $body = (new Refund())->assign(['id' => 'refund-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->paymentGateway()->refundCapture('captureId', $body, $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/captures/captureId/refund', $last->getRequest()->getUri()->getPath());
@@ -110,12 +110,12 @@ class PaymentGatewayTest extends TestCase
         $body = (new Capture())->assign(['id' => 'capture-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->paymentGateway()->captureAuthorization('authorizationId', $body, $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/authorizations/authorizationId/capture', $last->getRequest()->getUri()->getPath());
@@ -127,11 +127,11 @@ class PaymentGatewayTest extends TestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response());
+        $this->client->addResponse(new Response());
 
         $this->gateways->paymentGateway()->voidAuthorization('authorizationId', $context);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/authorizations/authorizationId/void', $last->getRequest()->getUri()->getPath());

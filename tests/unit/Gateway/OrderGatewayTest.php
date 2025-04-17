@@ -41,12 +41,12 @@ class OrderGatewayTest extends TestCase
         $body = (new Order())->assign(['id' => 'some-order-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->orderGateway()->createOrder($body, $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders', $last->getRequest()->getUri()->getPath());
@@ -59,12 +59,12 @@ class OrderGatewayTest extends TestCase
         $body = (new Order())->assign(['id' => 'some-order-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->orderGateway()->getOrder('orderId', $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/orderId', $last->getRequest()->getUri()->getPath());
@@ -76,12 +76,12 @@ class OrderGatewayTest extends TestCase
         $body = (new Order())->assign(['id' => 'some-order-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->orderGateway()->authorizeOrder('orderId', $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/orderId/authorize', $last->getRequest()->getUri()->getPath());
@@ -94,12 +94,12 @@ class OrderGatewayTest extends TestCase
         $body = (new Order())->assign(['id' => 'some-order-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->orderGateway()->captureOrder('orderId', $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/orderId/capture', $last->getRequest()->getUri()->getPath());
@@ -115,11 +115,11 @@ class OrderGatewayTest extends TestCase
         ]]);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response());
+        $this->client->addResponse(new Response());
 
         $this->gateways->orderGateway()->patchOrder('orderId', $body, $context);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('PATCH', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/orderId', $last->getRequest()->getUri()->getPath());
@@ -133,12 +133,12 @@ class OrderGatewayTest extends TestCase
         $order = (new Order())->assign(['id' => 'some-order-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($order, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($order, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->orderGateway()->addTracker($body, 'orderId', $context);
         static::assertEquals($order, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/orderId/track', $last->getRequest()->getUri()->getPath());
@@ -157,11 +157,11 @@ class OrderGatewayTest extends TestCase
         $tracker = (new Tracker())->assign(['tracking_number' => '1000', 'capture_id' => 'some-capture-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $this->gateways->orderGateway()->removeTracker($tracker, 'orderId', $context);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertEquals(\json_encode($patch), $last->getRequest()->getBody());
         static::assertSame('PATCH', $last->getRequest()->getMethod());

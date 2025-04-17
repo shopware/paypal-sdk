@@ -40,12 +40,12 @@ class WebhookGatewayTest extends TestCase
         $body = (new Webhook())->assign(['id' => 'webhook-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->webhookGateway()->createWebhook($body, $context);
         static::assertEquals($body, $response);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v1/notifications/webhooks', $last->getRequest()->getUri()->getPath());
@@ -58,11 +58,11 @@ class WebhookGatewayTest extends TestCase
         $body = (new Webhook())->assign(['id' => 'webhook-id']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->webhookGateway()->getWebhook('webhookId', $context);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertEquals($body, $response);
         static::assertSame('GET', $last->getRequest()->getMethod());
@@ -78,11 +78,11 @@ class WebhookGatewayTest extends TestCase
         ]]);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response());
+        $this->client->addResponse(new Response());
 
         $this->gateways->webhookGateway()->updateWebhook('webhookId', $body, $context);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('PATCH', $last->getRequest()->getMethod());
         static::assertSame('/v1/notifications/webhooks/webhookId', $last->getRequest()->getUri()->getPath());
@@ -94,11 +94,11 @@ class WebhookGatewayTest extends TestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response());
+        $this->client->addResponse(new Response());
 
         $this->gateways->webhookGateway()->deleteWebhook('webhookId', $context);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('DELETE', $last->getRequest()->getMethod());
         static::assertSame('/v1/notifications/webhooks/webhookId', $last->getRequest()->getUri()->getPath());

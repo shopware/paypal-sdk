@@ -70,7 +70,7 @@ class AbstractGatewayTest extends TestCase
         );
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response(body: \json_encode((new Order())->assign(['id' => 'some-order-id']), \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode((new Order())->assign(['id' => 'some-order-id']), \JSON_THROW_ON_ERROR)));
 
         $order = $this->gateway->testPost(
             $body,
@@ -81,7 +81,7 @@ class AbstractGatewayTest extends TestCase
         static::assertInstanceOf(Order::class, $order);
         static::assertSame('some-order-id', $order->getId());
 
-        $request = $this->client->last()?->getRequest();
+        $request = $this->client->getLast()?->getRequest();
         static::assertNotNull($request);
 
         static::assertJsonStringEqualsJsonString(\json_encode($body, \JSON_THROW_ON_ERROR), (string) $request->getBody());
@@ -109,7 +109,7 @@ class AbstractGatewayTest extends TestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response());
+        $this->client->addResponse(new Response());
 
         $order = $this->gateway->testPost(
             null,
@@ -119,7 +119,7 @@ class AbstractGatewayTest extends TestCase
 
         static::assertNull($order);
 
-        $request = $this->client->last()?->getRequest();
+        $request = $this->client->getLast()?->getRequest();
         static::assertNotNull($request);
 
         static::assertSame('', (string) $request->getBody());
@@ -145,7 +145,7 @@ class AbstractGatewayTest extends TestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
 
         $this->gateways->setCachedToken($context);
-        $this->client->add(new Response());
+        $this->client->addResponse(new Response());
 
         static::expectException(ApiException::class);
         static::expectExceptionMessage('The error "UNKNOWN" occurred with the following message: OK.');

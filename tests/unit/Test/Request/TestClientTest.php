@@ -47,7 +47,7 @@ class TestClientTest extends TestCase
 
         $this->gateways->orderGateway()->createOrder($order, $context);
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
 
         static::assertSame(OrderGateway::class, $last->getGatewayClass());
@@ -108,27 +108,27 @@ class TestClientTest extends TestCase
         $order = (new Order())->assign(['id' => 'some-order-id']);
         $this->gateways->orderGateway()->createOrder($order, $context);
 
-        $first = $this->client->first();
+        $first = $this->client->getFirst();
         static::assertNotNull($first);
         static::assertSame('GET', $first->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/order-id', $first->getRequest()->getUri()->getPath());
 
-        $last = $this->client->last();
+        $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders', $last->getRequest()->getUri()->getPath());
 
-        $firstPatch = $this->client->firstWhere(static fn (TestRequestContext $context) => $context->getRequest()->getMethod() === 'PATCH');
+        $firstPatch = $this->client->getFirstWhere(static fn (TestRequestContext $context) => $context->getRequest()->getMethod() === 'PATCH');
         static::assertNotNull($firstPatch);
         static::assertSame('PATCH', $firstPatch->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/patch-order-id-1', $firstPatch->getRequest()->getUri()->getPath());
 
-        $lastPatch = $this->client->lastWhere(static fn (TestRequestContext $context) => $context->getRequest()->getMethod() === 'PATCH');
+        $lastPatch = $this->client->getLastWhere(static fn (TestRequestContext $context) => $context->getRequest()->getMethod() === 'PATCH');
         static::assertNotNull($lastPatch);
         static::assertSame('PATCH', $lastPatch->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/patch-order-id-2', $lastPatch->getRequest()->getUri()->getPath());
 
-        $all = $this->client->all();
+        $all = $this->client->getAll();
         static::assertCount(4, $all);
         static::assertSame('/v2/checkout/orders/order-id', $all[0]->getRequest()->getUri()->getPath());
         static::assertSame('/v2/checkout/orders/patch-order-id-1', $all[1]->getRequest()->getUri()->getPath());
@@ -140,8 +140,8 @@ class TestClientTest extends TestCase
         static::assertSame('/v2/checkout/orders/patch-order-id-2', $this->client->get(2)?->getRequest()->getUri()->getPath());
         static::assertSame('/v2/checkout/orders', $this->client->get(3)?->getRequest()->getUri()->getPath());
 
-        $this->client->reset();
-        static::assertEmpty($this->client->all());
+        $this->client->resetRequests();
+        static::assertEmpty($this->client->getAll());
     }
 
     protected function orderGatewayHandler(TestRequestContext $context): ?Response

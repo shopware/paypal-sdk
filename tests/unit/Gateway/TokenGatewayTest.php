@@ -36,7 +36,7 @@ class TokenGatewayTest extends TestCase
 
     public function testGetToken(): void
     {
-        $this->client->add(new Response(200, [], \json_encode([
+        $this->client->addResponse(new Response(200, [], \json_encode([
             'access_token' => 'some-cached-access-token',
             'expires_in' => 36000,
         ]) ?: null));
@@ -49,7 +49,7 @@ class TokenGatewayTest extends TestCase
         $token = $this->gateways->tokenGateway()->getToken($context);
         static::assertSame('some-cached-access-token', $token->getAccessToken());
 
-        $request = $this->client->last()?->getRequest();
+        $request = $this->client->getLast()?->getRequest();
         static::assertNotNull($request);
 
         static::assertSame('POST', $request->getMethod());
@@ -64,7 +64,7 @@ class TokenGatewayTest extends TestCase
 
     public function testGetTokenWithoutResponse(): void
     {
-        $this->client->add(new Response(200));
+        $this->client->addResponse(new Response(200));
 
         $context = new ApiContext(
             new CredentialsOAuthContext('client-id', 'client-secret'),
