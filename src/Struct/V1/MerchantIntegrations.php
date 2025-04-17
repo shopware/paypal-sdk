@@ -22,6 +22,9 @@ class MerchantIntegrations extends Struct
     #[OA\Property(type: 'string')]
     protected string $merchantId;
 
+    #[OA\Property(type: 'string')]
+    protected string $trackingId;
+
     #[OA\Property(type: 'array', items: new OA\Items(ref: Product::class))]
     protected ProductCollection $products;
 
@@ -55,6 +58,16 @@ class MerchantIntegrations extends Struct
     public function setMerchantId(string $merchantId): void
     {
         $this->merchantId = $merchantId;
+    }
+
+    public function getTrackingId(): string
+    {
+        return $this->trackingId;
+    }
+
+    public function setTrackingId(string $trackingId): void
+    {
+        $this->trackingId = $trackingId;
     }
 
     public function getProducts(): ProductCollection
