@@ -22,6 +22,9 @@ class RequestService implements RequestServiceInterface
         protected readonly Psr17Factory $factory = new Psr17Factory(),
     ) {}
 
+    /**
+     * @throws \LogicException
+     */
     public function createRequest(string $method, string $path, ApiContextInterface $context): RequestInterface
     {
         $uri = $this->factory
@@ -94,6 +97,9 @@ class RequestService implements RequestServiceInterface
         return null;
     }
 
+    /**
+     * @throws \LogicException
+     */
     protected function getAuthAssertion(ApiContextInterface $context): ?string
     {
         if (!$context->isThirdParty()) {
@@ -104,6 +110,10 @@ class RequestService implements RequestServiceInterface
 
         if (!$oauthContext instanceof CredentialsOAuthContextInterface) {
             return null;
+        }
+
+        if (!$context->getMerchantId()) {
+            throw new \LogicException('ApiContext is flagged as third party, but misses a merchant id.');
         }
 
         $payload = [

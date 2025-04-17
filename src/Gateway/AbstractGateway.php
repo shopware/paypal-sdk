@@ -15,7 +15,6 @@ use Shopware\PayPalSDK\Contract\Gateway\GatewayInterface;
 use Shopware\PayPalSDK\Contract\Gateway\TokenGatewayInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
 use Shopware\PayPalSDK\Exception\ApiException;
-use Shopware\PayPalSDK\Exception\ExceptionFactory;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\Struct;
@@ -33,7 +32,7 @@ abstract class AbstractGateway implements GatewayInterface
      *
      * @param class-string<T>|null $responseClass
      *
-     * @throws ApiException|ClientExceptionInterface|\JsonException
+     * @throws ApiException|ClientExceptionInterface|\JsonException|\LogicException
      *
      * @return ($responseClass is null ? null : T)
      */
@@ -53,7 +52,7 @@ abstract class AbstractGateway implements GatewayInterface
 
         if ($responseClass) {
             if ($content === null) {
-                throw ExceptionFactory::createFromResponse($response);
+                throw new \LogicException('Expected response content for deserializing into ' . $responseClass);
             }
 
             return Struct::from($responseClass, $content);

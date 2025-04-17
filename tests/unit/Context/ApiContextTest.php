@@ -98,6 +98,18 @@ class ApiContextTest extends TestCase
         static::assertSame('anotherMerchantId', $newContext->getMerchantId());
     }
 
+    public function testWithMerchantIdEmptyString(): void
+    {
+        $oauthContext = new CredentialsOAuthContext('', '');
+        $context = new ApiContext($oauthContext, true, '');
+
+        $newContext = $context->withMerchantId('anotherMerchantId');
+
+        static::assertNotSame($context, $newContext);
+        static::assertNull($context->getMerchantId());
+        static::assertSame('anotherMerchantId', $newContext->getMerchantId());
+    }
+
     public function testWithHeader(): void
     {
         $headers = ['paypal-header' => 'header-value'];

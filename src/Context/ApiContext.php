@@ -23,6 +23,9 @@ class ApiContext implements ApiContextInterface
     /** @var array<string, string> */
     protected readonly array $queryParameters;
 
+    /** @var non-empty-string|null */
+    protected readonly ?string $merchantId;
+
     /**
      * @param T $oauthContext
      * @param array<string, ?string> $headers
@@ -31,11 +34,12 @@ class ApiContext implements ApiContextInterface
     public function __construct(
         protected readonly OAuthContextInterface $oauthContext,
         protected readonly bool $sandbox,
-        protected readonly string $merchantId = '',
+        ?string $merchantId = null,
         array $headers = [],
         array $queryParameters = [],
         protected readonly bool $thirdParty = false,
     ) {
+        $this->merchantId = $merchantId ?: null;
         $this->queryParameters = \array_filter($queryParameters, static fn (?string $value): bool => $value !== null);
 
         $headers = \array_filter($headers, static fn (?string $value): bool => $value !== null);
@@ -55,7 +59,7 @@ class ApiContext implements ApiContextInterface
         return $this->sandbox;
     }
 
-    public function getMerchantId(): string
+    public function getMerchantId(): ?string
     {
         return $this->merchantId;
     }
@@ -87,7 +91,7 @@ class ApiContext implements ApiContextInterface
         return new self(...[...get_object_vars($this), 'sandbox' => $sandbox]);
     }
 
-    public function withMerchantId(string $merchantId): static
+    public function withMerchantId(?string $merchantId): static
     {
         /** @phpstan-ignore-next-line argument.missing - will work */
         return new self(...[...get_object_vars($this), 'merchantId' => $merchantId]);
