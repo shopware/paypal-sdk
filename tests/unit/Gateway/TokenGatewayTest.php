@@ -7,11 +7,7 @@
 
 namespace Shopware\PayPalSDK\Tests\Unit\Gateway;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Http\Adapter\Guzzle7\Client as Guzzle7Client;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
@@ -19,7 +15,8 @@ use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Gateway\TokenGateway;
 use Shopware\PayPalSDK\Struct\V1\Token;
-use Shopware\PayPalSDK\Util\TokenArrayCache;
+use Shopware\PayPalSDK\Test\Gateway\TestGateways;
+use Shopware\PayPalSDK\Test\Request\TestClient;
 
 /**
  * @internal
@@ -27,25 +24,19 @@ use Shopware\PayPalSDK\Util\TokenArrayCache;
 #[CoversClass(TokenGateway::class)]
 class TokenGatewayTest extends TestCase
 {
-    protected MockHandler $handler;
+    protected TestClient $client;
 
-    protected Client $client;
-
-    protected TokenArrayCache $cache;
-
-    protected TokenGateway $gateway;
+    protected TestGateways $gateways;
 
     protected function setUp(): void
     {
-        $this->handler = new MockHandler();
-        $this->client = new Client(['handler' => HandlerStack::create($this->handler)]);
-        $this->cache = new TokenArrayCache();
-        $this->gateway = new TokenGateway(new Guzzle7Client($this->client), $this->cache);
+        $this->client = new TestClient();
+        $this->gateways = new TestGateways($this->client);
     }
 
     public function testGetToken(): void
     {
-        $this->handler->append(new Response(200, [], \json_encode([
+        $this->client->addResponse(new Response(200, [], \json_encode([
             'access_token' => 'some-cached-access-token',
             'expires_in' => 36000,
         ]) ?: null));
@@ -55,10 +46,10 @@ class TokenGatewayTest extends TestCase
             true,
         );
 
-        $token = $this->gateway->getToken($context);
+        $token = $this->gateways->tokenGateway()->getToken($context);
         static::assertSame('some-cached-access-token', $token->getAccessToken());
 
-        $request = $this->handler->getLastRequest();
+        $request = $this->client->getLast()?->getRequest();
         static::assertNotNull($request);
 
         static::assertSame('POST', $request->getMethod());
@@ -68,12 +59,12 @@ class TokenGatewayTest extends TestCase
 
         $key = $context->getOAuthContext()->getCacheKey($context);
         static::assertNotNull($key);
-        static::assertSame($token, $this->cache->get($key));
+        static::assertSame($token, $this->gateways->getTokenCache()->get($key));
     }
 
     public function testGetTokenWithoutResponse(): void
     {
-        $this->handler->append(new Response(200));
+        $this->client->addResponse(new Response(200));
 
         $context = new ApiContext(
             new CredentialsOAuthContext('client-id', 'client-secret'),
@@ -83,7 +74,7 @@ class TokenGatewayTest extends TestCase
         static::expectException(ApiException::class);
         static::expectExceptionMessage('The error "UNKNOWN" occurred with the following message: OK.');
 
-        $this->gateway->getToken($context);
+        $this->gateways->tokenGateway()->getToken($context);
     }
 
     public function testGetCachedToken(): void
@@ -99,8 +90,8 @@ class TokenGatewayTest extends TestCase
 
         $key = $context->getOAuthContext()->getCacheKey($context);
         static::assertNotNull($key);
-        $this->cache->set($key, $token, $token->getExpiresIn());
+        $this->gateways->getTokenCache()->set($key, $token, $token->getExpiresIn());
 
-        static::assertSame($token, $this->gateway->getToken($context));
+        static::assertSame($token, $this->gateways->tokenGateway()->getToken($context));
     }
 }

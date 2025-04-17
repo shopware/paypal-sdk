@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Tests\Unit\Gateway;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\CustomerGateway;
@@ -16,25 +17,23 @@ use Shopware\PayPalSDK\Struct\V1\Disputes;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use Shopware\PayPalSDK\Struct\V2\Referral;
+use Shopware\PayPalSDK\Test\Gateway\TestGateways;
+use Shopware\PayPalSDK\Test\Request\TestClient;
 
 /**
  * @internal
- *
- * @extends AbstractGatewayTestCase<CustomerGateway>
  */
 #[CoversClass(CustomerGateway::class)]
-class CustomerGatewayTest extends AbstractGatewayTestCase
+class CustomerGatewayTest extends TestCase
 {
-    protected CustomerGateway $gateway;
+    protected TestClient $client;
+
+    protected TestGateways $gateways;
 
     protected function setUp(): void
     {
-        $this->gateway = new CustomerGateway($this->client, $this->tokenGateway);
-    }
-
-    protected function gatewayClass(): string
-    {
-        return CustomerGateway::class;
+        $this->client = new TestClient();
+        $this->gateways = new TestGateways($this->client);
     }
 
     public function testGetMerchantIntegrations(): void
@@ -42,13 +41,16 @@ class CustomerGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new MerchantIntegrations())->assign(['id' => 'merchant-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->getMerchantIntegrations('partnerId', $context);
+        $response = $this->gateways->customerGateway()->getMerchantIntegrations('partnerId', $context);
         static::assertEquals($body, $response);
-        static::assertSame('GET', $this->getLast()->getMethod());
-        static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/merchant-id', $this->getLast()->getUri()->getPath());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/merchant-id', $last->getRequest()->getUri()->getPath());
     }
 
     public function testGetDisputes(): void
@@ -56,13 +58,16 @@ class CustomerGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Disputes())->assign(['items' => [['dispute_id' => 'some-dispute-id']]]);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->getDisputes($context);
+        $response = $this->gateways->customerGateway()->getDisputes($context);
         static::assertEquals($body, $response);
-        static::assertSame('GET', $this->getLast()->getMethod());
-        static::assertSame('/v1/customer/disputes', $this->getLast()->getUri()->getPath());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/disputes', $last->getRequest()->getUri()->getPath());
     }
 
     public function testGetDispute(): void
@@ -70,30 +75,35 @@ class CustomerGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Item())->assign(['dispute_id' => 'some-dispute-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->getDispute('some-dispute-id', $context);
+        $response = $this->gateways->customerGateway()->getDispute('some-dispute-id', $context);
         static::assertEquals($body, $response);
-        static::assertSame('GET', $this->getLast()->getMethod());
-        static::assertSame('/v1/customer/disputes/some-dispute-id', $this->getLast()->getUri()->getPath());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/disputes/some-dispute-id', $last->getRequest()->getUri()->getPath());
     }
 
     public function testGetCredentials(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = ['client_id' => 'some-client-id', 'client_secret' => 'some-client-secret', 'payer_id' => 'some-payer-id'];
-        $json = \json_encode($body, \JSON_THROW_ON_ERROR);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->handler->append(new Response(body: $json));
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->getCredentials('partnerId', $context);
+        $response = $this->gateways->customerGateway()->getCredentials('partnerId', $context);
         static::assertSame($body['client_id'], $response->getClientId());
         static::assertSame($body['client_secret'], $response->getClientSecret());
         static::assertSame($body['payer_id'], $response->getPayerId());
-        static::assertSame('GET', $this->getLast()->getMethod());
-        static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/credentials', $this->getLast()->getUri()->getPath());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/partners/partnerId/merchant-integrations/credentials', $last->getRequest()->getUri()->getPath());
     }
 
     public function testCreatePartnerReferral(): void
@@ -101,13 +111,16 @@ class CustomerGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Referral())->assign(['tracking_id' => 'tracking-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->createPartnerReferral($body, $context);
+        $response = $this->gateways->customerGateway()->createPartnerReferral($body, $context);
         static::assertEquals($body, $response);
-        static::assertSame('POST', $this->getLast()->getMethod());
-        static::assertSame('/v2/customer/partner-referrals', $this->getLast()->getUri()->getPath());
-        static::assertSame(\json_encode($body), (string) $this->getLast()->getBody());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v2/customer/partner-referrals', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }
 }

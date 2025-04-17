@@ -9,31 +9,30 @@ namespace Shopware\PayPalSDK\Tests\Unit\Gateway;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\Tracker;
 use Shopware\PayPalSDK\Struct\V2\PatchCollection;
+use Shopware\PayPalSDK\Test\Gateway\TestGateways;
+use Shopware\PayPalSDK\Test\Request\TestClient;
 
 /**
  * @internal
- *
- * @extends AbstractGatewayTestCase<OrderGateway>
  */
 #[CoversClass(OrderGateway::class)]
-class OrderGatewayTest extends AbstractGatewayTestCase
+class OrderGatewayTest extends TestCase
 {
-    protected OrderGateway $gateway;
+    protected TestClient $client;
+
+    protected TestGateways $gateways;
 
     protected function setUp(): void
     {
-        $this->gateway = new OrderGateway($this->client, $this->tokenGateway);
-    }
-
-    protected function gatewayClass(): string
-    {
-        return OrderGateway::class;
+        $this->client = new TestClient();
+        $this->gateways = new TestGateways($this->client);
     }
 
     public function testCreateOrder(): void
@@ -41,14 +40,17 @@ class OrderGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Order())->assign(['id' => 'some-order-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->createOrder($body, $context);
+        $response = $this->gateways->orderGateway()->createOrder($body, $context);
         static::assertEquals($body, $response);
-        static::assertSame('POST', $this->getLast()->getMethod());
-        static::assertSame('/v2/checkout/orders', $this->getLast()->getUri()->getPath());
-        static::assertSame(\json_encode($body), (string) $this->getLast()->getBody());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v2/checkout/orders', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }
 
     public function testGetOrder(): void
@@ -56,13 +58,16 @@ class OrderGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Order())->assign(['id' => 'some-order-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->getOrder('orderId', $context);
+        $response = $this->gateways->orderGateway()->getOrder('orderId', $context);
         static::assertEquals($body, $response);
-        static::assertSame('GET', $this->getLast()->getMethod());
-        static::assertSame('/v2/checkout/orders/orderId', $this->getLast()->getUri()->getPath());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v2/checkout/orders/orderId', $last->getRequest()->getUri()->getPath());
     }
 
     public function testAuthorizeOrder(): void
@@ -70,14 +75,17 @@ class OrderGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Order())->assign(['id' => 'some-order-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->authorizeOrder('orderId', $context);
+        $response = $this->gateways->orderGateway()->authorizeOrder('orderId', $context);
         static::assertEquals($body, $response);
-        static::assertSame('POST', $this->getLast()->getMethod());
-        static::assertSame('/v2/checkout/orders/orderId/authorize', $this->getLast()->getUri()->getPath());
-        static::assertSame('', (string) $this->getLast()->getBody());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v2/checkout/orders/orderId/authorize', $last->getRequest()->getUri()->getPath());
+        static::assertSame('', (string) $last->getRequest()->getBody());
     }
 
     public function testCaptureOrder(): void
@@ -85,14 +93,17 @@ class OrderGatewayTest extends AbstractGatewayTestCase
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Order())->assign(['id' => 'some-order-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->captureOrder('orderId', $context);
+        $response = $this->gateways->orderGateway()->captureOrder('orderId', $context);
         static::assertEquals($body, $response);
-        static::assertSame('POST', $this->getLast()->getMethod());
-        static::assertSame('/v2/checkout/orders/orderId/capture', $this->getLast()->getUri()->getPath());
-        static::assertSame('', (string) $this->getLast()->getBody());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v2/checkout/orders/orderId/capture', $last->getRequest()->getUri()->getPath());
+        static::assertSame('', (string) $last->getRequest()->getBody());
     }
 
     public function testPatchOrder(): void
@@ -103,13 +114,16 @@ class OrderGatewayTest extends AbstractGatewayTestCase
             'path' => '/some/path',
         ]]);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->handler->append(new Response());
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response());
 
-        $this->gateway->patchOrder('orderId', $body, $context);
-        static::assertSame('PATCH', $this->getLast()->getMethod());
-        static::assertSame('/v2/checkout/orders/orderId', $this->getLast()->getUri()->getPath());
-        static::assertSame(\json_encode($body), (string) $this->getLast()->getBody());
+        $this->gateways->orderGateway()->patchOrder('orderId', $body, $context);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('PATCH', $last->getRequest()->getMethod());
+        static::assertSame('/v2/checkout/orders/orderId', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }
 
     public function testAddTracker(): void
@@ -118,14 +132,17 @@ class OrderGatewayTest extends AbstractGatewayTestCase
         $body = (new Tracker())->assign(['tracking_number' => '1000']);
         $order = (new Order())->assign(['id' => 'some-order-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($order);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($order, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateway->addTracker($body, 'orderId', $context);
+        $response = $this->gateways->orderGateway()->addTracker($body, 'orderId', $context);
         static::assertEquals($order, $response);
-        static::assertSame('POST', $this->getLast()->getMethod());
-        static::assertSame('/v2/checkout/orders/orderId/track', $this->getLast()->getUri()->getPath());
-        static::assertSame(\json_encode($body), (string) $this->getLast()->getBody());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v2/checkout/orders/orderId/track', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($body, \JSON_THROW_ON_ERROR), (string) $last->getRequest()->getBody());
     }
 
     public function testRemoveTracker(): void
@@ -139,13 +156,16 @@ class OrderGatewayTest extends AbstractGatewayTestCase
         ]]);
         $tracker = (new Tracker())->assign(['tracking_number' => '1000', 'capture_id' => 'some-capture-id']);
 
-        $this->setCachedToken($context, $this->getValidToken());
-        $this->addStructResponse($body);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $this->gateway->removeTracker($tracker, 'orderId', $context);
-        static::assertEquals(\json_encode($patch), $this->getLast()->getBody());
-        static::assertSame('PATCH', $this->getLast()->getMethod());
-        static::assertSame('/v2/checkout/orders/orderId/trackers/some-capture-id-1000', $this->getLast()->getUri()->getPath());
-        static::assertSame(\json_encode($patch), (string) $this->getLast()->getBody());
+        $this->gateways->orderGateway()->removeTracker($tracker, 'orderId', $context);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertEquals(\json_encode($patch), $last->getRequest()->getBody());
+        static::assertSame('PATCH', $last->getRequest()->getMethod());
+        static::assertSame('/v2/checkout/orders/orderId/trackers/some-capture-id-1000', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($patch), (string) $last->getRequest()->getBody());
     }
 }
