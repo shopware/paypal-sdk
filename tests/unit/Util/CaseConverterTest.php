@@ -36,5 +36,6 @@ class CaseConverterTest extends TestCase
         yield ['_fooBar', '_foo_bar'];
         yield ['fooBar_', 'foo_bar_'];
         yield ['fooBar2', 'foo_bar_2'];
+        yield ['p24', 'p_2_4'];
     }
 }
