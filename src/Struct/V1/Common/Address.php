@@ -103,4 +103,16 @@ class Address extends Struct
     {
         $this->phone = $phone;
     }
+
+    public function jsonSerialize(): array
+    {
+        $data = parent::jsonSerialize();
+        unset($data['line_1'], $data['line_2']);
+
+        return [
+            ...$data,
+            ...($this->isset('line1') ? ['line1' => $this->line1] : []),
+            'line2' => $this->line2,
+        ];
+    }
 }
