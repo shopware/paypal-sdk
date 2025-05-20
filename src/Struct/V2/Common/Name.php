@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_common_name')]
 class Name extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 140)]
     protected string $givenName;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 140)]
     protected string $surname;
 
     public function getGivenName(): string
