@@ -47,6 +47,7 @@ class PurchaseUnit extends Struct
     #[OA\Property(ref: Payments::class, nullable: true)]
     protected ?Payments $payments = null;
 
+    #[OA\Property(ref: SupplementaryData::class)]
     protected SupplementaryData $supplementaryData;
 
     public function getReferenceId(): string
