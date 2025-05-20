@@ -15,6 +15,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ItemCollection;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payee;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData;
 
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit')]
 class PurchaseUnit extends Struct
@@ -45,6 +46,8 @@ class PurchaseUnit extends Struct
 
     #[OA\Property(ref: Payments::class, nullable: true)]
     protected ?Payments $payments = null;
+
+    protected SupplementaryData $supplementaryData;
 
     public function getReferenceId(): string
     {
@@ -134,5 +137,15 @@ class PurchaseUnit extends Struct
     public function setPayments(?Payments $payments): void
     {
         $this->payments = $payments;
+    }
+
+    public function getSupplementaryData(): SupplementaryData
+    {
+        return $this->supplementaryData;
+    }
+
+    public function setSupplementaryData(SupplementaryData $supplementaryData): void
+    {
+        $this->supplementaryData = $supplementaryData;
     }
 }
