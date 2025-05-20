@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Link;
 use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
-use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\LineItem;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Item;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ItemCollection;
 
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_tracker')]
@@ -32,7 +32,7 @@ class Tracker extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: LineItem::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]
     protected ItemCollection $items;
 
     public function getId(): string
