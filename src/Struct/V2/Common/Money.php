@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_common_money')]
 class Money extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 3, minLength: 3)]
     protected string $currencyCode;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 30)]
     protected string $value;
 
     public function getCurrencyCode(): string

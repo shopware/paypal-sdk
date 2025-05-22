@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_common_phone_number')]
 class PhoneNumber extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 3, minLength: 1)]
     protected string $nationalNumber;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 14, minLength: 1)]
     protected string $countryCode;
 
     public function getNationalNumber(): string

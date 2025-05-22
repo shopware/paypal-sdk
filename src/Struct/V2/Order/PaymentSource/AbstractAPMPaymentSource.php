@@ -11,10 +11,10 @@ use OpenApi\Attributes as OA;
 
 abstract class AbstractAPMPaymentSource extends AbstractPaymentSource
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 300, minLength: 3)]
     protected string $name;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 2, minLength: 2)]
     protected string $countryCode;
 
     public function getName(): string
