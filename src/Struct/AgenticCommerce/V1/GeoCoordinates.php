@@ -1,0 +1,64 @@
+<?php declare(strict_types=1);
+/*
+ * (c) shopware AG <info@shopware.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
+
+use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Struct;
+
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_geo_coordinates')]
+class GeoCoordinates extends Struct
+{
+    /**
+     * Latitude coordinate in decimal degrees (-90 to 90). WGS84 datum.
+     *
+     * pattern: ^-?([1-8]?[0-9](\.\d+)?|90(\.0+)?)$
+     */
+    #[OA\Property(
+        type: 'string',
+        pattern: '^-?([1-8]?[0-9](\.\d+)?|90(\.0+)?)$'
+    )]
+    protected string $latitude;
+
+    /**
+     * Longitude coordinate in decimal degrees (-180 to 180). WGS84 datum.
+     *
+     * pattern: ^-?((1[0-7]|[1-9])?[0-9](\.\d+)?|180(\.0+)?)$
+     */
+    #[OA\Property(
+        type: 'string',
+        pattern: '^-?((1[0-7]|[1-9])?[0-9](\.\d+)?|180(\.0+)?)$'
+    )]
+    protected string $longitude;
+
+    /**
+     * Administrative subdivision code (state, province, region).
+     * ISO 3166-2 format without country prefix (e.g., 'CA' for California, 'ON' for Ontario).
+     *
+     * minLength: 1
+     * maxLength: 10
+     * pattern: ^[A-Z0-9-]+$
+     */
+    #[OA\Property(
+        type: 'string',
+        maxLength: 10,
+        minLength: 1,
+        pattern: '^[A-Z0-9-]+$'
+    )]
+    protected string $subdivision;
+
+    /**
+     * ISO 3166-1 alpha-2 country code for the coordinate location.
+     */
+    #[OA\Property(
+        type: 'string',
+        maxLength: 2,
+        minLength: 2,
+        pattern: '^[A-Z]{2}$'
+    )]
+    protected string $countryCode;
+}

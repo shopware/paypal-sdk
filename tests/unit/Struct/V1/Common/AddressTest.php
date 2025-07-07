@@ -21,13 +21,13 @@ class AddressTest extends TestCase
     /**
      * @param array<string, string|null> $data
      */
-    #[DataProvider('jsonSerializeProvider')]
+    #[DataProvider('provideJsonSerialize')]
     public function testJsonSerialize(array $data): void
     {
         static::assertSame($data, (new Address())->assign($data)->jsonSerialize());
     }
 
-    public static function jsonSerializeProvider(): \Generator
+    public static function provideJsonSerialize(): \Generator
     {
         yield [[
             'city' => 'some-city',

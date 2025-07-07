@@ -1,0 +1,67 @@
+<?php declare(strict_types=1);
+/*
+ * (c) shopware AG <info@shopware.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
+
+use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Struct;
+
+#[OA\Schema(
+    schema: 'paypal_agentic_commerce_v1_phone',
+    required: ['countryCode', 'nationalNumber']
+)]
+class Phone extends Struct
+{
+    /**
+     * The country calling code (CC), in its canonical international E.164 numbering plan format.
+     * The combined length of the CC and the national number must not be greater than 15 digits.
+     * The national number consists of a national destination code (NDC) and subscriber number (SN)
+     *
+     * minLength: 1
+     * maxLength: 3
+     * pattern: ^[0-9]{1,3}?$
+     */
+    #[OA\Property(
+        type: 'string',
+        maxLength: 3,
+        minLength: 1,
+        pattern: '^[0-9]{1,3}?$'
+    )]
+    protected string $countryCode;
+
+    /**
+     * The national number, in its canonical international E.164 numbering plan format.
+     * The combined length of the country calling code (CC) and the national number must not be greater than 15 digits.
+     * The national number consists of a national destination code (NDC) and subscriber number (SN).
+     *
+     * minLength: 1
+     * maxLength: 14
+     * pattern: ^[0-9]{1,14}?$
+     */
+    #[OA\Property(
+        type: 'string',
+        maxLength: 14,
+        minLength: 1,
+        pattern: '^[0-9]{1,14}?$'
+    )]
+    protected string $nationalNumber;
+
+    /**
+     * The extension number
+     *
+     * minLength: 1
+     * maxLength: 15
+     * pattern: ^[0-9]{1,15}?$
+     */
+    #[OA\Property(
+        type: 'string',
+        maxLength: 15,
+        minLength: 1,
+        pattern: '^[0-9]{1,15}?$'
+    )]
+    protected string $extensionNumber;
+}
