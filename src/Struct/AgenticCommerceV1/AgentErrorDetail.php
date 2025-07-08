@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @internal
  */
-class PayPalAgentErrorDetail extends Struct
+class AgentErrorDetail extends Struct
 {
     protected string $field;
 

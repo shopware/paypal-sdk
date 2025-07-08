@@ -12,12 +12,12 @@ use Shopware\PayPalSDK\Struct\Collection;
 /**
  * @internal
  *
- * @extends Collection<PayPalAgentErrorDetail>
+ * @extends Collection<AgentErrorDetail>
  */
-class PayPalAgentErrorDetailCollection extends Collection
+class AgentErrorDetailCollection extends Collection
 {
     public static function getExpectedClass(): string
     {
-        return PayPalAgentErrorDetail::class;
+        return AgentErrorDetail::class;
     }
 }

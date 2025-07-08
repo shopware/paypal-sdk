@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @internal
  */
-class PayPalAgentError extends Struct
+class AgentError extends Struct
 {
     protected string $name;
 
@@ -22,7 +22,7 @@ class PayPalAgentError extends Struct
 
     protected ?string $debugId = null;
 
-    protected ?PayPalAgentErrorDetailCollection $details = null;
+    protected ?AgentErrorDetailCollection $details = null;
 
     public function getName(): string
     {
@@ -64,12 +64,12 @@ class PayPalAgentError extends Struct
         $this->debugId = $debugId;
     }
 
-    public function getDetails(): ?PayPalAgentErrorDetailCollection
+    public function getDetails(): ?AgentErrorDetailCollection
     {
         return $this->details;
     }
 
-    public function setDetails(?PayPalAgentErrorDetailCollection $details): void
+    public function setDetails(?AgentErrorDetailCollection $details): void
     {
         $this->details = $details;
     }
