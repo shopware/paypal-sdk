@@ -7,8 +7,8 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
-use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\ValueInterface;
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\ValueInterface;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**

@@ -79,7 +79,7 @@ class CartItem extends Struct
     #[OA\Property(
         type: 'array',
         items: new OA\Items(
-            required: ['name', 'value','price_modifier'],
+            required: ['name', 'value', 'price_modifier'],
             properties: [
                 new OA\Property(property: 'name', type: 'string'),
                 new OA\Property(property: 'value', type: 'string'),

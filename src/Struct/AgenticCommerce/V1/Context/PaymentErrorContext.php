@@ -8,75 +8,76 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
 use OpenApi\Attributes as OA;
-use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_payment_error_context')]
-class PaymentErrorContext extends Struct implements ContextInterface
+class PaymentErrorContext extends AbstractContext
 {
-    /**
-     * Specific payment issue type
-     *
-     * Enum: [ PAYMENT_AMOUNT_TOO_LARGE, PAYMENT_AMOUNT_TOO_SMALL, PAYMENT_METHOD_NOT_ACCEPTED, CURRENCY_CONVERSION_FAILED, PAYMENT_PROCESSOR_UNAVAILABLE, MERCHANT_ACCOUNT_ISSUE, PAYMENT_DECLINED, PAYMENT_INSUFFICIENT_FUNDS, PAYMENT_EXPIRED, PAYMENT_FRAUD_DETECTED ]
-     */
-    #[OA\Property(
-        type: 'string',
-        enum: ['PAYMENT_AMOUNT_TOO_LARGE', 'PAYMENT_AMOUNT_TOO_SMALL', 'PAYMENT_METHOD_NOT_ACCEPTED', 'CURRENCY_CONVERSION_FAILED', 'PAYMENT_PROCESSOR_UNAVAILABLE', 'MERCHANT_ACCOUNT_ISSUE', 'PAYMENT_DECLINED', 'PAYMENT_INSUFFICIENT_FUNDS', 'PAYMENT_EXPIRED', 'PAYMENT_FRAUD_DETECTED']
-    )]
-    protected string $specificIssue;
+    public const SPECIFIC_ISSUES = [
+        'PAYMENT_AMOUNT_TOO_LARGE' => 'PAYMENT_AMOUNT_TOO_LARGE',
+        'PAYMENT_AMOUNT_TOO_SMALL' => 'PAYMENT_AMOUNT_TOO_SMALL',
+        'PAYMENT_METHOD_NOT_ACCEPTED' => 'PAYMENT_METHOD_NOT_ACCEPTED',
+        'CURRENCY_CONVERSION_FAILED' => 'CURRENCY_CONVERSION_FAILED',
+        'PAYMENT_PROCESSOR_UNAVAILABLE' => 'PAYMENT_PROCESSOR_UNAVAILABLE',
+        'MERCHANT_ACCOUNT_ISSUE' => 'MERCHANT_ACCOUNT_ISSUE',
+        'PAYMENT_DECLINED' => 'PAYMENT_DECLINED',
+        'PAYMENT_INSUFFICIENT_FUNDS' => 'PAYMENT_INSUFFICIENT_FUNDS',
+        'PAYMENT_EXPIRED' => 'PAYMENT_EXPIRED',
+        'PAYMENT_FRAUD_DETECTED' => 'PAYMENT_FRAUD_DETECTED',
+    ];
 
     /**
      * Total order amount
      */
     #[OA\Property(type: 'string')]
-    protected string $orderTotal;
+    protected ?string $orderTotal = null;
 
     /**
      * Maximum payment limit
      */
     #[OA\Property(type: 'string')]
-    protected string $paymentLimit;
+    protected ?string $paymentLimit = null;
 
     /**
      * Minimum payment amount
      */
     #[OA\Property(type: 'string')]
-    protected string $minimumAmount;
+    protected ?string $minimumAmount = null;
 
     /**
      * Amount exceeding limit
      */
     #[OA\Property(type: 'string')]
-    protected string $excessAmount;
+    protected ?string $excessAmount = null;
 
     /**
      * Payment method being used
      */
     #[OA\Property(type: 'string')]
-    protected string $paymentMethod;
+    protected ?string $paymentMethod = null;
 
     /**
      * Transaction currency
      */
     #[OA\Property(type: 'string')]
-    protected string $currencyCode;
+    protected ?string $currencyCode = null;
 
     /**
      * Source currency for conversion
      */
     #[OA\Property(type: 'string')]
-    protected string $fromCurrency;
+    protected ?string $fromCurrency = null;
 
     /**
      * Target currency for conversion
      */
     #[OA\Property(type: 'string')]
-    protected string $toCurrency;
+    protected ?string $toCurrency = null;
 
     /**
      * Currency conversion service status
      */
     #[OA\Property(type: 'string')]
-    protected string $conversionService;
+    protected ?string $conversionService = null;
 
     /**
      * List of supported payment methods
@@ -87,23 +88,164 @@ class PaymentErrorContext extends Struct implements ContextInterface
         type: 'array',
         items: new OA\Items(type: 'string'),
     )]
-    protected array $supportedPaymentMethods;
+    protected ?array $supportedPaymentMethods = null;
 
     /**
      * Payment processor specific error code
      */
     #[OA\Property(type: 'string')]
-    protected string $processorErrorCode;
+    protected ?string $processorErrorCode = null;
 
     /**
      * Reason for payment decline
      */
     #[OA\Property(type: 'string')]
-    protected string $declineReason;
+    protected ?string $declineReason = null;
 
     /**
      * Payment token that was declined
      */
     #[OA\Property(type: 'string')]
-    protected string $paymentToken;
+    protected ?string $paymentToken = null;
+
+    public function getOrderTotal(): ?string
+    {
+        return $this->orderTotal;
+    }
+
+    public function setOrderTotal(?string $orderTotal): void
+    {
+        $this->orderTotal = $orderTotal;
+    }
+
+    public function getPaymentLimit(): ?string
+    {
+        return $this->paymentLimit;
+    }
+
+    public function setPaymentLimit(?string $paymentLimit): void
+    {
+        $this->paymentLimit = $paymentLimit;
+    }
+
+    public function getMinimumAmount(): ?string
+    {
+        return $this->minimumAmount;
+    }
+
+    public function setMinimumAmount(?string $minimumAmount): void
+    {
+        $this->minimumAmount = $minimumAmount;
+    }
+
+    public function getExcessAmount(): ?string
+    {
+        return $this->excessAmount;
+    }
+
+    public function setExcessAmount(?string $excessAmount): void
+    {
+        $this->excessAmount = $excessAmount;
+    }
+
+    public function getPaymentMethod(): ?string
+    {
+        return $this->paymentMethod;
+    }
+
+    public function setPaymentMethod(?string $paymentMethod): void
+    {
+        $this->paymentMethod = $paymentMethod;
+    }
+
+    public function getCurrencyCode(): ?string
+    {
+        return $this->currencyCode;
+    }
+
+    public function setCurrencyCode(?string $currencyCode): void
+    {
+        $this->currencyCode = $currencyCode;
+    }
+
+    public function getFromCurrency(): ?string
+    {
+        return $this->fromCurrency;
+    }
+
+    public function setFromCurrency(?string $fromCurrency): void
+    {
+        $this->fromCurrency = $fromCurrency;
+    }
+
+    public function getToCurrency(): ?string
+    {
+        return $this->toCurrency;
+    }
+
+    public function setToCurrency(?string $toCurrency): void
+    {
+        $this->toCurrency = $toCurrency;
+    }
+
+    public function getConversionService(): ?string
+    {
+        return $this->conversionService;
+    }
+
+    public function setConversionService(?string $conversionService): void
+    {
+        $this->conversionService = $conversionService;
+    }
+
+    /**
+     * @return ?string[]
+     */
+    public function getSupportedPaymentMethods(): ?array
+    {
+        return $this->supportedPaymentMethods;
+    }
+
+    /**
+     * @param ?string[] $supportedPaymentMethods
+     */
+    public function setSupportedPaymentMethods(?array $supportedPaymentMethods): void
+    {
+        $this->supportedPaymentMethods = $supportedPaymentMethods;
+    }
+
+    public function addSupportedPaymentMethod(string $supportedPaymentMethod): void
+    {
+        $this->supportedPaymentMethods[] = $supportedPaymentMethod;
+    }
+
+    public function getProcessorErrorCode(): ?string
+    {
+        return $this->processorErrorCode;
+    }
+
+    public function setProcessorErrorCode(?string $processorErrorCode): void
+    {
+        $this->processorErrorCode = $processorErrorCode;
+    }
+
+    public function getDeclineReason(): ?string
+    {
+        return $this->declineReason;
+    }
+
+    public function setDeclineReason(?string $declineReason): void
+    {
+        $this->declineReason = $declineReason;
+    }
+
+    public function getPaymentToken(): ?string
+    {
+        return $this->paymentToken;
+    }
+
+    public function setPaymentToken(?string $paymentToken): void
+    {
+        $this->paymentToken = $paymentToken;
+    }
 }

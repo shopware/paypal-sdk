@@ -54,7 +54,7 @@ class OpenAPISchemaTest extends TestCase
         $logger = new Logger('test', [$this->logHandler]);
 
         foreach (self::DIRS as $dir) {
-            self::assertDirectoryExists($dir);
+            static::assertDirectoryExists($dir);
         }
 
         $oa = Generator::scan(self::DIRS, [
