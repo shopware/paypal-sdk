@@ -10,6 +10,9 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
+/**
+ * @experimental
+ */
 #[OA\Schema(
     schema: 'paypal_agentic_commerce_v1_address',
     required: ['countryCode']
@@ -22,7 +25,6 @@ class Address extends Struct
      *
      * minLength: 0
      * maxLength: 300
-     * pattern: ^.*$
      */
     #[OA\Property(
         type: 'string',
@@ -45,7 +47,6 @@ class Address extends Struct
      *
      * minLength: 0
      * maxLength: 300
-     * pattern: ^.*$
      */
     #[OA\Property(
         type: 'string',
@@ -59,7 +60,6 @@ class Address extends Struct
      *
      * minLength: 0
      * maxLength: 120
-     * pattern: ^.*$
      * example: San Jose
      */
     #[OA\Property(
@@ -75,7 +75,6 @@ class Address extends Struct
      *
      * minLength: 0
      * maxLength: 60
-     * pattern: ^.*$
      */
     #[OA\Property(
         type: 'string',

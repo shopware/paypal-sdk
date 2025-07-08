@@ -9,6 +9,9 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
 use Shopware\PayPalSDK\Struct\Struct;
 
+/**
+ * @experimental
+ */
 abstract class AbstractContext extends Struct
 {
     public const SPECIFIC_ISSUES = [];

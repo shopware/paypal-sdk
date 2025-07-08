@@ -39,6 +39,8 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
  * Can be populated during cart creation if customer provides it
  * Falls back to shipping address when billing address is not specified
  * Merchants should handle graceful fallback scenarios
+ *
+ * @experimental
  */
 class BillingAddress extends Address
 {

@@ -9,6 +9,9 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
 use OpenApi\Attributes as OA;
 
+/**
+ * @experimental
+ */
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_payment_error_context')]
 class PaymentErrorContext extends AbstractContext
 {

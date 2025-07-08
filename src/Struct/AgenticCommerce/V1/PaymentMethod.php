@@ -11,6 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
+ * @experimental
+ */
+
+/**
  * Payment method information for PayPal Cart API. This API is specifically designed for PayPal's shopping cart service, so only PayPal payment methods are supported.
  *
  * Payment Flow:

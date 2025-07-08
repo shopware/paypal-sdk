@@ -10,12 +10,19 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
+/**
+ * @experimental
+ */
 #[OA\Schema(
     schema: 'paypal_agentic_commerce_v1_link',
     required: ['rel', 'href']
 )]
 class Link extends Struct
 {
+    public const REL__SELF = 'rel';
+    public const REL__UPDATE = 'update';
+    public const REL__CHECKOUT = 'checkout';
+
     /**
      * Link relationship type
      *
@@ -23,7 +30,7 @@ class Link extends Struct
      */
     #[OA\Property(
         type: 'string',
-        enum: ['self', 'update', 'checkout']
+        enum: [self::REL__SELF, self::REL__UPDATE, self::REL__CHECKOUT]
     )]
     protected string $rel;
 
@@ -63,7 +70,7 @@ class Link extends Struct
 
     public function setRel(string $rel): void
     {
-        if (!\in_array($rel, ['self', 'update', 'checkout'], true)) {
+        if (!\in_array($rel, [self::REL__SELF, self::REL__UPDATE, self::REL__CHECKOUT], true)) {
             throw new \InvalidArgumentException('Invalid rel option');
         }
 

@@ -7,6 +7,9 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
+/**
+ * @experimental
+ */
 #[OA\Schema(
     schema: 'paypal_agentic_commerce_v1_error',
     required: ['name', 'message']

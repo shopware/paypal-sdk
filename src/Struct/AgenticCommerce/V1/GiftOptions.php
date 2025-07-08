@@ -10,6 +10,10 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
+/**
+ * @experimental
+ */
+
 // TODO: should this be GiftOption? singular?
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_gift_options')]
 class GiftOptions extends Struct

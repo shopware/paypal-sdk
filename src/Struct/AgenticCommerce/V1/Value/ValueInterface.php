@@ -7,6 +7,9 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
+/**
+ * @experimental
+ */
 interface ValueInterface
 {
 }

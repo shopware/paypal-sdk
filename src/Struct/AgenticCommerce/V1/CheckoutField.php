@@ -12,6 +12,10 @@ use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\ValueInterface;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
+ * @experimental
+ */
+
+/**
  * PayPal-controlled checkout field for buyer data collection with structured values and validation.
  *
  * Field Lifecycle:
@@ -29,25 +33,48 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class CheckoutField extends Struct
 {
+    public const TYPE__AGE_VERIFICATION_18_PLUS = 'AGE_VERIFICATION_18_PLUS';
+    public const TYPE__AGE_VERIFICATION_21_PLUS = 'AGE_VERIFICATION_21_PLUS';
+    public const TYPE__GIFT_RECIPIENT_EMAIL = 'GIFT_RECIPIENT_EMAIL';
+    public const TYPE__GIFT_RECIPIENT_NAME = 'GIFT_RECIPIENT_NAME';
+    public const TYPE__GIFT_MESSAGE = 'GIFT_MESSAGE';
+    public const TYPE__DELIVERY_INSTRUCTIONS = 'DELIVERY_INSTRUCTIONS';
+    public const TYPE__DELIVERY_DATE_PREFERENCE = 'DELIVERY_DATE_PREFERENCE';
+    public const TYPE__ALLERGY_INFORMATION = 'ALLERGY_INFORMATION';
+    public const TYPE__CUSTOM_ENGRAVING_TEXT = 'CUSTOM_ENGRAVING_TEXT';
+    public const TYPE__CUSTOM_SIZING_INFO = 'CUSTOM_SIZING_INFO';
+    public const TYPE__TERMS_ACCEPTANCE = 'TERMS_ACCEPTANCE';
+    public const TYPE__PRIVACY_CONSENT = 'PRIVACY_CONSENT';
+
+    public const STATUS__PENDING = 'PENDING';
+    public const STATUS__COMPLETED = 'COMPLETED';
+    public const STATUS__REJECTED = 'REJECTED';
+    public const STATUS__ERROR = 'ERROR';
+
     private const TYPES = [
-        'AGE_VERIFICATION_18_PLUS',
-        'AGE_VERIFICATION_21_PLUS',
-        'GIFT_RECIPIENT_EMAIL',
-        'GIFT_RECIPIENT_NAME',
-        'GIFT_MESSAGE',
-        'DELIVERY_INSTRUCTIONS',
-        'DELIVERY_DATE_PREFERENCE',
-        'ALLERGY_INFORMATION',
-        'CUSTOM_ENGRAVING_TEXT',
-        'CUSTOM_SIZING_INFO',
-        'TERMS_ACCEPTANCE',
-        'PRIVACY_CONSENT',
+        self::TYPE__AGE_VERIFICATION_18_PLUS,
+        self::TYPE__AGE_VERIFICATION_21_PLUS,
+        self::TYPE__GIFT_RECIPIENT_EMAIL,
+        self::TYPE__GIFT_RECIPIENT_NAME,
+        self::TYPE__GIFT_MESSAGE,
+        self::TYPE__DELIVERY_INSTRUCTIONS,
+        self::TYPE__DELIVERY_DATE_PREFERENCE,
+        self::TYPE__ALLERGY_INFORMATION,
+        self::TYPE__CUSTOM_ENGRAVING_TEXT,
+        self::TYPE__CUSTOM_SIZING_INFO,
+        self::TYPE__TERMS_ACCEPTANCE,
+        self::TYPE__PRIVACY_CONSENT,
+    ];
+
+    private const STATI = [
+        self::STATUS__PENDING,
+        self::STATUS__COMPLETED,
+        self::STATUS__REJECTED,
+        self::STATUS__ERROR,
     ];
 
     /**
      * PayPal-approved checkout field type
-     *
-     * Enum: [ AGE_VERIFICATION_18_PLUS, AGE_VERIFICATION_21_PLUS, GIFT_RECIPIENT_EMAIL, GIFT_RECIPIENT_NAME, GIFT_MESSAGE, DELIVERY_INSTRUCTIONS, DELIVERY_DATE_PREFERENCE, ALLERGY_INFORMATION, CUSTOM_ENGRAVING_TEXT, CUSTOM_SIZING_INFO, TERMS_ACCEPTANCE, PRIVACY_CONSENT ]
      */
     #[OA\Property(
         type: 'string',
@@ -84,7 +111,7 @@ class CheckoutField extends Struct
      */
     #[OA\Property(
         type: 'string',
-        enum: ['PENDING', 'COMPLETED', 'REJECTED', 'ERROR']
+        enum: self::STATI
     )]
     protected string $status;
 

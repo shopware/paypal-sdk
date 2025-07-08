@@ -11,6 +11,9 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\AbstractContext;
 use Shopware\PayPalSDK\Struct\Struct;
 
+/**
+ * @experimental
+ */
 #[OA\Schema(
     schema: 'paypal_agentic_commerce_v1_validation_issue',
     required: ['code', 'type', 'message']

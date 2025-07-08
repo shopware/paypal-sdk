@@ -11,6 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
+ * @experimental
+ */
+
+/**
  * Discount coupon for cart operations. Multiple coupons can be applied simultaneously, with merchant business rules determining stacking behavior, priorities, and conflicts.
  *
  * Common Scenarios:
@@ -28,6 +32,9 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class Coupon extends Struct
 {
+    public const APPLY = 'APPLY';
+    public const REMOVE = 'REMOVE';
+
     /**
      * Coupon code identifier
      */
@@ -41,7 +48,7 @@ class Coupon extends Struct
      */
     #[OA\Property(
         type: 'string',
-        enum: ['APPLY', 'REMOVE']
+        enum: [self::APPLY, self::REMOVE]
     )]
     protected string $action;
 
@@ -52,7 +59,7 @@ class Coupon extends Struct
 
     public function setAction(string $action): void
     {
-        if (!\in_array($action, ['APPLY', 'REMOVE'], true)) {
+        if (!\in_array($action, [self::APPLY, self::REMOVE], true)) {
             throw new \InvalidArgumentException('Invalid coupon code');
         }
 

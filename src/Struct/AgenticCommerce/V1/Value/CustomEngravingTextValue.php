@@ -10,6 +10,9 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
+/**
+ * @experimental
+ */
 #[OA\Schema(
     schema: 'paypal_agentic_commerce_v1_value_custom_engraving_text_value',
     required: ['text']

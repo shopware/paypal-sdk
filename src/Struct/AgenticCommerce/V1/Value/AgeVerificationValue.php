@@ -7,6 +7,9 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
+/**
+ * @experimental
+ */
 #[OA\Schema(
     schema: 'paypal_agentic_commerce_v1_value_age_verification_value',
     required: ['confirmed']
