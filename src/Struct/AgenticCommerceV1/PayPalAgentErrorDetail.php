@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Struct\Error;
+namespace Shopware\PayPalSDK\Struct\AgenticCommerceV1;
 
 use Shopware\PayPalSDK\Struct\Struct;
 
