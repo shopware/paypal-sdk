@@ -22,7 +22,7 @@ class AllergyInformationValue extends Struct implements ValueInterface
         type: 'array',
         items: new OA\Items(type: 'string'),
     )]
-    protected array $allergies;
+    protected ?array $allergies = null;
 
     /**
      * Allergy severity level
@@ -33,7 +33,7 @@ class AllergyInformationValue extends Struct implements ValueInterface
         type: 'string',
         enum: ['mild', 'moderate', 'severe', 'life_threatening']
     )]
-    protected string $severity;
+    protected ?string $severity = null;
 
     /**
      * Medications to avoid
@@ -44,7 +44,7 @@ class AllergyInformationValue extends Struct implements ValueInterface
         type: 'array',
         items: new OA\Items(type: 'string'),
     )]
-    protected array $medications;
+    protected ?array $medications = null;
 
     /**
      * Emergency contact information
@@ -52,5 +52,71 @@ class AllergyInformationValue extends Struct implements ValueInterface
      * example: +1-555-999-8888
      */
     #[OA\Property(type: 'string')]
-    protected string $emergencyContact;
+    protected ?string $emergencyContact = null;
+
+    /**
+     * @return ?string[]
+     */
+    public function getAllergies(): ?array
+    {
+        return $this->allergies;
+    }
+
+    /**
+     * @param ?string[] $allergies
+     */
+    public function setAllergies(?array $allergies): void
+    {
+        $this->allergies = $allergies;
+    }
+
+    public function addAllergy(string $allergy): void
+    {
+        $this->allergies[] = $allergy;
+    }
+
+    public function getSeverity(): ?string
+    {
+        return $this->severity;
+    }
+
+    public function setSeverity(?string $severity): void
+    {
+        if (!\in_array($severity, ['mild', 'moderate', 'severe', 'life_threatening'], true)) {
+            throw new \RuntimeException(\sprintf('Invalid value for severity: %s', $severity));
+        }
+
+        $this->severity = $severity;
+    }
+
+    /**
+     * @return ?string[]
+     */
+    public function getMedications(): ?array
+    {
+        return $this->medications;
+    }
+
+    /**
+     * @param ?string[] $medications
+     */
+    public function setMedications(?array $medications): void
+    {
+        $this->medications = $medications;
+    }
+
+    public function addMedication(string $medication): void
+    {
+        $this->medications[] = $medication;
+    }
+
+    public function getEmergencyContact(): ?string
+    {
+        return $this->emergencyContact;
+    }
+
+    public function setEmergencyContact(?string $emergencyContact): void
+    {
+        $this->emergencyContact = $emergencyContact;
+    }
 }

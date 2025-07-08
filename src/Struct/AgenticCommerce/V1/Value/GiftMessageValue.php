@@ -29,5 +29,25 @@ class GiftMessageValue extends Struct implements ValueInterface
      * Name of the person sending the gift
      */
     #[OA\Property(type: 'string')]
-    protected string $senderName;
+    protected ?string $senderName = null;
+
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
+
+    public function getSenderName(): ?string
+    {
+        return $this->senderName;
+    }
+
+    public function setSenderName(?string $senderName): void
+    {
+        $this->senderName = $senderName;
+    }
 }

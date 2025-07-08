@@ -17,7 +17,7 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
      * Preferred delivery date
      */
     #[OA\Property(type: 'string')]
-    protected string $preferredDate;
+    protected ?string $preferredDate = null;
 
     /**
      * Preferred time window
@@ -28,16 +28,48 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
         type: 'string',
         enum: ['morning', 'afternoon', 'evening', 'anytime']
     )]
-    protected string $timeWindow;
+    protected ?string $timeWindow = null;
 
     /**
      * Specific preferred time (HH:MM format)
-     *
-     * pattern: ^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$
      */
     #[OA\Property(
         type: 'string',
         pattern: '^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
     )]
-    protected string $specificTime;
+    protected ?string $specificTime = null;
+
+    public function getPreferredDate(): ?string
+    {
+        return $this->preferredDate;
+    }
+
+    public function setPreferredDate(?string $preferredDate): void
+    {
+        if (!\in_array($preferredDate, ['morning', 'afternoon', 'evening', 'anytime'], true)) {
+            throw new \InvalidArgumentException('PreferredDate must be a valid date');
+        }
+
+        $this->preferredDate = $preferredDate;
+    }
+
+    public function getTimeWindow(): ?string
+    {
+        return $this->timeWindow;
+    }
+
+    public function setTimeWindow(?string $timeWindow): void
+    {
+        $this->timeWindow = $timeWindow;
+    }
+
+    public function getSpecificTime(): ?string
+    {
+        return $this->specificTime;
+    }
+
+    public function setSpecificTime(?string $specificTime): void
+    {
+        $this->specificTime = $specificTime;
+    }
 }

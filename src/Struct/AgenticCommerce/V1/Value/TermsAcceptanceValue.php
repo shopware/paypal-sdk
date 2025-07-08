@@ -32,11 +32,51 @@ class TermsAcceptanceValue extends Struct implements ValueInterface
      * When terms were accepted
      */
     #[OA\Property(type: 'string')]
-    protected string $acceptanceDate;
+    protected ?string $acceptanceDate = null;
 
     /**
      * IP address of acceptance
      */
     #[OA\Property(type: 'string')]
-    protected string $ipAddress;
+    protected ?string $ipAddress = null;
+
+    public function isAccepted(): bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): void
+    {
+        $this->accepted = $accepted;
+    }
+
+    public function getTermsVersions(): string
+    {
+        return $this->termsVersions;
+    }
+
+    public function setTermsVersions(string $termsVersions): void
+    {
+        $this->termsVersions = $termsVersions;
+    }
+
+    public function getAcceptanceDate(): ?string
+    {
+        return $this->acceptanceDate;
+    }
+
+    public function setAcceptanceDate(?string $acceptanceDate): void
+    {
+        $this->acceptanceDate = $acceptanceDate;
+    }
+
+    public function getIpAddress(): ?string
+    {
+        return $this->ipAddress;
+    }
+
+    public function setIpAddress(?string $ipAddress): void
+    {
+        $this->ipAddress = $ipAddress;
+    }
 }

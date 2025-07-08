@@ -26,5 +26,25 @@ class GiftRecipientEmailValue extends Struct implements ValueInterface
      * Whether email was verified
      */
     #[OA\Property(type: 'boolean')]
-    protected bool $verified;
+    protected bool $verified = false;
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): void
+    {
+        $this->verified = $verified;
+    }
 }

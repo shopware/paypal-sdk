@@ -17,22 +17,55 @@ class AgeVerificationValue implements ValueInterface
      * Whether age verification was confirmed
      */
     #[OA\Property(type: 'boolean')]
-    protected bool $confirmed;
+    protected bool $confirmed = false;
 
     /**
      * Method used for age verification
-     *
-     * Enum: [ self_declaration, id_verification, third_party ]
      */
     #[OA\Property(
         type: 'string',
         enum: ['self_declaration', 'id_verification', 'third_party']
     )]
-    protected string $verificationMethod;
+    protected ?string $verificationMethod = null;
 
     /**
      * When verification was completed
      */
     #[OA\Property(type: 'string')]
-    protected string $verificationDate;
+    protected ?string $verificationDate = null;
+
+    public function getConfirmed(): bool
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(bool $confirmed): void
+    {
+        $this->confirmed = $confirmed;
+    }
+
+    public function getVerificationMethod(): ?string
+    {
+        return $this->verificationMethod;
+    }
+
+    public function setVerificationMethod(?string $verificationMethod): void
+    {
+        if (!\in_array($verificationMethod, ['self_declaration', 'id_verification', 'third_party'], true)) {
+            // TODO: Better one?
+            throw new \RuntimeException(\sprintf('Invalid value for verification method "%s".', $verificationMethod));
+        }
+
+        $this->verificationMethod = $verificationMethod;
+    }
+
+    public function getVerificationDate(): ?string
+    {
+        return $this->verificationDate;
+    }
+
+    public function setVerificationDate(?string $verificationDate): void
+    {
+        $this->verificationDate = $verificationDate;
+    }
 }

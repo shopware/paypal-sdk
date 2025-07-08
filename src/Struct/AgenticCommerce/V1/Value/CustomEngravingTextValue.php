@@ -36,7 +36,7 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
         type: 'string',
         enum: ['arial', 'times', 'script', 'block']
     )]
-    protected string $font;
+    protected ?string $font = null;
 
     /**
      * Text size preference
@@ -47,7 +47,7 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
         type: 'string',
         enum: ['small', 'medium', 'large']
     )]
-    protected string $size;
+    protected ?string $size = null;
 
     /**
      * Engraving position
@@ -58,5 +58,57 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
         type: 'string',
         enum: ['front', 'back', 'side', 'bottom']
     )]
-    protected string $position;
+    protected ?string $position = null;
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): void
+    {
+        $this->text = $text;
+    }
+
+    public function getFont(): ?string
+    {
+        return $this->font;
+    }
+
+    public function setFont(?string $font): void
+    {
+        if (!\in_array($font, ['arial', 'times', 'script', 'block'], true)) {
+            throw new \InvalidArgumentException('Font must be one of "arial", "times", "script", "block"');
+        }
+
+        $this->font = $font;
+    }
+
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    public function setSize(?string $size): void
+    {
+        if (!\in_array($size, ['small', 'medium', 'large'], true)) {
+            throw new \InvalidArgumentException('Size must be one of "small", "medium", "large"');
+        }
+
+        $this->size = $size;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): void
+    {
+        if (!\in_array($position, ['front', 'back', 'side', 'bottom'], true)) {
+            throw new \InvalidArgumentException('Position must be one of "front", "back", "side", "bottom"');
+        }
+
+        $this->position = $position;
+    }
 }

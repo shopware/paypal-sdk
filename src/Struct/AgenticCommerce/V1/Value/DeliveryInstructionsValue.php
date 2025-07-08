@@ -18,8 +18,6 @@ class DeliveryInstructionsValue extends Struct implements ValueInterface
 {
     /**
      * Special delivery instructions
-     *
-     * maxLength: 200
      */
     #[OA\Property(
         type: 'string',
@@ -31,11 +29,41 @@ class DeliveryInstructionsValue extends Struct implements ValueInterface
      * Building or gate access code
      */
     #[OA\Property(type: 'string')]
-    protected string $accessCode;
+    protected ?string $accessCode = null;
 
     /**
      * Contact phone for delivery
      */
     #[OA\Property(type: 'string')]
-    protected string $contactPhone;
+    protected ?string $contactPhone = null;
+
+    public function getInstructions(): string
+    {
+        return $this->instructions;
+    }
+
+    public function setInstructions(string $instructions): void
+    {
+        $this->instructions = $instructions;
+    }
+
+    public function getAccessCode(): ?string
+    {
+        return $this->accessCode;
+    }
+
+    public function setAccessCode(?string $accessCode): void
+    {
+        $this->accessCode = $accessCode;
+    }
+
+    public function getContactPhone(): ?string
+    {
+        return $this->contactPhone;
+    }
+
+    public function setContactPhone(?string $contactPhone): void
+    {
+        $this->contactPhone = $contactPhone;
+    }
 }

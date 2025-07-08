@@ -34,17 +34,64 @@ class PrivacyConsentValue extends Struct implements ValueInterface
         items: new OA\Items(type: 'string'),
         enum: ['data_processing', 'marketing', 'third_party_sharing', 'analytics']
     )]
-    protected array $consentTypes;
+    protected ?array $consentTypes = null;
 
     /**
      * Privacy policy version
      */
     #[OA\Property(type: 'string')]
-    protected string $policyVersion;
+    protected ?string $policyVersion = null;
 
     /**
      * When consent was given
      */
     #[OA\Property(type: 'string')]
-    protected string $consentDate;
+    protected ?string $consentDate = null;
+
+    public function isConsented(): bool
+    {
+        return $this->consented;
+    }
+
+    public function setConsented(bool $consented): void
+    {
+        $this->consented = $consented;
+    }
+
+    /**
+     * @return ?string[]
+     */
+    public function getConsentTypes(): ?array
+    {
+        return $this->consentTypes;
+    }
+
+    public function addConsentType(string $consentType): void
+    {
+        if (!\in_array($consentType, ['data_processing', 'marketing', 'third_party_sharing', 'analytics'], true)) {
+            throw new \InvalidArgumentException(\sprintf('Consent type "%s" is not a valid consent type.', $consentType));
+        }
+
+        $this->consentTypes[] = $consentType;
+    }
+
+    public function getPolicyVersion(): ?string
+    {
+        return $this->policyVersion;
+    }
+
+    public function setPolicyVersion(?string $policyVersion): void
+    {
+        $this->policyVersion = $policyVersion;
+    }
+
+    public function getConsentDate(): ?string
+    {
+        return $this->consentDate;
+    }
+
+    public function setConsentDate(?string $consentDate): void
+    {
+        $this->consentDate = $consentDate;
+    }
 }

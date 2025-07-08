@@ -31,7 +31,7 @@ class CustomSizingInfoValue extends Struct implements ValueInterface
             type: 'object'
         )
     )]
-    protected array $measurements;
+    protected ?array $measurements = null;
 
     /**
      * Fit preference
@@ -42,11 +42,54 @@ class CustomSizingInfoValue extends Struct implements ValueInterface
         type: 'string',
         enum: ['tight', 'regular', 'loose']
     )]
-    protected string $sizePreference;
+    protected ?string $sizePreference = null;
 
     /**
      * Special sizing requirements
      */
     #[OA\Property(type: 'string')]
-    protected string $specialRequirements;
+    protected ?string $specialRequirements = null;
+
+    /**
+     * @return ?array{chest: string, waist: string, height: string, weight: string}
+     */
+    public function getMeasurements(): ?array
+    {
+        return $this->measurements;
+    }
+
+    public function setMeasurements(string $chest, string $waist, string $height, string $weight): void
+    {
+        $this->measurements = [
+            'chest' => $chest,
+            'waist' => $waist,
+            'height' => $height,
+            'weight' => $weight,
+        ];
+    }
+
+    public function resetMeasurements(): void
+    {
+        $this->measurements = null;
+    }
+
+    public function getSizePreference(): ?string
+    {
+        return $this->sizePreference;
+    }
+
+    public function setSizePreference(?string $sizePreference): void
+    {
+        $this->sizePreference = $sizePreference;
+    }
+
+    public function getSpecialRequirements(): ?string
+    {
+        return $this->specialRequirements;
+    }
+
+    public function setSpecialRequirements(?string $specialRequirements): void
+    {
+        $this->specialRequirements = $specialRequirements;
+    }
 }
