@@ -77,7 +77,7 @@ class PayPalCart extends Struct
     protected readonly array $validationIssues;
 
     #[OA\Property(ref: CartTotals::class)]
-    protected CartTotals $totals;
+    protected ?CartTotals $totals = null;
 
     /**
      * Successfully applied coupons (server-calculated)
@@ -100,7 +100,7 @@ class PayPalCart extends Struct
         type: 'array',
         items: new OA\Items(ref: ShippingOption::class),
     )]
-    protected array $availableShippingOptions;
+    protected ?array $availableShippingOptions = null;
 
     /**
      * HATEOAS navigation links for cart operations
@@ -126,19 +126,19 @@ class PayPalCart extends Struct
         minItems: 1,
         items: new OA\Items(ref: Cartitem::class)
     )]
-    protected array $items;
+    protected ?array $items = null;
 
     #[OA\Property(ref: Customer::class)]
-    protected Customer $customer;
+    protected ?Customer $customer = null;
 
     #[OA\Property(ref: ShippingAddress::class)]
-    protected ShippingAddress $shippingAddress;
+    protected ?ShippingAddress $shippingAddress = null;
 
     #[OA\Property(ref: BillingAddress::class)]
-    protected BillingAddress $billingAddress;
+    protected ?BillingAddress $billingAddress = null;
 
     #[OA\Property(ref: PaymentMethod::class)]
-    protected PaymentMethod $paymentMethod;
+    protected ?PaymentMethod $paymentMethod = null;
 
     /**
      * Custom checkout fields (age verification, etc.)
@@ -149,7 +149,7 @@ class PayPalCart extends Struct
         type: 'array',
         items: new OA\Items(ref: CheckoutField::class)
     )]
-    protected array $checkoutFields;
+    protected ?array $checkoutFields = null;
 
     /**
      * Discount coupons to apply or remove from cart
@@ -160,8 +160,8 @@ class PayPalCart extends Struct
         type: 'array',
         items: new OA\Items(ref: Coupon::class)
     )]
-    protected array $coupons;
+    protected ?array $coupons = null;
 
     #[OA\Property(ref: GeoCoordinates::class)]
-    protected GeoCoordinates $geoCoordinates;
+    protected ?GeoCoordinates $geoCoordinates = null;
 }

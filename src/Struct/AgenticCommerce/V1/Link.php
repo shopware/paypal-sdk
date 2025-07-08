@@ -42,17 +42,75 @@ class Link extends Struct
         type: 'string',
         enum: ['GET', 'POST', 'PUT']
     )]
-    protected string $method;
+    protected ?string $method = null;
 
     /**
      * Human-readable description of the link
      */
     #[OA\Property(type: 'string')]
-    protected string $title;
+    protected ?string $title = null;
 
     /**
      * Expected content type
      */
     #[OA\Property(type: 'string')]
-    protected string $type;
+    protected ?string $type = null;
+
+    public function getRel(): string
+    {
+        return $this->rel;
+    }
+
+    public function setRel(string $rel): void
+    {
+        if (!\in_array($rel, ['self', 'update', 'checkout'], true)) {
+            throw new \InvalidArgumentException('Invalid rel option');
+        }
+
+        $this->rel = $rel;
+    }
+
+    public function getHref(): string
+    {
+        return $this->href;
+    }
+
+    public function setHref(string $href): void
+    {
+        $this->href = $href;
+    }
+
+    public function getMethod(): ?string
+    {
+        return $this->method;
+    }
+
+    public function setMethod(?string $method): void
+    {
+        if (!\in_array($method, ['GET', 'POST', 'PUT'], true)) {
+            throw new \InvalidArgumentException('Invalid method');
+        }
+
+        $this->method = $method;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
+    }
 }

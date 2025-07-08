@@ -26,7 +26,7 @@ class CartItem extends Struct
      * Product variant identifier (color, size, etc.)
      */
     #[OA\Property(type: 'string')]
-    protected string $variantId;
+    protected ?string $variantId = null;
 
     /**
      * Number of items
@@ -38,19 +38,19 @@ class CartItem extends Struct
      * Product display name
      */
     #[OA\Property(type: 'string')]
-    protected string $name;
+    protected ?string $name = null;
 
     /**
      * Product description
      */
     #[OA\Property(type: 'string')]
-    protected string $description;
+    protected ?string $description = null;
 
     /**
      * URL for product details page
      */
     #[OA\Property(type: 'string')]
-    protected string $itemUrl;
+    protected ?string $itemUrl = null;
 
     #[OA\Property(ref: Money::class)]
     protected Money $price;
@@ -67,13 +67,13 @@ class CartItem extends Struct
             type: 'object'
         )
     )]
-    protected array $selectedAttributes;
+    protected ?array $selectedAttributes = null;
 
     /**
      * TODO: GiftOption as an array?
      */
     #[OA\Property(ref: GiftOptions::class)]
-    protected GiftOptions $giftOptions;
+    protected ?GiftOptions $giftOptions = null;
 
     /** @var list<array{name: string, value: string, price_modifier: string}> */
     #[OA\Property(
@@ -88,5 +88,128 @@ class CartItem extends Struct
             type: 'object'
         )
     )]
-    protected array $customOptions;
+    protected ?array $customOptions = null;
+
+    public function getItemId(): string
+    {
+        return $this->itemId;
+    }
+
+    public function setItemId(string $itemId): void
+    {
+        $this->itemId = $itemId;
+    }
+
+    public function getVariantId(): ?string
+    {
+        return $this->variantId;
+    }
+
+    public function setVariantId(?string $variantId): void
+    {
+        $this->variantId = $variantId;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getItemUrl(): ?string
+    {
+        return $this->itemUrl;
+    }
+
+    public function setItemUrl(?string $itemUrl): void
+    {
+        $this->itemUrl = $itemUrl;
+    }
+
+    public function getPrice(): Money
+    {
+        return $this->price;
+    }
+
+    public function setPrice(Money $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return ?list<array{name: string, value: string}>
+     */
+    public function getSelectedAttributes(): ?array
+    {
+        return $this->selectedAttributes;
+    }
+
+    public function addSelectedAttribute(string $name, string $value): void
+    {
+        $this->selectedAttributes[] = [
+            'name' => $name,
+            'value' => $value,
+        ];
+    }
+
+    public function resetSelectedAttributes(): void
+    {
+        $this->selectedAttributes = [];
+    }
+
+    public function getGiftOptions(): ?GiftOptions
+    {
+        return $this->giftOptions;
+    }
+
+    public function setGiftOptions(?GiftOptions $giftOptions): void
+    {
+        $this->giftOptions = $giftOptions;
+    }
+
+    /**
+     * @return ?list<array{name: string, value: string, price_modifier: string}>
+     */
+    public function getCustomOptions(): ?array
+    {
+        return $this->customOptions;
+    }
+
+    public function addCustomOption(string $name, string $value, string $priceModifier): void
+    {
+        $this->customOptions[] = [
+            'name' => $name,
+            'value' => $value,
+            'price_modifier' => $priceModifier,
+        ];
+    }
+
+    public function resetCustomOptions(): void
+    {
+        $this->customOptions = [];
+    }
 }

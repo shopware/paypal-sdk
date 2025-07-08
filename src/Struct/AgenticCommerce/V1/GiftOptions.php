@@ -18,7 +18,7 @@ class GiftOptions extends Struct
      * Whether this is a gift
      */
     #[OA\Property(type: 'boolean')]
-    protected bool $isGift;
+    protected ?bool $isGift = null;
 
     /**
      * Gift recipient information
@@ -37,7 +37,7 @@ class GiftOptions extends Struct
             type: 'object'
         )
     )]
-    protected array $recipient;
+    protected ?array $recipient = null;
 
     /**
      * Scheduled delivery date in RFC3339 format. Seconds are required while fractional seconds are optional.
@@ -53,13 +53,13 @@ class GiftOptions extends Struct
         minLength: 20,
         pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$'
     )]
-    protected string $deliveryDate;
+    protected ?string $deliveryDate = null;
 
     /**
      * Name of gift sender
      */
     #[OA\Property(type: 'string')]
-    protected string $senderName;
+    protected ?string $senderName = null;
 
     /**
      * Personal message (max 500 characters)
@@ -68,11 +68,78 @@ class GiftOptions extends Struct
         type: 'string',
         maxLength: 500,
     )]
-    protected string $giftMessage;
+    protected ?string $giftMessage = null;
 
     /**
      * Whether to include gift wrapping
      */
     #[OA\Property(type: 'boolean')]
-    protected bool $giftWrap;
+    protected ?bool $giftWrap = null;
+
+    public function getIsGift(): ?bool
+    {
+        return $this->isGift;
+    }
+
+    public function setIsGift(?bool $isGift): void
+    {
+        $this->isGift = $isGift;
+    }
+
+    /**
+     * @return ?array{name: string, email: string, phone: string}
+     */
+    public function getRecipient(): ?array
+    {
+        return $this->recipient;
+    }
+
+    public function setRecipient(string $name, string $email, string $phone): void
+    {
+        $this->recipient = [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+        ];
+    }
+
+    public function getDeliveryDate(): ?string
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(?string $deliveryDate): void
+    {
+        $this->deliveryDate = $deliveryDate;
+    }
+
+    public function getSenderName(): ?string
+    {
+        return $this->senderName;
+    }
+
+    public function setSenderName(?string $senderName): void
+    {
+        $this->senderName = $senderName;
+    }
+
+    public function getGiftMessage(): ?string
+    {
+        return $this->giftMessage;
+    }
+
+    public function setGiftMessage(?string $giftMessage): void
+    {
+        $this->giftMessage = $giftMessage;
+    }
+
+    public function getGiftWrap(): ?bool
+    {
+        return $this->giftWrap;
+    }
+
+    public function setGiftWrap(?bool $giftWrap): void
+    {
+        $this->giftWrap = $giftWrap;
+    }
 }

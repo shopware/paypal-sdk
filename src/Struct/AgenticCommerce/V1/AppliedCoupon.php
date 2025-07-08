@@ -14,11 +14,41 @@ use Shopware\PayPalSDK\Struct\Struct;
 class AppliedCoupon extends Struct
 {
     #[OA\Property(type: 'string')]
-    protected string $code;
+    protected ?string $code = null;
 
     #[OA\Property(type: 'string')]
-    protected string $description;
+    protected ?string $description = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $discountAmount;
+    protected ?Money $discountAmount = null;
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): void
+    {
+        $this->code = $code;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getDiscountAmount(): ?Money
+    {
+        return $this->discountAmount;
+    }
+
+    public function setDiscountAmount(?Money $discountAmount): void
+    {
+        $this->discountAmount = $discountAmount;
+    }
 }

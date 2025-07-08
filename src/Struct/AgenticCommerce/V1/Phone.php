@@ -63,5 +63,35 @@ class Phone extends Struct
         minLength: 1,
         pattern: '^[0-9]{1,15}?$'
     )]
-    protected string $extensionNumber;
+    protected ?string $extensionNumber = null;
+
+    public function getCountryCode(): string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode): void
+    {
+        $this->countryCode = $countryCode;
+    }
+
+    public function getNationalNumber(): string
+    {
+        return $this->nationalNumber;
+    }
+
+    public function setNationalNumber(string $nationalNumber): void
+    {
+        $this->nationalNumber = $nationalNumber;
+    }
+
+    public function getExtensionNumber(): ?string
+    {
+        return $this->extensionNumber;
+    }
+
+    public function setExtensionNumber(?string $extensionNumber): void
+    {
+        $this->extensionNumber = $extensionNumber;
+    }
 }

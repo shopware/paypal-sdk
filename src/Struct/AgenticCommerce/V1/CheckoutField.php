@@ -29,6 +29,21 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class CheckoutField extends Struct
 {
+    private const TYPES = [
+        'AGE_VERIFICATION_18_PLUS',
+        'AGE_VERIFICATION_21_PLUS',
+        'GIFT_RECIPIENT_EMAIL',
+        'GIFT_RECIPIENT_NAME',
+        'GIFT_MESSAGE',
+        'DELIVERY_INSTRUCTIONS',
+        'DELIVERY_DATE_PREFERENCE',
+        'ALLERGY_INFORMATION',
+        'CUSTOM_ENGRAVING_TEXT',
+        'CUSTOM_SIZING_INFO',
+        'TERMS_ACCEPTANCE',
+        'PRIVACY_CONSENT',
+    ];
+
     /**
      * PayPal-approved checkout field type
      *
@@ -36,7 +51,7 @@ class CheckoutField extends Struct
      */
     #[OA\Property(
         type: 'string',
-        enum: ['AGE_VERIFICATION_18_PLUS', 'AGE_VERIFICATION_21_PLUS', 'GIFT_RECIPIENT_EMAIL', 'GIFT_RECIPIENT_NAME', 'GIFT_MESSAGE', 'DELIVERY_INSTRUCTIONS', 'DELIVERY_DATE_PREFERENCE', 'ALLERGY_INFORMATION', 'CUSTOM_ENGRAVING_TEXT', 'CUSTOM_SIZING_INFO', 'TERMS_ACCEPTANCE', 'PRIVACY_CONSENT']
+        enum: self::TYPES,
     )]
     protected string $type;
 
@@ -90,5 +105,69 @@ class CheckoutField extends Struct
     protected $context;
 
     #[OA\Property(ref: ValidationIssue::class)]
-    protected ValidationIssue $validationIssue;
+    protected ?ValidationIssue $validationIssue = null;
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        if (!\in_array($type, self::TYPES, true)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid value for type: %s', $type));
+        }
+
+        $this->type = $type;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        if (!\in_array($status, ['PENDING', 'COMPLETED', 'REJECTED', 'ERROR'], true)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid value for status: %s', $status));
+        }
+
+        $this->status = $status;
+    }
+
+    public function getValue(): ValueInterface
+    {
+        return $this->value;
+    }
+
+    public function setValue(ValueInterface $value): void
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * @param mixed $context
+     */
+    public function setContext($context): void
+    {
+        $this->context = $context;
+    }
+
+    public function getValidationIssue(): ?ValidationIssue
+    {
+        return $this->validationIssue;
+    }
+
+    public function setValidationIssue(?ValidationIssue $validationIssue): void
+    {
+        $this->validationIssue = $validationIssue;
+    }
 }

@@ -47,4 +47,28 @@ class Money extends Struct
         pattern: '^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$'
     )]
     protected string $value;
+
+    public function getCurrencyCode(): string
+    {
+        return $this->currencyCode;
+    }
+
+    public function setCurrencyCode(string $currencyCode): void
+    {
+        if (\strlen($currencyCode) !== 3) {
+            throw new \InvalidArgumentException('Invalid currency code');
+        }
+
+        $this->currencyCode = $currencyCode;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
 }

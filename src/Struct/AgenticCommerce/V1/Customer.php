@@ -31,10 +31,10 @@ class Customer extends Struct
             type: 'object'
         )
     )]
-    protected array $name;
+    protected ?array $name = null;
 
     #[OA\Property(ref: Phone::class)]
-    protected Phone $phone;
+    protected ?Phone $phone = null;
 
     /**
      * The internationalized email address.
@@ -52,5 +52,41 @@ class Customer extends Struct
         minLength: 3,
         pattern: '^(?:[A-Za-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$'
     )]
-    protected string $emailAddress;
+    protected ?string $emailAddress = null;
+
+    /**
+     * @return ?array{given_name: string, surname: string}
+     */
+    public function getName(): ?array
+    {
+        return $this->name;
+    }
+
+    public function setName(string $givenName, string $surname): void
+    {
+        $this->name = [
+            'given_name' => $givenName,
+            'surname' => $surname,
+        ];
+    }
+
+    public function getPhone(): ?Phone
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?Phone $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    public function getEmailAddress(): ?string
+    {
+        return $this->emailAddress;
+    }
+
+    public function setEmailAddress(?string $emailAddress): void
+    {
+        $this->emailAddress = $emailAddress;
+    }
 }

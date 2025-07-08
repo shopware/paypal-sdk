@@ -20,19 +20,19 @@ class ShippingOption extends Struct
      * Unique shipping option identifier
      */
     #[OA\Property(type: 'string')]
-    protected string $id;
+    protected ?string $id = null;
 
     /**
      * Display name
      */
     #[OA\Property(type: 'string')]
-    protected string $name;
+    protected ?string $name = null;
 
     /**
      * Detailed description
      */
     #[OA\Property(type: 'string')]
-    protected string $description;
+    protected ?string $description = null;
 
     #[OA\Property(ref: Money::class)]
     protected Money $price;
@@ -52,5 +52,65 @@ class ShippingOption extends Struct
         type: 'string',
         pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$'
     )]
-    protected string $estimatedDelivery;
+    protected ?string $estimatedDelivery = null;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(?string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getPrice(): Money
+    {
+        return $this->price;
+    }
+
+    public function setPrice(Money $price): void
+    {
+        $this->price = $price;
+    }
+
+    public function isSelected(): bool
+    {
+        return $this->isSelected;
+    }
+
+    public function setIsSelected(bool $isSelected): void
+    {
+        $this->isSelected = $isSelected;
+    }
+
+    public function getEstimatedDelivery(): ?string
+    {
+        return $this->estimatedDelivery;
+    }
+
+    public function setEstimatedDelivery(?string $estimatedDelivery): void
+    {
+        $this->estimatedDelivery = $estimatedDelivery;
+    }
 }

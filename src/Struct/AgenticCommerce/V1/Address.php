@@ -29,14 +29,14 @@ class Address extends Struct
         maxLength: 300,
         minLength: 0,
     )]
-    protected string $addressline1;
+    protected ?string $addressline1 = null;
 
     #[OA\Property(
         type: 'string',
         maxLength: 300,
         minLength: 0,
     )]
-    protected string $addressline2;
+    protected ?string $addressline2 = null;
 
     /**
      * The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision.
@@ -52,7 +52,7 @@ class Address extends Struct
         maxLength: 300,
         minLength: 0,
     )]
-    protected string $adminArea1;
+    protected ?string $adminArea1 = null;
 
     /**
      * A city, town, or village. Smaller than admin_area_level_1.
@@ -67,7 +67,7 @@ class Address extends Struct
         maxLength: 120,
         minLength: 0,
     )]
-    protected string $adminArea2;
+    protected ?string $adminArea2 = null;
 
     /**
      * The postal code, which is the ZIP code or equivalent.
@@ -82,7 +82,7 @@ class Address extends Struct
         maxLength: 60,
         minLength: 0,
     )]
-    protected string $postalCode;
+    protected ?string $postalCode = null;
 
     /**
      * The 2-character ISO 3166-1 alpha-2 country code
@@ -94,4 +94,68 @@ class Address extends Struct
         pattern: '^[A-Z]{2}$'
     )]
     protected string $countryCode;
+
+    public function getAddressline1(): ?string
+    {
+        return $this->addressline1;
+    }
+
+    public function setAddressline1(?string $addressline1): void
+    {
+        $this->addressline1 = $addressline1;
+    }
+
+    public function getAddressline2(): ?string
+    {
+        return $this->addressline2;
+    }
+
+    public function setAddressline2(?string $addressline2): void
+    {
+        $this->addressline2 = $addressline2;
+    }
+
+    public function getAdminArea1(): ?string
+    {
+        return $this->adminArea1;
+    }
+
+    public function setAdminArea1(?string $adminArea1): void
+    {
+        $this->adminArea1 = $adminArea1;
+    }
+
+    public function getAdminArea2(): ?string
+    {
+        return $this->adminArea2;
+    }
+
+    public function setAdminArea2(?string $adminArea2): void
+    {
+        $this->adminArea2 = $adminArea2;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(?string $postalCode): void
+    {
+        $this->postalCode = $postalCode;
+    }
+
+    public function getCountryCode(): string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode): void
+    {
+        if (!preg_match('/^[A-Z]{2}$/', $countryCode)) {
+            throw new \InvalidArgumentException('Country code must be alphanumeric');
+        }
+
+        $this->countryCode = $countryCode;
+    }
 }

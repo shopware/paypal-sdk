@@ -44,7 +44,7 @@ class PaymentMethod extends Struct
         type: 'string',
         enum: ['paypal']
     )]
-    protected string $type;
+    protected string $type = 'paypal';
 
     /**
      * PayPal payment token from cart creation or customer approval
@@ -63,4 +63,44 @@ class PaymentMethod extends Struct
      */
     #[OA\Property(type: 'string')]
     protected string $approvalUrl;
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
+    }
+
+    public function getPayerId(): string
+    {
+        return $this->payerId;
+    }
+
+    public function setPayerId(string $payerId): void
+    {
+        $this->payerId = $payerId;
+    }
+
+    public function getApprovalUrl(): string
+    {
+        return $this->approvalUrl;
+    }
+
+    public function setApprovalUrl(string $approvalUrl): void
+    {
+        $this->approvalUrl = $approvalUrl;
+    }
 }

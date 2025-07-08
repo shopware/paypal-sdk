@@ -44,4 +44,28 @@ class Coupon extends Struct
         enum: ['APPLY', 'REMOVE']
     )]
     protected string $action;
+
+    public function getAction(): string
+    {
+        return $this->action;
+    }
+
+    public function setAction(string $action): void
+    {
+        if (!\in_array($action, ['APPLY', 'REMOVE'], true)) {
+            throw new \InvalidArgumentException('Invalid coupon code');
+        }
+
+        $this->action = $action;
+    }
+
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): void
+    {
+        $this->code = $code;
+    }
 }

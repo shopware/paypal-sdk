@@ -41,29 +41,119 @@ use Shopware\PayPalSDK\Struct\Struct;
 class CartTotals extends Struct
 {
     #[OA\Property(ref: Money::class)]
-    protected Money $subtotal;
+    protected ?Money $subtotal = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $discount;
+    protected ?Money $discount = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $shipping;
+    protected ?Money $shipping = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $tax;
+    protected ?Money $tax = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $handling;
+    protected ?Money $handling = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $insurance;
+    protected ?Money $insurance = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $shippingDiscount;
+    protected ?Money $shippingDiscount = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $customCharges;
+    protected ?Money $customCharges = null;
 
     #[OA\Property(ref: Money::class)]
     protected Money $total;
+
+    public function getSubtotal(): ?Money
+    {
+        return $this->subtotal;
+    }
+
+    public function setSubtotal(?Money $subtotal): void
+    {
+        $this->subtotal = $subtotal;
+    }
+
+    public function getDiscount(): ?Money
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(?Money $discount): void
+    {
+        $this->discount = $discount;
+    }
+
+    public function getShipping(): ?Money
+    {
+        return $this->shipping;
+    }
+
+    public function setShipping(?Money $shipping): void
+    {
+        $this->shipping = $shipping;
+    }
+
+    public function getTax(): ?Money
+    {
+        return $this->tax;
+    }
+
+    public function setTax(?Money $tax): void
+    {
+        $this->tax = $tax;
+    }
+
+    public function getHandling(): ?Money
+    {
+        return $this->handling;
+    }
+
+    public function setHandling(?Money $handling): void
+    {
+        $this->handling = $handling;
+    }
+
+    public function getInsurance(): ?Money
+    {
+        return $this->insurance;
+    }
+
+    public function setInsurance(?Money $insurance): void
+    {
+        $this->insurance = $insurance;
+    }
+
+    public function getShippingDiscount(): ?Money
+    {
+        return $this->shippingDiscount;
+    }
+
+    public function setShippingDiscount(?Money $shippingDiscount): void
+    {
+        $this->shippingDiscount = $shippingDiscount;
+    }
+
+    public function getCustomCharges(): ?Money
+    {
+        return $this->customCharges;
+    }
+
+    public function setCustomCharges(?Money $customCharges): void
+    {
+        $this->customCharges = $customCharges;
+    }
+
+    public function getTotal(): Money
+    {
+        return $this->total;
+    }
+
+    public function setTotal(Money $total): void
+    {
+        $this->total = $total;
+    }
 }

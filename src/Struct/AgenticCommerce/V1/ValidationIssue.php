@@ -8,7 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
-use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\ContextInterface;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\AbstractContext;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(
@@ -30,8 +30,6 @@ class ValidationIssue extends Struct
 
     /**
      * Type classification for error handling
-     *
-     * Enum: [ MISSING_FIELD, INVALID_DATA, BUSINESS_RULE ]
      */
     #[OA\Property(
         type: 'string',
@@ -49,26 +47,26 @@ class ValidationIssue extends Struct
      * Customer-friendly message for end users
      */
     #[OA\Property(type: 'string')]
-    protected string $userMessage;
+    protected ?string $userMessage = null;
 
     /**
      * Specific item ID if the issue is item-specific
      */
     #[OA\Property(type: 'string')]
-    protected string $itemId;
+    protected ?string $itemId = null;
 
     /**
      * Specific field name if the issue is field-specific
      */
     #[OA\Property(type: 'string')]
-    protected string $field;
+    protected ?string $field = null;
 
     /**
      * Category-specific context information
      */
     #[OA\Property(ref: ContextInterface::class)]
     // TODO: or use "oneOf"?
-    protected ContextInterface $context;
+    protected ?AbstractContext $context = null;
 
     /**
      * Available actions to resolve this issue
@@ -79,5 +77,104 @@ class ValidationIssue extends Struct
         type: 'array',
         items: new OA\Items(ref: ResolutionOption::class)
     )]
-    protected array $resolutionOptions;
+    protected ?array $resolutionOptions = null;
+
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): void
+    {
+        if (!\in_array($code, ['INVENTORY_ISSUE', 'PRICING_ERROR', 'SHIPPING_ERROR', 'PAYMENT_ERROR', 'DATA_ERROR', 'BUSINESS_RULE_ERROR'], true)) {
+            throw new \InvalidArgumentException('Invalid code');
+        }
+
+        $this->code = $code;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        if (!\in_array($type, ['MISSING_FIELD', 'INVALID_DATA', 'BUSINESS_RULE'], true)) {
+            throw new \InvalidArgumentException('Invalid type');
+        }
+
+        $this->type = $type;
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
+
+    public function getUserMessage(): ?string
+    {
+        return $this->userMessage;
+    }
+
+    public function setUserMessage(?string $userMessage): void
+    {
+        $this->userMessage = $userMessage;
+    }
+
+    public function getItemId(): ?string
+    {
+        return $this->itemId;
+    }
+
+    public function setItemId(?string $itemId): void
+    {
+        $this->itemId = $itemId;
+    }
+
+    public function getField(): ?string
+    {
+        return $this->field;
+    }
+
+    public function setField(?string $field): void
+    {
+        $this->field = $field;
+    }
+
+    public function getContext(): ?ContextInterface
+    {
+        return $this->context;
+    }
+
+    public function setContext(?ContextInterface $context): void
+    {
+        $this->context = $context;
+    }
+
+    /**
+     * @return ?ResolutionOption[]
+     */
+    public function getResolutionOptions(): ?array
+    {
+        return $this->resolutionOptions;
+    }
+
+    /**
+     * @param ?ResolutionOption[] $resolutionOptions
+     */
+    public function setResolutionOptions(?array $resolutionOptions): void
+    {
+        $this->resolutionOptions = $resolutionOptions;
+    }
+
+    public function addResolutionOptions(ResolutionOption $resolutionOption): void
+    {
+        $this->resolutionOptions[] = $resolutionOption;
+    }
 }
