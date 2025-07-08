@@ -23,10 +23,20 @@ class GiftOptions extends Struct
     /**
      * Gift recipient information
      *
-     * @var array{name?: string, email?: string, phone?: string}
+     * @var array{name: string, email: string, phone: string}
      */
-    #[OA\Property(type: 'array')]
-    // TODO: OP Property array structure
+    #[OA\Property(
+        type: 'array',
+        items: new OA\Items(
+            required: ['name', 'email', 'phone'],
+            properties: [
+                new OA\Property(property: 'name', type: 'string'),
+                new OA\Property(property: 'email', type: 'string'),
+                new OA\Property(property: 'phone', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
     protected array $recipient;
 
     /**

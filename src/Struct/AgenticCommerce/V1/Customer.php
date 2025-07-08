@@ -20,8 +20,17 @@ class Customer extends Struct
      *
      * @var array{given_name: string, surname: string}
      */
-    #[OA\Property(type: 'array')]
-    // TODO: OA Property array structure
+    #[OA\Property(
+        type: 'array',
+        items: new OA\Items(
+            required: ['given_name', 'surname'],
+            properties: [
+                new OA\Property(property: 'given_name', type: 'string'),
+                new OA\Property(property: 'surname', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
     protected array $name;
 
     #[OA\Property(ref: Phone::class)]

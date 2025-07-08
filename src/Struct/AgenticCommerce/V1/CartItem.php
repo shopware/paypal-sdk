@@ -56,8 +56,17 @@ class CartItem extends Struct
     protected Money $price;
 
     /** @var list<array{name: string, value: string}> */
-    #[OA\Property(type: 'array')]
-    // TODO: OA Property array struct
+    #[OA\Property(
+        type: 'array',
+        items: new OA\Items(
+            required: ['name', 'value'],
+            properties: [
+                new OA\Property(property: 'name', type: 'string'),
+                new OA\Property(property: 'value', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
     protected array $selectedAttributes;
 
     /**
@@ -66,8 +75,18 @@ class CartItem extends Struct
     #[OA\Property(ref: GiftOptions::class)]
     protected GiftOptions $giftOptions;
 
-    /** @var list<array{name?: string, value?: string, price_modifier?: string}> */
-    #[OA\Property(type: 'array')]
-    // TODO: OA Property array struct
+    /** @var list<array{name: string, value: string, price_modifier: string}> */
+    #[OA\Property(
+        type: 'array',
+        items: new OA\Items(
+            required: ['name', 'value','price_modifier'],
+            properties: [
+                new OA\Property(property: 'name', type: 'string'),
+                new OA\Property(property: 'value', type: 'string'),
+                new OA\Property(property: 'price_modifier', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
     protected array $customOptions;
 }

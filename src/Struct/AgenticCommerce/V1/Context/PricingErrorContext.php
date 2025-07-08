@@ -152,7 +152,16 @@ class PricingErrorContext extends Struct implements ContextInterface
      *
      * @var list<array{item_id: string, currency: string}>
      */
-    #[OA\Property(type: 'array')]
-    // TODO: OA Property array struct
+    #[OA\Property(
+        type: 'array',
+        items: new OA\Items(
+            required: ['item_id', 'currency'],
+            properties: [
+                new OA\Property(property: 'item_id', type: 'string'),
+                new OA\Property(property: 'currency', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
     protected array $mixedItems;
 }

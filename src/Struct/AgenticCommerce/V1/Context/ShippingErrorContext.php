@@ -40,8 +40,18 @@ class ShippingErrorContext extends Struct implements ContextInterface
      *
      * @var array{postal_code: string, address_line_1: string, admin_area_2: string}
      */
-    #[OA\Property(type: 'array')]
-    // TODO: OA Property array struct
+    #[OA\Property(
+        type: 'array',
+        items: new OA\Items(
+            required: ['postal_code', 'address_line_1', 'admin_area_2'],
+            properties: [
+                new OA\Property(property: 'postal_code', type: 'string'),
+                new OA\Property(property: 'address_line_1', type: 'string'),
+                new OA\Property(property: 'admin_area_2', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
     protected array $suggestedCorrections;
 
     /**

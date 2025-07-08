@@ -142,8 +142,18 @@ class BusinessRuleErrorContext extends Struct implements ContextInterface
      *
      * @var array{open_time: string, close_time: string, timezone: string}
      */
-    #[OA\Property(type: 'array')]
-    // TODO: OA Property array structure
+    #[OA\Property(
+        type: 'array',
+        items: new OA\Items(
+            required: ['open_time', 'close_time', 'timezone'],
+            properties: [
+                new OA\Property(property: 'open_time', type: 'string'),
+                new OA\Property(property: 'close_time', type: 'string'),
+                new OA\Property(property: 'timezone', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
     protected array $businessHours;
 
     /**

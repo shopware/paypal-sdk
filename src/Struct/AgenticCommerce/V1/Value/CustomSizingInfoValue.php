@@ -18,8 +18,19 @@ class CustomSizingInfoValue extends Struct implements ValueInterface
      *
      * @var array{chest: string, waist: string, height: string, weight: string}
      */
-    #[OA\Property(type: 'array')]
-    // TODO: OA Property array structure
+    #[OA\Property(
+        type: 'array',
+        items: new OA\Items(
+            required: ['chest', 'waist', 'height', 'weight'],
+            properties: [
+                new OA\Property(property: 'chest', type: 'string'),
+                new OA\Property(property: 'waist', type: 'string'),
+                new OA\Property(property: 'height', type: 'string'),
+                new OA\Property(property: 'weight', type: 'string'),
+            ],
+            type: 'object'
+        )
+    )]
     protected array $measurements;
 
     /**
