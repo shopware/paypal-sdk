@@ -28,8 +28,6 @@ class PrivacyConsentValue extends Struct implements ValueInterface
     /**
      * Types of consent given
      *
-     * Enum: [ data_processing, marketing, third_party_sharing, analytics ]
-     *
      * @var string[]
      */
     #[OA\Property(

@@ -29,7 +29,7 @@ abstract class AbstractContext extends Struct
 
     public function setSpecificIssue(string $specificIssue): void
     {
-        if (!\array_key_exists($specificIssue, static::SPECIFIC_ISSUES)) {
+        if (!\in_array($specificIssue, static::SPECIFIC_ISSUES, true)) {
             // TODO: Better one?
             throw new \RuntimeException('Specific issue not allowed: ' . $specificIssue);
         }

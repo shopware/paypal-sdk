@@ -20,14 +20,34 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class ValidationIssue extends Struct
 {
+    public const CODE__INVENTORY_ISSUE = 'INVENTORY_ISSUE';
+    public const CODE__PRICING_ERROR = 'PRICING_ERROR';
+    public const CODE__SHIPPING_ERROR = 'SHIPPING_ERROR';
+    public const CODE__PAYMENT_ERROR = 'PAYMENT_ERROR';
+    public const CODE__DATA_ERROR = 'DATA_ERROR';
+    public const CODE__BUSINESS_RULE_ERROR = 'BUSINESS_RULE_ERROR';
+
+    public const TYPE__MISSING_FIELD = 'MISSING_FIELD';
+    public const TYPE__INVALID_DATA = 'INVALID_DATA';
+    public const TYPE__BUSINESS_RULE = 'BUSINESS_RULE';
+
+    private const CODES = [
+        self::CODE__INVENTORY_ISSUE,
+        self::CODE__PRICING_ERROR,
+        self::CODE__SHIPPING_ERROR,
+        self::CODE__PAYMENT_ERROR,
+        self::CODE__DATA_ERROR,
+        self::CODE__BUSINESS_RULE_ERROR,
+    ];
+
+    private const TYPES = [self::TYPE__MISSING_FIELD, self::TYPE__INVALID_DATA, self::TYPE__BUSINESS_RULE];
+
     /**
      * Consolidated error category
-     *
-     * Enum: [ INVENTORY_ISSUE, PRICING_ERROR, SHIPPING_ERROR, PAYMENT_ERROR, DATA_ERROR, BUSINESS_RULE_ERROR ]
      */
     #[OA\Property(
         type: 'string',
-        enum: ['INVENTORY_ISSUE', 'PRICING_ERROR', 'SHIPPING_ERROR', 'PAYMENT_ERROR', 'DATA_ERROR', 'BUSINESS_RULE_ERROR']
+        enum: self::CODES
     )]
     protected string $code;
 
@@ -36,7 +56,7 @@ class ValidationIssue extends Struct
      */
     #[OA\Property(
         type: 'string',
-        enum: ['MISSING_FIELD', 'INVALID_DATA', 'BUSINESS_RULE']
+        enum: self::TYPES
     )]
     protected string $type;
 
@@ -89,7 +109,7 @@ class ValidationIssue extends Struct
 
     public function setCode(string $code): void
     {
-        if (!\in_array($code, ['INVENTORY_ISSUE', 'PRICING_ERROR', 'SHIPPING_ERROR', 'PAYMENT_ERROR', 'DATA_ERROR', 'BUSINESS_RULE_ERROR'], true)) {
+        if (!\in_array($code, self::CODES, true)) {
             throw new \InvalidArgumentException('Invalid code');
         }
 
@@ -103,7 +123,7 @@ class ValidationIssue extends Struct
 
     public function setType(string $type): void
     {
-        if (!\in_array($type, ['MISSING_FIELD', 'INVALID_DATA', 'BUSINESS_RULE'], true)) {
+        if (!\in_array($type, self::TYPES, true)) {
             throw new \InvalidArgumentException('Invalid type');
         }
 
@@ -150,12 +170,12 @@ class ValidationIssue extends Struct
         $this->field = $field;
     }
 
-    public function getContext(): ?ContextInterface
+    public function getContext(): ?AbstractContext
     {
         return $this->context;
     }
 
-    public function setContext(?ContextInterface $context): void
+    public function setContext(?AbstractContext $context): void
     {
         $this->context = $context;
     }

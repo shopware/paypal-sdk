@@ -16,6 +16,11 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_value_allergy_information_value')]
 class AllergyInformationValue extends Struct implements ValueInterface
 {
+    public const SEVERITY__MILD = 'mild';
+    public const SEVERITY__MODERATE = 'moderate';
+    public const SEVERITY__SEVERE = 'severe';
+    public const SEVERITY__LIFE_THREATENING = 'life_threatening';
+
     /**
      * List of known allergies
      *
@@ -29,12 +34,10 @@ class AllergyInformationValue extends Struct implements ValueInterface
 
     /**
      * Allergy severity level
-     *
-     * Enum: [ mild, moderate, severe, life_threatening ]
      */
     #[OA\Property(
         type: 'string',
-        enum: ['mild', 'moderate', 'severe', 'life_threatening']
+        enum: [self::SEVERITY__LIFE_THREATENING, self::SEVERITY__MILD, self::SEVERITY__MODERATE, self::SEVERITY__SEVERE],
     )]
     protected ?string $severity = null;
 
@@ -85,7 +88,7 @@ class AllergyInformationValue extends Struct implements ValueInterface
 
     public function setSeverity(?string $severity): void
     {
-        if (!\in_array($severity, ['mild', 'moderate', 'severe', 'life_threatening'], true)) {
+        if (!\in_array($severity, [self::SEVERITY__LIFE_THREATENING, self::SEVERITY__MILD, self::SEVERITY__MODERATE, self::SEVERITY__SEVERE], true)) {
             throw new \RuntimeException(\sprintf('Invalid value for severity: %s', $severity));
         }
 

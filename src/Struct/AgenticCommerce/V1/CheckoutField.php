@@ -66,7 +66,7 @@ class CheckoutField extends Struct
         self::TYPE__PRIVACY_CONSENT,
     ];
 
-    private const STATI = [
+    private const STATUSES = [
         self::STATUS__PENDING,
         self::STATUS__COMPLETED,
         self::STATUS__REJECTED,
@@ -111,7 +111,7 @@ class CheckoutField extends Struct
      */
     #[OA\Property(
         type: 'string',
-        enum: self::STATI
+        enum: self::STATUSES
     )]
     protected string $status;
 

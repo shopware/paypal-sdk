@@ -16,6 +16,10 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 )]
 class AgeVerificationValue implements ValueInterface
 {
+    public const METHOD__SELF_DECLARATION = 'self_declaration';
+    public const METHOD__ID_VERIFICATION = 'id_verification';
+    public const METHOD__THIRD_PARTY = 'third_party';
+
     /**
      * Whether age verification was confirmed
      */
@@ -27,7 +31,7 @@ class AgeVerificationValue implements ValueInterface
      */
     #[OA\Property(
         type: 'string',
-        enum: ['self_declaration', 'id_verification', 'third_party']
+        enum: [self::METHOD__SELF_DECLARATION, self::METHOD__ID_VERIFICATION, self::METHOD__THIRD_PARTY],
     )]
     protected ?string $verificationMethod = null;
 
@@ -54,7 +58,7 @@ class AgeVerificationValue implements ValueInterface
 
     public function setVerificationMethod(?string $verificationMethod): void
     {
-        if (!\in_array($verificationMethod, ['self_declaration', 'id_verification', 'third_party'], true)) {
+        if (!\in_array($verificationMethod, [self::METHOD__SELF_DECLARATION, self::METHOD__ID_VERIFICATION, self::METHOD__THIRD_PARTY], true)) {
             // TODO: Better one?
             throw new \RuntimeException(\sprintf('Invalid value for verification method "%s".', $verificationMethod));
         }

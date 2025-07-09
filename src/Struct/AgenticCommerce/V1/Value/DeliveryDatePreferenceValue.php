@@ -16,6 +16,11 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_value_delivery_date_preference_value')]
 class DeliveryDatePreferenceValue extends Struct implements ValueInterface
 {
+    public const TIME_WINDOW__MORNING = 'morning';
+    public const TIME_WINDOW__AFTERNOON = 'afternoon';
+    public const TIME_WINDOW__EVENING = 'evening';
+    public const TIME_WINDOW__ANYTIME = 'anytime';
+
     /**
      * Preferred delivery date
      */
@@ -29,7 +34,7 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
      */
     #[OA\Property(
         type: 'string',
-        enum: ['morning', 'afternoon', 'evening', 'anytime']
+        enum: [self::TIME_WINDOW__MORNING, self::TIME_WINDOW__AFTERNOON, self::TIME_WINDOW__EVENING, self::TIME_WINDOW__ANYTIME],
     )]
     protected ?string $timeWindow = null;
 
@@ -49,7 +54,7 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
 
     public function setPreferredDate(?string $preferredDate): void
     {
-        if (!\in_array($preferredDate, ['morning', 'afternoon', 'evening', 'anytime'], true)) {
+        if (!\in_array($preferredDate, [self::TIME_WINDOW__MORNING, self::TIME_WINDOW__AFTERNOON, self::TIME_WINDOW__EVENING, self::TIME_WINDOW__ANYTIME], true)) {
             throw new \InvalidArgumentException('PreferredDate must be a valid date');
         }
 

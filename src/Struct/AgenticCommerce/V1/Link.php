@@ -23,6 +23,10 @@ class Link extends Struct
     public const REL__UPDATE = 'update';
     public const REL__CHECKOUT = 'checkout';
 
+    public const METHOD__GET = 'GET';
+    public const METHOD__POST = 'POST';
+    public const METHOD__PUT = 'PUT';
+
     /**
      * Link relationship type
      *
@@ -47,7 +51,7 @@ class Link extends Struct
      */
     #[OA\Property(
         type: 'string',
-        enum: ['GET', 'POST', 'PUT']
+        enum: [self::METHOD__GET, self::METHOD__POST, self::METHOD__PUT],
     )]
     protected ?string $method = null;
 
@@ -94,7 +98,7 @@ class Link extends Struct
 
     public function setMethod(?string $method): void
     {
-        if (!\in_array($method, ['GET', 'POST', 'PUT'], true)) {
+        if (!\in_array($method, [self::METHOD__GET, self::METHOD__POST, self::METHOD__PUT], true)) {
             throw new \InvalidArgumentException('Invalid method');
         }
 
