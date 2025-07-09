@@ -87,7 +87,7 @@ class ValidationIssue extends Struct
     /**
      * Category-specific context information
      */
-    #[OA\Property(ref: ContextInterface::class)]
+    #[OA\Property(ref: AbstractContext::class)]
     // TODO: or use "oneOf"?
     protected ?AbstractContext $context = null;
 

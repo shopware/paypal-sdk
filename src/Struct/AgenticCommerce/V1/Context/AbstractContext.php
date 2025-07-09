@@ -7,6 +7,7 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
+use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -14,7 +15,10 @@ use Shopware\PayPalSDK\Struct\Struct;
  */
 abstract class AbstractContext extends Struct
 {
-    public const SPECIFIC_ISSUES = [];
+    /**
+     * @return string[]
+     */
+    abstract protected function getSpecificIssues(): array;
 
     /**
      * Specific business rule issue type
@@ -29,7 +33,7 @@ abstract class AbstractContext extends Struct
 
     public function setSpecificIssue(string $specificIssue): void
     {
-        if (!\in_array($specificIssue, static::SPECIFIC_ISSUES, true)) {
+        if (!\in_array($specificIssue, $this->getSpecificIssues(), true)) {
             // TODO: Better one?
             throw new \RuntimeException('Specific issue not allowed: ' . $specificIssue);
         }

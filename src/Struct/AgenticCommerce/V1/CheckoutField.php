@@ -8,7 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
-use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\ValueInterface;
+use Shopware\Contract\PayPalSDK\Struct\AgenticCommerce\V1\Value\ValueInterface;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -129,7 +129,7 @@ class CheckoutField extends Struct
      * The structure varies based on the field type.
      */
     #[OA\Property(type: 'mixed')]
-    protected $context;
+    protected mixed $context = null;
 
     #[OA\Property(ref: ValidationIssue::class)]
     protected ?ValidationIssue $validationIssue = null;

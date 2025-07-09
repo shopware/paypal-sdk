@@ -25,18 +25,6 @@ class PricingErrorContext extends AbstractContext
     public const ISSUE__CURRENCY_MISMATCH = 'CURRENCY_MISMATCH';
     public const ISSUE__PROMOTIONAL_CONFLICT = 'PROMOTIONAL_CONFLICT';
 
-    public const SPECIFIC_ISSUES = [
-        self::ISSUE__PRICE_MISMATCH,
-        self::ISSUE__DISCOUNT_EXPIRED,
-        self::ISSUE__DISCOUNT_USAGE_LIMIT_EXCEEDED,
-        self::ISSUE__DISCOUNT_CUSTOMER_INELIGIBLE,
-        self::ISSUE__DISCOUNT_MINIMUM_NOT_MET,
-        self::ISSUE__TAX_CALCULATION_FAILED,
-        self::ISSUE__CURRENCY_NOT_SUPPORTED,
-        self::ISSUE__CURRENCY_MISMATCH,
-        self::ISSUE__PROMOTIONAL_CONFLICT,
-    ];
-
     /**
      * Item with pricing issue
      */
@@ -386,6 +374,14 @@ class PricingErrorContext extends AbstractContext
         return $this->mixedItems;
     }
 
+    /**
+     * @param ?list<array{item_id: string, currency: string}> $mixedItems
+     */
+    public function setMixedItems(?array $mixedItems): void
+    {
+        $this->mixedItems = $mixedItems;
+    }
+
     public function addMixedItem(string $itemId, string $currency): void
     {
         $this->mixedItems[] = [
@@ -397,5 +393,20 @@ class PricingErrorContext extends AbstractContext
     public function resetMixedItems(): void
     {
         $this->mixedItems = [];
+    }
+
+    protected function getSpecificIssues(): array
+    {
+        return [
+            self::ISSUE__PRICE_MISMATCH,
+            self::ISSUE__DISCOUNT_EXPIRED,
+            self::ISSUE__DISCOUNT_USAGE_LIMIT_EXCEEDED,
+            self::ISSUE__DISCOUNT_CUSTOMER_INELIGIBLE,
+            self::ISSUE__DISCOUNT_MINIMUM_NOT_MET,
+            self::ISSUE__TAX_CALCULATION_FAILED,
+            self::ISSUE__CURRENCY_NOT_SUPPORTED,
+            self::ISSUE__CURRENCY_MISMATCH,
+            self::ISSUE__PROMOTIONAL_CONFLICT,
+        ];
     }
 }

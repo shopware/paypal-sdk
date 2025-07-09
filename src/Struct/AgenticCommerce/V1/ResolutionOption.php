@@ -7,6 +7,8 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
+use OpenApi\Attributes as OA;
+
 /**
  * @experimental
  */
@@ -148,6 +150,9 @@ class ResolutionOption
         return $this->metadata;
     }
 
+    /**
+     * @param ?array{cost_impact: string, priority: string, auto_applicable: bool, estimated_time: string, redirect_requeired: bool} $metadata
+     */
     public function setMetadata(?array $metadata): void
     {
         $this->metadata = $metadata;

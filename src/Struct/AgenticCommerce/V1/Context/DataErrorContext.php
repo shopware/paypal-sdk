@@ -30,23 +30,6 @@ class DataErrorContext extends AbstractContext
     public const ISSUE__INVALID_ITEM_DATA = 'INVALID_ITEM_DATA';
     public const ISSUE__ITEM_ATTRIBUTE_MISMATCH = 'ITEM_ATTRIBUTE_MISMATCH';
 
-    public const SPECIFIC_ISSUES = [
-        self::ISSUE__MISSING_CHECKOUT_FIELDS,
-        self::ISSUE__MISSING_PAYMENT_METHOD,
-        self::ISSUE__MISSING_POLICY_ACCEPTANCE,
-        self::ISSUE__REQUIRED_FIELD_MISSING,
-        self::ISSUE__INVALID_EMAIL_FORMAT,
-        self::ISSUE__INVALID_PHONE_FORMAT,
-        self::ISSUE__FIELD_VALUE_TOO_LONG,
-        self::ISSUE__FIELD_VALUE_TOO_SHORT,
-        self::ISSUE__INVALID_DATE_FORMAT,
-        self::ISSUE__FUTURE_DATE_NOT_ALLOWED,
-        self::ISSUE__INVALID_CUSTOMER_DATA,
-        self::ISSUE__ITEM_NOT_FOUND,
-        self::ISSUE__INVALID_ITEM_DATA,
-        self::ISSUE__ITEM_ATTRIBUTE_MISMATCH,
-    ];
-
     /**
      * Name of the field with validation error
      */
@@ -87,13 +70,13 @@ class DataErrorContext extends AbstractContext
      * Required regex pattern
      */
     #[OA\Property(type: 'string')]
-    protected ?string $regex_pattern = null;
+    protected ?string $regexPattern = null;
 
     /**
      * Suggested corrected value
      */
     #[OA\Property(type: 'string')]
-    protected ?string $suggested_value = null;
+    protected ?string $suggestedValue = null;
 
     /**
      * List of allowed values for enum fields
@@ -190,22 +173,22 @@ class DataErrorContext extends AbstractContext
 
     public function getRegexPattern(): ?string
     {
-        return $this->regex_pattern;
+        return $this->regexPattern;
     }
 
-    public function setRegexPattern(?string $regex_pattern): void
+    public function setRegexPattern(?string $regexPattern): void
     {
-        $this->regex_pattern = $regex_pattern;
+        $this->regexPattern = $regexPattern;
     }
 
     public function getSuggestedValue(): ?string
     {
-        return $this->suggested_value;
+        return $this->suggestedValue;
     }
 
-    public function setSuggestedValue(?string $suggested_value): void
+    public function setSuggestedValue(?string $suggestedValue): void
     {
-        $this->suggested_value = $suggested_value;
+        $this->suggestedValue = $suggestedValue;
     }
 
     /**
@@ -229,23 +212,55 @@ class DataErrorContext extends AbstractContext
         $this->allowedValues[] = $allowedValue;
     }
 
+    /**
+     * @return ?string[]
+     */
     public function getRequiredFields(): ?array
     {
         return $this->requiredFields;
     }
 
+    /**
+     * @param ?string[] $requiredFields
+     */
     public function setRequiredFields(?array $requiredFields): void
     {
         $this->requiredFields = $requiredFields;
     }
 
+    /**
+     * @return ?string[]
+     */
     public function getFieldDescriptions(): ?array
     {
         return $this->fieldDescriptions;
     }
 
+    /**
+     * @param ?string[] $fieldDescriptions
+     */
     public function setFieldDescriptions(?array $fieldDescriptions): void
     {
         $this->fieldDescriptions = $fieldDescriptions;
+    }
+
+    protected function getSpecificIssues(): array
+    {
+        return [
+            self::ISSUE__MISSING_CHECKOUT_FIELDS,
+            self::ISSUE__MISSING_PAYMENT_METHOD,
+            self::ISSUE__MISSING_POLICY_ACCEPTANCE,
+            self::ISSUE__REQUIRED_FIELD_MISSING,
+            self::ISSUE__INVALID_EMAIL_FORMAT,
+            self::ISSUE__INVALID_PHONE_FORMAT,
+            self::ISSUE__FIELD_VALUE_TOO_LONG,
+            self::ISSUE__FIELD_VALUE_TOO_SHORT,
+            self::ISSUE__INVALID_DATE_FORMAT,
+            self::ISSUE__FUTURE_DATE_NOT_ALLOWED,
+            self::ISSUE__INVALID_CUSTOMER_DATA,
+            self::ISSUE__ITEM_NOT_FOUND,
+            self::ISSUE__INVALID_ITEM_DATA,
+            self::ISSUE__ITEM_ATTRIBUTE_MISMATCH,
+        ];
     }
 }

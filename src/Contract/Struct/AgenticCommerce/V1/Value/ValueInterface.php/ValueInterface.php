@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
+namespace Shopware\Contract\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
 /**
  * @experimental

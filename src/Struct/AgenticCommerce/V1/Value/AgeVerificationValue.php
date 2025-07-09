@@ -7,6 +7,9 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
+use OpenApi\Attributes as OA;
+use Shopware\Contract\PayPalSDK\Struct\AgenticCommerce\V1\Value\ValueInterface;
+
 /**
  * @experimental
  */
@@ -41,7 +44,7 @@ class AgeVerificationValue implements ValueInterface
     #[OA\Property(type: 'string')]
     protected ?string $verificationDate = null;
 
-    public function getConfirmed(): bool
+    public function isConfirmed(): bool
     {
         return $this->confirmed;
     }

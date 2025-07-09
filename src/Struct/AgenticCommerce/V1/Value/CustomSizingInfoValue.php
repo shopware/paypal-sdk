@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
 use OpenApi\Attributes as OA;
+use Shopware\Contract\PayPalSDK\Struct\AgenticCommerce\V1\Value\ValueInterface;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -61,14 +62,12 @@ class CustomSizingInfoValue extends Struct implements ValueInterface
         return $this->measurements;
     }
 
-    public function setMeasurements(string $chest, string $waist, string $height, string $weight): void
+    /**
+     * @param ?array{chest: string, waist: string, height: string, weight: string} $measurements
+     */
+    public function setMeasurements(?array $measurements): void
     {
-        $this->measurements = [
-            'chest' => $chest,
-            'waist' => $waist,
-            'height' => $height,
-            'weight' => $weight,
-        ];
+        $this->measurements = $measurements;
     }
 
     public function resetMeasurements(): void

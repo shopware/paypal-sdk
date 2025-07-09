@@ -28,21 +28,6 @@ class BusinessRuleErrorContext extends AbstractContext
     public const ISSUE__BUSINESS_HOURS_RESTRICTION = 'BUSINESS_HOURS_RESTRICTION';
     public const ISSUE__PRODUCT_ARCHIVED = 'PRODUCT_ARCHIVED';
 
-    public const SPECIFIC_ISSUES = [
-        self::ISSUE__MINIMUM_ORDER_NOT_MET,
-        self::ISSUE__MINIMUM_QUANTITY_NOT_MET,
-        self::ISSUE__MAXIMUM_QUANTITY_EXCEEDED,
-        self::ISSUE__CART_LIMIT_EXCEEDED,
-        self::ISSUE__CUSTOMER_ACCOUNT_SUSPENDED,
-        self::ISSUE__PURCHASE_LIMIT_EXCEEDED,
-        self::ISSUE__BULK_ORDER_APPROVAL_REQUIRED,
-        self::ISSUE__STORE_TEMPORARILY_CLOSED,
-        self::ISSUE__AGE_RESTRICTED_PRODUCT,
-        self::ISSUE__LOYALTY_PROGRAM_VALIDATION_FAILED,
-        self::ISSUE__BUSINESS_HOURS_RESTRICTION,
-        self::ISSUE__PRODUCT_ARCHIVED,
-    ];
-
     /**
      * Current order amount
      */
@@ -59,7 +44,7 @@ class BusinessRuleErrorContext extends AbstractContext
      * Maximum allowed amount
      */
     #[OA\Property(type: 'string')]
-    protected ?string $maximum_Amount = null;
+    protected ?string $maximumAmount = null;
 
     /**
      * Amount needed to meet minimum
@@ -209,12 +194,12 @@ class BusinessRuleErrorContext extends AbstractContext
 
     public function getMaximumAmount(): ?string
     {
-        return $this->maximum_Amount;
+        return $this->maximumAmount;
     }
 
     public function setMaximumAmount(?string $maximum_Amount): void
     {
-        $this->maximum_Amount = $maximum_Amount;
+        $this->maximumAmount = $maximum_Amount;
     }
 
     public function getRemainingAmount(): ?string
@@ -386,13 +371,12 @@ class BusinessRuleErrorContext extends AbstractContext
         return $this->businessHours;
     }
 
-    public function setBusinessHours(string $openTime, string $closeTime, string $timezone): void
+    /**
+     * @param ?array{open_time: string, close_time: string, timezone: string} $businessHours
+     */
+    public function setBusinessHours(?array $businessHours): void
     {
-        $this->businessHours = [
-            'open_time' => $openTime,
-            'close_time' => $closeTime,
-            'timezone' => $timezone,
-        ];
+        $this->businessHours = $businessHours;
     }
 
     public function resetBusinessHours(): void
@@ -418,5 +402,23 @@ class BusinessRuleErrorContext extends AbstractContext
     public function setExceedsBy(?string $exceedsBy): void
     {
         $this->exceedsBy = $exceedsBy;
+    }
+
+    protected function getSpecificIssues(): array
+    {
+        return [
+            self::ISSUE__MINIMUM_ORDER_NOT_MET,
+            self::ISSUE__MINIMUM_QUANTITY_NOT_MET,
+            self::ISSUE__MAXIMUM_QUANTITY_EXCEEDED,
+            self::ISSUE__CART_LIMIT_EXCEEDED,
+            self::ISSUE__CUSTOMER_ACCOUNT_SUSPENDED,
+            self::ISSUE__PURCHASE_LIMIT_EXCEEDED,
+            self::ISSUE__BULK_ORDER_APPROVAL_REQUIRED,
+            self::ISSUE__STORE_TEMPORARILY_CLOSED,
+            self::ISSUE__AGE_RESTRICTED_PRODUCT,
+            self::ISSUE__LOYALTY_PROGRAM_VALIDATION_FAILED,
+            self::ISSUE__BUSINESS_HOURS_RESTRICTION,
+            self::ISSUE__PRODUCT_ARCHIVED,
+        ];
     }
 }

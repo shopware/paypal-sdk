@@ -26,19 +26,6 @@ class InventoryIssueContext extends AbstractContext
     public const ISSUE__VARIANT_NOT_AVAILABLE = 'VARIANT_NOT_AVAILABLE';
     public const ISSUE__CUSTOM_OPTION_UNAVAILABLE = 'CUSTOM_OPTION_UNAVAILABLE';
 
-    public const SPECIFIC_ISSUES = [
-        self::ISSUE__ITEM_OUT_OF_STOCK,
-        self::ISSUE__INSUFFICIENT_INVENTORY,
-        self::ISSUE__BACK_ORDERED,
-        self::ISSUE__PRE_ORDER_ONLY,
-        self::ISSUE__ITEM_DISCONTINUED,
-        self::ISSUE__LOW_STOCK_WARNING,
-        self::ISSUE__INVENTORY_RESERVED,
-        self::ISSUE__SEASONAL_UNAVAILABLE,
-        self::ISSUE__VARIANT_NOT_AVAILABLE,
-        self::ISSUE__CUSTOM_OPTION_UNAVAILABLE,
-    ];
-
     /**
      * Product item identifier
      */
@@ -289,5 +276,21 @@ class InventoryIssueContext extends AbstractContext
     public function setLastSold(?string $lastSold): void
     {
         $this->lastSold = $lastSold;
+    }
+
+    protected function getSpecificIssues(): array
+    {
+        return [
+            self::ISSUE__ITEM_OUT_OF_STOCK,
+            self::ISSUE__INSUFFICIENT_INVENTORY,
+            self::ISSUE__BACK_ORDERED,
+            self::ISSUE__PRE_ORDER_ONLY,
+            self::ISSUE__ITEM_DISCONTINUED,
+            self::ISSUE__LOW_STOCK_WARNING,
+            self::ISSUE__INVENTORY_RESERVED,
+            self::ISSUE__SEASONAL_UNAVAILABLE,
+            self::ISSUE__VARIANT_NOT_AVAILABLE,
+            self::ISSUE__CUSTOM_OPTION_UNAVAILABLE,
+        ];
     }
 }

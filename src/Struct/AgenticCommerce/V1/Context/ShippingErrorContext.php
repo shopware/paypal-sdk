@@ -33,19 +33,6 @@ class ShippingErrorContext extends AbstractContext
     public const RESTRICTED_REASON__OVERSIZED_ITEM = 'oversized_item';
     public const RESTRICTED_REASON__PO_BOX_RESTRICTION = 'po_box_restriction';
 
-    public const SPECIFIC_ISSUES = [
-        self::ISSUE__MISSING_SHIPPING_ADDRESS,
-        self::ISSUE__SHIPPING_ADDRESS_INVALID,
-        self::ISSUE__SHIPPING_TO_PO_BOX_NOT_ALLOWED,
-        self::ISSUE__NO_SHIPPING_OPTIONS,
-        self::ISSUE__INTERNATIONAL_SHIPPING_RESTRICTED,
-        self::ISSUE__REGION_RESTRICTED,
-        self::ISSUE__OVERSIZED_ITEM_SHIPPING,
-        self::ISSUE__HAZARDOUS_MATERIAL_SHIPPING,
-        self::ISSUE__SHIPPING_ZONE_NOT_COVERED,
-        self::ISSUE__MISSING_COORDINATES_FOR_ENHANCED_DELIVERY,
-    ];
-
     public const RESTRICTED_REASONS = [
         self::RESTRICTED_REASON__SIGNATURE_REQUIRED,
         self::RESTRICTED_REASON__AGE_VERIFICATION_REQUIRED,
@@ -182,13 +169,12 @@ class ShippingErrorContext extends AbstractContext
         return $this->suggestedCorrections;
     }
 
-    public function setSuggestedCorrections(string $postalCode, string $addressLine1, string $adminArea2): void
+    /**
+     * @param ?array{postal_code: string, address_line_1: string, admin_area_2: string} $suggestedCorrections
+     */
+    public function setSuggestedCorrections(?array $suggestedCorrections): void
     {
-        $this->suggestedCorrections = [
-            'postal_code' => $postalCode,
-            'address_line_1' => $addressLine1,
-            'admin_area_2' => $adminArea2,
-        ];
+        $this->suggestedCorrections = $suggestedCorrections;
     }
 
     public function getAddressQualityScore(): ?float
@@ -300,5 +286,21 @@ class ShippingErrorContext extends AbstractContext
     public function setProvidedAddress(?string $providedAddress): void
     {
         $this->providedAddress = $providedAddress;
+    }
+
+    protected function getSpecificIssues(): array
+    {
+        return [
+            self::ISSUE__MISSING_SHIPPING_ADDRESS,
+            self::ISSUE__SHIPPING_ADDRESS_INVALID,
+            self::ISSUE__SHIPPING_TO_PO_BOX_NOT_ALLOWED,
+            self::ISSUE__NO_SHIPPING_OPTIONS,
+            self::ISSUE__INTERNATIONAL_SHIPPING_RESTRICTED,
+            self::ISSUE__REGION_RESTRICTED,
+            self::ISSUE__OVERSIZED_ITEM_SHIPPING,
+            self::ISSUE__HAZARDOUS_MATERIAL_SHIPPING,
+            self::ISSUE__SHIPPING_ZONE_NOT_COVERED,
+            self::ISSUE__MISSING_COORDINATES_FOR_ENHANCED_DELIVERY,
+        ];
     }
 }

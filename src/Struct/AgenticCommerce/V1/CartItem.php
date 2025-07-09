@@ -171,6 +171,14 @@ class CartItem extends Struct
         return $this->selectedAttributes;
     }
 
+    /**
+     * @param ?list<array{name: string, value: string}> $selectedAttributes
+     */
+    public function setSelectedAttributes(?array $selectedAttributes): void
+    {
+        $this->selectedAttributes = $selectedAttributes;
+    }
+
     public function addSelectedAttribute(string $name, string $value): void
     {
         $this->selectedAttributes[] = [
@@ -200,6 +208,14 @@ class CartItem extends Struct
     public function getCustomOptions(): ?array
     {
         return $this->customOptions;
+    }
+
+    /**
+     * @param ?list<array{name: string, value: string, price_modifier: string}> $customOptions
+     */
+    public function setCustomOptions(?array $customOptions): void
+    {
+        $this->customOptions = $customOptions;
     }
 
     public function addCustomOption(string $name, string $value, string $priceModifier): void

@@ -7,6 +7,8 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
+use OpenApi\Attributes as OA;
+
 /**
  * @experimental
  */
@@ -88,6 +90,14 @@ class Error
     public function getDetails(): ?array
     {
         return $this->details;
+    }
+
+    /**
+     * @param ?list<array{field: string, issue: string, description: string}> $details
+     */
+    public function setDetails(?array $details): void
+    {
+        $this->details = $details;
     }
 
     public function addDetail(string $field, string $issue, string $description): void

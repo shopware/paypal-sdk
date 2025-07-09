@@ -26,19 +26,6 @@ class PaymentErrorContext extends AbstractContext
     public const ISSUE__PAYMENT_EXPIRED = 'PAYMENT_EXPIRED';
     public const ISSUE__PAYMENT_FRAUD_DETECTED = 'PAYMENT_FRAUD_DETECTED';
 
-    public const SPECIFIC_ISSUES = [
-        self::ISSUE__PAYMENT_AMOUNT_TOO_LARGE,
-        self::ISSUE__PAYMENT_AMOUNT_TOO_SMALL,
-        self::ISSUE__PAYMENT_METHOD_NOT_ACCEPTED,
-        self::ISSUE__CURRENCY_CONVERSION_FAILED,
-        self::ISSUE__PAYMENT_PROCESSOR_UNAVAILABLE,
-        self::ISSUE__MERCHANT_ACCOUNT_ISSUE,
-        self::ISSUE__PAYMENT_DECLINED,
-        self::ISSUE__PAYMENT_INSUFFICIENT_FUNDS,
-        self::ISSUE__PAYMENT_EXPIRED,
-        self::ISSUE__PAYMENT_FRAUD_DETECTED,
-    ];
-
     /**
      * Total order amount
      */
@@ -261,5 +248,21 @@ class PaymentErrorContext extends AbstractContext
     public function setPaymentToken(?string $paymentToken): void
     {
         $this->paymentToken = $paymentToken;
+    }
+
+    protected function getSpecificIssues(): array
+    {
+        return [
+            self::ISSUE__PAYMENT_AMOUNT_TOO_LARGE,
+            self::ISSUE__PAYMENT_AMOUNT_TOO_SMALL,
+            self::ISSUE__PAYMENT_METHOD_NOT_ACCEPTED,
+            self::ISSUE__CURRENCY_CONVERSION_FAILED,
+            self::ISSUE__PAYMENT_PROCESSOR_UNAVAILABLE,
+            self::ISSUE__MERCHANT_ACCOUNT_ISSUE,
+            self::ISSUE__PAYMENT_DECLINED,
+            self::ISSUE__PAYMENT_INSUFFICIENT_FUNDS,
+            self::ISSUE__PAYMENT_EXPIRED,
+            self::ISSUE__PAYMENT_FRAUD_DETECTED,
+        ];
     }
 }

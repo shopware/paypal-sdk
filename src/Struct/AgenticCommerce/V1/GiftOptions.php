@@ -80,7 +80,7 @@ class GiftOptions extends Struct
     #[OA\Property(type: 'boolean')]
     protected ?bool $giftWrap = null;
 
-    public function getIsGift(): ?bool
+    public function isGift(): ?bool
     {
         return $this->isGift;
     }
@@ -98,13 +98,12 @@ class GiftOptions extends Struct
         return $this->recipient;
     }
 
-    public function setRecipient(string $name, string $email, string $phone): void
+    /**
+     * @param ?array{name: string, email: string, phone: string} $recipient
+     */
+    public function setRecipient(?array $recipient): void
     {
-        $this->recipient = [
-            'name' => $name,
-            'email' => $email,
-            'phone' => $phone,
-        ];
+        $this->recipient = $recipient;
     }
 
     public function getDeliveryDate(): ?string

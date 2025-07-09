@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
 use OpenApi\Attributes as OA;
+use Shopware\Contract\PayPalSDK\Struct\AgenticCommerce\V1\Value\ValueInterface;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -65,6 +66,14 @@ class PrivacyConsentValue extends Struct implements ValueInterface
     public function getConsentTypes(): ?array
     {
         return $this->consentTypes;
+    }
+
+    /**
+     * @param ?string[] $consentTypes
+     */
+    public function setConsentTypes(?array $consentTypes): void
+    {
+        $this->consentTypes = $consentTypes;
     }
 
     public function addConsentType(string $consentType): void

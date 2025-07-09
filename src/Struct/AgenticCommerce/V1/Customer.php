@@ -64,12 +64,12 @@ class Customer extends Struct
         return $this->name;
     }
 
-    public function setName(string $givenName, string $surname): void
+    /**
+     * @param ?array{given_name: string, surname: string} $name
+     */
+    public function setName(?array $name): void
     {
-        $this->name = [
-            'given_name' => $givenName,
-            'surname' => $surname,
-        ];
+        $this->name = $name;
     }
 
     public function getPhone(): ?Phone
