@@ -60,7 +60,7 @@ class Coupon extends Struct
     public function setAction(string $action): void
     {
         if (!\in_array($action, [self::APPLY, self::REMOVE], true)) {
-            throw new \InvalidArgumentException('Invalid coupon code');
+            throw new \InvalidArgumentException(\sprintf('Action "%s" is not valid.', $action));
         }
 
         $this->action = $action;

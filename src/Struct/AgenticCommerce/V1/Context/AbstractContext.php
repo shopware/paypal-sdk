@@ -34,8 +34,7 @@ abstract class AbstractContext extends Struct
     public function setSpecificIssue(string $specificIssue): void
     {
         if (!\in_array($specificIssue, $this->getSpecificIssues(), true)) {
-            // TODO: Better one?
-            throw new \RuntimeException('Specific issue not allowed: ' . $specificIssue);
+            throw new \InvalidArgumentException(\sprintf('Specific issue "%s" is not valid.', $specificIssue));
         }
 
         $this->specificIssue = $specificIssue;

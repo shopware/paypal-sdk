@@ -152,7 +152,7 @@ class Address extends Struct
     public function setCountryCode(string $countryCode): void
     {
         if (!preg_match('/^[A-Z]{2}$/', $countryCode)) {
-            throw new \InvalidArgumentException('Country code must be alphanumeric');
+            throw new \InvalidArgumentException(\sprintf('Country code "%s" is not valid.', $countryCode));
         }
 
         $this->countryCode = $countryCode;

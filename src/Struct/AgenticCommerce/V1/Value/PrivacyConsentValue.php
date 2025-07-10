@@ -79,7 +79,7 @@ class PrivacyConsentValue extends Struct implements ValueInterface
     public function addConsentType(string $consentType): void
     {
         if (!\in_array($consentType, ['data_processing', 'marketing', 'third_party_sharing', 'analytics'], true)) {
-            throw new \InvalidArgumentException(\sprintf('Consent type "%s" is not a valid consent type.', $consentType));
+            throw new \InvalidArgumentException(\sprintf('Consent type "%s" is not valid.', $consentType));
         }
 
         $this->consentTypes[] = $consentType;

@@ -185,8 +185,7 @@ class ShippingErrorContext extends AbstractContext
     public function setAddressQualityScore(?float $addressQualityScore): void
     {
         if ($addressQualityScore < 0 || $addressQualityScore > 1) {
-            // TODO: Better one?
-            throw new \RuntimeException('Score must be between 0 and 1');
+            throw new \InvalidArgumentException(\sprintf('Address quality score "%s" is not valid. Must be between 0 and 1', $addressQualityScore));
         }
 
         $this->addressQualityScore = $addressQualityScore;
@@ -221,7 +220,7 @@ class ShippingErrorContext extends AbstractContext
     public function setRestrictionReason(string $restrictionReason): void
     {
         if (!\in_array($restrictionReason, self::RESTRICTED_REASONS, true)) {
-            throw new \RuntimeException('Restricted reason now allowed: ' . $restrictionReason);
+            throw new \InvalidArgumentException(\sprintf('Restricted reason "%s" is not valid.', $restrictionReason));
         }
 
         $this->restrictionReason = $restrictionReason;

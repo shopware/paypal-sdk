@@ -59,7 +59,7 @@ class Money extends Struct
     public function setCurrencyCode(string $currencyCode): void
     {
         if (\strlen($currencyCode) !== 3) {
-            throw new \InvalidArgumentException('Invalid currency code');
+            throw new \InvalidArgumentException(\sprintf('Currency code "%s" is not valid.', $currencyCode));
         }
 
         $this->currencyCode = $currencyCode;

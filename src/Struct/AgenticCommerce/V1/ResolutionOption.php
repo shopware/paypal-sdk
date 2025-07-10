@@ -116,7 +116,7 @@ class ResolutionOption
     public function setAction(string $action): void
     {
         if (!\in_array($action, self::ACTIONS, true)) {
-            throw new \InvalidArgumentException('Invalid action');
+            throw new \InvalidArgumentException(\sprintf('Action "%s" is not valid.', $action));
         }
 
         $this->action = $action;

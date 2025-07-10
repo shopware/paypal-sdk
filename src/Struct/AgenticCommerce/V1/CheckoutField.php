@@ -9,6 +9,17 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Contract\Struct\AgenticCommerce\V1\Value\ValueInterface;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\AgeVerificationValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\AllergyInformationValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\CustomEngravingTextValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\CustomSizingInfoValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\DeliveryDatePreferenceValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\DeliveryInstructionsValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\GiftMessageValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\GiftRecipientEmailValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\GiftRecipientNameValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\PrivacyConsentValue;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value\TermsAcceptanceValue;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -119,9 +130,20 @@ class CheckoutField extends Struct
      * Structured value based on field type. Each checkout field type has a specific value schema.
      * Use oneOf to validate against the appropriate structure for the field type.
      */
-    #[OA\Property(ref: ValueInterface::class)]
-    // TODO: Or use "oneOf"?
-    protected ValueInterface $value;
+    #[OA\Property(oneOf: [
+        new OA\Schema(ref: AgeVerificationValue::class),
+        new OA\Schema(ref: GiftRecipientEmailValue::class),
+        new OA\Schema(ref: GiftRecipientNameValue::class),
+        new OA\Schema(ref: GiftMessageValue::class),
+        new OA\Schema(ref: DeliveryInstructionsValue::class),
+        new OA\Schema(ref: DeliveryDatePreferenceValue::class),
+        new OA\Schema(ref: AllergyInformationValue::class),
+        new OA\Schema(ref: CustomEngravingTextValue::class),
+        new OA\Schema(ref: CustomSizingInfoValue::class),
+        new OA\Schema(ref: TermsAcceptanceValue::class),
+        new OA\Schema(ref: PrivacyConsentValue::class),
+    ])]
+    protected ValueInterface&Struct $value;
 
     /**
      * Additional context and metadata for the checkout field.
@@ -142,7 +164,7 @@ class CheckoutField extends Struct
     public function setType(string $type): void
     {
         if (!\in_array($type, self::TYPES, true)) {
-            throw new \InvalidArgumentException(\sprintf('Invalid value for type: %s', $type));
+            throw new \InvalidArgumentException(\sprintf('Type "%s" is not valid.', $type));
         }
 
         $this->type = $type;
@@ -156,34 +178,28 @@ class CheckoutField extends Struct
     public function setStatus(string $status): void
     {
         if (!\in_array($status, ['PENDING', 'COMPLETED', 'REJECTED', 'ERROR'], true)) {
-            throw new \InvalidArgumentException(\sprintf('Invalid value for status: %s', $status));
+            throw new \InvalidArgumentException(\sprintf('Status "%s" is not valid.', $status));
         }
 
         $this->status = $status;
     }
 
-    public function getValue(): ValueInterface
+    public function getValue(): ValueInterface&Struct
     {
         return $this->value;
     }
 
-    public function setValue(ValueInterface $value): void
+    public function setValue(ValueInterface&Struct $value): void
     {
         $this->value = $value;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getContext()
+    public function getContext(): mixed
     {
         return $this->context;
     }
 
-    /**
-     * @param mixed $context
-     */
-    public function setContext($context): void
+    public function setContext(mixed $context): void
     {
         $this->context = $context;
     }

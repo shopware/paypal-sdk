@@ -9,6 +9,12 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\AbstractContext;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\BusinessRuleErrorContext;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\DataErrorContext;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\InventoryIssueContext;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\PaymentErrorContext;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\PricingErrorContext;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\ShippingErrorContext;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -87,8 +93,14 @@ class ValidationIssue extends Struct
     /**
      * Category-specific context information
      */
-    #[OA\Property(ref: AbstractContext::class)]
-    // TODO: or use "oneOf"?
+    #[OA\Property(oneOf: [
+        new OA\Schema(ref: InventoryIssueContext::class),
+        new OA\Schema(ref: PricingErrorContext::class),
+        new OA\Schema(ref: ShippingErrorContext::class),
+        new OA\Schema(ref: PaymentErrorContext::class),
+        new OA\Schema(ref: DataErrorContext::class),
+        new OA\Schema(ref: BusinessRuleErrorContext::class),
+    ])]
     protected ?AbstractContext $context = null;
 
     /**

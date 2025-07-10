@@ -75,7 +75,7 @@ class Link extends Struct
     public function setRel(string $rel): void
     {
         if (!\in_array($rel, [self::REL__SELF, self::REL__UPDATE, self::REL__CHECKOUT], true)) {
-            throw new \InvalidArgumentException('Invalid rel option');
+            throw new \InvalidArgumentException(\sprintf('Rel "%s" is not valid.', $rel));
         }
 
         $this->rel = $rel;
@@ -99,7 +99,7 @@ class Link extends Struct
     public function setMethod(?string $method): void
     {
         if (!\in_array($method, [self::METHOD__GET, self::METHOD__POST, self::METHOD__PUT], true)) {
-            throw new \InvalidArgumentException('Invalid method');
+            throw new \InvalidArgumentException(\sprintf('Method "%s" is not valid.', $method));
         }
 
         $this->method = $method;
