@@ -62,8 +62,7 @@ class AgeVerificationValue implements ValueInterface
     public function setVerificationMethod(?string $verificationMethod): void
     {
         if (!\in_array($verificationMethod, [self::METHOD__SELF_DECLARATION, self::METHOD__ID_VERIFICATION, self::METHOD__THIRD_PARTY], true)) {
-            // TODO: Better one?
-            throw new \RuntimeException(\sprintf('Invalid value for verification method "%s".', $verificationMethod));
+            throw new \InvalidArgumentException(\sprintf('Verification Method "%s" is not valid.', $verificationMethod));
         }
 
         $this->verificationMethod = $verificationMethod;
