@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Struct\AgenticCommerceV1;
+namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use Shopware\PayPalSDK\Struct\Collection;
 
