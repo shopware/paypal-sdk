@@ -20,6 +20,11 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class PrivacyConsentValue extends Struct implements ValueInterface
 {
+    public const CONSENT_TYPE__DATA_PROCESSING = 'data_processing';
+    public const CONSENT_TYPE__MARKETING = 'marketing';
+    public const CONSENT_TYPE__THIRD_PARTY_SHARING = 'third_party_sharing';
+    public const CONSENT_TYPE__ANALYTICS = 'analytics';
+
     /**
      * Whether privacy policy was consented to
      */
@@ -34,7 +39,7 @@ class PrivacyConsentValue extends Struct implements ValueInterface
     #[OA\Property(
         type: 'array',
         items: new OA\Items(type: 'string'),
-        enum: ['data_processing', 'marketing', 'third_party_sharing', 'analytics']
+        enum: [self::CONSENT_TYPE__ANALYTICS, self::CONSENT_TYPE__THIRD_PARTY_SHARING, self::CONSENT_TYPE__DATA_PROCESSING, self::CONSENT_TYPE__MARKETING]
     )]
     protected ?array $consentTypes = null;
 
@@ -78,7 +83,7 @@ class PrivacyConsentValue extends Struct implements ValueInterface
 
     public function addConsentType(string $consentType): void
     {
-        if (!\in_array($consentType, ['data_processing', 'marketing', 'third_party_sharing', 'analytics'], true)) {
+        if (!\in_array($consentType, [self::CONSENT_TYPE__ANALYTICS, self::CONSENT_TYPE__THIRD_PARTY_SHARING, self::CONSENT_TYPE__DATA_PROCESSING, self::CONSENT_TYPE__MARKETING], true)) {
             throw new \InvalidArgumentException(\sprintf('Consent type "%s" is not valid.', $consentType));
         }
 
