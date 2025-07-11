@@ -47,10 +47,6 @@ class Phone extends Struct
 
     /**
      * The extension number
-     *
-     * minLength: 1
-     * maxLength: 15
-     * pattern: ^[0-9]{1,15}?$
      */
     #[OA\Property(
         type: 'string',
