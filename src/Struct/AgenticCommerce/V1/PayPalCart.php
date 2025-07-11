@@ -80,70 +80,39 @@ class PayPalCart extends Struct
 
     /**
      * List of issues preventing checkout (empty = ready)
-     *
-     * @var ValidationIssue[]
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(ref: ValidationIssue::class),
-        readOnly: true,
-    )]
+    #[OA\Property(ref: ValidationIssueCollection::class)]
     // TODO: need to be readonly?
-    protected array $validationIssues;
+    protected ValidationIssueCollection $validationIssues;
 
     #[OA\Property(ref: CartTotals::class)]
     protected ?CartTotals $totals = null;
 
     /**
      * Successfully applied coupons (server-calculated)
-     *
-     * @var AppliedCoupon[]
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(ref: AppliedCoupon::class),
-        readOnly: true,
-    )]
+    #[OA\Property(ref: AppliedCouponCollection::class)]
     // TODO: need to be readonly?
-    protected array $appliedCoupons;
+    protected AppliedCouponCollection $appliedCoupons;
 
     /**
      * Available shipping methods with selection state
-     *
-     * @var ShippingOption[]
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(ref: ShippingOption::class),
-    )]
-    protected ?array $availableShippingOptions = null;
+    #[OA\Property(ref: ShippingOptionCollection::class)]
+    protected ShippingOptionCollection $availableShippingOptions;
 
     /**
      * HATEOAS navigation links for cart operations
-     *
-     * @var Link[]
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(ref: Link::class),
-        readOnly: true,
-    )]
+    #[OA\Property(ref: LinkCollection::class)]
     // TODO: need to be readonly?
-    protected array $links;
+    protected LinkCollection $links;
 
     /**
      * Products in the cart
-     *
-     * minItems: 1
-     *
-     * @var non-empty-list<CartItem>
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(ref: CartItem::class),
-        minItems: 1
-    )]
-    protected array $items;
+    #[OA\Property(ref: CartItemCollection::class)]
+    protected CartItemCollection $items;
 
     #[OA\Property(ref: Customer::class)]
     protected ?Customer $customer = null;
@@ -159,25 +128,15 @@ class PayPalCart extends Struct
 
     /**
      * Custom checkout fields (age verification, etc.)
-     *
-     * @var CheckoutField[]
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(ref: CheckoutField::class)
-    )]
-    protected ?array $checkoutFields = null;
+    #[OA\Property(ref: CheckoutFieldCollection::class)]
+    protected CheckoutFieldCollection $checkoutFields;
 
     /**
      * Discount coupons to apply or remove from cart
-     *
-     * @var Coupon[]
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(ref: Coupon::class)
-    )]
-    protected ?array $coupons = null;
+    #[OA\Property(ref: CouponCollection::class)]
+    protected CouponCollection $coupons;
 
     #[OA\Property(ref: GeoCoordinates::class)]
     protected ?GeoCoordinates $geoCoordinates = null;
@@ -212,34 +171,22 @@ class PayPalCart extends Struct
         $this->validationStatus = $validationStatus;
     }
 
-    /**
-     * @return ValidationIssue[]
-     */
-    public function getValidationIssues(): array
+    public function getValidationIssues(): ValidationIssueCollection
     {
         return $this->validationIssues;
     }
 
-    /**
-     * @param ValidationIssue[] $validationIssues
-     */
-    public function setValidationIssues(array $validationIssues): void
+    public function setValidationIssues(ValidationIssueCollection $validationIssues): void
     {
         $this->validationIssues = $validationIssues;
     }
 
-    /**
-     * @return AppliedCoupon[]
-     */
-    public function getAppliedCoupons(): array
+    public function getAppliedCoupons(): AppliedCouponCollection
     {
         return $this->appliedCoupons;
     }
 
-    /**
-     * @param AppliedCoupon[] $appliedCoupons
-     */
-    public function setAppliedCoupons(array $appliedCoupons): void
+    public function setAppliedCoupons(AppliedCouponCollection $appliedCoupons): void
     {
         $this->appliedCoupons = $appliedCoupons;
     }
@@ -254,50 +201,32 @@ class PayPalCart extends Struct
         $this->totals = $totals;
     }
 
-    /**
-     * @return ?ShippingOption[]
-     */
-    public function getAvailableShippingOptions(): ?array
+    public function getAvailableShippingOptions(): ShippingOptionCollection
     {
         return $this->availableShippingOptions;
     }
 
-    /**
-     * @param ?ShippingOption[] $availableShippingOptions
-     */
-    public function setAvailableShippingOptions(?array $availableShippingOptions): void
+    public function setAvailableShippingOptions(ShippingOptionCollection $availableShippingOptions): void
     {
         $this->availableShippingOptions = $availableShippingOptions;
     }
 
-    /**
-     * @return Link[]
-     */
-    public function getLinks(): array
+    public function getLinks(): LinkCollection
     {
         return $this->links;
     }
 
-    /**
-     * @param Link[] $links
-     */
-    public function setLinks(array $links): void
+    public function setLinks(LinkCollection $links): void
     {
         $this->links = $links;
     }
 
-    /**
-     * @return non-empty-list<CartItem>
-     */
-    public function getItems(): array
+    public function getItems(): CartItemCollection
     {
         return $this->items;
     }
 
-    /**
-     * @param non-empty-list<CartItem> $items
-     */
-    public function setItems(array $items): void
+    public function setItems(CartItemCollection $items): void
     {
         $this->items = $items;
     }
@@ -342,34 +271,22 @@ class PayPalCart extends Struct
         $this->paymentMethod = $paymentMethod;
     }
 
-    /**
-     * @return ?CheckoutField[]
-     */
-    public function getCheckoutFields(): ?array
+    public function getCheckoutFields(): CheckoutFieldCollection
     {
         return $this->checkoutFields;
     }
 
-    /**
-     * @param ?CheckoutField[] $checkoutFields
-     */
-    public function setCheckoutFields(?array $checkoutFields): void
+    public function setCheckoutFields(CheckoutFieldCollection $checkoutFields): void
     {
         $this->checkoutFields = $checkoutFields;
     }
 
-    /**
-     * @return ?Coupon[]
-     */
-    public function getCoupons(): ?array
+    public function getCoupons(): CouponCollection
     {
         return $this->coupons;
     }
 
-    /**
-     * @param ?Coupon[] $coupons
-     */
-    public function setCoupons(?array $coupons): void
+    public function setCoupons(CouponCollection $coupons): void
     {
         $this->coupons = $coupons;
     }

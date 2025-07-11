@@ -8,6 +8,8 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\MetaData;
+use Shopware\PayPalSDK\Struct\Struct;
 
 /**
  * @experimental
@@ -16,7 +18,7 @@ use OpenApi\Attributes as OA;
     schema: 'paypal_agentic_commerce_v1_resolution_option',
     required: ['action', 'label']
 )]
-class ResolutionOption
+class ResolutionOption extends Struct
 {
     public const ACTION__REDIRECT_TO_MERCHANT = 'REDIRECT_TO_MERCHANT';
     public const ACTION__MODIFY_CART = 'MODIFY_CART';
@@ -89,24 +91,9 @@ class ResolutionOption
 
     /**
      * Additional action metadata
-     *
-     * @var array{cost_impact: string, priority: string, auto_applicable: bool, estimated_time: string, redirect_requeired: bool} $metadata
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(
-            required: ['cost_impact', 'priority', 'auto_applicable', 'estimated_time', 'redirect_requeired'],
-            properties: [
-                new OA\Property(property: 'cost_impact', type: 'string'),
-                new OA\Property(property: 'waist', type: 'string'),
-                new OA\Property(property: 'auto_applicable', type: 'boolean'),
-                new OA\Property(property: 'estimated_time', type: 'string'),
-                new OA\Property(property: 'redirect_requeired', type: 'boolean'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $metadata = null;
+    #[OA\Property(ref: MetaData::class)]
+    protected MetaData $metadata;
 
     public function getAction(): string
     {
@@ -142,18 +129,12 @@ class ResolutionOption
         $this->url = $url;
     }
 
-    /**
-     * @return ?array{cost_impact: string, priority: string, auto_applicable: bool, estimated_time: string, redirect_requeired: bool}
-     */
-    public function getMetadata(): ?array
+    public function getMetadata(): MetaData
     {
         return $this->metadata;
     }
 
-    /**
-     * @param ?array{cost_impact: string, priority: string, auto_applicable: bool, estimated_time: string, redirect_requeired: bool} $metadata
-     */
-    public function setMetadata(?array $metadata): void
+    public function setMetadata(MetaData $metadata): void
     {
         $this->metadata = $metadata;
     }

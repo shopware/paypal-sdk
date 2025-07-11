@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\BusinessHourCollection;
 
 /**
  * @experimental
@@ -143,22 +144,9 @@ class BusinessRuleErrorContext extends AbstractContext
 
     /**
      * Store business hours
-     *
-     * @var array{open_time: string, close_time: string, timezone: string}
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(
-            required: ['open_time', 'close_time', 'timezone'],
-            properties: [
-                new OA\Property(property: 'open_time', type: 'string'),
-                new OA\Property(property: 'close_time', type: 'string'),
-                new OA\Property(property: 'timezone', type: 'string'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $businessHours = null;
+    #[OA\Property(ref: BusinessHourCollection::class)]
+    protected BusinessHourCollection $businessHours;
 
     /**
      * Amount needed to meet minimum requirements
@@ -363,25 +351,14 @@ class BusinessRuleErrorContext extends AbstractContext
         $this->ageRequirement = $ageRequirement;
     }
 
-    /**
-     * @return ?array{open_time: string, close_time: string, timezone: string}
-     */
-    public function getBusinessHours(): ?array
+    public function getBusinessHours(): BusinessHourCollection
     {
         return $this->businessHours;
     }
 
-    /**
-     * @param ?array{open_time: string, close_time: string, timezone: string} $businessHours
-     */
-    public function setBusinessHours(?array $businessHours): void
+    public function setBusinessHours(BusinessHourCollection $businessHours): void
     {
         $this->businessHours = $businessHours;
-    }
-
-    public function resetBusinessHours(): void
-    {
-        $this->businessHours = null;
     }
 
     public function getShortageAmount(): ?string

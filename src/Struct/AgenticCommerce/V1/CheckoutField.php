@@ -24,9 +24,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 
 /**
  * @experimental
- */
-
-/**
+ *
  * PayPal-controlled checkout field for buyer data collection with structured values and validation.
  *
  * Field Lifecycle:

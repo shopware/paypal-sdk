@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Contract\Struct\AgenticCommerce\V1\Value\ValueInterface;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\Measurements;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -17,34 +18,22 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_value_custom_sizing_info_value')]
 class CustomSizingInfoValue extends Struct implements ValueInterface
 {
+    public const SIZE__TIGHT = 'tight';
+    public const SIZE__REGULAR = 'regular';
+    public const SIZE__LOOSE = 'loose';
+
     /**
      * Body measurements
-     *
-     * @var array{chest: string, waist: string, height: string, weight: string}
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(
-            required: ['chest', 'waist', 'height', 'weight'],
-            properties: [
-                new OA\Property(property: 'chest', type: 'string'),
-                new OA\Property(property: 'waist', type: 'string'),
-                new OA\Property(property: 'height', type: 'string'),
-                new OA\Property(property: 'weight', type: 'string'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $measurements = null;
+    #[OA\Property(ref: Measurements::class)]
+    protected Measurements $measurements;
 
     /**
      * Fit preference
-     *
-     * Enum: [ tight, regular, loose ]
      */
     #[OA\Property(
         type: 'string',
-        enum: ['tight', 'regular', 'loose']
+        enum: [self::SIZE__TIGHT, self::SIZE__REGULAR, self::SIZE__LOOSE],
     )]
     protected ?string $sizePreference = null;
 
@@ -54,25 +43,14 @@ class CustomSizingInfoValue extends Struct implements ValueInterface
     #[OA\Property(type: 'string')]
     protected ?string $specialRequirements = null;
 
-    /**
-     * @return ?array{chest: string, waist: string, height: string, weight: string}
-     */
-    public function getMeasurements(): ?array
+    public function getMeasurements(): Measurements
     {
         return $this->measurements;
     }
 
-    /**
-     * @param ?array{chest: string, waist: string, height: string, weight: string} $measurements
-     */
-    public function setMeasurements(?array $measurements): void
+    public function setMeasurements(Measurements $measurements): void
     {
         $this->measurements = $measurements;
-    }
-
-    public function resetMeasurements(): void
-    {
-        $this->measurements = null;
     }
 
     public function getSizePreference(): ?string

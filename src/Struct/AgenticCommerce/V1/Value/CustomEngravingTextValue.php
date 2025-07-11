@@ -20,10 +20,22 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class CustomEngravingTextValue extends Struct implements ValueInterface
 {
+    public const FONT__ARIAL = 'arial';
+    public const FONT__TIMES = 'times';
+    public const FONT__SCRIPT = 'script';
+    public const FONT__BLOCK = 'block';
+
+    public const SIZE__SMALL = 'small';
+    public const SIZE__MEDIUM = 'medium';
+    public const SIZE__LARGE = 'large';
+
+    public const POSITION__FRONT = 'front';
+    public const POSITION__BACK = 'back';
+    public const POSITION__SIDE = 'side';
+    public const POSITION__BOTTOM = 'bottom';
+
     /**
      * Text to be engraved
-     *
-     * maxLength: 100
      */
     #[OA\Property(
         type: 'string',
@@ -33,34 +45,28 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
 
     /**
      * Preferred font style
-     *
-     * Enum: [ arial, times, script, block ]
      */
     #[OA\Property(
         type: 'string',
-        enum: ['arial', 'times', 'script', 'block']
+        enum: [self::FONT__ARIAL, self::FONT__TIMES, self::FONT__SCRIPT, self::FONT__BLOCK],
     )]
     protected ?string $font = null;
 
     /**
      * Text size preference
-     *
-     * Enum: [ small, medium, large ]
      */
     #[OA\Property(
         type: 'string',
-        enum: ['small', 'medium', 'large']
+        enum: [self::SIZE__SMALL, self::SIZE__MEDIUM, self::SIZE__LARGE]
     )]
     protected ?string $size = null;
 
     /**
      * Engraving position
-     *
-     * Enum: [ front, back, side, bottom ]
      */
     #[OA\Property(
         type: 'string',
-        enum: ['front', 'back', 'side', 'bottom']
+        enum: [self::POSITION__FRONT, self::POSITION__BACK, self::POSITION__SIDE, self::POSITION__BOTTOM]
     )]
     protected ?string $position = null;
 
@@ -81,7 +87,7 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
 
     public function setFont(?string $font): void
     {
-        if (!\in_array($font, ['arial', 'times', 'script', 'block'], true)) {
+        if (!\in_array($font, [self::FONT__ARIAL, self::FONT__TIMES, self::FONT__SCRIPT, self::FONT__BLOCK], true)) {
             throw new \InvalidArgumentException('Font must be one of "arial", "times", "script", "block"');
         }
 
@@ -95,7 +101,7 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
 
     public function setSize(?string $size): void
     {
-        if (!\in_array($size, ['small', 'medium', 'large'], true)) {
+        if (!\in_array($size, [self::SIZE__SMALL, self::SIZE__MEDIUM, self::SIZE__LARGE], true)) {
             throw new \InvalidArgumentException('Size must be one of "small", "medium", "large"');
         }
 
@@ -109,7 +115,7 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
 
     public function setPosition(?string $position): void
     {
-        if (!\in_array($position, ['front', 'back', 'side', 'bottom'], true)) {
+        if (!\in_array($position, [self::POSITION__FRONT, self::POSITION__BACK, self::POSITION__SIDE, self::POSITION__BOTTOM], true)) {
             throw new \InvalidArgumentException('Position must be one of "front", "back", "side", "bottom"');
         }
 

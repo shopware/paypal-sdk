@@ -23,10 +23,6 @@ class Phone extends Struct
      * The country calling code (CC), in its canonical international E.164 numbering plan format.
      * The combined length of the CC and the national number must not be greater than 15 digits.
      * The national number consists of a national destination code (NDC) and subscriber number (SN)
-     *
-     * minLength: 1
-     * maxLength: 3
-     * pattern: ^[0-9]{1,3}?$
      */
     #[OA\Property(
         type: 'string',
@@ -40,10 +36,6 @@ class Phone extends Struct
      * The national number, in its canonical international E.164 numbering plan format.
      * The combined length of the country calling code (CC) and the national number must not be greater than 15 digits.
      * The national number consists of a national destination code (NDC) and subscriber number (SN).
-     *
-     * minLength: 1
-     * maxLength: 14
-     * pattern: ^[0-9]{1,14}?$
      */
     #[OA\Property(
         type: 'string',

@@ -8,6 +8,8 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\CustomOptionCollection;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\SelectedAttributeCollection;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -58,19 +60,8 @@ class CartItem extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $price;
 
-    /** @var list<array{name: string, value: string}> */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(
-            required: ['name', 'value'],
-            properties: [
-                new OA\Property(property: 'name', type: 'string'),
-                new OA\Property(property: 'value', type: 'string'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $selectedAttributes = null;
+    #[OA\Property(ref: SelectedAttributeCollection::class)]
+    protected SelectedAttributeCollection $selectedAttributes;
 
     /**
      * TODO: GiftOption as an array?
@@ -78,20 +69,8 @@ class CartItem extends Struct
     #[OA\Property(ref: GiftOptions::class)]
     protected ?GiftOptions $giftOptions = null;
 
-    /** @var list<array{name: string, value: string, price_modifier: string}> */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(
-            required: ['name', 'value', 'price_modifier'],
-            properties: [
-                new OA\Property(property: 'name', type: 'string'),
-                new OA\Property(property: 'value', type: 'string'),
-                new OA\Property(property: 'price_modifier', type: 'string'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $customOptions = null;
+    #[OA\Property(ref: CustomOptionCollection::class)]
+    protected CustomOptionCollection $customOptions;
 
     public function getItemId(): string
     {
@@ -163,33 +142,14 @@ class CartItem extends Struct
         $this->price = $price;
     }
 
-    /**
-     * @return ?list<array{name: string, value: string}>
-     */
-    public function getSelectedAttributes(): ?array
+    public function getSelectedAttributes(): SelectedAttributeCollection
     {
         return $this->selectedAttributes;
     }
 
-    /**
-     * @param ?list<array{name: string, value: string}> $selectedAttributes
-     */
-    public function setSelectedAttributes(?array $selectedAttributes): void
+    public function setSelectedAttributes(SelectedAttributeCollection $selectedAttributes): void
     {
         $this->selectedAttributes = $selectedAttributes;
-    }
-
-    public function addSelectedAttribute(string $name, string $value): void
-    {
-        $this->selectedAttributes[] = [
-            'name' => $name,
-            'value' => $value,
-        ];
-    }
-
-    public function resetSelectedAttributes(): void
-    {
-        $this->selectedAttributes = [];
     }
 
     public function getGiftOptions(): ?GiftOptions
@@ -202,33 +162,13 @@ class CartItem extends Struct
         $this->giftOptions = $giftOptions;
     }
 
-    /**
-     * @return ?list<array{name: string, value: string, price_modifier: string}>
-     */
-    public function getCustomOptions(): ?array
+    public function getCustomOptions(): CustomOptionCollection
     {
         return $this->customOptions;
     }
 
-    /**
-     * @param ?list<array{name: string, value: string, price_modifier: string}> $customOptions
-     */
-    public function setCustomOptions(?array $customOptions): void
+    public function setCustomOptions(CustomOptionCollection $customOptions): void
     {
         $this->customOptions = $customOptions;
-    }
-
-    public function addCustomOption(string $name, string $value, string $priceModifier): void
-    {
-        $this->customOptions[] = [
-            'name' => $name,
-            'value' => $value,
-            'price_modifier' => $priceModifier,
-        ];
-    }
-
-    public function resetCustomOptions(): void
-    {
-        $this->customOptions = [];
     }
 }

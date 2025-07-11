@@ -18,8 +18,6 @@ class GeoCoordinates extends Struct
 {
     /**
      * Latitude coordinate in decimal degrees (-90 to 90). WGS84 datum.
-     *
-     * pattern: ^-?([1-8]?[0-9](\.\d+)?|90(\.0+)?)$
      */
     #[OA\Property(
         type: 'string',
@@ -29,8 +27,6 @@ class GeoCoordinates extends Struct
 
     /**
      * Longitude coordinate in decimal degrees (-180 to 180). WGS84 datum.
-     *
-     * pattern: ^-?((1[0-7]|[1-9])?[0-9](\.\d+)?|180(\.0+)?)$
      */
     #[OA\Property(
         type: 'string',
@@ -41,10 +37,6 @@ class GeoCoordinates extends Struct
     /**
      * Administrative subdivision code (state, province, region).
      * ISO 3166-2 format without country prefix (e.g., 'CA' for California, 'ON' for Ontario).
-     *
-     * minLength: 1
-     * maxLength: 10
-     * pattern: ^[A-Z0-9-]+$
      */
     #[OA\Property(
         type: 'string',

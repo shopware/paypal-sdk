@@ -29,8 +29,6 @@ class Link extends Struct
 
     /**
      * Link relationship type
-     *
-     * Enum: [ self, update, checkout ]
      */
     #[OA\Property(
         type: 'string',

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\Recipient;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -26,29 +27,13 @@ class GiftOptions extends Struct
 
     /**
      * Gift recipient information
-     *
-     * @var array{name: string, email: string, phone: string}
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(
-            required: ['name', 'email', 'phone'],
-            properties: [
-                new OA\Property(property: 'name', type: 'string'),
-                new OA\Property(property: 'email', type: 'string'),
-                new OA\Property(property: 'phone', type: 'string'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $recipient = null;
+    #[OA\Property(ref: Recipient::class)]
+    protected Recipient $recipient;
 
     /**
      * Scheduled delivery date in RFC3339 format. Seconds are required while fractional seconds are optional.
      *
-     * minLength: 20
-     * maxLength: 64
-     * pattern: ^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$
      * example: 2024-12-25T09:00:00Z
      */
     #[OA\Property(
@@ -90,18 +75,12 @@ class GiftOptions extends Struct
         $this->isGift = $isGift;
     }
 
-    /**
-     * @return ?array{name: string, email: string, phone: string}
-     */
-    public function getRecipient(): ?array
+    public function getRecipient(): Recipient
     {
         return $this->recipient;
     }
 
-    /**
-     * @param ?array{name: string, email: string, phone: string} $recipient
-     */
-    public function setRecipient(?array $recipient): void
+    public function setRecipient(Recipient $recipient): void
     {
         $this->recipient = $recipient;
     }

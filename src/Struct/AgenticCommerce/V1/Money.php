@@ -20,11 +20,6 @@ use Shopware\PayPalSDK\Struct\Struct;
 class Money extends Struct
 {
     /**
-     * minLength: 3
-     * maxLength: 3
-     * pattern: ^[\S\s]*$
-     * example: USD
-     *
      * The 3-character ISO-4217 currency code that identifies the currency.
      */
     #[OA\Property(
@@ -36,11 +31,6 @@ class Money extends Struct
     protected string $currencyCode;
 
     /**
-     * minLength: 0
-     * maxLength: 32
-     * pattern: ^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$
-     * example: 25.00
-     *
      * The value, which might be: An integer for currencies like JPY that are not typically fractional. A decimal fraction for currencies like TND that are subdivided into thousandths. For the required number of decimal places for a currency code, see Currency Codes.
      */
     #[OA\Property(

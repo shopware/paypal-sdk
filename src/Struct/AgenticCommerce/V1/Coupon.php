@@ -12,9 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 
 /**
  * @experimental
- */
-
-/**
+ *
  * Discount coupon for cart operations. Multiple coupons can be applied simultaneously, with merchant business rules determining stacking behavior, priorities, and conflicts.
  *
  * Common Scenarios:
@@ -43,8 +41,6 @@ class Coupon extends Struct
 
     /**
      * Action to perform on this specific coupon
-     *
-     * Enum: [ APPLY, REMOVE ]
      */
     #[OA\Property(
         type: 'string',

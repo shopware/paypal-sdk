@@ -105,14 +105,9 @@ class ValidationIssue extends Struct
 
     /**
      * Available actions to resolve this issue
-     *
-     * @var ResolutionOption[]
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(ref: ResolutionOption::class)
-    )]
-    protected ?array $resolutionOptions = null;
+    #[OA\Property(ref: ResolutionOptionCollection::class)]
+    protected ResolutionOptionCollection $resolutionOptions;
 
     public function getCode(): string
     {
@@ -192,24 +187,13 @@ class ValidationIssue extends Struct
         $this->context = $context;
     }
 
-    /**
-     * @return ?ResolutionOption[]
-     */
-    public function getResolutionOptions(): ?array
+    public function getResolutionOptions(): ResolutionOptionCollection
     {
         return $this->resolutionOptions;
     }
 
-    /**
-     * @param ?ResolutionOption[] $resolutionOptions
-     */
-    public function setResolutionOptions(?array $resolutionOptions): void
+    public function setResolutionOptions(ResolutionOptionCollection $resolutionOptions): void
     {
         $this->resolutionOptions = $resolutionOptions;
-    }
-
-    public function addResolutionOptions(ResolutionOption $resolutionOption): void
-    {
-        $this->resolutionOptions[] = $resolutionOption;
     }
 }

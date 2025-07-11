@@ -30,8 +30,6 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
 
     /**
      * Preferred time window
-     *
-     * Enum: [ morning, afternoon, evening, anytime ]
      */
     #[OA\Property(
         type: 'string',

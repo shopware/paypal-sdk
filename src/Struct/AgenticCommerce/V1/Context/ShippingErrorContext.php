@@ -8,6 +8,8 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\SuggestedCorrection;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\SuggestedCorrectionCollection;
 
 /**
  * @experimental
@@ -55,28 +57,12 @@ class ShippingErrorContext extends AbstractContext
 
     /**
      * Suggested address corrections
-     *
-     * @var array{postal_code: string, address_line_1: string, admin_area_2: string}
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(
-            required: ['postal_code', 'address_line_1', 'admin_area_2'],
-            properties: [
-                new OA\Property(property: 'postal_code', type: 'string'),
-                new OA\Property(property: 'address_line_1', type: 'string'),
-                new OA\Property(property: 'admin_area_2', type: 'string'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $suggestedCorrections = null;
+    #[OA\Property(ref: SuggestedCorrectionCollection::class)]
+    protected SuggestedCorrectionCollection $suggestedCorrections;
 
     /**
      * Address validation quality score
-     *
-     * minimum: 0
-     * maximum: 1
      */
     #[OA\Property(
         type: 'float',
@@ -161,20 +147,19 @@ class ShippingErrorContext extends AbstractContext
         $this->validationFailures[] = $validationFailure;
     }
 
-    /**
-     * @return ?array{postal_code: string, address_line_1: string, admin_area_2: string}
-     */
-    public function getSuggestedCorrections(): ?array
+    public function getSuggestedCorrections(): SuggestedCorrectionCollection
     {
         return $this->suggestedCorrections;
     }
 
-    /**
-     * @param ?array{postal_code: string, address_line_1: string, admin_area_2: string} $suggestedCorrections
-     */
-    public function setSuggestedCorrections(?array $suggestedCorrections): void
+    public function setSuggestedCorrections(SuggestedCorrectionCollection $suggestedCorrections): void
     {
         $this->suggestedCorrections = $suggestedCorrections;
+    }
+
+    public function addSuggestedCorrection(SuggestedCorrection $suggestedCorrection): void
+    {
+        $this->suggestedCorrections[] = $suggestedCorrection;
     }
 
     public function getAddressQualityScore(): ?float

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\MixedItemCollection;
 
 /**
  * @experimental
@@ -24,6 +25,24 @@ class PricingErrorContext extends AbstractContext
     public const ISSUE__CURRENCY_NOT_SUPPORTED = 'CURRENCY_NOT_SUPPORTED';
     public const ISSUE__CURRENCY_MISMATCH = 'CURRENCY_MISMATCH';
     public const ISSUE__PROMOTIONAL_CONFLICT = 'PROMOTIONAL_CONFLICT';
+
+    public const PRICE_CHANGE_REASON__PROMOTIONAL_ENDED = 'promotional_ended';
+    public const PRICE_CHANGE_REASON__PROMOTIONAL_STARTED = 'promotional_started';
+    public const PRICE_CHANGE_REASON__MARKET_ADJUSTMENT = 'market_adjustment';
+    public const PRICE_CHANGE_REASON__COST_INCREASE = 'cost_increase';
+    public const PRICE_CHANGE_REASON__SEASONAL_PRICING = 'seasonal_pricing';
+    public const PRICE_CHANGE_REASON__COMPONENT_COST_INCREASE = 'component_cost_increase';
+    public const PRICE_CHANGE_REASON__TERMS_UPDATED = 'terms_updated';
+
+    private const PRICE_CHANGED_REASONS = [
+        self::PRICE_CHANGE_REASON__PROMOTIONAL_ENDED,
+        self::PRICE_CHANGE_REASON__PROMOTIONAL_STARTED,
+        self::PRICE_CHANGE_REASON__MARKET_ADJUSTMENT,
+        self::PRICE_CHANGE_REASON__COST_INCREASE,
+        self::PRICE_CHANGE_REASON__SEASONAL_PRICING,
+        self::PRICE_CHANGE_REASON__COMPONENT_COST_INCREASE,
+        self::PRICE_CHANGE_REASON__TERMS_UPDATED,
+    ];
 
     /**
      * Item with pricing issue
@@ -54,7 +73,7 @@ class PricingErrorContext extends AbstractContext
      */
     #[OA\Property(
         type: 'string',
-        enum: ['promotional_ended', 'promotional_started', 'market_adjustment', 'cost_increase', 'seasonal_pricing', 'component_cost_increase', 'terms_updated']
+        enum: self::PRICE_CHANGED_REASONS,
     )]
     protected ?string $priceChangeReason = null;
 
@@ -148,21 +167,9 @@ class PricingErrorContext extends AbstractContext
 
     /**
      * Items with different currencies
-     *
-     * @var list<array{item_id: string, currency: string}>
      */
-    #[OA\Property(
-        type: 'array',
-        items: new OA\Items(
-            required: ['item_id', 'currency'],
-            properties: [
-                new OA\Property(property: 'item_id', type: 'string'),
-                new OA\Property(property: 'currency', type: 'string'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $mixedItems = null;
+    #[OA\Property(ref: MixedItemCollection::class)]
+    protected MixedItemCollection $mixedItems;
 
     public function getItemId(): ?string
     {
@@ -211,6 +218,10 @@ class PricingErrorContext extends AbstractContext
 
     public function setPriceChangeReason(?string $priceChangeReason): void
     {
+        if (!\in_array($priceChangeReason, self::PRICE_CHANGED_REASONS, true)) {
+            throw new \InvalidArgumentException(\sprintf('Price change reason "%s" is not valid.', $priceChangeReason));
+        }
+
         $this->priceChangeReason = $priceChangeReason;
     }
 
@@ -366,33 +377,14 @@ class PricingErrorContext extends AbstractContext
         $this->requiredCurrencyConsistency = $requiredCurrencyConsistency;
     }
 
-    /**
-     * @return ?list<array{item_id: string, currency: string}>
-     */
-    public function getMixedItems(): ?array
+    public function getMixedItems(): MixedItemCollection
     {
         return $this->mixedItems;
     }
 
-    /**
-     * @param ?list<array{item_id: string, currency: string}> $mixedItems
-     */
-    public function setMixedItems(?array $mixedItems): void
+    public function setMixedItems(MixedItemCollection $mixedItems): void
     {
         $this->mixedItems = $mixedItems;
-    }
-
-    public function addMixedItem(string $itemId, string $currency): void
-    {
-        $this->mixedItems[] = [
-            'item_id' => $itemId,
-            'currency' => $currency,
-        ];
-    }
-
-    public function resetMixedItems(): void
-    {
-        $this->mixedItems = [];
     }
 
     protected static function getSpecificIssues(): array

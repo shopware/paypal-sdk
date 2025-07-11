@@ -38,21 +38,9 @@ class Error
 
     /**
      * Detailed error information
-     *
-     * @var list<array{field: string, issue: string, description: string}>
      */
-    #[OA\Property(
-        items: new OA\Items(
-            required: ['field', 'issue', 'description'],
-            properties: [
-                new OA\Property(property: 'field', type: 'string'),
-                new OA\Property(property: 'issue', type: 'string'),
-                new OA\Property(property: 'description', type: 'string'),
-            ],
-            type: 'object'
-        )
-    )]
-    protected ?array $details = null;
+    #[OA\Property(ref: AgentErrorDetailCollection::class)]
+    protected AgentErrorDetailCollection $details;
 
     public function getName(): string
     {
@@ -84,33 +72,13 @@ class Error
         $this->debugId = $debugId;
     }
 
-    /**
-     * @return ?list<array{field: string, issue: string, description: string}>
-     */
-    public function getDetails(): ?array
+    public function getDetails(): AgentErrorDetailCollection
     {
         return $this->details;
     }
 
-    /**
-     * @param ?list<array{field: string, issue: string, description: string}> $details
-     */
-    public function setDetails(?array $details): void
+    public function setDetails(AgentErrorDetailCollection $details): void
     {
         $this->details = $details;
-    }
-
-    public function addDetail(string $field, string $issue, string $description): void
-    {
-        $this->details[] = [
-            'field' => $field,
-            'issue' => $issue,
-            'description' => $description,
-        ];
-    }
-
-    public function resetDetails(): void
-    {
-        $this->details = [];
     }
 }
