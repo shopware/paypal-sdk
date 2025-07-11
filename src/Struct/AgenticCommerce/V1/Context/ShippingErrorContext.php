@@ -287,7 +287,7 @@ class ShippingErrorContext extends AbstractContext
         $this->providedAddress = $providedAddress;
     }
 
-    protected function getSpecificIssues(): array
+    protected static function getSpecificIssues(): array
     {
         return [
             self::ISSUE__MISSING_SHIPPING_ADDRESS,

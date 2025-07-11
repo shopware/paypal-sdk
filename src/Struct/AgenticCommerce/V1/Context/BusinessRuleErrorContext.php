@@ -404,7 +404,7 @@ class BusinessRuleErrorContext extends AbstractContext
         $this->exceedsBy = $exceedsBy;
     }
 
-    protected function getSpecificIssues(): array
+    protected static function getSpecificIssues(): array
     {
         return [
             self::ISSUE__MINIMUM_ORDER_NOT_MET,

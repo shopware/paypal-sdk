@@ -244,7 +244,7 @@ class DataErrorContext extends AbstractContext
         $this->fieldDescriptions = $fieldDescriptions;
     }
 
-    protected function getSpecificIssues(): array
+    protected static function getSpecificIssues(): array
     {
         return [
             self::ISSUE__MISSING_CHECKOUT_FIELDS,

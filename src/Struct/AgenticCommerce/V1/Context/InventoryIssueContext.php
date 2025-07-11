@@ -278,7 +278,7 @@ class InventoryIssueContext extends AbstractContext
         $this->lastSold = $lastSold;
     }
 
-    protected function getSpecificIssues(): array
+    protected static function getSpecificIssues(): array
     {
         return [
             self::ISSUE__ITEM_OUT_OF_STOCK,

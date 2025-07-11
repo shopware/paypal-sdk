@@ -18,7 +18,7 @@ abstract class AbstractContext extends Struct
     /**
      * @return string[]
      */
-    abstract protected function getSpecificIssues(): array;
+    abstract protected static function getSpecificIssues(): array;
 
     /**
      * Specific business rule issue type
@@ -33,7 +33,7 @@ abstract class AbstractContext extends Struct
 
     public function setSpecificIssue(string $specificIssue): void
     {
-        if (!\in_array($specificIssue, $this->getSpecificIssues(), true)) {
+        if (!\in_array($specificIssue, static::getSpecificIssues(), true)) {
             throw new \InvalidArgumentException(\sprintf('Specific issue "%s" is not valid.', $specificIssue));
         }
 

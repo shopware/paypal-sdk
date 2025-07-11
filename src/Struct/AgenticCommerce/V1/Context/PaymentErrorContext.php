@@ -250,7 +250,7 @@ class PaymentErrorContext extends AbstractContext
         $this->paymentToken = $paymentToken;
     }
 
-    protected function getSpecificIssues(): array
+    protected static function getSpecificIssues(): array
     {
         return [
             self::ISSUE__PAYMENT_AMOUNT_TOO_LARGE,
