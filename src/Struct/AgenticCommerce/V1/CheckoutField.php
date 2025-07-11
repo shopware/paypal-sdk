@@ -177,7 +177,7 @@ class CheckoutField extends Struct
 
     public function setStatus(string $status): void
     {
-        if (!\in_array($status, ['PENDING', 'COMPLETED', 'REJECTED', 'ERROR'], true)) {
+        if (!\in_array($status, self::STATUSES, true)) {
             throw new \InvalidArgumentException(\sprintf('Status "%s" is not valid.', $status));
         }
 

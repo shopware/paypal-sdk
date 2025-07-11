@@ -12,9 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 
 /**
  * @experimental
- */
-
-/**
+ *
  * Comprehensive cart pricing breakdown calculated by merchant and returned in all cart responses. All fields are merchant-owned and calculated based on business logic, inventory, shipping rules, and tax regulations.
  *
  * Merchant Responsibility:

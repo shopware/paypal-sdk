@@ -22,9 +22,6 @@ class Address extends Struct
     /**
      * The first line of the address, such as number and street, for example, 173 Drury Lane.
      * Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.
-     *
-     * minLength: 0
-     * maxLength: 300
      */
     #[OA\Property(
         type: 'string',
@@ -44,9 +41,6 @@ class Address extends Struct
      * The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision.
      * This data is formatted for postal delivery, for example, CA and not California. Value, by country, is UK.
      * A county. US. A state. Canada. A province. Japan. A prefecture. Switzerland. A kanton.
-     *
-     * minLength: 0
-     * maxLength: 300
      */
     #[OA\Property(
         type: 'string',
@@ -57,10 +51,6 @@ class Address extends Struct
 
     /**
      * A city, town, or village. Smaller than admin_area_level_1.
-     *
-     * minLength: 0
-     * maxLength: 120
-     * example: San Jose
      */
     #[OA\Property(
         type: 'string',
@@ -72,9 +62,6 @@ class Address extends Struct
     /**
      * The postal code, which is the ZIP code or equivalent.
      * Typically required for countries with a postal code or an equivalent. See postal code.
-     *
-     * minLength: 0
-     * maxLength: 60
      */
     #[OA\Property(
         type: 'string',
