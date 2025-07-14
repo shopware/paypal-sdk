@@ -59,7 +59,6 @@ class PayPalCart extends Struct
     private const VALIDATION_STATUSES = [self::VALIDATION_STATUS__VALID, self::VALIDATION_STATUS__INVALID, self::VALIDATION_STATUS__REQUIRES_ADDITIONAL_INFORMATION];
 
     #[OA\Property(type: 'string', readOnly: true)]
-    // TODO: need to be readonly?
     protected string $id;
 
     #[OA\Property(
@@ -67,7 +66,6 @@ class PayPalCart extends Struct
         enum: self::STATUSES,
         readOnly: true,
     )]
-    // TODO: need to be readonly?
     protected string $status;
 
     #[OA\Property(
@@ -75,14 +73,12 @@ class PayPalCart extends Struct
         enum: self::VALIDATION_STATUSES,
         readOnly: true,
     )]
-    // TODO: need to be readonly?
     protected string $validationStatus;
 
     /**
      * List of issues preventing checkout (empty = ready)
      */
     #[OA\Property(ref: ValidationIssueCollection::class)]
-    // TODO: need to be readonly?
     protected ValidationIssueCollection $validationIssues;
 
     #[OA\Property(ref: CartTotals::class)]
@@ -92,7 +88,6 @@ class PayPalCart extends Struct
      * Successfully applied coupons (server-calculated)
      */
     #[OA\Property(ref: AppliedCouponCollection::class)]
-    // TODO: need to be readonly?
     protected AppliedCouponCollection $appliedCoupons;
 
     /**
@@ -105,7 +100,6 @@ class PayPalCart extends Struct
      * HATEOAS navigation links for cart operations
      */
     #[OA\Property(ref: LinkCollection::class)]
-    // TODO: need to be readonly?
     protected LinkCollection $links;
 
     /**

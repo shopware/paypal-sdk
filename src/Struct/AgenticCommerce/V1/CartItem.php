@@ -63,9 +63,6 @@ class CartItem extends Struct
     #[OA\Property(ref: SelectedAttributeCollection::class)]
     protected SelectedAttributeCollection $selectedAttributes;
 
-    /**
-     * TODO: GiftOption as an array?
-     */
     #[OA\Property(ref: GiftOptions::class)]
     protected ?GiftOptions $giftOptions = null;
 

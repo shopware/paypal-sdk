@@ -14,8 +14,6 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-
-// TODO: should this be GiftOption? singular?
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_gift_options')]
 class GiftOptions extends Struct
 {
