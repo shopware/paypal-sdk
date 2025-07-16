@@ -25,6 +25,7 @@ use Shopware\PayPalSDK\Util\CaseConverter;
 class OpenAPISchemaTest extends TestCase
 {
     public const DIRS = [
+        __DIR__ . '/../../../src/Struct/AgenticCommerce/V1',
         __DIR__ . '/../../../src/Struct/V1',
         __DIR__ . '/../../../src/Struct/V2',
         __DIR__ . '/../../../src/Struct/V3',
@@ -51,6 +52,10 @@ class OpenAPISchemaTest extends TestCase
     {
         $this->logHandler = new TestHandler();
         $logger = new Logger('test', [$this->logHandler]);
+
+        foreach (self::DIRS as $dir) {
+            static::assertDirectoryExists($dir);
+        }
 
         $oa = Generator::scan(self::DIRS, [
             'logger' => $logger,

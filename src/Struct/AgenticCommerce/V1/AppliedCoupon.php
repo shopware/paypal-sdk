@@ -1,0 +1,57 @@
+<?php declare(strict_types=1);
+/*
+ * (c) shopware AG <info@shopware.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
+
+use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Struct;
+
+/**
+ * @experimental
+ */
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_applied_coupon')]
+class AppliedCoupon extends Struct
+{
+    #[OA\Property(type: 'string')]
+    protected ?string $code = null;
+
+    #[OA\Property(type: 'string')]
+    protected ?string $description = null;
+
+    #[OA\Property(ref: Money::class)]
+    protected ?Money $discountAmount = null;
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): void
+    {
+        $this->code = $code;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getDiscountAmount(): ?Money
+    {
+        return $this->discountAmount;
+    }
+
+    public function setDiscountAmount(?Money $discountAmount): void
+    {
+        $this->discountAmount = $discountAmount;
+    }
+}

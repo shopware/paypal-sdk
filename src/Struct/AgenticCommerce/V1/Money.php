@@ -1,0 +1,67 @@
+<?php declare(strict_types=1);
+/*
+ * (c) shopware AG <info@shopware.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
+
+use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Struct;
+
+/**
+ * @experimental
+ */
+#[OA\Schema(
+    schema: 'paypal_agentic_commerce_v1_money',
+    required: ['currencyCode', 'value']
+)]
+class Money extends Struct
+{
+    /**
+     * The 3-character ISO-4217 currency code that identifies the currency.
+     */
+    #[OA\Property(
+        type: 'string',
+        maxLength: 3,
+        minLength: 3,
+        pattern: '^[\S\s]*$'
+    )]
+    protected string $currencyCode;
+
+    /**
+     * The value, which might be: An integer for currencies like JPY that are not typically fractional. A decimal fraction for currencies like TND that are subdivided into thousandths. For the required number of decimal places for a currency code, see Currency Codes.
+     */
+    #[OA\Property(
+        type: 'string',
+        maxLength: 0,
+        minLength: 32,
+        pattern: '^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$'
+    )]
+    protected string $value;
+
+    public function getCurrencyCode(): string
+    {
+        return $this->currencyCode;
+    }
+
+    public function setCurrencyCode(string $currencyCode): void
+    {
+        if (\strlen($currencyCode) !== 3) {
+            throw new \InvalidArgumentException(\sprintf('Currency code "%s" is not valid.', $currencyCode));
+        }
+
+        $this->currencyCode = $currencyCode;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
+}
