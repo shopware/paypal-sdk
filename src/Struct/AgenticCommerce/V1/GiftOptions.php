@@ -21,13 +21,13 @@ class GiftOptions extends Struct
      * Whether this is a gift
      */
     #[OA\Property(type: 'boolean')]
-    protected ?bool $isGift = null;
+    protected bool $isGift = false;
 
     /**
      * Gift recipient information
      */
     #[OA\Property(ref: Recipient::class)]
-    protected Recipient $recipient;
+    protected ?Recipient $recipient = null;
 
     /**
      * Scheduled delivery date in RFC3339 format. Seconds are required while fractional seconds are optional.
@@ -63,22 +63,22 @@ class GiftOptions extends Struct
     #[OA\Property(type: 'boolean')]
     protected ?bool $giftWrap = null;
 
-    public function isGift(): ?bool
+    public function isGift(): bool
     {
         return $this->isGift;
     }
 
-    public function setIsGift(?bool $isGift): void
+    public function setIsGift(bool $isGift): void
     {
         $this->isGift = $isGift;
     }
 
-    public function getRecipient(): Recipient
+    public function getRecipient(): ?Recipient
     {
         return $this->recipient;
     }
 
-    public function setRecipient(Recipient $recipient): void
+    public function setRecipient(?Recipient $recipient): void
     {
         $this->recipient = $recipient;
     }
@@ -121,5 +121,10 @@ class GiftOptions extends Struct
     public function setGiftWrap(?bool $giftWrap): void
     {
         $this->giftWrap = $giftWrap;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
     }
 }

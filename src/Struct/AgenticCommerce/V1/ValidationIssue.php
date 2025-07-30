@@ -196,4 +196,11 @@ class ValidationIssue extends Struct
     {
         $this->resolutionOptions = $resolutionOptions;
     }
+
+    public function jsonSerialize(): array
+    {
+        $test = \array_filter(parent::jsonSerialize());
+
+        return $test;
+    }
 }

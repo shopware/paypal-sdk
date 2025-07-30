@@ -158,4 +158,9 @@ class CartTotals extends Struct
     {
         $this->total = $total;
     }
+
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
+    }
 }

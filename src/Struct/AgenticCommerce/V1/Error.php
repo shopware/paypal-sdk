@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Struct;
 
 /**
  * @experimental
@@ -16,7 +17,7 @@ use OpenApi\Attributes as OA;
     schema: 'paypal_agentic_commerce_v1_error',
     required: ['name', 'message']
 )]
-class Error
+class Error extends Struct
 {
     /**
      * Error name/type
@@ -80,5 +81,10 @@ class Error
     public function setDetails(AgentErrorDetailCollection $details): void
     {
         $this->details = $details;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
     }
 }
