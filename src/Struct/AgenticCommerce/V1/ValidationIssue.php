@@ -199,8 +199,6 @@ class ValidationIssue extends Struct
 
     public function jsonSerialize(): array
     {
-        $test = \array_filter(parent::jsonSerialize());
-
-        return $test;
+        return \array_filter(parent::jsonSerialize());
     }
 }
