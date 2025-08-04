@@ -88,19 +88,19 @@ class PayPalCart extends Struct
      * Successfully applied coupons (server-calculated)
      */
     #[OA\Property(ref: AppliedCouponCollection::class)]
-    protected AppliedCouponCollection $appliedCoupons;
+    protected ?AppliedCouponCollection $appliedCoupons = null;
 
     /**
      * Available shipping methods with selection state
      */
     #[OA\Property(ref: ShippingOptionCollection::class)]
-    protected ShippingOptionCollection $availableShippingOptions;
+    protected ?ShippingOptionCollection $availableShippingOptions = null;
 
     /**
      * HATEOAS navigation links for cart operations
      */
     #[OA\Property(ref: LinkCollection::class)]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     /**
      * Products in the cart
@@ -124,7 +124,7 @@ class PayPalCart extends Struct
      * Custom checkout fields (age verification, etc.)
      */
     #[OA\Property(ref: CheckoutFieldCollection::class)]
-    protected CheckoutFieldCollection $checkoutFields;
+    protected ?CheckoutFieldCollection $checkoutFields = null;
 
     /**
      * Discount coupons to apply or remove from cart
@@ -175,12 +175,12 @@ class PayPalCart extends Struct
         $this->validationIssues = $validationIssues;
     }
 
-    public function getAppliedCoupons(): AppliedCouponCollection
+    public function getAppliedCoupons(): ?AppliedCouponCollection
     {
         return $this->appliedCoupons;
     }
 
-    public function setAppliedCoupons(AppliedCouponCollection $appliedCoupons): void
+    public function setAppliedCoupons(?AppliedCouponCollection $appliedCoupons): void
     {
         $this->appliedCoupons = $appliedCoupons;
     }
@@ -195,22 +195,22 @@ class PayPalCart extends Struct
         $this->totals = $totals;
     }
 
-    public function getAvailableShippingOptions(): ShippingOptionCollection
+    public function getAvailableShippingOptions(): ?ShippingOptionCollection
     {
         return $this->availableShippingOptions;
     }
 
-    public function setAvailableShippingOptions(ShippingOptionCollection $availableShippingOptions): void
+    public function setAvailableShippingOptions(?ShippingOptionCollection $availableShippingOptions): void
     {
         $this->availableShippingOptions = $availableShippingOptions;
     }
 
-    public function getLinks(): LinkCollection
+    public function getLinks(): ?LinkCollection
     {
         return $this->links;
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }
@@ -265,12 +265,12 @@ class PayPalCart extends Struct
         $this->paymentMethod = $paymentMethod;
     }
 
-    public function getCheckoutFields(): CheckoutFieldCollection
+    public function getCheckoutFields(): ?CheckoutFieldCollection
     {
         return $this->checkoutFields;
     }
 
-    public function setCheckoutFields(CheckoutFieldCollection $checkoutFields): void
+    public function setCheckoutFields(?CheckoutFieldCollection $checkoutFields): void
     {
         $this->checkoutFields = $checkoutFields;
     }
@@ -293,5 +293,10 @@ class PayPalCart extends Struct
     public function setGeoCoordinates(?GeoCoordinates $geoCoordinates): void
     {
         $this->geoCoordinates = $geoCoordinates;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
     }
 }

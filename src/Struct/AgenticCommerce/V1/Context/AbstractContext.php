@@ -39,4 +39,9 @@ abstract class AbstractContext extends Struct
 
         $this->specificIssue = $specificIssue;
     }
+
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
+    }
 }

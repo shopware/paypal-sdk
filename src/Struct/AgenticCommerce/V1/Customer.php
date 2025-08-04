@@ -66,4 +66,9 @@ class Customer extends Struct
     {
         $this->emailAddress = $emailAddress;
     }
+
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
+    }
 }

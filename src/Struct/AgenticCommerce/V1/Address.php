@@ -28,14 +28,14 @@ class Address extends Struct
         maxLength: 300,
         minLength: 0,
     )]
-    protected ?string $addressline1 = null;
+    protected ?string $addressLine1 = null;
 
     #[OA\Property(
         type: 'string',
         maxLength: 300,
         minLength: 0,
     )]
-    protected ?string $addressline2 = null;
+    protected ?string $addressLine2 = null;
 
     /**
      * The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision.
@@ -81,24 +81,24 @@ class Address extends Struct
     )]
     protected string $countryCode;
 
-    public function getAddressline1(): ?string
+    public function getAddressLine1(): ?string
     {
-        return $this->addressline1;
+        return $this->addressLine1;
     }
 
-    public function setAddressline1(?string $addressline1): void
+    public function setAddressLine1(?string $addressLine1): void
     {
-        $this->addressline1 = $addressline1;
+        $this->addressLine1 = $addressLine1;
     }
 
-    public function getAddressline2(): ?string
+    public function getAddressLine2(): ?string
     {
-        return $this->addressline2;
+        return $this->addressLine2;
     }
 
-    public function setAddressline2(?string $addressline2): void
+    public function setAddressLine2(?string $addressLine2): void
     {
-        $this->addressline2 = $addressline2;
+        $this->addressLine2 = $addressLine2;
     }
 
     public function getAdminArea1(): ?string
@@ -143,5 +143,10 @@ class Address extends Struct
         }
 
         $this->countryCode = $countryCode;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
     }
 }

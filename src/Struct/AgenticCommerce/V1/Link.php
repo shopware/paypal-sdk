@@ -122,4 +122,9 @@ class Link extends Struct
     {
         $this->type = $type;
     }
+
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
+    }
 }
