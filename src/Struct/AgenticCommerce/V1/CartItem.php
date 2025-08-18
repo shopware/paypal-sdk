@@ -22,16 +22,22 @@ use Shopware\PayPalSDK\Struct\Struct;
 class CartItem extends Struct
 {
     /**
-     * Unique product identifier
+     * Unique product identifier (optional in v1 for backwards compatibility)
      */
     #[OA\Property(type: 'string')]
-    protected string $itemId;
+    protected ?string $itemId = null;
 
     /**
-     * Product variant identifier (color, size, etc.)
+     * Product variant identifier (color, size, etc.) - unique id of the product
      */
     #[OA\Property(type: 'string')]
     protected ?string $variantId = null;
+
+    /**
+     * Item grouping identifier - passed when item is part of a group in honey catalog
+     */
+    #[OA\Property(type: 'string')]
+    protected ?string $parentId = null;
 
     /**
      * Number of items
@@ -69,12 +75,12 @@ class CartItem extends Struct
     #[OA\Property(ref: CustomOptionCollection::class)]
     protected CustomOptionCollection $customOptions;
 
-    public function getItemId(): string
+    public function getItemId(): ?string
     {
         return $this->itemId;
     }
 
-    public function setItemId(string $itemId): void
+    public function setItemId(?string $itemId): void
     {
         $this->itemId = $itemId;
     }
@@ -87,6 +93,16 @@ class CartItem extends Struct
     public function setVariantId(?string $variantId): void
     {
         $this->variantId = $variantId;
+    }
+
+    public function getParentId(): ?string
+    {
+        return $this->parentId;
+    }
+
+    public function setParentId(?string $parentId): void
+    {
+        $this->parentId = $parentId;
     }
 
     public function getQuantity(): int
