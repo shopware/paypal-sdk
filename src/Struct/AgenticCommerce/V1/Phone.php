@@ -104,7 +104,9 @@ class Phone extends Struct
 
     public function setPhoneNumber(string $phoneNumber): void
     {
-        preg_match('/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/', $phoneNumber, $matches);
+        if (!preg_match('/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/', $phoneNumber, $matches)) {
+            return;
+        }
 
         $this->countryCode = $matches[1];
         $this->nationalNumber = $matches[2];
