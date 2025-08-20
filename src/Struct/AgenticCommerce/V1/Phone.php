@@ -90,4 +90,26 @@ class Phone extends Struct
     {
         return \array_filter(parent::jsonSerialize());
     }
+
+    public function getFullPhoneNumber(): string
+    {
+        $number = '+' . $this->countryCode . ' ' . $this->nationalNumber;
+
+        if ($this->extensionNumber) {
+            $number .= '-' . $this->extensionNumber;
+        }
+
+        return $number;
+    }
+
+    public function setPhoneNumber(string $phoneNumber): void
+    {
+        if (!preg_match('/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/', $phoneNumber, $matches)) {
+            return;
+        }
+
+        $this->countryCode = $matches[1];
+        $this->nationalNumber = $matches[2];
+        $this->extensionNumber = $matches[4] ?? null;
+    }
 }
