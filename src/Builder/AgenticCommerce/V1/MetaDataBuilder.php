@@ -28,6 +28,13 @@ final class MetaDataBuilder
         return $this;
     }
 
+    public function withPriority(string $priority): self
+    {
+        $this->resolutionOption->getMetadata()->setPriority($priority);
+
+        return $this;
+    }
+
     public function withWaist(string $waist): self
     {
         $this->resolutionOption->getMetadata()->setWaist($waist);
