@@ -16,8 +16,15 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_meta_data')]
 class MetaData extends Struct
 {
+    public const PRIORITY__HIGH = 'HIGH';
+    public const PRIORITY__MEDIUM = 'MEDIUM';
+    public const PRIORITY__LOW = 'LOW';
+
     #[OA\Property(type: 'string')]
     protected string $costImpact;
+
+    #[OA\Property(type: 'string')]
+    protected string $priority;
 
     #[OA\Property(type: 'string')]
     protected string $waist;
@@ -39,6 +46,20 @@ class MetaData extends Struct
     public function setCostImpact(string $costImpact): void
     {
         $this->costImpact = $costImpact;
+    }
+
+    public function getPriority(): string
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(string $priority): void
+    {
+        if (!\in_array($priority, [self::PRIORITY__HIGH, self::PRIORITY__MEDIUM, self::PRIORITY__LOW], true)) {
+            throw new \InvalidArgumentException('Invalid priority');
+        }
+
+        $this->priority = $priority;
     }
 
     public function getWaist(): string

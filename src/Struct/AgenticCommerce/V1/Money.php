@@ -32,6 +32,8 @@ class Money extends Struct
 
     /**
      * The value, which might be: An integer for currencies like JPY that are not typically fractional. A decimal fraction for currencies like TND that are subdivided into thousandths. For the required number of decimal places for a currency code, see Currency Codes.
+     *
+     * @var numeric-string
      */
     #[OA\Property(
         type: 'string',
@@ -55,11 +57,17 @@ class Money extends Struct
         $this->currencyCode = $currencyCode;
     }
 
+    /**
+     * @return numeric-string
+     */
     public function getValue(): string
     {
         return $this->value;
     }
 
+    /**
+     * @param numeric-string $value
+     */
     public function setValue(string $value): void
     {
         $this->value = $value;
