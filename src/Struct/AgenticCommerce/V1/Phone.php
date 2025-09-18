@@ -19,6 +19,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class Phone extends Struct
 {
+    private const PHONE_NUMBER_REGEX = '/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/';
+
     /**
      * The country calling code (CC), in its canonical international E.164 numbering plan format.
      * The combined length of the CC and the national number must not be greater than 15 digits.
@@ -55,6 +57,11 @@ class Phone extends Struct
         pattern: '^[0-9]{1,15}?$'
     )]
     protected ?string $extensionNumber = null;
+
+    public static function isValidPhoneNumber(string $phoneNumber): bool
+    {
+        return (bool) preg_match(self::PHONE_NUMBER_REGEX, $phoneNumber);
+    }
 
     public function getCountryCode(): string
     {
@@ -104,8 +111,8 @@ class Phone extends Struct
 
     public function setPhoneNumber(string $phoneNumber): void
     {
-        if (!preg_match('/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/', $phoneNumber, $matches)) {
-            return;
+        if (!preg_match(self::PHONE_NUMBER_REGEX, $phoneNumber, $matches)) {
+            throw new \RuntimeException('Invalid phone number: ' . $phoneNumber);
         }
 
         $this->countryCode = $matches[1];
