@@ -112,7 +112,7 @@ class Phone extends Struct
     public function setPhoneNumber(string $phoneNumber): void
     {
         if (!preg_match(self::PHONE_NUMBER_REGEX, $phoneNumber, $matches)) {
-            throw new \RuntimeException('Invalid phone number: ' . $phoneNumber);
+            throw new \InvalidArgumentException('Invalid phone number: ' . $phoneNumber);
         }
 
         $this->countryCode = $matches[1];
