@@ -64,7 +64,7 @@ class CartItem extends Struct
     protected ?string $itemUrl = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $price;
+    protected ?Money $price = null;
 
     #[OA\Property(ref: SelectedAttributeCollection::class)]
     protected SelectedAttributeCollection $selectedAttributes;
@@ -145,12 +145,12 @@ class CartItem extends Struct
         $this->itemUrl = $itemUrl;
     }
 
-    public function getPrice(): Money
+    public function getPrice(): ?Money
     {
         return $this->price;
     }
 
-    public function setPrice(Money $price): void
+    public function setPrice(?Money $price): void
     {
         $this->price = $price;
     }
