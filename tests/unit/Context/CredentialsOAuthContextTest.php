@@ -48,19 +48,9 @@ class CredentialsOAuthContextTest extends TestCase
 
         $context = new ApiContext($oauthContext, true);
 
+        /** @phpstan-ignore-next-line staticMethod.alreadyNarrowedType - still worth the assertion */
         static::assertInstanceOf(UserIdOAuthContext::class, $oauthContext);
         static::assertSame('53bf912f9ef7bee5ce0e44d7644f5566', $oauthContext->getCacheKey($context));
-    }
-
-    public function testIntoClientTokenContext(): void
-    {
-        $oauthContext = (new CredentialsOAuthContext('some-client-id', 'some-client-secret'))
-            ->intoClientTokenContext();
-
-        $context = new ApiContext($oauthContext, true);
-
-        static::assertInstanceOf(ClientTokenOAuthContext::class, $oauthContext);
-        static::assertSame('83b27fb1aba69ca6df73f52b7323b28f', $oauthContext->getCacheKey($context));
     }
 
     public function testIntoUserIdContextWithoutId(): void
@@ -71,6 +61,18 @@ class CredentialsOAuthContextTest extends TestCase
         $context = new ApiContext($oauthContext, true);
 
         static::assertSame('db4395115b84188b4fe25782e010ac8c', $oauthContext->getCacheKey($context));
+    }
+
+    public function testIntoClientTokenContext(): void
+    {
+        $oauthContext = (new CredentialsOAuthContext('some-client-id', 'some-client-secret'))
+            ->intoClientTokenContext();
+
+        $context = new ApiContext($oauthContext, true);
+
+        /** @phpstan-ignore-next-line staticMethod.alreadyNarrowedType - still worth the assertion */
+        static::assertInstanceOf(ClientTokenOAuthContext::class, $oauthContext);
+        static::assertSame('83b27fb1aba69ca6df73f52b7323b28f', $oauthContext->getCacheKey($context));
     }
 
     public function testDebugInformationSensitive(): void
