@@ -50,19 +50,19 @@ class PaymentMethod extends Struct
      * PayPal payment token from cart creation or customer approval
      */
     #[OA\Property(type: 'string')]
-    protected string $token;
+    protected ?string $token = null;
 
     /**
      * PayPal payer identifier provided after customer approval
      */
     #[OA\Property(type: 'string')]
-    protected string $payerId;
+    protected ?string $payerId = null;
 
     /**
      * URL used to inform merchant that the PayPal buyer approved the order
      */
     #[OA\Property(type: 'string')]
-    protected string $approvalUrl;
+    protected ?string $approvalUrl = null;
 
     public function getType(): string
     {
@@ -74,32 +74,32 @@ class PaymentMethod extends Struct
         $this->type = $type;
     }
 
-    public function getToken(): string
+    public function getToken(): ?string
     {
         return $this->token;
     }
 
-    public function setToken(string $token): void
+    public function setToken(?string $token): void
     {
         $this->token = $token;
     }
 
-    public function getPayerId(): string
+    public function getPayerId(): ?string
     {
         return $this->payerId;
     }
 
-    public function setPayerId(string $payerId): void
+    public function setPayerId(?string $payerId): void
     {
         $this->payerId = $payerId;
     }
 
-    public function getApprovalUrl(): string
+    public function getApprovalUrl(): ?string
     {
         return $this->approvalUrl;
     }
 
-    public function setApprovalUrl(string $approvalUrl): void
+    public function setApprovalUrl(?string $approvalUrl): void
     {
         $this->approvalUrl = $approvalUrl;
     }
