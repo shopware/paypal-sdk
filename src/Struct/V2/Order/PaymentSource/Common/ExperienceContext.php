@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes\OrderUpdateCallbackConfig;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_experience_context')]
 class ExperienceContext extends Struct
@@ -69,6 +70,9 @@ class ExperienceContext extends Struct
      */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     protected array $customerServiceInstructions;
+
+    #[OA\Property(ref: '#/components/schemas/paypal_v2_order_payment_source_common_attributes_order_update_callback_config')]
+    protected ?OrderUpdateCallbackConfig $orderUpdateCallbackConfig = null;
 
     public function getLocale(): string
     {
@@ -174,5 +178,15 @@ class ExperienceContext extends Struct
     public function setCustomerServiceInstructions(array $customerServiceInstructions): void
     {
         $this->customerServiceInstructions = $customerServiceInstructions;
+    }
+
+    public function getOrderUpdateCallbackConfig(): ?OrderUpdateCallbackConfig
+    {
+        return $this->orderUpdateCallbackConfig;
+    }
+
+    public function setOrderUpdateCallbackConfig(?OrderUpdateCallbackConfig $orderUpdateCallbackConfig): void
+    {
+        $this->orderUpdateCallbackConfig = $orderUpdateCallbackConfig;
     }
 }
