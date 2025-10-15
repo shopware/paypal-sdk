@@ -19,9 +19,7 @@ class OrderUpdateCallbackConfig extends Struct
     #[OA\Property(type: 'string')]
     protected string $callbackUrl;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string', enum: [self::CALLBACK_EVENT_SHIPPING_ADDRESS, self::CALLBACK_EVENT_SHIPPING_OPTIONS]))]
     protected array $callbackEvents;
 
