@@ -71,7 +71,7 @@ class ExperienceContext extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     protected array $customerServiceInstructions;
 
-    #[OA\Property(ref: '#/components/schemas/paypal_v2_order_payment_source_common_attributes_order_update_callback_config')]
+    #[OA\Property(ref: OrderUpdateCallbackConfig::class)]
     protected ?OrderUpdateCallbackConfig $orderUpdateCallbackConfig = null;
 
     public function getLocale(): string
