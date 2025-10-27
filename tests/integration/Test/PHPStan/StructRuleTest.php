@@ -55,6 +55,9 @@ class StructRuleTest extends RuleTestCase
 
     public function testRuleSkipped(): void
     {
-        $this->analyse([__DIR__ . '/../../../fixture/Struct/TestStruct.php'], []);
+        $this->analyse([
+            __DIR__ . '/../../../fixture/Struct/TestStruct.php',
+            __DIR__ . '/../../../fixture/Struct/Builder/TestBuilder.php',
+        ], []);
     }
 }

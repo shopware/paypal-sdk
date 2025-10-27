@@ -46,7 +46,12 @@ class StructRule implements Rule
         $errors = [];
         $class = $node->getClassReflection();
 
-        if ($node->isStatic() || !\str_starts_with($class->getName(), 'Shopware\PayPalSDK\Struct') || \in_array($class->getName(), self::EXCLUSIONS, true)) {
+        if (
+            $node->isStatic()
+            || !\str_starts_with($class->getName(), 'Shopware\PayPalSDK\Struct')
+            || str_contains($class->getName(), '\\Builder\\')
+            || \in_array($class->getName(), self::EXCLUSIONS, true)
+        ) {
             return $errors;
         }
 

@@ -5,11 +5,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Tests\Unit\Builder\AgenticCommerce\V1;
+namespace Shopware\PayPalSDK\Tests\Unit\Struct\AgenticCommerce\V1\Builder;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Shopware\PayPalSDK\Builder\AgenticCommerce\V1\ValidationIssueBuilder;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Builder\ValidationIssueBuilder;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\InventoryIssueContext;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOption;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOptionCollection;

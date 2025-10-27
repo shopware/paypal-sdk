@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Builder\AgenticCommerce\V1;
+namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Builder;
 
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\MetaData;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOption;
