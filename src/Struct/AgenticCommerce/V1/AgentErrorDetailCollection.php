@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 use Shopware\PayPalSDK\Struct\Collection;
 
 /**
- * @internal
+ * @experimental
  *
  * @extends Collection<AgentErrorDetail>
  */
