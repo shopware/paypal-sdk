@@ -11,7 +11,7 @@ use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\V1\Webhook;
 
 /**
- * @extends Collection<EventType>
+ * @extends Collection<Webhook>
  */
 class WebhookCollection extends Collection
 {

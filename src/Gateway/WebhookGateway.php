@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Gateway;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Struct\V1\PatchCollection;
 use Shopware\PayPalSDK\Struct\V1\Webhook;
-use Shopware\PayPalSDK\Struct\V1\Webhook\WebhookList;
+use Shopware\PayPalSDK\Struct\V1\WebhookList;
 
 class WebhookGateway extends AbstractGateway
 {

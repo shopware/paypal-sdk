@@ -5,11 +5,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Struct\V1\Webhook;
+namespace Shopware\PayPalSDK\Struct\V1;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
-use Shopware\PayPalSDK\Struct\V1\Webhook;
+use Shopware\PayPalSDK\Struct\V1\Webhook\WebhookCollection;
 
 #[OA\Schema(schema: 'paypal_v1_webhook_list')]
 class WebhookList extends Struct
