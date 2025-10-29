@@ -1,24 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
 /*
  * (c) shopware AG <info@shopware.com>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Shopware\PayPalSDK\Struct\V2\Order;
+namespace Shopware\PayPalSDK\Struct\V2;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ShippingOption;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
-#[OA\Schema(schema: 'paypal_v2_order_order_update_callback')]
-class OrderUpdateCallback extends Struct
+#[OA\Schema(schema: 'paypal_v2_order_shipping_callback')]
+class OrderShippingCallback extends Struct
 {
     #[OA\Property(type: 'string')]
     protected string $id;
 
     #[OA\Property(ref: Address::class)]
     protected Address $shippingAddress;
+
+    #[OA\Property(ref: ShippingOption::class)]
+    protected ?ShippingOption $shippingOption = null;
 
     #[OA\Property(ref: PurchaseUnitCollection::class)]
     protected PurchaseUnitCollection $purchaseUnits;
@@ -41,6 +46,16 @@ class OrderUpdateCallback extends Struct
     public function setShippingAddress(Address $shippingAddress): void
     {
         $this->shippingAddress = $shippingAddress;
+    }
+
+    public function getShippingOption(): ?ShippingOption
+    {
+        return $this->shippingOption;
+    }
+
+    public function setShippingOption(?ShippingOption $shippingOption): void
+    {
+        $this->shippingOption = $shippingOption;
     }
 
     public function getPurchaseUnits(): PurchaseUnitCollection

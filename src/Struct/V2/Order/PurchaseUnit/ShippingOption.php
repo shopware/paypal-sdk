@@ -1,0 +1,94 @@
+<?php
+
+/*
+ * (c) shopware AG <info@shopware.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit;
+
+use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Struct;
+use Shopware\PayPalSDK\Struct\V2\Common\Money;
+
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_option')]
+class ShippingOption extends Struct
+{
+    public const TYPE_SHIPPING = 'SHIPPING';
+
+    public const TYPE_PICKUP = 'PICKUP';
+
+    #[OA\Property(type: 'string')]
+    protected string $id;
+
+    #[OA\Property(type: 'string')]
+    protected string $label;
+
+    #[OA\Property(ref: Money::class)]
+    protected Money $amount;
+
+    /**
+     * @var self::TYPE_*
+     */
+    #[OA\Property(type: 'string', enum: [self::TYPE_SHIPPING, self::TYPE_PICKUP])]
+    protected string $type = self::TYPE_SHIPPING;
+
+    #[OA\Property(type: 'boolean')]
+    protected bool $selected = false;
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(string $label): void
+    {
+        $this->label = $label;
+    }
+
+    public function getAmount(): Money
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(Money $amount): void
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @return self::TYPE_* 
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param self::TYPE_* $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function getSelected(): bool
+    {
+        return $this->selected;
+    }
+
+    public function setSelected(bool $selected): void
+    {
+        $this->selected = $selected;
+    }
+}
