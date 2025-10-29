@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * (c) shopware AG <info@shopware.com>
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit;
 
 use OpenApi\Attributes as OA;
@@ -27,9 +28,7 @@ class ShippingOption extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $amount;
 
-    /**
-     * @var self::TYPE_*
-     */
+    /** @var self::TYPE_* */
     #[OA\Property(type: 'string', enum: [self::TYPE_SHIPPING, self::TYPE_PICKUP])]
     protected string $type = self::TYPE_SHIPPING;
 
@@ -67,7 +66,7 @@ class ShippingOption extends Struct
     }
 
     /**
-     * @return self::TYPE_* 
+     * @return self::TYPE_*
      */
     public function getType(): string
     {
@@ -82,7 +81,7 @@ class ShippingOption extends Struct
         $this->type = $type;
     }
 
-    public function getSelected(): bool
+    public function isSelected(): bool
     {
         return $this->selected;
     }
