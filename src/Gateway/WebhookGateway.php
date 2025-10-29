@@ -10,6 +10,7 @@ namespace Shopware\PayPalSDK\Gateway;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Struct\V1\PatchCollection;
 use Shopware\PayPalSDK\Struct\V1\Webhook;
+use Shopware\PayPalSDK\Struct\V1\Webhook\WebhookList;
 
 class WebhookGateway extends AbstractGateway
 {
@@ -33,6 +34,17 @@ class WebhookGateway extends AbstractGateway
             self::GATEWAY_URL . '/' . $webhookId,
             null,
             Webhook::class,
+            $context
+        );
+    }
+
+    public function getWebhookList(ApiContextInterface $context): WebhookList
+    {
+        return $this->request(
+            'GET',
+            self::GATEWAY_URL,
+            null,
+            WebhookList::class,
             $context
         );
     }
