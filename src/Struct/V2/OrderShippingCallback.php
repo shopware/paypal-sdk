@@ -11,6 +11,7 @@ namespace Shopware\PayPalSDK\Struct\V2;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ShippingOption;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
@@ -26,7 +27,7 @@ class OrderShippingCallback extends Struct
     #[OA\Property(ref: ShippingOption::class)]
     protected ?ShippingOption $shippingOption = null;
 
-    #[OA\Property(ref: PurchaseUnitCollection::class)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class))]
     protected PurchaseUnitCollection $purchaseUnits;
 
     public function getId(): string
