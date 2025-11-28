@@ -8,6 +8,8 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
+use Shopware\PayPalSDK\Struct\V2\EligibleMethodsData;
+use Shopware\PayPalSDK\Struct\V2\FindEligibleMethods;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Refund;
@@ -78,6 +80,17 @@ class PaymentGateway extends AbstractGateway
             self::GATEWAY_URL . '/authorizations/' . $authorizationId . '/void',
             null,
             null,
+            $context
+        );
+    }
+
+    public function findEligibleMethods(FindEligibleMethods $findEligilbleMethods, ApiContextInterface $context): EligibleMethodsData
+    {
+        return $this->request(
+            'POST',
+            self::GATEWAY_URL . '/find-eligible-methods',
+            $findEligilbleMethods,
+            EligibleMethodsData::class,
             $context
         );
     }
