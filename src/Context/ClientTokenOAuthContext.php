@@ -15,16 +15,88 @@ use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
  */
 class ClientTokenOAuthContext extends CredentialsOAuthContext
 {
+    /** @var array<string> */
+    private array $domains = [];
+
     public function getCacheKey(ApiContextInterface $context): ?string
     {
         return \hash('xxh128', 'client-token-%s' . parent::getCacheKey($context));
     }
 
+    /**
+     * @return array{grant_type: string, response_type: string, 'domains[]'?: string}
+     */
     public function getBody(): array
     {
-        return [
-            ...parent::getBody(),
-            'response_type' => 'client_token',
-        ];
+        return \array_merge(
+            parent::getBody(),
+            ['response_type' => 'client_token'],
+            $this->domains ? ['domains[]' => \implode(',', $this->domains)] : [],
+        );
+    }
+
+    /**
+     * Sets domains to be associated with the client token.
+     * Ignores invalid domain formats like IPs or domains without TLD.
+     *
+     * @param array<string> $domains
+     *
+     * @throws \InvalidArgumentException if any of the given domains is invalid.
+     */
+    public function setDomains(array $domains): void
+    {
+        foreach ($domains as $key => $domain) {
+            if (\filter_var($domain, \FILTER_VALIDATE_DOMAIN) === false) {
+                throw new \InvalidArgumentException(\sprintf('Domain "%s" is not valid (FILTER_VALIDATE_DOMAIN)', $domain));
+            }
+
+            // for parse_url to extract the host properly, a scheme must be present
+            $domain = \parse_url($domain, \PHP_URL_SCHEME) ? $domain : 'https://' . $domain;
+            $domain = \parse_url($domain, \PHP_URL_HOST);
+            // remove IPv6 brackets if present
+            $domain = \trim($domain, '[]');
+
+            if (!$domain) {
+                throw new \InvalidArgumentException(\sprintf('Domain "%s" is not valid (parse_url)', $domains[$key]));
+            }
+
+            if (\filter_var($domain, \FILTER_VALIDATE_IP)) {
+                // IPs are not allowed
+                unset($domains[$key]);
+                continue;
+            }
+
+            // subdomains are not allowed and need to be stripped
+            $parts = \array_slice(\explode('.', $domain), -2, 2);
+
+            // domains without top-level domain like `localhost` are not allowed
+            if (\count($parts) < 2) {
+                unset($domains[$key]);
+                continue;
+            }
+
+            $domains[$key] = \implode('.', $parts);
+        }
+
+        $this->domains = \array_unique(\array_values($domains));
+    }
+
+    /**
+     * Domains associated with the client token.
+     * 
+     * @return array<string>
+     */
+    public function getDomains(): array
+    {
+        return $this->domains;
+    }
+
+    /**
+     * Adds domains to be associated with the client token.
+     * Ignores invalid domain formats like IPs or domains without TLD.
+     */
+    public function addDomain(string ...$domains): void
+    {
+        $this->setDomains([...$this->domains, ...$domains]);
     }
 }

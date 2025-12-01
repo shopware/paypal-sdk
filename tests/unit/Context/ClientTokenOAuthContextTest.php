@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Tests\Unit\Context;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\ClientTokenOAuthContext;
@@ -56,5 +57,81 @@ class ClientTokenOAuthContextTest extends TestCase
         );
 
         static::assertSame(ClientTokenOAuthContext::class . " Object\n(\n)\n", \print_r($oauthContext, true));
+    }
+
+    /**
+     * @param array<string> $input
+     * @param array<string> $expected
+     */
+    #[DataProvider('domainProvider')]
+    public function testSetDomains(array $input, array $expected): void
+    {
+        $oauthContext = new ClientTokenOAuthContext(
+            'some-client-id',
+            'some-client-secret',
+        );
+
+        $oauthContext->setDomains($input);
+        static::assertSame($expected, $oauthContext->getDomains());
+    }
+
+    /**
+     * @param array<string> $input
+     * @param array<string> $expected
+     */
+    #[DataProvider('domainProvider')]
+    public function testAddDomain(array $input, array $expected): void
+    {
+        $oauthContext = new ClientTokenOAuthContext(
+            'some-client-id',
+            'some-client-secret',
+        );
+
+        $oauthContext->setDomains(['always-present.com']);
+        $oauthContext->addDomain(...$input);
+        static::assertSame(['always-present.com', ...$expected], $oauthContext->getDomains());
+    }
+
+    public static function domainProvider(): \Generator
+    {
+        yield 'valid domains' => [
+            ['example.com', 'shopware.com'],
+            ['example.com', 'shopware.com'],
+        ];
+
+        yield 'domains with subdomains' => [
+            ['https://sub.example.com', 'test.shopware.com', 'deep.nested.sub.domain.test.com'],
+            ['example.com', 'shopware.com', 'test.com'],
+        ];
+
+        yield 'domains with schemes' => [
+            ['http://example.com', 'https://sub.shopware.com', 'mailto://test@test.com'],
+            ['example.com', 'shopware.com', 'test.com'],
+        ];
+
+        yield 'domains without top-level' => [
+            ['localhost', 'some-local-domain'],
+            [],
+        ];
+
+        yield 'mixed valid and invalid domains' => [
+            ['example.com', 'invalid_domain', 'sub.shopware.com', 'localhost'],
+            ['example.com', 'shopware.com'],
+        ];
+
+        yield 'duplicate domains' => [
+            ['example.com', 'shopware.com', 'example.com', 'shopware.com'],
+            ['example.com', 'shopware.com'],
+        ];
+
+        yield 'complex domains' => [
+            ['example.com/some/path', 'sub.domain.shopware.com/path', 'https://test.com/?query=string#anchor', 'xn--mnchen-3ya.com:3000'],
+            ['example.com', 'shopware.com', 'test.com', 'xn--mnchen-3ya.com'],
+        ];
+
+        yield 'IPs' => [
+            ['127.0.0.1', 'https://172.0.1.1', 'http://127.0.0.2:2000/path', 'https://[::1]:443/path', '::1'],
+            [],
+        ];
     }
 }
