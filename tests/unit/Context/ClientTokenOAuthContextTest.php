@@ -64,32 +64,15 @@ class ClientTokenOAuthContextTest extends TestCase
      * @param array<string> $expected
      */
     #[DataProvider('domainProvider')]
-    public function testSetDomains(array $input, array $expected): void
+    public function testWithDomains(array $input, array $expected): void
     {
         $oauthContext = new ClientTokenOAuthContext(
             'some-client-id',
             'some-client-secret',
         );
 
-        $oauthContext->setDomains($input);
+        $oauthContext = $oauthContext->withDomains($input);
         static::assertSame($expected, $oauthContext->getDomains());
-    }
-
-    /**
-     * @param array<string> $input
-     * @param array<string> $expected
-     */
-    #[DataProvider('domainProvider')]
-    public function testAddDomain(array $input, array $expected): void
-    {
-        $oauthContext = new ClientTokenOAuthContext(
-            'some-client-id',
-            'some-client-secret',
-        );
-
-        $oauthContext->setDomains(['always-present.com']);
-        $oauthContext->addDomain(...$input);
-        static::assertSame(['always-present.com', ...$expected], $oauthContext->getDomains());
     }
 
     public static function domainProvider(): \Generator

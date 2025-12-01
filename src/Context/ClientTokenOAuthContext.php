@@ -15,8 +15,18 @@ use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
  */
 class ClientTokenOAuthContext extends CredentialsOAuthContext
 {
-    /** @var array<string> */
-    private array $domains = [];
+    /**
+     * @param array<string> $domains
+     */
+    public function __construct(
+        #[\SensitiveParameter]
+        private readonly string $clientId,
+        #[\SensitiveParameter]
+        private readonly string $clientSecret,
+        private readonly array $domains = [],
+    ) {
+        parent::__construct($clientId, $clientSecret);
+    }
 
     public function getCacheKey(ApiContextInterface $context): ?string
     {
@@ -43,7 +53,7 @@ class ClientTokenOAuthContext extends CredentialsOAuthContext
      *
      * @throws \InvalidArgumentException if any of the given domains is invalid.
      */
-    public function setDomains(array $domains): void
+    public function withDomains(array $domains): self
     {
         foreach ($domains as $key => $domain) {
             if (\filter_var($domain, \FILTER_VALIDATE_DOMAIN) === false) {
@@ -53,12 +63,13 @@ class ClientTokenOAuthContext extends CredentialsOAuthContext
             // for parse_url to extract the host properly, a scheme must be present
             $domain = \parse_url($domain, \PHP_URL_SCHEME) ? $domain : 'https://' . $domain;
             $domain = \parse_url($domain, \PHP_URL_HOST);
-            // remove IPv6 brackets if present
-            $domain = \trim($domain, '[]');
 
             if (!$domain) {
                 throw new \InvalidArgumentException(\sprintf('Domain "%s" is not valid (parse_url)', $domains[$key]));
             }
+
+            // remove IPv6 brackets if present
+            $domain = \trim($domain, '[]');
 
             if (\filter_var($domain, \FILTER_VALIDATE_IP)) {
                 // IPs are not allowed
@@ -78,25 +89,20 @@ class ClientTokenOAuthContext extends CredentialsOAuthContext
             $domains[$key] = \implode('.', $parts);
         }
 
-        $this->domains = \array_unique(\array_values($domains));
+        return new self(
+            $this->clientId,
+            $this->clientSecret,
+            \array_unique(\array_values($domains)),
+        );
     }
 
     /**
      * Domains associated with the client token.
-     * 
+     *
      * @return array<string>
      */
     public function getDomains(): array
     {
         return $this->domains;
-    }
-
-    /**
-     * Adds domains to be associated with the client token.
-     * Ignores invalid domain formats like IPs or domains without TLD.
-     */
-    public function addDomain(string ...$domains): void
-    {
-        $this->setDomains([...$this->domains, ...$domains]);
     }
 }
