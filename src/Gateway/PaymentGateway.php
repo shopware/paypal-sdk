@@ -84,12 +84,12 @@ class PaymentGateway extends AbstractGateway
         );
     }
 
-    public function findEligibleMethods(FindEligibleMethods $findEligilbleMethods, ApiContextInterface $context): EligibleMethodsData
+    public function findEligibleMethods(FindEligibleMethods $findEligibleMethods, ApiContextInterface $context): EligibleMethodsData
     {
         return $this->request(
             'POST',
             self::GATEWAY_URL . '/find-eligible-methods',
-            $findEligilbleMethods,
+            $findEligibleMethods,
             EligibleMethodsData::class,
             $context
         );
