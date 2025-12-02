@@ -189,9 +189,12 @@ class EligibleMethods extends Struct
      */
     public function has(string $methodClass): bool
     {
-        return \count(\array_filter(
-            \get_object_vars($this),
-            static fn (mixed $eligibleMethod): bool => \is_object($eligibleMethod) && $eligibleMethod::class === $methodClass,
-        )) > 0;
+        foreach (\get_object_vars($this) as $eligibleMethod) {
+            if (\is_object($eligibleMethod) && $eligibleMethod::class === $methodClass) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
