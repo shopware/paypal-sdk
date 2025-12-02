@@ -190,6 +190,7 @@ class EligibleMethods extends Struct
     public function has(string $methodClass): bool
     {
         foreach (\get_object_vars($this) as $eligibleMethod) {
+            // strict comparison to avoid matching subclasses, e.g. `has(Paypal::class)` should not match `PaypalPayLater`
             if (\is_object($eligibleMethod) && $eligibleMethod::class === $methodClass) {
                 return true;
             }
