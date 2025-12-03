@@ -26,7 +26,7 @@ class ThirdPartyDetails extends Struct
 
     /**
      * @deprecated tag:v2.0.0 - feature array will be empty by default, each application needs to set their own features for its own requirements.
-     * 
+     *
      * @var string[]
      */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
