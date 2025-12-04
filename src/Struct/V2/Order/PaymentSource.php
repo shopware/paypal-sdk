@@ -10,6 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\AbstractPaymentSource;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Afterpay;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\ApplePay;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bancontact;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Blik;
@@ -18,11 +19,13 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Eps;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\GooglePay;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Ideal;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Klarna;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Multibanco;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\MyBank;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Oxxo;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\P24;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Paypal;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Swish;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\PayUponInvoice;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Token;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Trustly;
@@ -31,6 +34,9 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Venmo;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source')]
 class PaymentSource extends Struct
 {
+    #[OA\Property(ref: Afterpay::class, nullable: true)]
+    protected ?Afterpay $afterpay = null;
+
     #[OA\Property(ref: ApplePay::class)]
     protected ?ApplePay $applePay = null;
 
@@ -55,6 +61,9 @@ class PaymentSource extends Struct
     #[OA\Property(ref: Ideal::class, nullable: true)]
     protected ?Ideal $ideal = null;
 
+    #[OA\Property(ref: Klarna::class, nullable: true)]
+    protected ?Klarna $klarna = null;
+
     #[OA\Property(ref: Multibanco::class, nullable: true)]
     protected ?Multibanco $multibanco = null;
 
@@ -70,6 +79,9 @@ class PaymentSource extends Struct
     #[OA\Property(ref: Paypal::class, nullable: true)]
     protected ?Paypal $paypal = null;
 
+    #[OA\Property(ref: Swish::class, nullable: true)]
+    protected ?Swish $swish = null;
+
     #[OA\Property(ref: Token::class, nullable: true)]
     protected ?Token $token = null;
 
@@ -81,6 +93,16 @@ class PaymentSource extends Struct
 
     #[OA\Property(ref: Venmo::class, nullable: true)]
     protected ?Venmo $venmo = null;
+
+    public function getAfterpay(): ?Afterpay
+    {
+        return $this->afterpay;
+    }
+
+    public function setAfterpay(?Afterpay $afterpay): void
+    {
+        $this->afterpay = $afterpay;
+    }
 
     public function getApplePay(): ?ApplePay
     {
@@ -162,6 +184,16 @@ class PaymentSource extends Struct
         $this->ideal = $ideal;
     }
 
+    public function getKlarna(): ?Klarna
+    {
+        return $this->klarna;
+    }
+
+    public function setKlarna(?Klarna $klarna): void
+    {
+        $this->klarna = $klarna;
+    }
+
     public function getMultibanco(): ?Multibanco
     {
         return $this->multibanco;
@@ -210,6 +242,16 @@ class PaymentSource extends Struct
     public function setPaypal(?Paypal $paypal): void
     {
         $this->paypal = $paypal;
+    }
+
+    public function getSwish(): ?Swish
+    {
+        return $this->swish;
+    }
+
+    public function setSwish(?Swish $swish): void
+    {
+        $this->swish = $swish;
     }
 
     public function getToken(): ?Token
