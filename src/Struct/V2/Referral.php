@@ -68,6 +68,9 @@ class Referral extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
 
+    #[OA\Property(type: 'string')]
+    protected string $legalCountryCode;
+
     public function getBusinessEntity(): BusinessEntity
     {
         return $this->businessEntity;
@@ -173,5 +176,15 @@ class Referral extends Struct
     public function setLinks(LinkCollection $links): void
     {
         $this->links = $links;
+    }
+
+    public function getLegalCountryCode(): string
+    {
+        return $this->legalCountryCode;
+    }
+
+    public function setLegalCountryCode(string $legalCountryCode): void
+    {
+        $this->legalCountryCode = $legalCountryCode;
     }
 }
