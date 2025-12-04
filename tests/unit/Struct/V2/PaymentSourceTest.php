@@ -45,10 +45,10 @@ class PaymentSourceTest extends TestCase
 
         $klarna = $paymentSource->getKlarna();
         static::assertInstanceOf(Klarna::class, $klarna);
-        static::assertEquals('John Doe', $klarna->getName());
-        static::assertEquals('US', $klarna->getCountryCode());
-        static::assertEquals('john.doe@example.com', $klarna->getEmail());
-        static::assertEquals('+1234567890', $klarna->getPhone());
+        static::assertSame('John Doe', $klarna->getName());
+        static::assertSame('US', $klarna->getCountryCode());
+        static::assertSame('john.doe@example.com', $klarna->getEmail());
+        static::assertSame('+1234567890', $klarna->getPhone());
 
         static::assertArrayHasKey('klarna', $paymentSource->jsonSerialize());
     }
@@ -65,9 +65,9 @@ class PaymentSourceTest extends TestCase
 
         $swish = $paymentSource->getSwish();
         static::assertInstanceOf(Swish::class, $swish);
-        static::assertEquals('Erik Svensson', $swish->getName());
-        static::assertEquals('SE', $swish->getCountryCode());
-        static::assertEquals('+46701234567', $swish->getPhone());
+        static::assertSame('Erik Svensson', $swish->getName());
+        static::assertSame('SE', $swish->getCountryCode());
+        static::assertSame('+46701234567', $swish->getPhone());
 
         static::assertArrayHasKey('swish', $paymentSource->jsonSerialize());
     }
@@ -86,11 +86,11 @@ class PaymentSourceTest extends TestCase
 
         $afterpay = $paymentSource->getAfterpay();
         static::assertInstanceOf(Afterpay::class, $afterpay);
-        static::assertEquals('Jane Smith', $afterpay->getName());
-        static::assertEquals('AU', $afterpay->getCountryCode());
-        static::assertEquals('jane.smith@example.com', $afterpay->getEmail());
-        static::assertEquals('+61412345678', $afterpay->getPhone());
-        static::assertEquals('1990-05-15', $afterpay->getBirthDate());
+        static::assertSame('Jane Smith', $afterpay->getName());
+        static::assertSame('AU', $afterpay->getCountryCode());
+        static::assertSame('jane.smith@example.com', $afterpay->getEmail());
+        static::assertSame('+61412345678', $afterpay->getPhone());
+        static::assertSame('1990-05-15', $afterpay->getBirthDate());
 
         static::assertArrayHasKey('afterpay', $paymentSource->jsonSerialize());
     }
