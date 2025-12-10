@@ -16,6 +16,7 @@ class Link extends Struct
     public const RELATION_APPROVE = 'approve';
     public const RELATION_PAYER_ACTION = 'payer-action';
     public const RELATION_UP = 'up';
+    public const RELATION_ACTION_URL = 'action_url';
 
     #[OA\Property(type: 'string')]
     protected string $href;
