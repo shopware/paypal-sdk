@@ -23,8 +23,13 @@ class ThirdPartyDetails extends Struct
     public const FEATURE_TYPE_TRACKING_SHIPMENT_READWRITE = 'TRACKING_SHIPMENT_READWRITE';
     public const FEATURE_TYPE_VAULT = 'VAULT';
     public const FEATURE_TYPE_BILLING_AGREEMENT = 'BILLING_AGREEMENT';
+    public const SIGNUP_MODE_VERIFY_WITH_PAYPAL = 'VERIFY_WITH_PAYPAL';
 
-    /** @var string[] */
+    /**
+     * @deprecated tag:v2.0.0 - feature array will be empty by default, each application needs to set their own features for its own requirements.
+     *
+     * @var string[]
+     */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     protected array $features = [
         self::FEATURE_TYPE_PAYMENT,
@@ -33,11 +38,16 @@ class ThirdPartyDetails extends Struct
         self::FEATURE_TYPE_ADVANCED_TRANSACTIONS_SEARCH,
         self::FEATURE_TYPE_UPDATE_SELLER_DISPUTE,
         self::FEATURE_TYPE_READ_SELLER_DISPUTE,
-        self::FEATURE_TYPE_DELAY_FUNDS_DISBURSEMENT,
         self::FEATURE_TYPE_TRACKING_SHIPMENT_READWRITE,
         self::FEATURE_TYPE_VAULT,
         self::FEATURE_TYPE_BILLING_AGREEMENT,
     ];
+
+    #[OA\Property(type: 'string')]
+    protected string $signupMode;
+
+    #[OA\Property(type: 'string')]
+    protected string $organization;
 
     /**
      * @return string[]
@@ -58,5 +68,25 @@ class ThirdPartyDetails extends Struct
     public function addFeature(string $feature): void
     {
         $this->features[] = $feature;
+    }
+
+    public function getSignupMode(): string
+    {
+        return $this->signupMode;
+    }
+
+    public function setSignupMode(string $signupMode): void
+    {
+        $this->signupMode = $signupMode;
+    }
+
+    public function getOrganization(): string
+    {
+        return $this->organization;
+    }
+
+    public function setOrganization(string $organization): void
+    {
+        $this->organization = $organization;
     }
 }

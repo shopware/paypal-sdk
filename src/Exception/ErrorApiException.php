@@ -39,7 +39,6 @@ class ErrorApiException extends ApiException
         parent::__construct($errorCode, $reason, $response);
 
         if ($detailMessage = (string) $this->details) {
-            // @phpstan-ignore-next-line assignOp.invalid - Message is not natively typed but sure a string as we control it.
             $this->message .= ' | ' . $detailMessage;
         }
     }
