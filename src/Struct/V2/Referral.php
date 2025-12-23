@@ -24,6 +24,9 @@ class Referral extends Struct
     public const PRODUCT_TYPE_PPCP = 'PPCP';
     public const PRODUCT_TYPE_PAYMENT_METHODS = 'PAYMENT_METHODS';
     public const PRODUCT_TYPE_ADVANCED_VAULTING = 'ADVANCED_VAULTING';
+    public const PRODUCT_TYPE_KLARNA = 'KLARNA';
+    public const PRODUCT_TYPE_SWISH = 'SWISH';
+    public const PRODUCT_TYPE_SEPA = 'SEPA';
 
     public const CAPABILITY_PAYPAL_WALLET_VAULTING_ADVANCED = 'PAYPAL_WALLET_VAULTING_ADVANCED';
     public const CAPABILITY_PAY_UPON_INVOICE = 'PAY_UPON_INVOICE';
@@ -67,6 +70,9 @@ class Referral extends Struct
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
+
+    #[OA\Property(type: 'string')]
+    protected string $legalCountryCode;
 
     public function getBusinessEntity(): BusinessEntity
     {
@@ -173,5 +179,15 @@ class Referral extends Struct
     public function setLinks(LinkCollection $links): void
     {
         $this->links = $links;
+    }
+
+    public function getLegalCountryCode(): string
+    {
+        return $this->legalCountryCode;
+    }
+
+    public function setLegalCountryCode(string $legalCountryCode): void
+    {
+        $this->legalCountryCode = $legalCountryCode;
     }
 }

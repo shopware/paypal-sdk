@@ -15,6 +15,8 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ItemCollection;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payee;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ShippingOption;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ShippingOptionCollection;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData;
 
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit')]
@@ -49,6 +51,9 @@ class PurchaseUnit extends Struct
 
     #[OA\Property(ref: SupplementaryData::class)]
     protected SupplementaryData $supplementaryData;
+
+    #[OA\Property(type: 'array', items: new OA\Items(ref: ShippingOption::class), nullable: true)]
+    protected ?ShippingOptionCollection $shippingOptions = null;
 
     public function getReferenceId(): string
     {
@@ -148,5 +153,15 @@ class PurchaseUnit extends Struct
     public function setSupplementaryData(SupplementaryData $supplementaryData): void
     {
         $this->supplementaryData = $supplementaryData;
+    }
+
+    public function getShippingOptions(): ?ShippingOptionCollection
+    {
+        return $this->shippingOptions;
+    }
+
+    public function setShippingOptions(?ShippingOptionCollection $shippingOptions): void
+    {
+        $this->shippingOptions = $shippingOptions;
     }
 }

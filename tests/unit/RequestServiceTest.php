@@ -284,7 +284,7 @@ class RequestServiceTest extends TestCase
         static::assertSame(['key' => 'value'], $content);
     }
 
-    #[DataProvider('handleResponseCode400DataProvider')]
+    #[DataProvider('provideHandleResponseWith400')]
     public function testHandleResponseWith400(int $code): void
     {
         $response = $this->factory->createResponse($code)
@@ -301,7 +301,7 @@ class RequestServiceTest extends TestCase
         $this->service->handleResponse($response);
     }
 
-    public static function handleResponseCode400DataProvider(): \Generator
+    public static function provideHandleResponseWith400(): \Generator
     {
         foreach (\range(400, 499) as $code) {
             yield 'code ' . $code => ['code' => $code];

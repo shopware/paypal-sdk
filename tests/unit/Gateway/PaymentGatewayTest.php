@@ -13,6 +13,8 @@ use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\PaymentGateway;
+use Shopware\PayPalSDK\Struct\V2\EligibleMethodsData;
+use Shopware\PayPalSDK\Struct\V2\FindEligibleMethods;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Refund;
@@ -136,5 +138,24 @@ class PaymentGatewayTest extends TestCase
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/authorizations/authorizationId/void', $last->getRequest()->getUri()->getPath());
         static::assertSame('', (string) $last->getRequest()->getBody());
+    }
+
+    public function testFindEligibleMethods(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = (new FindEligibleMethods())->assign(['purchase_units' => [['amount' => ['currency_code' => 'USD'], 'payee' => ['merchant_id' => 'merchant-id']]]]);
+        $expectedResponse = (new EligibleMethodsData())->assign(['eligible_methods' => ['paypal' => []]]);
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode(['eligible_methods' => ['paypal' => []]], \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->paymentGateway()->findEligibleMethods($body, $context);
+        static::assertEquals($expectedResponse, $response);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v2/payments/find-eligible-methods', $last->getRequest()->getUri()->getPath());
+        static::assertSame('{"purchase_units":[{"amount":{"breakdown":null,"currency_code":"USD"},"payee":{"merchant_id":"merchant-id"}}]}', (string) $last->getRequest()->getBody());
     }
 }

@@ -63,7 +63,7 @@ class ErrorApiExceptionTest extends TestCase
         );
     }
 
-    #[DataProvider('isDataProvider')]
+    #[DataProvider('provideIs')]
     public function testIs(bool $is, string ...$codes): void
     {
         $response = new Response(200, body: '{"key":"value"}');
@@ -91,7 +91,7 @@ class ErrorApiExceptionTest extends TestCase
         static::assertSame($is, $exception->is(...$codes));
     }
 
-    public static function isDataProvider(): \Generator
+    public static function provideIs(): \Generator
     {
         yield 'is matching single' => [true, ApiException::CODE_INVALID_REQUEST];
         yield 'is matching multiple' => [true, ApiException::CODE_INVALID_REQUEST, ApiException::CODE_DUPLICATE_INVOICE_ID];

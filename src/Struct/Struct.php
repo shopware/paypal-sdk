@@ -61,7 +61,7 @@ abstract class Struct implements \JsonSerializable
             }
 
             if (\is_array($value) && $className = $this->getPropertyClassType([$type], Struct::class)) {
-                $this->assignValue($propertyName, (new $className())->assign($value));
+                $this->assignValue($propertyName, self::from($className, $value));
 
                 continue;
             }

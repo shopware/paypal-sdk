@@ -15,6 +15,7 @@ use Shopware\PayPalSDK\Struct\V2\Referral\Operation\ApiIntegrationPreference\Res
 class RestApiIntegration extends Struct
 {
     public const INTEGRATION_METHOD_TYPE_PAYPAL = 'PAYPAL';
+    public const INTEGRATION_METHOD_TYPE_SDK = 'SDK';
     public const INTEGRATION_TYPE_THIRD_PARTY = 'THIRD_PARTY';
 
     #[OA\Property(type: 'string', default: self::INTEGRATION_METHOD_TYPE_PAYPAL)]
