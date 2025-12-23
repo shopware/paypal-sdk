@@ -29,15 +29,14 @@ abstract class AbstractGateway implements GatewayInterface
 
     /**
      * @template T of Struct
-     * @template C of Collection<T> = Collection<T>
      *
-     * @param class-string<T>|class-string<C>|null $responseClass
+     * @param class-string<T>|null $responseClass
      *
      * @throws ApiException|ClientExceptionInterface|\JsonException|\LogicException
      *
-     * @return ($responseClass is null ? null : ($responseClass is class-string<C> ? C : T))
+     * @return ($responseClass is null ? null : T)
      */
-    protected function request(string $method, string $path, Struct|Collection|null $body, ?string $responseClass, ApiContextInterface $context): Struct|Collection|null
+    protected function request(string $method, string $path, Struct|Collection|null $body, ?string $responseClass, ApiContextInterface $context): ?Struct
     {
         $token = $this->tokenGateway->getToken($context);
 
@@ -54,10 +53,6 @@ abstract class AbstractGateway implements GatewayInterface
         if ($responseClass) {
             if ($content === null) {
                 throw new \LogicException('Expected response content for deserializing into ' . $responseClass);
-            }
-
-            if (\is_a($responseClass, Collection::class, true)) {
-                return $responseClass::createFromAssociative($content);
             }
 
             return Struct::from($responseClass, $content);

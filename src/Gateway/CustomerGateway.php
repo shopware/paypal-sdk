@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Credentials;
 use Shopware\PayPalSDK\Struct\V1\MerchantTracking;
 use Shopware\PayPalSDK\Struct\V2\Referral;
-use Shopware\PayPalSDK\Struct\V3\ManagedAccountCollection;
+use Shopware\PayPalSDK\Struct\V3\ManagedAccount;
 
 class CustomerGateway extends AbstractGateway
 {
@@ -88,13 +88,13 @@ class CustomerGateway extends AbstractGateway
         );
     }
 
-    public function getManagedAccount(string $merchantId, ApiContextInterface $context): ManagedAccountCollection
+    public function getManagedAccount(string $merchantId, ApiContextInterface $context): ManagedAccount
     {
         return $this->request(
             'GET',
             self::GATEWAY_URL_V3 . '/managed-accounts/' . $merchantId,
             null,
-            ManagedAccountCollection::class,
+            ManagedAccount::class,
             $context->withThirdParty(false),
         );
     }

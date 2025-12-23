@@ -146,4 +146,21 @@ class CustomerGatewayTest extends TestCase
         static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
         static::assertFalse($last->getContext()->isThirdParty());
     }
+
+    public function testGetManagedAccount(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = ['account_id' => 'some-account-id'];
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->customerGateway()->getManagedAccount('some-account-id', $context);
+        static::assertSame($body['account_id'], $response->getAccountId());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v3/customer/managed-accounts/some-account-id', $last->getRequest()->getUri()->getPath());
+    }
 }
