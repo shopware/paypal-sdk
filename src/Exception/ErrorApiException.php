@@ -39,7 +39,6 @@ class ErrorApiException extends ApiException
         parent::__construct($errorCode, $reason, $response);
 
         if ($detailMessage = (string) $this->details) {
-            /** @phpstan-ignore-next-line assignOp.invalid - weird phpstan error simply ignore */
             $this->message .= ' | ' . $detailMessage;
         }
     }
