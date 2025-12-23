@@ -14,11 +14,13 @@ use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Credentials;
 use Shopware\PayPalSDK\Struct\V1\MerchantTracking;
 use Shopware\PayPalSDK\Struct\V2\Referral;
+use Shopware\PayPalSDK\Struct\V3\ManagedAccount;
 
 class CustomerGateway extends AbstractGateway
 {
     public const GATEWAY_URL = '/v1/customer';
     public const GATEWAY_URL_V2 = '/v2/customer';
+    public const GATEWAY_URL_V3 = '/v3/customer';
 
     public function getMerchantIntegrations(string $partnerId, string $merchantId, ApiContextInterface $context): MerchantIntegrations
     {
@@ -83,6 +85,17 @@ class CustomerGateway extends AbstractGateway
             null,
             DisputeItem::class,
             $context,
+        );
+    }
+
+    public function getManagedAccount(string $merchantId, ApiContextInterface $context): ManagedAccount
+    {
+        return $this->request(
+            'GET',
+            self::GATEWAY_URL_V3 . '/managed-accounts/' . $merchantId,
+            null,
+            ManagedAccount::class,
+            $context->withThirdParty(false),
         );
     }
 }
