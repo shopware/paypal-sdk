@@ -36,19 +36,36 @@ class PaymentSourceTest extends TestCase
     {
         $paymentSource = (new PaymentSource())->assign([
             'klarna' => [
-                'name' => 'John Doe',
-                'countryCode' => 'US',
+                'name' => [
+                    'givenName' => 'John',
+                    'surname' => 'Doe',
+                ],
                 'email' => 'john.doe@example.com',
                 'phone' => '+1234567890',
+                'billingAddress' => [
+                    'addressLine1' => '123 Main St',
+                    'adminArea2' => 'San Jose',
+                    'adminArea1' => 'CA',
+                    'postalCode' => '95131',
+                    'countryCode' => 'US',
+                ],
             ],
         ]);
 
         $klarna = $paymentSource->getKlarna();
         static::assertInstanceOf(Klarna::class, $klarna);
-        static::assertSame('John Doe', $klarna->getName());
-        static::assertSame('US', $klarna->getCountryCode());
+        static::assertSame('John', $klarna->getName()->getGivenName());
+        static::assertSame('Doe', $klarna->getName()->getSurname());
         static::assertSame('john.doe@example.com', $klarna->getEmail());
         static::assertSame('+1234567890', $klarna->getPhone());
+
+        $billingAddress = $klarna->getBillingAddress();
+        static::assertNotNull($billingAddress);
+        static::assertSame('123 Main St', $billingAddress->getAddressLine1());
+        static::assertSame('San Jose', $billingAddress->getAdminArea2());
+        static::assertSame('CA', $billingAddress->getAdminArea1());
+        static::assertSame('95131', $billingAddress->getPostalCode());
+        static::assertSame('US', $billingAddress->getCountryCode());
 
         static::assertArrayHasKey('klarna', $paymentSource->jsonSerialize());
     }
