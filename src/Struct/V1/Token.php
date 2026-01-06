@@ -67,7 +67,7 @@ class Token extends Struct
         $newToken = parent::assign($data);
 
         // Calculate the expiration date manually
-        $expiresIn = $newToken->expiresIn * self::TTL_THRESHOLD_PERCENT;
+        $expiresIn = (int) ($newToken->expiresIn * self::TTL_THRESHOLD_PERCENT);
         $newToken->expireDateTime = new \DateTime("now + {$expiresIn} seconds", new \DateTimeZone('UTC'));
 
         return $newToken;
