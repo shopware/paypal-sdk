@@ -62,7 +62,6 @@ class ExperienceContext extends Struct
     #[OA\Property(type: 'string')]
     protected string $acquiringChannel;
 
-
     /**
      * Only: PayPal Wallet
      */
