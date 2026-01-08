@@ -48,6 +48,7 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
      */
     public static function createFromAssociative(array $associativeData): static
     {
+        /** @phpstan-ignore new.staticInAbstractClassStaticMethod */
         $collection = new static();
         foreach (\array_filter($associativeData) as $value) {
             if ($value instanceof Struct) {
