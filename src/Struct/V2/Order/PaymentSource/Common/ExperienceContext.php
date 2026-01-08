@@ -33,6 +33,8 @@ class ExperienceContext extends Struct
     public const PAYMENT_METHOD_PREFERENCE_UNRESTRICTED = 'UNRESTRICTED';
     public const PAYMENT_METHOD_PREFERENCE_IMMEDIATE_REQUIRED = 'IMMEDIATE_PAYMENT_REQUIRED';
 
+    public const ACQUIRING_CHANNEL_ECOMMERCE = 'ECOMMERCE';
+
     #[OA\Property(type: 'string')]
     protected string $locale;
 
@@ -56,6 +58,10 @@ class ExperienceContext extends Struct
 
     #[OA\Property(type: 'string')]
     protected string $cancelUrl;
+
+    #[OA\Property(type: 'string')]
+    protected string $acquiringChannel;
+
 
     /**
      * Only: PayPal Wallet
@@ -188,5 +194,15 @@ class ExperienceContext extends Struct
     public function setOrderUpdateCallbackConfig(?OrderUpdateCallbackConfig $orderUpdateCallbackConfig): void
     {
         $this->orderUpdateCallbackConfig = $orderUpdateCallbackConfig;
+    }
+
+    public function getAcquiringChannel(): string
+    {
+        return $this->acquiringChannel;
+    }
+
+    public function setAcquiringChannel(string $acquiringChannel): void
+    {
+        $this->acquiringChannel = $acquiringChannel;
     }
 }
