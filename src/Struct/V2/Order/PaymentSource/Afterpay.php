@@ -8,10 +8,15 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\V2\Common\Address;
+use Shopware\PayPalSDK\Struct\V2\Common\Name;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_afterpay')]
-class Afterpay extends AbstractAPMPaymentSource
+class Afterpay extends AbstractPaymentSource
 {
+    #[OA\Property(ref: Name::class)]
+    protected Name $name;
+
     #[OA\Property(type: 'string')]
     protected string $email;
 
@@ -20,6 +25,9 @@ class Afterpay extends AbstractAPMPaymentSource
 
     #[OA\Property(type: 'string', format: 'date')]
     protected string $birthDate;
+
+    #[OA\Property(ref: Address::class, nullable: true)]
+    protected ?Address $billingAddress = null;
 
     public function getEmail(): string
     {
@@ -49,5 +57,25 @@ class Afterpay extends AbstractAPMPaymentSource
     public function setBirthDate(string $birthDate): void
     {
         $this->birthDate = $birthDate;
+    }
+
+    public function getName(): Name
+    {
+        return $this->name;
+    }
+
+    public function setName(Name $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getBillingAddress(): ?Address
+    {
+        return $this->billingAddress;
+    }
+
+    public function setBillingAddress(?Address $billingAddress): void
+    {
+        $this->billingAddress = $billingAddress;
     }
 }
