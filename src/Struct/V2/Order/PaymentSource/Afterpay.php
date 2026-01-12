@@ -18,7 +18,7 @@ class Afterpay extends AbstractPaymentSource
     protected Name $name;
 
     #[OA\Property(type: 'string')]
-    protected string $email;
+    protected string $emailAddress;
 
     #[OA\Property(type: 'string')]
     protected string $phone;
@@ -29,14 +29,14 @@ class Afterpay extends AbstractPaymentSource
     #[OA\Property(ref: Address::class, nullable: true)]
     protected ?Address $billingAddress = null;
 
-    public function getEmail(): string
+    public function getEmailAddress(): string
     {
-        return $this->email;
+        return $this->emailAddress;
     }
 
-    public function setEmail(string $email): void
+    public function setEmailAddress(string $email): void
     {
-        $this->email = $email;
+        $this->emailAddress = $email;
     }
 
     public function getPhone(): string

@@ -204,7 +204,7 @@ class PaymentSourceTest extends TestCase
         static::assertInstanceOf(Afterpay::class, $afterpay);
         static::assertSame('Jane', $afterpay->getName()->getGivenName());
         static::assertSame('Smith', $afterpay->getName()->getSurname());
-        static::assertSame('jane.smith@example.com', $afterpay->getEmail());
+        static::assertSame('jane.smith@example.com', $afterpay->getEmailAddress());
         static::assertSame('+61412345678', $afterpay->getPhone());
         static::assertSame('1990-05-15', $afterpay->getBirthDate());
 
