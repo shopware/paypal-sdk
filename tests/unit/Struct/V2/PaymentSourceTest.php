@@ -187,7 +187,7 @@ class PaymentSourceTest extends TestCase
                     'givenName' => 'Jane',
                     'surname' => 'Smith',
                 ],
-                'email' => 'jane.smith@example.com',
+                'emailAddress' => 'jane.smith@example.com',
                 'phone' => '+61412345678',
                 'birthDate' => '1990-05-15',
                 'billingAddress' => [
