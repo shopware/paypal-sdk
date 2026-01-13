@@ -190,6 +190,7 @@ class PaymentSourceTest extends TestCase
                 'emailAddress' => 'jane.smith@example.com',
                 'phone' => '+61412345678',
                 'birthDate' => '1990-05-15',
+                'countryCode' => 'AU',
                 'billingAddress' => [
                     'addressLine1' => '456 Test St',
                     'adminArea2' => 'Sydney',
@@ -207,6 +208,7 @@ class PaymentSourceTest extends TestCase
         static::assertSame('jane.smith@example.com', $afterpay->getEmailAddress());
         static::assertSame('+61412345678', $afterpay->getPhone());
         static::assertSame('1990-05-15', $afterpay->getBirthDate());
+        static::assertSame('AU', $afterpay->getCountryCode());
 
         $billingAddress = $afterpay->getBillingAddress();
         static::assertNotNull($billingAddress);
