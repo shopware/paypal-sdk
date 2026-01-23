@@ -66,6 +66,9 @@ class Resource extends Struct
     protected string $state;
 
     #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $trackingId = null;
+
+    #[OA\Property(type: 'string', nullable: true)]
     protected ?string $merchantId = null;
 
     public function getId(): string
@@ -226,6 +229,16 @@ class Resource extends Struct
     public function setState(string $state): void
     {
         $this->state = $state;
+    }
+
+    public function getTrackingId(): ?string
+    {
+        return $this->trackingId;
+    }
+
+    public function setTrackingId(?string $trackingId): void
+    {
+        $this->trackingId = $trackingId;
     }
 
     public function getMerchantId(): ?string

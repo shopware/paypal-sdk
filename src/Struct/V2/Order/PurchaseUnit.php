@@ -44,7 +44,7 @@ class PurchaseUnit extends Struct
     protected ?ItemCollection $items = null;
 
     #[OA\Property(ref: Shipping::class)]
-    protected Shipping $shipping;
+    protected ?Shipping $shipping = null;
 
     #[OA\Property(ref: Payments::class, nullable: true)]
     protected ?Payments $payments = null;
@@ -125,12 +125,12 @@ class PurchaseUnit extends Struct
         $this->items = $items;
     }
 
-    public function getShipping(): Shipping
+    public function getShipping(): ?Shipping
     {
         return $this->shipping;
     }
 
-    public function setShipping(Shipping $shipping): void
+    public function setShipping(?Shipping $shipping): void
     {
         $this->shipping = $shipping;
     }
