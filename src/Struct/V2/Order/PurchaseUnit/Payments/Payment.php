@@ -12,6 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Link;
 use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Common\PaymentSupplementaryData;
 
 abstract class Payment extends Struct
 {
@@ -38,6 +39,9 @@ abstract class Payment extends Struct
 
     #[OA\Property(type: 'string')]
     protected string $updateTime;
+
+    #[OA\Property(ref: PaymentSupplementaryData::class, nullable: true)]
+    protected ?PaymentSupplementaryData $supplementaryData = null;
 
     public function getStatus(): string
     {
@@ -107,5 +111,15 @@ abstract class Payment extends Struct
     public function setUpdateTime(string $updateTime): void
     {
         $this->updateTime = $updateTime;
+    }
+
+    public function getSupplementaryData(): ?PaymentSupplementaryData
+    {
+        return $this->supplementaryData;
+    }
+
+    public function setSupplementaryData(?PaymentSupplementaryData $supplementaryData): void
+    {
+        $this->supplementaryData = $supplementaryData;
     }
 }
