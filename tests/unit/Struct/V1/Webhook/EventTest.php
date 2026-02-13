@@ -113,6 +113,86 @@ class EventTest extends TestCase
         static::assertNull($event->getResource());
     }
 
+    public function testCaptureResourcePreservesSupplementaryData(): void
+    {
+        $event = Struct::from(Event::class, [
+            'id' => 'WH-CAPTURE-SUPPLEMENTARY',
+            'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
+            'summary' => 'A capture was completed',
+            'resource_type' => 'capture',
+            'resource_version' => '2.0',
+            'resource' => [
+                'id' => 'CAPTURE-123',
+                'status' => 'COMPLETED',
+                'amount' => [
+                    'currency_code' => 'EUR',
+                    'value' => '100.00',
+                ],
+                'supplementary_data' => [
+                    'related_ids' => [
+                        'order_id' => 'ORDER-456',
+                    ],
+                ],
+            ],
+            'create_time' => '2026-02-12T12:00:00Z',
+            'event_version' => '1.0',
+            'links' => [],
+        ]);
+
+        $resource = $event->getResource();
+        static::assertNotNull($resource);
+        static::assertInstanceOf(Capture::class, $resource);
+        static::assertSame('CAPTURE-123', $resource->getId());
+
+        $supplementaryData = $resource->getSupplementaryData();
+        static::assertNotNull($supplementaryData);
+
+        $relatedIds = $supplementaryData->getRelatedIds();
+        static::assertNotNull($relatedIds);
+        static::assertSame('ORDER-456', $relatedIds->getOrderId());
+    }
+
+    public function testRefundResourcePreservesSupplementaryData(): void
+    {
+        $event = Struct::from(Event::class, [
+            'id' => 'WH-REFUND-SUPPLEMENTARY',
+            'event_type' => 'PAYMENT.CAPTURE.REFUNDED',
+            'summary' => 'A capture was refunded',
+            'resource_type' => 'refund',
+            'resource_version' => '2.0',
+            'resource' => [
+                'id' => 'REFUND-789',
+                'status' => 'COMPLETED',
+                'amount' => [
+                    'currency_code' => 'EUR',
+                    'value' => '50.00',
+                ],
+                'supplementary_data' => [
+                    'related_ids' => [
+                        'order_id' => 'ORDER-456',
+                        'capture_id' => 'CAPTURE-123',
+                    ],
+                ],
+            ],
+            'create_time' => '2026-02-12T12:00:00Z',
+            'event_version' => '1.0',
+            'links' => [],
+        ]);
+
+        $resource = $event->getResource();
+        static::assertNotNull($resource);
+        static::assertInstanceOf(Refund::class, $resource);
+        static::assertSame('REFUND-789', $resource->getId());
+
+        $supplementaryData = $resource->getSupplementaryData();
+        static::assertNotNull($supplementaryData);
+
+        $relatedIds = $supplementaryData->getRelatedIds();
+        static::assertNotNull($relatedIds);
+        static::assertSame('ORDER-456', $relatedIds->getOrderId());
+        static::assertSame('CAPTURE-123', $relatedIds->getCaptureId());
+    }
+
     public function testNullResourceWhenResourceIsNull(): void
     {
         $event = Struct::from(Event::class, [
