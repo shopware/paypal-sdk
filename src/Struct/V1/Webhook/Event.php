@@ -12,6 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Subscription;
+use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Refund;
@@ -22,6 +23,7 @@ class Event extends Struct
 {
     public const RESOURCE_TYPE_AUTHORIZATION = 'authorization';
     public const RESOURCE_TYPE_CAPTURE = 'capture';
+    public const RESOURCE_TYPE_CHECKOUT_ORDER = 'checkout-order';
     public const RESOURCE_TYPE_REFUND = 'refund';
     public const RESOURCE_TYPE_PAYMENT_TOKEN = 'payment_token';
     public const RESOURCE_TYPE_SUBSCRIPTION = 'subscription';
@@ -40,6 +42,7 @@ class Event extends Struct
 
     #[OA\Property(nullable: true, oneOf: [
         new OA\Schema(ref: PaymentToken::class),
+        new OA\Schema(ref: Order::class),
         new OA\Schema(ref: Authorization::class),
         new OA\Schema(ref: Capture::class),
         new OA\Schema(ref: Refund::class),
@@ -176,6 +179,7 @@ class Event extends Struct
             '2.0' => match ($resourceType) {
                 self::RESOURCE_TYPE_AUTHORIZATION => Authorization::class,
                 self::RESOURCE_TYPE_CAPTURE => Capture::class,
+                self::RESOURCE_TYPE_CHECKOUT_ORDER => Order::class,
                 self::RESOURCE_TYPE_REFUND => Refund::class,
                 self::RESOURCE_TYPE_SUBSCRIPTION => Subscription::class,
                 default => null,
