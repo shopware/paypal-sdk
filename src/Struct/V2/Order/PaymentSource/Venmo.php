@@ -8,7 +8,6 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
-use Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource\VaultablePaymentSourceInterface;
 use Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource\VaultedPaymentSourceInterface;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Name;
@@ -16,7 +15,7 @@ use Shopware\PayPalSDK\Struct\V2\Common\PhoneNumber;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_venmo')]
-class Venmo extends AbstractPaymentSource implements VaultablePaymentSourceInterface, VaultedPaymentSourceInterface
+class Venmo extends AbstractPaymentSource implements VaultedPaymentSourceInterface
 {
     #[OA\Property(type: 'string')]
     protected string $emailAddress;
