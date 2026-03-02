@@ -39,7 +39,7 @@ class ErrorApiException extends ApiException
         parent::__construct($errorCode, $reason, $response);
 
         if ($detailMessage = (string) $this->details) {
-            $this->message .= ' | ' . $detailMessage;
+            $this->message = $this->getMessage() . ' | ' . $detailMessage;
         }
     }
 

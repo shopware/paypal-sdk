@@ -8,14 +8,14 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
-use Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource\VaultablePaymentSourceInterface;
+use Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource\VaultedPaymentSourceInterface;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\AuthenticationResult;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\StoredCredential;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_card')]
-class Card extends AbstractAPMPaymentSource implements VaultablePaymentSourceInterface
+class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInterface
 {
     #[OA\Property(type: 'string')]
     protected string $lastDigits;
