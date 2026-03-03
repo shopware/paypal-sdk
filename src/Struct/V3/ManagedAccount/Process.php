@@ -10,6 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V3\ManagedAccount;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
+#[OA\Schema(schema: 'paypal_v3_managed_account_process')]
 class Process extends Struct
 {
     #[OA\Property(type: 'string')]
