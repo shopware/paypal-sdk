@@ -12,6 +12,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Subscription;
+use Shopware\PayPalSDK\Struct\V1\Webhook\Events\AccountEntities;
+use Shopware\PayPalSDK\Struct\V1\Webhook\Events\ManagedAccounts;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture;
@@ -27,6 +29,8 @@ class Event extends Struct
     public const RESOURCE_TYPE_REFUND = 'refund';
     public const RESOURCE_TYPE_PAYMENT_TOKEN = 'payment_token';
     public const RESOURCE_TYPE_SUBSCRIPTION = 'subscription';
+    public const RESOURCE_TYPE_MANAGED_ACCOUNTS = 'managed-accounts';
+    public const RESOURCE_TYPE_ACCOUNT_ENTITIES = 'account-entities';
 
     #[OA\Property(type: 'string')]
     protected string $id;
@@ -48,6 +52,8 @@ class Event extends Struct
         new OA\Schema(ref: Refund::class),
         new OA\Schema(ref: Resource::class),
         new OA\Schema(ref: Subscription::class),
+        new OA\Schema(ref: ManagedAccounts::class),
+        new OA\Schema(ref: AccountEntities::class),
     ])]
     protected ?Struct $resource = null;
 
@@ -62,6 +68,9 @@ class Event extends Struct
 
     #[OA\Property(type: 'string')]
     protected string $resourceVersion = '1.0';
+
+    #[OA\Property(ref: ApplicationContext::class)]
+    protected ApplicationContext $applicationContext;
 
     public function assign(array $data): static
     {
@@ -166,6 +175,16 @@ class Event extends Struct
         $this->resourceVersion = $resourceVersion;
     }
 
+    public function getApplicationContext(): ApplicationContext
+    {
+        return $this->applicationContext;
+    }
+
+    public function setApplicationContext(ApplicationContext $applicationContext): void
+    {
+        $this->applicationContext = $applicationContext;
+    }
+
     /**
      * @return class-string<Struct>|null
      */
@@ -184,7 +203,14 @@ class Event extends Struct
                 self::RESOURCE_TYPE_SUBSCRIPTION => Subscription::class,
                 default => null,
             },
-            default => Resource::class,
+            '1.0' => match ($resourceType) {
+                self::RESOURCE_TYPE_MANAGED_ACCOUNTS => ManagedAccounts::class,
+                self::RESOURCE_TYPE_ACCOUNT_ENTITIES => AccountEntities::class,
+                default => Resource::class,
+            },
+            default => match ($resourceType) {
+                default => Resource::class,
+            },
         };
     }
 }

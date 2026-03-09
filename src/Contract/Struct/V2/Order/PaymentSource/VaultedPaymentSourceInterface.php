@@ -9,14 +9,15 @@ namespace Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource;
 
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
-/**
- * @deprecated tag:v2.0.0 - will be removed in favor of VaultedPaymentSourceInterface, which will be implemented by all vaultable payment sources and contains the vaultId property.
- */
-interface VaultablePaymentSourceInterface
+interface VaultedPaymentSourceInterface extends VaultablePaymentSourceInterface
 {
     public function getAttributes(): ?Attributes;
 
     public function setAttributes(?Attributes $attributes): void;
+
+    public function getVaultId(): string;
+
+    public function setVaultId(string $vaultId): void;
 
     public function getVaultIdentifier(): string;
 }
