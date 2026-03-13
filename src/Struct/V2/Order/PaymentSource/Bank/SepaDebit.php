@@ -5,13 +5,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
+namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bank;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\AbstractPaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_sepa_debit')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_bank_sepa_debit')]
 class SepaDebit extends AbstractPaymentSource
 {
     #[OA\Property(type: 'string')]

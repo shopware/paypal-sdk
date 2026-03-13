@@ -13,6 +13,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\AbstractPaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Afterpay;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\ApplePay;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bancontact;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bank;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Blik;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Boletobancario;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card;
@@ -26,7 +27,6 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Oxxo;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\P24;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Paypal;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\PayUponInvoice;
-use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\SepaDebit;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Swish;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Token;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Trustly;
@@ -95,8 +95,8 @@ class PaymentSource extends Struct
     #[OA\Property(ref: Venmo::class, nullable: true)]
     protected ?Venmo $venmo = null;
 
-    #[OA\Property(ref: SepaDebit::class, nullable: true)]
-    protected ?SepaDebit $sepaDebit = null;
+    #[OA\Property(ref: Bank::class, nullable: true)]
+    protected ?Bank $bank = null;
 
     public function getAfterpay(): ?Afterpay
     {
@@ -298,27 +298,14 @@ class PaymentSource extends Struct
         $this->venmo = $venmo;
     }
 
-    public function getSepaDebit(): ?SepaDebit
+    public function getBank(): ?Bank
     {
-        return $this->sepaDebit;
+        return $this->bank;
     }
 
-    public function setSepaDebit(?SepaDebit $sepaDebit): void
+    public function setBank(?Bank $bank): void
     {
-        $this->sepaDebit = $sepaDebit;
-    }
-
-    /**
-     * @param array<string, mixed> $data
-     */
-    public function assign(array $data): static
-    {
-        if (\is_array($data['bank']) && isset($data['bank']['sepa_debit'])) {
-            $data['sepa_debit'] = $data['bank']['sepa_debit'];
-            unset($data['bank']);
-        }
-
-        return parent::assign($data);
+        $this->bank = $bank;
     }
 
     /**
@@ -330,8 +317,6 @@ class PaymentSource extends Struct
             ...parent::jsonSerialize(),
             'p_2_4' => null,
             'p24' => $this->p24,
-            'sepa_debit' => null,
-            'bank' => $this->sepaDebit ? ['sepa_debit' => $this->sepaDebit] : null,
         ]);
     }
 
@@ -345,6 +330,13 @@ class PaymentSource extends Struct
     public function first(string $expectedType = AbstractPaymentSource::class): ?AbstractPaymentSource
     {
         foreach ($this->jsonSerialize() as $paymentSource) {
+            if ($paymentSource instanceof Bank) {
+                $sepaDebit = $paymentSource->getSepaDebit();
+                if ($sepaDebit instanceof $expectedType) {
+                    return $sepaDebit;
+                }
+            }
+
             if ($paymentSource instanceof $expectedType && $paymentSource instanceof AbstractPaymentSource) {
                 return $paymentSource;
             }

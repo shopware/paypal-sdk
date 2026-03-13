@@ -13,11 +13,13 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_token')]
 class Token extends Struct
 {
+    public const TYPE_BANK_REFERENCE_TOKEN = 'BANK_REFERENCE_TOKEN';
+
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string')]
-    protected string $type;
+    #[OA\Property(type: 'string', default: self::TYPE_BANK_REFERENCE_TOKEN)]
+    protected string $type = self::TYPE_BANK_REFERENCE_TOKEN;
 
     public function getId(): string
     {
