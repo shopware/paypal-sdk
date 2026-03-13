@@ -332,29 +332,17 @@ class PaymentSource extends Struct
         foreach ($this->jsonSerialize() as $paymentSource) {
             if ($paymentSource instanceof Bank) {
                 foreach ($paymentSource->jsonSerialize() as $bankPaymentSource) {
-                    if ($this->isExpectedPaymentSource($bankPaymentSource, $expectedType)) {
+                    if ($bankPaymentSource instanceof $expectedType) {
                         return $bankPaymentSource;
                     }
                 }
             }
 
-            if ($this->isExpectedPaymentSource($paymentSource, $expectedType)) {
+            if ($paymentSource instanceof $expectedType) {
                 return $paymentSource;
             }
         }
 
         return null;
-    }
-
-    /**
-     * @template T of AbstractPaymentSource
-     *
-     * @param class-string<T> $expectedType
-     *
-     * @phpstan-assert-if-true T $source
-     */
-    private function isExpectedPaymentSource(mixed $source, string $expectedType): bool
-    {
-        return $source instanceof $expectedType;
     }
 }
