@@ -321,11 +321,11 @@ class PaymentSource extends Struct
     }
 
     /**
-     * @template T
+     * @template T of AbstractPaymentSource
      *
      * @param class-string<T> $expectedType
      *
-     * @return (T&AbstractPaymentSource)|null
+     * @return T|null
      */
     public function first(string $expectedType = AbstractPaymentSource::class): ?AbstractPaymentSource
     {
@@ -333,14 +333,12 @@ class PaymentSource extends Struct
             if ($paymentSource instanceof Bank) {
                 foreach ($paymentSource->jsonSerialize() as $bankPaymentSource) {
                     if ($this->isExpectedPaymentSource($bankPaymentSource, $expectedType)) {
-                        /** @var T&AbstractPaymentSource $bankPaymentSource */
                         return $bankPaymentSource;
                     }
                 }
             }
 
             if ($this->isExpectedPaymentSource($paymentSource, $expectedType)) {
-                /** @var T&AbstractPaymentSource $paymentSource */
                 return $paymentSource;
             }
         }
@@ -348,8 +346,15 @@ class PaymentSource extends Struct
         return null;
     }
 
+    /**
+     * @template T of AbstractPaymentSource
+     *
+     * @param class-string<T> $expectedType
+     *
+     * @phpstan-assert-if-true T $source
+     */
     private function isExpectedPaymentSource(mixed $source, string $expectedType): bool
     {
-        return $source instanceof $expectedType && $source instanceof AbstractPaymentSource;
+        return $source instanceof $expectedType;
     }
 }
