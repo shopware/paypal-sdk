@@ -15,10 +15,8 @@ class SepaExperienceContext extends ExperienceContext
 {
     public function jsonSerialize(): array
     {
-        $data = parent::jsonSerialize();
-
         return \array_filter([
-            ...$data,
+            ...parent::jsonSerialize(),
             'landing_page' => null,
             'shipping_preference' => null,
             'user_action' => null,

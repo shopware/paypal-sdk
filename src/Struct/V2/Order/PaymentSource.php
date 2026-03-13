@@ -331,17 +331,25 @@ class PaymentSource extends Struct
     {
         foreach ($this->jsonSerialize() as $paymentSource) {
             if ($paymentSource instanceof Bank) {
-                $sepaDebit = $paymentSource->getSepaDebit();
-                if ($sepaDebit instanceof $expectedType) {
-                    return $sepaDebit;
+                foreach ($paymentSource->jsonSerialize() as $bankPaymentSource) {
+                    if ($this->isExpectedPaymentSource($bankPaymentSource, $expectedType)) {
+                        /** @var T&AbstractPaymentSource $bankPaymentSource */
+                        return $bankPaymentSource;
+                    }
                 }
             }
 
-            if ($paymentSource instanceof $expectedType && $paymentSource instanceof AbstractPaymentSource) {
+            if ($this->isExpectedPaymentSource($paymentSource, $expectedType)) {
+                /** @var T&AbstractPaymentSource $paymentSource */
                 return $paymentSource;
             }
         }
 
         return null;
+    }
+
+    private function isExpectedPaymentSource(mixed $source, string $expectedType): bool
+    {
+        return $source instanceof $expectedType && $source instanceof AbstractPaymentSource;
     }
 }
