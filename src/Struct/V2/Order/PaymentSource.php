@@ -13,6 +13,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\AbstractPaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Afterpay;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\ApplePay;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bancontact;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bank;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Blik;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Boletobancario;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card;
@@ -93,6 +94,9 @@ class PaymentSource extends Struct
 
     #[OA\Property(ref: Venmo::class, nullable: true)]
     protected ?Venmo $venmo = null;
+
+    #[OA\Property(ref: Bank::class, nullable: true)]
+    protected ?Bank $bank = null;
 
     public function getAfterpay(): ?Afterpay
     {
@@ -294,6 +298,16 @@ class PaymentSource extends Struct
         $this->venmo = $venmo;
     }
 
+    public function getBank(): ?Bank
+    {
+        return $this->bank;
+    }
+
+    public function setBank(?Bank $bank): void
+    {
+        $this->bank = $bank;
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -307,16 +321,24 @@ class PaymentSource extends Struct
     }
 
     /**
-     * @template T
+     * @template T of AbstractPaymentSource
      *
      * @param class-string<T> $expectedType
      *
-     * @return (T&AbstractPaymentSource)|null
+     * @return T|null
      */
     public function first(string $expectedType = AbstractPaymentSource::class): ?AbstractPaymentSource
     {
         foreach ($this->jsonSerialize() as $paymentSource) {
-            if ($paymentSource instanceof $expectedType && $paymentSource instanceof AbstractPaymentSource) {
+            if ($paymentSource instanceof Bank) {
+                foreach ($paymentSource->jsonSerialize() as $bankPaymentSource) {
+                    if ($bankPaymentSource instanceof $expectedType) {
+                        return $bankPaymentSource;
+                    }
+                }
+            }
+
+            if ($paymentSource instanceof $expectedType) {
                 return $paymentSource;
             }
         }
