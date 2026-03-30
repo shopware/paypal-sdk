@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_bancontact')]
+#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_bancontact', type: 'object')]
 class Bancontact extends Struct
 {
 }

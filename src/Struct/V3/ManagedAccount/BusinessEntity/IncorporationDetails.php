@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V3\ManagedAccount\BusinessEntity;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v3_managed_account_business_entity_incorporation_details')]
+#[OA\Schema(schema: 'paypal_v3_managed_account_business_entity_incorporation_details', type: 'object')]
 class IncorporationDetails extends Struct
 {
 }
