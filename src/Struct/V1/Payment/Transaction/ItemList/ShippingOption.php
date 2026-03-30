@@ -12,7 +12,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(
     schema: 'paypal_v1_payment_transaction_item_list_shipping_option',
-    properties: [], // so an empty object will be generated
+    type: 'object',
+    properties: [],
 )]
 class ShippingOption extends Struct
 {

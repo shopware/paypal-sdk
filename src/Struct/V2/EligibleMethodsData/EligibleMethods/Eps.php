@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_eps')]
+#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_eps', type: 'object')]
 class Eps extends Struct
 {
 }
