@@ -28,6 +28,9 @@ class PaymentInstruction extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: PlatformFee::class))]
     protected PlatformFeeCollection $platformFees;
 
+    /**
+     * @phpstan-var self::DISBURSEMENT_MODE_INSTANT|self::DISBURSEMENT_MODE_DELAYED
+     */
     #[OA\Property(type: 'string', enum: self::DISBURSEMENT_MODES)]
     protected string $disbursementMode;
 
@@ -47,11 +50,17 @@ class PaymentInstruction extends Struct
         $this->platformFees = $platformFees;
     }
 
+    /**
+     * @phpstan-return self::DISBURSEMENT_MODE_INSTANT|self::DISBURSEMENT_MODE_DELAYED
+     */
     public function getDisbursementMode(): string
     {
         return $this->disbursementMode;
     }
 
+    /**
+     * @phpstan-param self::DISBURSEMENT_MODE_INSTANT|self::DISBURSEMENT_MODE_DELAYED $disbursementMode
+     */
     public function setDisbursementMode(string $disbursementMode): void
     {
         $this->disbursementMode = $disbursementMode;
@@ -62,8 +71,21 @@ class PaymentInstruction extends Struct
         return $this->payeePricingTierId;
     }
 
+    /**
+     * @throws \LengthException if given parameter is too long
+     */
     public function setPayeePricingTierId(string $payeePricingTierId): void
     {
+        if (\mb_strlen($payeePricingTierId) > self::MAX_LENGTH_PAYEE_PRICING_TIER_ID) {
+            throw new \LengthException(
+                \sprintf(
+                    '%s::$payeePricingTierId must not be longer than %s characters',
+                    self::class,
+                    self::MAX_LENGTH_PAYEE_PRICING_TIER_ID
+                )
+            );
+        }
+
         $this->payeePricingTierId = $payeePricingTierId;
     }
 
@@ -72,8 +94,21 @@ class PaymentInstruction extends Struct
         return $this->payeeReceivableFxRateId;
     }
 
+    /**
+     * @throws \LengthException if given parameter is too long
+     */
     public function setPayeeReceivableFxRateId(string $payeeReceivableFxRateId): void
     {
+        if (\mb_strlen($payeeReceivableFxRateId) > self::MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID) {
+            throw new \LengthException(
+                \sprintf(
+                    '%s::$payeeReceivableFxRateId must not be longer than %s characters',
+                    self::class,
+                    self::MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID
+                )
+            );
+        }
+
         $this->payeeReceivableFxRateId = $payeeReceivableFxRateId;
     }
 }

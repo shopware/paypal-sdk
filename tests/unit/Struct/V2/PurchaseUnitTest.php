@@ -85,4 +85,22 @@ class PurchaseUnitTest extends TestCase
             'shipping_options' => null,
         ], \json_decode((string) \json_encode($purchaseUnit, \JSON_THROW_ON_ERROR), true, 512, \JSON_THROW_ON_ERROR));
     }
+
+    public function testPaymentInstructionPayeePricingTierIdLengthValidation(): void
+    {
+        $paymentInstruction = new PaymentInstruction();
+
+        $this->expectException(\LengthException::class);
+
+        $paymentInstruction->setPayeePricingTierId(\str_repeat('a', PaymentInstruction::MAX_LENGTH_PAYEE_PRICING_TIER_ID + 1));
+    }
+
+    public function testPaymentInstructionPayeeReceivableFxRateIdLengthValidation(): void
+    {
+        $paymentInstruction = new PaymentInstruction();
+
+        $this->expectException(\LengthException::class);
+
+        $paymentInstruction->setPayeeReceivableFxRateId(\str_repeat('a', PaymentInstruction::MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID + 1));
+    }
 }
