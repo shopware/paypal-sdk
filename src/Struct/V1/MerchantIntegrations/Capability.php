@@ -14,11 +14,31 @@ use Shopware\PayPalSDK\Struct\Struct;
 class Capability extends Struct
 {
     public const STATUS_ACTIVE = 'ACTIVE';
+    public const STATUS_SUSPENDED = 'SUSPENDED';
+    public const STATUS_REVOKED = 'REVOKED';
+    public const STATUS_APPROVED = 'APPROVED';
+    public const STATUS_NEED_DATA = 'NEED_DATA';
+    public const STATUS_DENY = 'DENY';
+    public const STATUS_IN_REVIEW = 'IN_REVIEW';
+    public const STATUS_INACTIVE = 'INACTIVE';
+    public const STATUS_PENDING = 'PENDING';
+
+    public const STATUSES = [
+        self::STATUS_ACTIVE,
+        self::STATUS_SUSPENDED,
+        self::STATUS_REVOKED,
+        self::STATUS_APPROVED,
+        self::STATUS_NEED_DATA,
+        self::STATUS_DENY,
+        self::STATUS_IN_REVIEW,
+        self::STATUS_INACTIVE,
+        self::STATUS_PENDING,
+    ];
 
     #[OA\Property(type: 'string')]
     protected string $name;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', enum: self::STATUSES)]
     protected string $status;
 
     public function getName(): string
