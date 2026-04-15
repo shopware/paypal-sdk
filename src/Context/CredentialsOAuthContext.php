@@ -30,9 +30,10 @@ class CredentialsOAuthContext implements CredentialsOAuthContextInterface
     public function getCacheKey(ApiContextInterface $context): ?string
     {
         return \hash('xxh128', \sprintf(
-            'credentials-%s-%s-%s',
+            'credentials-%s-%s-%s-%s',
             $this->clientId,
             $this->clientSecret,
+            (string) ($context->isThirdParty() ? $context->getMerchantId() : null),
             $context->isSandbox() ? 'true' : 'false',
         ));
     }
