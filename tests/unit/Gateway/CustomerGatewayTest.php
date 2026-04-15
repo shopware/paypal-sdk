@@ -130,12 +130,13 @@ class CustomerGatewayTest extends TestCase
 
     public function testCreatePartnerReferral(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: false);
         $body = (new Referral())->assign(['tracking_id' => 'tracking-id']);
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
+        $context = $context->withThirdParty(true); // for testing purposes
         $response = $this->gateways->customerGateway()->createPartnerReferral($body, $context);
         static::assertEquals($body, $response);
 
