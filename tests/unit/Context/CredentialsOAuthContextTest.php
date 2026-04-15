@@ -40,7 +40,11 @@ class CredentialsOAuthContextTest extends TestCase
         static::assertSame('811d31b1a38f983389f5ea9282138dc6', $oauthContext->getCacheKey($context));
         static::assertSame('07d2bb003e7335920000cd7050f8c839', $oauthContext->getCacheKey($context->withSandbox(false)));
 
-        $context = $context->withThirdParty(true)->withMerchantId('some-merchant-id');
+        $context = $context->withThirdParty(false)->withMerchantId('some-merchant-id');
+        static::assertSame('811d31b1a38f983389f5ea9282138dc6', $oauthContext->getCacheKey($context));
+
+        // cache key has to be differ from the ones above if third-party and merchant id is set
+        $context = $context->withThirdParty(true);
         static::assertSame('e5962bdc163c23423cff6c704e598863', $oauthContext->getCacheKey($context));
     }
 
