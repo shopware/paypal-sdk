@@ -39,12 +39,13 @@ class CustomerGatewayTest extends TestCase
 
     public function testGetMerchantIntegrations(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: false);
         $body = (new MerchantIntegrations())->assign(['merchant_id' => 'merchant-id']);
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
+        $context = $context->withThirdParty(true); // for testing purposes
         $response = $this->gateways->customerGateway()->getMerchantIntegrations('partnerId', 'merchantId', $context);
         static::assertEquals($body, $response);
 
@@ -110,12 +111,13 @@ class CustomerGatewayTest extends TestCase
 
     public function testGetCredentials(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: false);
         $body = ['client_id' => 'some-client-id', 'client_secret' => 'some-client-secret', 'payer_id' => 'some-payer-id'];
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
+        $context = $context->withThirdParty(true); // for testing purposes
         $response = $this->gateways->customerGateway()->getCredentials('partnerId', $context);
         static::assertSame($body['client_id'], $response->getClientId());
         static::assertSame($body['client_secret'], $response->getClientSecret());
