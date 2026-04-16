@@ -112,14 +112,16 @@ class CustomerGateway extends AbstractGateway
         );
     }
 
-    public function getWalletDomains(ApiContextInterface $context): WalletDomains
+    public function getWalletDomains(ApiContextInterface $context, int $page = 1, int $pageSize = 25): WalletDomains
     {
         return $this->request(
             'GET',
             self::GATEWAY_URL . '/wallet-domains',
             null,
             WalletDomains::class,
-            $context,
+            $context
+                ->withQueryParameter('page', (string) $page)
+                ->withQueryParameter('page_size', (string) $pageSize),
         );
     }
 

@@ -10,6 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\WalletDomain\Domain;
+use Shopware\PayPalSDK\Struct\V1\WalletDomain\Merchant;
 
 #[OA\Schema(schema: 'paypal_v1_wallet_domain')]
 class WalletDomain extends Struct
@@ -19,6 +20,9 @@ class WalletDomain extends Struct
 
     #[OA\Property(ref: Domain::class)]
     protected Domain $domain;
+
+    #[OA\Property(ref: Merchant::class, nullable: true)]
+    protected ?Merchant $merchant = null;
 
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $reason = null;
@@ -41,6 +45,16 @@ class WalletDomain extends Struct
     public function setDomain(Domain $domain): void
     {
         $this->domain = $domain;
+    }
+
+    public function getMerchant(): ?Merchant
+    {
+        return $this->merchant;
+    }
+
+    public function setMerchant(?Merchant $merchant): void
+    {
+        $this->merchant = $merchant;
     }
 
     public function getReason(): ?string

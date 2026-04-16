@@ -172,7 +172,7 @@ class CustomerGatewayTest extends TestCase
     public function testCreateWalletDomain(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = (new WalletDomain())->assign(['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com']]);
+        $body = (new WalletDomain())->assign(['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com'], 'merchant' => ['account_id' => 'merchant-id', 'business_name' => 'Test Store', 'url' => 'http://example.com']]);
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
@@ -190,7 +190,11 @@ class CustomerGatewayTest extends TestCase
     public function testGetWalletDomains(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = (new WalletDomains())->assign(['wallet_domains' => [['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com']]]]);
+        $body = (new WalletDomains())->assign([
+            'total_items' => '1',
+            'total_pages' => '1',
+            'wallet_domains' => [['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com'], 'merchant' => ['account_id' => 'merchant-id']]],
+        ]);
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
@@ -202,12 +206,35 @@ class CustomerGatewayTest extends TestCase
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v1/customer/wallet-domains', $last->getRequest()->getUri()->getPath());
+        static::assertSame('page=1&page_size=25', $last->getRequest()->getUri()->getQuery());
+    }
+
+    public function testGetWalletDomainsWithPagination(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = (new WalletDomains())->assign([
+            'total_items' => '50',
+            'total_pages' => '5',
+            'wallet_domains' => [['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com']]],
+        ]);
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->customerGateway()->getWalletDomains($context, 3, 10);
+        static::assertEquals($body, $response);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/wallet-domains', $last->getRequest()->getUri()->getPath());
+        static::assertSame('page=3&page_size=10', $last->getRequest()->getUri()->getQuery());
     }
 
     public function testDeleteWalletDomain(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = (new WalletDomain())->assign(['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com'], 'reason' => 'Merchant requested to deregister domain']);
+        $body = (new WalletDomain())->assign(['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com'], 'merchant' => ['account_id' => 'merchant-id'], 'reason' => 'Merchant requested to deregister domain']);
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
