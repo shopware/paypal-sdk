@@ -206,7 +206,7 @@ class CustomerGatewayTest extends TestCase
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v1/customer/wallet-domains', $last->getRequest()->getUri()->getPath());
-        static::assertSame('page=1&page_size=25', $last->getRequest()->getUri()->getQuery());
+        static::assertSame('page=1&page_size=99', $last->getRequest()->getUri()->getQuery());
     }
 
     public function testGetWalletDomainsWithPagination(): void

@@ -112,7 +112,10 @@ class CustomerGateway extends AbstractGateway
         );
     }
 
-    public function getWalletDomains(ApiContextInterface $context, int $page = 1, int $pageSize = 25): WalletDomains
+    /**
+     * Defaulting to page size 99 due to Apple Pay restrictions
+     */
+    public function getWalletDomains(ApiContextInterface $context, int $page = 1, int $pageSize = 99): WalletDomains
     {
         return $this->request(
             'GET',
