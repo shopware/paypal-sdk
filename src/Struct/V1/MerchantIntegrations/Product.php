@@ -25,6 +25,9 @@ class Product extends Struct
     #[OA\Property(type: 'string')]
     protected string $vettingStatus;
 
+    #[OA\Property(type: 'string')]
+    protected string $status;
+
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     protected array $capabilities;
@@ -47,6 +50,16 @@ class Product extends Struct
     public function setVettingStatus(string $vettingStatus): void
     {
         $this->vettingStatus = $vettingStatus;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
     }
 
     /**
