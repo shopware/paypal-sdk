@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_ideal')]
+#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_ideal', type: 'object')]
 class Ideal extends Struct
 {
 }

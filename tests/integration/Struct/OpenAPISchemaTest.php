@@ -16,6 +16,7 @@ use OpenApi\Attributes\Property;
 use OpenApi\Generator;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
+use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Util\CaseConverter;
 
 /**
@@ -123,6 +124,35 @@ class OpenAPISchemaTest extends TestCase
 
             if ($expectedSchema !== $schema->schema) {
                 $failures[] = $class . ' was expected to have a schema name of "' . $expectedSchema . '" but has "' . $schema->schema . '" instead.';
+            }
+        }
+
+        static::assertEmpty($failures, \implode(\PHP_EOL, $failures));
+    }
+
+    public function testEmptyStructSchemasAreObjects(): void
+    {
+        $failures = [];
+
+        foreach ($this->oa->_analysis->classes as $class => $classContext) {
+            $schema = $this->oa->_analysis->getSchemaForSource($class);
+
+            if (!$schema?->schema || $schema->schema === Generator::UNDEFINED || !\class_exists($class)) {
+                continue;
+            }
+
+            $refClass = new \ReflectionClass($class);
+
+            if (
+                $refClass->isAbstract()
+                || !$refClass->isSubclassOf(Struct::class)
+                || \count($refClass->getProperties()) > 0
+            ) {
+                continue;
+            }
+
+            if ($schema->type !== 'object') {
+                $failures[] = $class . ' is an empty struct but its schema type is not "object".';
             }
         }
 

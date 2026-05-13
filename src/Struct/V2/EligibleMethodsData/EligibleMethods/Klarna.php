@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_klarna')]
+#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_klarna', type: 'object')]
 class Klarna extends Struct
 {
 }

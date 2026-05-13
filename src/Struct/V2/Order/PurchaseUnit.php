@@ -13,6 +13,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Amount;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Item;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ItemCollection;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payee;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\PaymentInstruction;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ShippingOption;
@@ -30,6 +31,9 @@ class PurchaseUnit extends Struct
 
     #[OA\Property(ref: Payee::class)]
     protected Payee $payee;
+
+    #[OA\Property(ref: PaymentInstruction::class)]
+    protected PaymentInstruction $paymentInstruction;
 
     #[OA\Property(type: 'string')]
     protected string $description;
@@ -83,6 +87,16 @@ class PurchaseUnit extends Struct
     public function setPayee(Payee $payee): void
     {
         $this->payee = $payee;
+    }
+
+    public function getPaymentInstruction(): PaymentInstruction
+    {
+        return $this->paymentInstruction;
+    }
+
+    public function setPaymentInstruction(PaymentInstruction $paymentInstruction): void
+    {
+        $this->paymentInstruction = $paymentInstruction;
     }
 
     public function getDescription(): string

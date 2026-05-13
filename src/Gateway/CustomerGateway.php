@@ -13,6 +13,8 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item as DisputeItem;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Credentials;
 use Shopware\PayPalSDK\Struct\V1\MerchantTracking;
+use Shopware\PayPalSDK\Struct\V1\WalletDomain;
+use Shopware\PayPalSDK\Struct\V1\WalletDomains;
 use Shopware\PayPalSDK\Struct\V2\Referral;
 use Shopware\PayPalSDK\Struct\V3\ManagedAccount;
 
@@ -96,6 +98,44 @@ class CustomerGateway extends AbstractGateway
             null,
             ManagedAccount::class,
             $context->withThirdParty(false),
+        );
+    }
+
+    public function createWalletDomain(WalletDomain $walletDomain, ApiContextInterface $context): WalletDomain
+    {
+        return $this->request(
+            'POST',
+            self::GATEWAY_URL . '/wallet-domains',
+            $walletDomain,
+            WalletDomain::class,
+            $context,
+        );
+    }
+
+    /**
+     * Defaulting to page size 99 due to Apple Pay restrictions
+     */
+    public function getWalletDomains(ApiContextInterface $context, int $page = 1, int $pageSize = 99): WalletDomains
+    {
+        return $this->request(
+            'GET',
+            self::GATEWAY_URL . '/wallet-domains',
+            null,
+            WalletDomains::class,
+            $context
+                ->withQueryParameter('page', (string) $page)
+                ->withQueryParameter('page_size', (string) $pageSize),
+        );
+    }
+
+    public function deleteWalletDomain(WalletDomain $walletDomain, ApiContextInterface $context): WalletDomain
+    {
+        return $this->request(
+            'POST',
+            self::GATEWAY_URL . '/unregister-wallet-domain',
+            $walletDomain,
+            WalletDomain::class,
+            $context,
         );
     }
 }

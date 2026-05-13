@@ -50,6 +50,12 @@ class MerchantIntegrations extends Struct
     #[OA\Property(type: 'boolean')]
     protected bool $primaryEmailConfirmed;
 
+    #[OA\Property(type: 'string')]
+    protected string $primaryCurrency;
+
+    #[OA\Property(type: 'string')]
+    protected string $country;
+
     public function getMerchantId(): string
     {
         return $this->merchantId;
@@ -154,6 +160,26 @@ class MerchantIntegrations extends Struct
     public function setPrimaryEmailConfirmed(bool $primaryEmailConfirmed): void
     {
         $this->primaryEmailConfirmed = $primaryEmailConfirmed;
+    }
+
+    public function getPrimaryCurrency(): string
+    {
+        return $this->primaryCurrency;
+    }
+
+    public function setPrimaryCurrency(string $primaryCurrency): void
+    {
+        $this->primaryCurrency = $primaryCurrency;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): void
+    {
+        $this->country = $country;
     }
 
     public function getSpecificCapability(string $name): ?Capability

@@ -47,8 +47,8 @@ class UserIdOAuthContextTest extends TestCase
 
         $context = new ApiContext($oauthContext, true);
 
-        static::assertSame('53bf912f9ef7bee5ce0e44d7644f5566', $oauthContext->getCacheKey($context));
-        static::assertSame('38cc2b78bcff06448a4607ff03ff2f57', $oauthContext->getCacheKey($context->withSandbox(false)));
+        static::assertSame('80df4af5b9a9bc898ed7a417362877dc', $oauthContext->getCacheKey($context));
+        static::assertSame('227a7db4456daf05f54ab241d5913f07', $oauthContext->getCacheKey($context->withSandbox(false)));
     }
 
     public function testDebugInformationSensitive(): void

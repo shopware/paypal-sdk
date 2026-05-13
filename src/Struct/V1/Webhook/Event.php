@@ -13,6 +13,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Subscription;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Events\AccountEntities;
+use Shopware\PayPalSDK\Struct\V1\Webhook\Events\Dispute;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Events\ManagedAccounts;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization;
@@ -31,6 +32,7 @@ class Event extends Struct
     public const RESOURCE_TYPE_SUBSCRIPTION = 'subscription';
     public const RESOURCE_TYPE_MANAGED_ACCOUNTS = 'managed-accounts';
     public const RESOURCE_TYPE_ACCOUNT_ENTITIES = 'account-entities';
+    public const RESOURCE_TYPE_DISPUTE = 'dispute';
 
     #[OA\Property(type: 'string')]
     protected string $id;
@@ -54,6 +56,7 @@ class Event extends Struct
         new OA\Schema(ref: Subscription::class),
         new OA\Schema(ref: ManagedAccounts::class),
         new OA\Schema(ref: AccountEntities::class),
+        new OA\Schema(ref: Dispute::class),
     ])]
     protected ?Struct $resource = null;
 
@@ -206,6 +209,7 @@ class Event extends Struct
             '1.0' => match ($resourceType) {
                 self::RESOURCE_TYPE_MANAGED_ACCOUNTS => ManagedAccounts::class,
                 self::RESOURCE_TYPE_ACCOUNT_ENTITIES => AccountEntities::class,
+                self::RESOURCE_TYPE_DISPUTE => Dispute::class,
                 default => Resource::class,
             },
             default => match ($resourceType) {

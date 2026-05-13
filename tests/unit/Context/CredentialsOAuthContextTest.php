@@ -37,8 +37,15 @@ class CredentialsOAuthContextTest extends TestCase
 
         $context = new ApiContext($oauthContext, true);
 
-        static::assertSame('806098f9f6e2fbbe6b3f402dad7c0220', $oauthContext->getCacheKey($context));
-        static::assertSame('86ab9591f53eba173b77612390d2416a', $oauthContext->getCacheKey($context->withSandbox(false)));
+        static::assertSame('811d31b1a38f983389f5ea9282138dc6', $oauthContext->getCacheKey($context));
+        static::assertSame('07d2bb003e7335920000cd7050f8c839', $oauthContext->getCacheKey($context->withSandbox(false)));
+
+        $context = $context->withThirdParty(false)->withMerchantId('some-merchant-id');
+        static::assertSame('811d31b1a38f983389f5ea9282138dc6', $oauthContext->getCacheKey($context));
+
+        // cache key has to be differ from the ones above if third-party and merchant id is set
+        $context = $context->withThirdParty(true);
+        static::assertSame('e5962bdc163c23423cff6c704e598863', $oauthContext->getCacheKey($context));
     }
 
     public function testIntoUserIdContext(): void
@@ -50,7 +57,7 @@ class CredentialsOAuthContextTest extends TestCase
 
         /** @phpstan-ignore-next-line staticMethod.alreadyNarrowedType - still worth the assertion */
         static::assertInstanceOf(UserIdOAuthContext::class, $oauthContext);
-        static::assertSame('53bf912f9ef7bee5ce0e44d7644f5566', $oauthContext->getCacheKey($context));
+        static::assertSame('80df4af5b9a9bc898ed7a417362877dc', $oauthContext->getCacheKey($context));
     }
 
     public function testIntoUserIdContextWithoutId(): void
@@ -60,7 +67,7 @@ class CredentialsOAuthContextTest extends TestCase
 
         $context = new ApiContext($oauthContext, true);
 
-        static::assertSame('db4395115b84188b4fe25782e010ac8c', $oauthContext->getCacheKey($context));
+        static::assertSame('2088739d61790f3ccd0135f7bb22c118', $oauthContext->getCacheKey($context));
     }
 
     public function testIntoClientTokenContext(): void
@@ -72,7 +79,7 @@ class CredentialsOAuthContextTest extends TestCase
 
         /** @phpstan-ignore-next-line staticMethod.alreadyNarrowedType - still worth the assertion */
         static::assertInstanceOf(ClientTokenOAuthContext::class, $oauthContext);
-        static::assertSame('83b27fb1aba69ca6df73f52b7323b28f', $oauthContext->getCacheKey($context));
+        static::assertSame('dc819654e13a5407a9193e81bc5070da', $oauthContext->getCacheKey($context));
     }
 
     public function testDebugInformationSensitive(): void
