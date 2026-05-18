@@ -45,8 +45,8 @@ class ClientTokenOAuthContextTest extends TestCase
 
         $context = new ApiContext($oauthContext, true);
 
-        static::assertSame('dc819654e13a5407a9193e81bc5070da', $oauthContext->getCacheKey($context));
-        static::assertSame('38e0d409e33ce4f3be0e654f5c40cc7f', $oauthContext->getCacheKey($context->withSandbox(false)));
+        static::assertSame('6f476c3bbc49048238b87c70f7a9deea', $oauthContext->getCacheKey($context));
+        static::assertSame('095f79b25fa21e988955fd6f9234e7a4', $oauthContext->getCacheKey($context->withSandbox(false)));
     }
 
     public function testDebugInformationSensitive(): void

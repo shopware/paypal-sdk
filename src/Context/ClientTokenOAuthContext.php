@@ -30,7 +30,7 @@ class ClientTokenOAuthContext extends CredentialsOAuthContext
 
     public function getCacheKey(ApiContextInterface $context): ?string
     {
-        return \hash('xxh128', 'client-token-%s' . parent::getCacheKey($context));
+        return \hash('xxh128', 'client-token-' . parent::getCacheKey($context) . implode(',', $this->domains));
     }
 
     /**

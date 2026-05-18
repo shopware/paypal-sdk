@@ -79,7 +79,7 @@ class CredentialsOAuthContextTest extends TestCase
 
         /** @phpstan-ignore-next-line staticMethod.alreadyNarrowedType - still worth the assertion */
         static::assertInstanceOf(ClientTokenOAuthContext::class, $oauthContext);
-        static::assertSame('dc819654e13a5407a9193e81bc5070da', $oauthContext->getCacheKey($context));
+        static::assertSame('6f476c3bbc49048238b87c70f7a9deea', $oauthContext->getCacheKey($context));
     }
 
     public function testDebugInformationSensitive(): void
