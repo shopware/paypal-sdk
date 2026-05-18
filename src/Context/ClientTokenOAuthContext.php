@@ -46,10 +46,10 @@ class ClientTokenOAuthContext extends CredentialsOAuthContext
     }
 
     /**
+     * @experimental - domain filtering and handling may change
+     *
      * Sets domains to be associated with the client token.
      * Ignores invalid domain formats like IPs or domains without TLD.
-     *
-     * @param array<string> $domains
      *
      * @throws \InvalidArgumentException if any of the given domains is invalid.
      */
