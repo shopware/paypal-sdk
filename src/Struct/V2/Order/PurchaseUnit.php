@@ -13,6 +13,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Amount;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Item;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ItemCollection;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payee;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\PaymentInstruction;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ShippingOption;
@@ -31,6 +32,9 @@ class PurchaseUnit extends Struct
     #[OA\Property(ref: Payee::class)]
     protected Payee $payee;
 
+    #[OA\Property(ref: PaymentInstruction::class)]
+    protected PaymentInstruction $paymentInstruction;
+
     #[OA\Property(type: 'string')]
     protected string $description;
 
@@ -44,7 +48,7 @@ class PurchaseUnit extends Struct
     protected ?ItemCollection $items = null;
 
     #[OA\Property(ref: Shipping::class)]
-    protected Shipping $shipping;
+    protected ?Shipping $shipping = null;
 
     #[OA\Property(ref: Payments::class, nullable: true)]
     protected ?Payments $payments = null;
@@ -83,6 +87,16 @@ class PurchaseUnit extends Struct
     public function setPayee(Payee $payee): void
     {
         $this->payee = $payee;
+    }
+
+    public function getPaymentInstruction(): PaymentInstruction
+    {
+        return $this->paymentInstruction;
+    }
+
+    public function setPaymentInstruction(PaymentInstruction $paymentInstruction): void
+    {
+        $this->paymentInstruction = $paymentInstruction;
     }
 
     public function getDescription(): string
@@ -125,12 +139,12 @@ class PurchaseUnit extends Struct
         $this->items = $items;
     }
 
-    public function getShipping(): Shipping
+    public function getShipping(): ?Shipping
     {
         return $this->shipping;
     }
 
-    public function setShipping(Shipping $shipping): void
+    public function setShipping(?Shipping $shipping): void
     {
         $this->shipping = $shipping;
     }

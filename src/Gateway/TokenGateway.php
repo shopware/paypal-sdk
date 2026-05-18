@@ -86,6 +86,6 @@ class TokenGateway implements TokenGatewayInterface
             return;
         }
 
-        $this->tokenCache->set($key, $token, $token->getExpiresIn() - Token::TTL_THRESHOLD_SEC);
+        $this->tokenCache->set($key, $token, (int) ($token->getExpiresIn() * Token::TTL_THRESHOLD_PERCENT));
     }
 }

@@ -17,6 +17,8 @@ use Shopware\PayPalSDK\Struct\V1\Disputes;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use Shopware\PayPalSDK\Struct\V1\MerchantTracking;
+use Shopware\PayPalSDK\Struct\V1\WalletDomain;
+use Shopware\PayPalSDK\Struct\V1\WalletDomains;
 use Shopware\PayPalSDK\Struct\V2\Referral;
 use Shopware\PayPalSDK\Test\Gateway\TestGateways;
 use Shopware\PayPalSDK\Test\Request\TestClient;
@@ -39,12 +41,13 @@ class CustomerGatewayTest extends TestCase
 
     public function testGetMerchantIntegrations(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: false);
         $body = (new MerchantIntegrations())->assign(['merchant_id' => 'merchant-id']);
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
+        $context = $context->withThirdParty(true); // for testing purposes
         $response = $this->gateways->customerGateway()->getMerchantIntegrations('partnerId', 'merchantId', $context);
         static::assertEquals($body, $response);
 
@@ -110,12 +113,13 @@ class CustomerGatewayTest extends TestCase
 
     public function testGetCredentials(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: false);
         $body = ['client_id' => 'some-client-id', 'client_secret' => 'some-client-secret', 'payer_id' => 'some-payer-id'];
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
+        $context = $context->withThirdParty(true); // for testing purposes
         $response = $this->gateways->customerGateway()->getCredentials('partnerId', $context);
         static::assertSame($body['client_id'], $response->getClientId());
         static::assertSame($body['client_secret'], $response->getClientSecret());
@@ -130,12 +134,13 @@ class CustomerGatewayTest extends TestCase
 
     public function testCreatePartnerReferral(): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: true);
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', thirdParty: false);
         $body = (new Referral())->assign(['tracking_id' => 'tracking-id']);
 
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
+        $context = $context->withThirdParty(true); // for testing purposes
         $response = $this->gateways->customerGateway()->createPartnerReferral($body, $context);
         static::assertEquals($body, $response);
 
@@ -145,5 +150,102 @@ class CustomerGatewayTest extends TestCase
         static::assertSame('/v2/customer/partner-referrals', $last->getRequest()->getUri()->getPath());
         static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
         static::assertFalse($last->getContext()->isThirdParty());
+    }
+
+    public function testGetManagedAccount(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = ['account_id' => 'some-account-id'];
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->customerGateway()->getManagedAccount('some-account-id', $context);
+        static::assertSame($body['account_id'], $response->getAccountId());
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v3/customer/managed-accounts/some-account-id', $last->getRequest()->getUri()->getPath());
+    }
+
+    public function testCreateWalletDomain(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = (new WalletDomain())->assign(['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com'], 'merchant' => ['account_id' => 'merchant-id', 'business_name' => 'Test Store', 'url' => 'http://example.com']]);
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->customerGateway()->createWalletDomain($body, $context);
+        static::assertEquals($body, $response);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/wallet-domains', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
+    }
+
+    public function testGetWalletDomains(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = (new WalletDomains())->assign([
+            'total_items' => '1',
+            'total_pages' => '1',
+            'wallet_domains' => [['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com'], 'merchant' => ['account_id' => 'merchant-id']]],
+        ]);
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->customerGateway()->getWalletDomains($context);
+        static::assertEquals($body, $response);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/wallet-domains', $last->getRequest()->getUri()->getPath());
+        static::assertSame('page=1&page_size=99', $last->getRequest()->getUri()->getQuery());
+    }
+
+    public function testGetWalletDomainsWithPagination(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = (new WalletDomains())->assign([
+            'total_items' => '50',
+            'total_pages' => '5',
+            'wallet_domains' => [['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com']]],
+        ]);
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->customerGateway()->getWalletDomains($context, 3, 10);
+        static::assertEquals($body, $response);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('GET', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/wallet-domains', $last->getRequest()->getUri()->getPath());
+        static::assertSame('page=3&page_size=10', $last->getRequest()->getUri()->getQuery());
+    }
+
+    public function testDeleteWalletDomain(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = (new WalletDomain())->assign(['provider_type' => 'APPLE_PAY', 'domain' => ['name' => 'example.com'], 'merchant' => ['account_id' => 'merchant-id'], 'reason' => 'Merchant requested to deregister domain']);
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->customerGateway()->deleteWalletDomain($body, $context);
+        static::assertEquals($body, $response);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v1/customer/unregister-wallet-domain', $last->getRequest()->getUri()->getPath());
+        static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }
 }
