@@ -63,7 +63,7 @@ class ClientTokenOAuthContextTest extends TestCase
      * @param array<string> $input
      * @param array<string> $expected
      */
-    #[DataProvider('domainProvider')]
+    #[DataProvider('provideWithDomains')]
     public function testWithDomains(array $input, array $expected): void
     {
         $oauthContext = new ClientTokenOAuthContext(
@@ -75,7 +75,7 @@ class ClientTokenOAuthContextTest extends TestCase
         static::assertSame($expected, $oauthContext->getDomains());
     }
 
-    public static function domainProvider(): \Generator
+    public static function provideWithDomains(): \Generator
     {
         yield 'valid domains' => [
             ['example.com', 'shopware.com'],
