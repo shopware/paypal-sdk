@@ -71,7 +71,7 @@ class ClientTokenOAuthContextTest extends TestCase
             'some-client-secret',
         );
 
-        $oauthContext = $oauthContext->withDomains($input);
+        $oauthContext = $oauthContext->withDomains(...$input);
         static::assertSame($expected, $oauthContext->getDomains());
     }
 
@@ -84,12 +84,12 @@ class ClientTokenOAuthContextTest extends TestCase
 
         yield 'domains with subdomains' => [
             ['https://sub.example.com', 'test.shopware.com', 'deep.nested.sub.domain.test.com'],
-            ['example.com', 'shopware.com', 'test.com'],
+            ['sub.example.com', 'test.shopware.com', 'deep.nested.sub.domain.test.com'],
         ];
 
         yield 'domains with schemes' => [
             ['http://example.com', 'https://sub.shopware.com', 'mailto://test@test.com'],
-            ['example.com', 'shopware.com', 'test.com'],
+            ['example.com', 'sub.shopware.com', 'test.com'],
         ];
 
         yield 'domains without top-level' => [
@@ -99,7 +99,7 @@ class ClientTokenOAuthContextTest extends TestCase
 
         yield 'mixed valid and invalid domains' => [
             ['example.com', 'invalid_domain', 'sub.shopware.com', 'localhost'],
-            ['example.com', 'shopware.com'],
+            ['example.com', 'sub.shopware.com'],
         ];
 
         yield 'duplicate domains' => [
@@ -109,7 +109,7 @@ class ClientTokenOAuthContextTest extends TestCase
 
         yield 'complex domains' => [
             ['example.com/some/path', 'sub.domain.shopware.com/path', 'https://test.com/?query=string#anchor', 'xn--mnchen-3ya.com:3000'],
-            ['example.com', 'shopware.com', 'test.com', 'xn--mnchen-3ya.com'],
+            ['example.com', 'sub.domain.shopware.com', 'test.com', 'xn--mnchen-3ya.com'],
         ];
 
         yield 'IPs' => [

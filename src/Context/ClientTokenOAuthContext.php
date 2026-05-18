@@ -53,7 +53,7 @@ class ClientTokenOAuthContext extends CredentialsOAuthContext
      *
      * @throws \InvalidArgumentException if any of the given domains is invalid.
      */
-    public function withDomains(array $domains): self
+    public function withDomains(string ...$domains): self
     {
         foreach ($domains as $key => $domain) {
             if (\filter_var($domain, \FILTER_VALIDATE_DOMAIN) === false) {
@@ -77,22 +77,19 @@ class ClientTokenOAuthContext extends CredentialsOAuthContext
                 continue;
             }
 
-            // subdomains are not allowed and need to be stripped
-            $parts = \array_slice(\explode('.', $domain), -2, 2);
-
             // domains without top-level domain like `localhost` are not allowed
-            if (\count($parts) < 2) {
+            if (\substr_count($domain, '.') < 1) {
                 unset($domains[$key]);
                 continue;
             }
 
-            $domains[$key] = \implode('.', $parts);
+            $domains[$key] = $domain;
         }
 
         return new self(
             $this->clientId,
             $this->clientSecret,
-            \array_unique(\array_values($domains)),
+            \array_values(\array_unique($domains)),
         );
     }
 
