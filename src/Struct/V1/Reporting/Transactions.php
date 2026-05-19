@@ -17,8 +17,8 @@ use Shopware\PayPalSDK\Struct\V1\Reporting\Transactions\TransactionDetailCollect
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions')]
 class Transactions extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: TransactionDetail::class))]
-    protected TransactionDetailCollection $transactionDetails;
+    #[OA\Property(type: 'array', items: new OA\Items(ref: TransactionDetail::class), nullable: true)]
+    protected ?TransactionDetailCollection $transactionDetails = null;
 
     #[OA\Property(type: 'string')]
     protected string $accountNumber;
@@ -44,12 +44,12 @@ class Transactions extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
 
-    public function getTransactionDetails(): TransactionDetailCollection
+    public function getTransactionDetails(): ?TransactionDetailCollection
     {
         return $this->transactionDetails;
     }
 
-    public function setTransactionDetails(TransactionDetailCollection $transactionDetails): void
+    public function setTransactionDetails(?TransactionDetailCollection $transactionDetails): void
     {
         $this->transactionDetails = $transactionDetails;
     }
