@@ -215,10 +215,8 @@ class ReportingGatewayTest extends TestCase
     public function testListBalances(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $search = (new BalanceSearch())->assign([
-            'as_of_time' => '2026-01-31T23:59:59Z',
-            'currency_code' => 'EUR',
-        ]);
+        $search = (new BalanceSearch())->assign(['currency_code' => 'EUR']);
+        $search->setAsOfTime(new \DateTimeImmutable('2026-01-31T23:59:59Z'));
         $body = [
             'balances' => [[
                 'currency' => 'EUR',

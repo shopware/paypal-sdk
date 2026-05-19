@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct;
 
 use Shopware\PayPalSDK\Util\CaseConverter;
+use Shopware\PayPalSDK\Util\DateTimeFormatter;
 
 abstract class Struct implements \JsonSerializable
 {
@@ -83,7 +84,10 @@ abstract class Struct implements \JsonSerializable
             $snakeCasePropertyName = CaseConverter::normalize($property);
 
             if ((new \ReflectionProperty($this, $property))->isInitialized($this)) {
-                $data[$snakeCasePropertyName] = $this->{$property};
+                $data[$snakeCasePropertyName] = match (true) {
+                    $this->{$property} instanceof \DateTimeInterface => DateTimeFormatter::formatQueryDateTime($this->{$property}),
+                    default => $this->{$property},
+                };
             }
         }
 

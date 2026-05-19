@@ -13,18 +13,18 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_balance_search')]
 class BalanceSearch extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $asOfTime = null;
+    #[OA\Property(type: 'string', format: 'date-time', nullable: true)]
+    protected ?\DateTimeInterface $asOfTime = null;
 
     #[OA\Property(type: 'string', nullable: true, maxLength: 3, minLength: 3)]
     protected ?string $currencyCode = null;
 
-    public function getAsOfTime(): ?string
+    public function getAsOfTime(): ?\DateTimeInterface
     {
         return $this->asOfTime;
     }
 
-    public function setAsOfTime(?string $asOfTime): void
+    public function setAsOfTime(?\DateTimeInterface $asOfTime): void
     {
         $this->asOfTime = $asOfTime;
     }
@@ -37,13 +37,5 @@ class BalanceSearch extends Struct
     public function setCurrencyCode(?string $currencyCode): void
     {
         $this->currencyCode = $currencyCode;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize(), static fn (mixed $value): bool => $value !== null);
     }
 }

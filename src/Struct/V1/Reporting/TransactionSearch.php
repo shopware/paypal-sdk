@@ -194,29 +194,4 @@ class TransactionSearch extends Struct
     {
         $this->page = $page;
     }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function jsonSerialize(): array
-    {
-        $data = parent::jsonSerialize();
-
-        foreach (['start_date', 'end_date'] as $propertyName) {
-            if (($data[$propertyName] ?? null) instanceof \DateTimeInterface) {
-                $data[$propertyName] = $this->formatDateTime($data[$propertyName]);
-            }
-        }
-
-        return \array_filter($data, static fn (mixed $value): bool => $value !== null);
-    }
-
-    private function formatDateTime(\DateTimeInterface $dateTime): string
-    {
-        if ($dateTime->getOffset() === 0) {
-            return $dateTime->format('Y-m-d\TH:i:s\Z');
-        }
-
-        return $dateTime->format('Y-m-d\TH:i:sP');
-    }
 }

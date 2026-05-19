@@ -8,11 +8,11 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
-use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Reporting\Balances;
 use Shopware\PayPalSDK\Struct\V1\Reporting\BalanceSearch;
 use Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 use Shopware\PayPalSDK\Struct\V1\Reporting\TransactionSearch;
+use Shopware\PayPalSDK\Util\QueryParameterFormatter;
 
 class ReportingGateway extends AbstractGateway
 {
@@ -25,7 +25,7 @@ class ReportingGateway extends AbstractGateway
             self::GATEWAY_URL . '/transactions',
             null,
             Transactions::class,
-            $this->withQueryParameters($context, $search),
+            QueryParameterFormatter::withStructQueryParameters($context, $search),
         );
     }
 
@@ -36,34 +36,7 @@ class ReportingGateway extends AbstractGateway
             self::GATEWAY_URL . '/balances',
             null,
             Balances::class,
-            $this->withQueryParameters($context, $search),
+            $search ? QueryParameterFormatter::withStructQueryParameters($context, $search) : $context,
         );
-    }
-
-    private function withQueryParameters(ApiContextInterface $context, ?Struct $search): ApiContextInterface
-    {
-        if ($search === null) {
-            return $context;
-        }
-
-        foreach ($search->jsonSerialize() as $name => $value) {
-            if ($value === null) {
-                continue;
-            }
-
-            $value = match (true) {
-                \is_bool($value) => $value ? 'true' : 'false',
-                \is_int($value), \is_float($value), \is_string($value) => (string) $value,
-                default => null,
-            };
-
-            if ($value === null) {
-                continue;
-            }
-
-            $context = $context->withQueryParameter($name, $value);
-        }
-
-        return $context;
     }
 }
