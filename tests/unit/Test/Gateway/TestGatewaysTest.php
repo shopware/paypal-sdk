@@ -106,6 +106,15 @@ class TestGatewaysTest extends TestCase
         static::assertSame($this->requestService, $reflection->getProperty('requestService')->getValue($gateway));
     }
 
+    public function testReportingGateway(): void
+    {
+        $gateway = $this->gateways->reportingGateway();
+        $reflection = new \ReflectionClass($gateway);
+
+        static::assertSame($this->client, $reflection->getProperty('client')->getValue($gateway));
+        static::assertSame($this->requestService, $reflection->getProperty('requestService')->getValue($gateway));
+    }
+
     public function testWebhookGateway(): void
     {
         $gateway = $this->gateways->webhookGateway();
