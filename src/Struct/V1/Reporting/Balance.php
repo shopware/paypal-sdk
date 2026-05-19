@@ -20,7 +20,7 @@ class Balance extends Struct
     protected Money $totalBalance;
 
     #[OA\Property(type: 'boolean')]
-    protected bool $primary;
+    protected bool $primary = false;
 
     #[OA\Property(ref: Money::class)]
     protected Money $availableBalance;
