@@ -83,7 +83,10 @@ abstract class Struct implements \JsonSerializable
             $snakeCasePropertyName = CaseConverter::normalize($property);
 
             if ((new \ReflectionProperty($this, $property))->isInitialized($this)) {
-                $data[$snakeCasePropertyName] = $this->{$property};
+                $data[$snakeCasePropertyName] = match (true) {
+                    $this->{$property} instanceof \DateTimeInterface => $this->{$property}->format(\DateTimeInterface::ATOM),
+                    default => $this->{$property},
+                };
             }
         }
 

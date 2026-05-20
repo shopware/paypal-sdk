@@ -14,6 +14,7 @@ use Shopware\PayPalSDK\Gateway\CustomerGateway;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
 use Shopware\PayPalSDK\Gateway\PaymentGateway;
 use Shopware\PayPalSDK\Gateway\PaymentV1Gateway;
+use Shopware\PayPalSDK\Gateway\ReportingGateway;
 use Shopware\PayPalSDK\Gateway\TokenGateway;
 use Shopware\PayPalSDK\Gateway\WebhookGateway;
 use Shopware\PayPalSDK\RequestService;
@@ -60,6 +61,11 @@ class TestGateways
     public function paymentV1Gateway(): PaymentV1Gateway
     {
         return new PaymentV1Gateway($this->client, $this->tokenGateway(), $this->requestService);
+    }
+
+    public function reportingGateway(): ReportingGateway
+    {
+        return new ReportingGateway($this->client, $this->tokenGateway(), $this->requestService);
     }
 
     public function tokenGateway(): TokenGateway

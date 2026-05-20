@@ -79,6 +79,21 @@ class StructTest extends TestCase
         static::assertEmpty($actual);
     }
 
+    public function testSerializeDateTime(): void
+    {
+        $struct = new class extends Struct {
+            protected \DateTimeInterface $createdAt;
+
+            public function setCreatedAt(\DateTimeInterface $createdAt): void
+            {
+                $this->createdAt = $createdAt;
+            }
+        };
+        $struct->setCreatedAt(new \DateTimeImmutable('2026-01-31T23:59:59+02:00'));
+
+        static::assertSame(['created_at' => '2026-01-31T23:59:59+02:00'], $struct->jsonSerialize());
+    }
+
     /**
      * @param array<string, mixed> $data
      *
