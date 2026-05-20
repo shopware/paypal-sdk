@@ -18,7 +18,7 @@ class ReportingGateway extends AbstractGateway
 {
     public const GATEWAY_URL = '/v1/reporting';
 
-    public function listTransactions(ApiContextInterface $context, TransactionSearch $search): Transactions
+    public function listTransactions(TransactionSearch $search, ApiContextInterface $context): Transactions
     {
         return $this->request(
             'GET',
@@ -29,7 +29,7 @@ class ReportingGateway extends AbstractGateway
         );
     }
 
-    public function listBalances(ApiContextInterface $context, ?BalanceSearch $search = null): Balances
+    public function listBalances(?BalanceSearch $search, ApiContextInterface $context): Balances
     {
         return $this->request(
             'GET',

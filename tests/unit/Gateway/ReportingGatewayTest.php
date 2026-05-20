@@ -146,7 +146,7 @@ class ReportingGatewayTest extends TestCase
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateways->reportingGateway()->listTransactions($context, $search);
+        $response = $this->gateways->reportingGateway()->listTransactions($search, $context);
 
         static::assertSame('ACCOUNT123', $response->getAccountNumber());
         static::assertNotNull($response->getTransactionDetails());
@@ -183,7 +183,7 @@ class ReportingGatewayTest extends TestCase
         static::assertSame('/v1/reporting/transactions', $last->getRequest()->getUri()->getPath());
         \parse_str($last->getRequest()->getUri()->getQuery(), $query);
         $expectedQuery = [
-            'start_date' => '2026-01-01T00:00:00Z',
+            'start_date' => '2026-01-01T00:00:00+00:00',
             'end_date' => '2026-01-31T23:59:59+02:00',
             'transaction_status' => 'S',
             'fields' => 'all',
@@ -198,7 +198,7 @@ class ReportingGatewayTest extends TestCase
     public function testListTransactionsRequiresSearchDates(): void
     {
         $method = new \ReflectionMethod(ReportingGateway::class, 'listTransactions');
-        $searchParameter = $method->getParameters()[1] ?? null;
+        $searchParameter = $method->getParameters()[0] ?? null;
         static::assertNotNull($searchParameter);
         static::assertFalse($searchParameter->allowsNull());
 
@@ -234,7 +234,7 @@ class ReportingGatewayTest extends TestCase
         $this->gateways->setCachedToken($context);
         $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $response = $this->gateways->reportingGateway()->listBalances($context, $search);
+        $response = $this->gateways->reportingGateway()->listBalances($search, $context);
 
         static::assertSame('ACCOUNT-ID', $response->getAccountId());
         static::assertSame('2026-01-31T23:59:59Z', $response->getAsOfTime());
@@ -252,8 +252,30 @@ class ReportingGatewayTest extends TestCase
         static::assertSame('/v1/reporting/balances', $last->getRequest()->getUri()->getPath());
         \parse_str($last->getRequest()->getUri()->getQuery(), $query);
         static::assertSame([
-            'as_of_time' => '2026-01-31T23:59:59Z',
+            'as_of_time' => '2026-01-31T23:59:59+00:00',
             'currency_code' => 'EUR',
         ], $query);
+    }
+
+    public function testListBalancesWithoutSearch(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = [
+            'balances' => [],
+            'account_id' => 'ACCOUNT-ID',
+            'as_of_time' => '2026-01-31T23:59:59Z',
+            'last_refresh_time' => '2026-01-31T22:00:00Z',
+        ];
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->reportingGateway()->listBalances(null, $context);
+
+        static::assertSame('ACCOUNT-ID', $response->getAccountId());
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('/v1/reporting/balances', $last->getRequest()->getUri()->getPath());
+        static::assertSame('', $last->getRequest()->getUri()->getQuery());
     }
 }
