@@ -17,6 +17,7 @@ use Shopware\PayPalSDK\Struct\V1\WalletDomain;
 use Shopware\PayPalSDK\Struct\V1\WalletDomains;
 use Shopware\PayPalSDK\Struct\V2\Referral;
 use Shopware\PayPalSDK\Struct\V3\ManagedAccount;
+use Shopware\PayPalSDK\Struct\V3\ManagedAccounts;
 
 class CustomerGateway extends AbstractGateway
 {
@@ -87,6 +88,26 @@ class CustomerGateway extends AbstractGateway
             null,
             DisputeItem::class,
             $context,
+        );
+    }
+
+    /**
+     * Control filtering via query parameters.
+     *
+     * Filter by external id:
+     * ```
+     * $context = $context->withQueryParameter('external_id', $externalId);
+     * $managedAccount = $gateway->getManagedAccounts($context)->getManagedAccounts()->first();
+     * ```
+     */
+    public function getManagedAccounts(ApiContextInterface $context): ManagedAccounts
+    {
+        return $this->request(
+            'GET',
+            self::GATEWAY_URL_V3 . '/managed-accounts',
+            null,
+            ManagedAccounts::class,
+            $context->withThirdParty(false),
         );
     }
 
