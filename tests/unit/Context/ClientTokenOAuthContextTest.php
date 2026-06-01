@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Tests\Unit\Context;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\ClientTokenOAuthContext;
@@ -44,8 +45,8 @@ class ClientTokenOAuthContextTest extends TestCase
 
         $context = new ApiContext($oauthContext, true);
 
-        static::assertSame('dc819654e13a5407a9193e81bc5070da', $oauthContext->getCacheKey($context));
-        static::assertSame('38e0d409e33ce4f3be0e654f5c40cc7f', $oauthContext->getCacheKey($context->withSandbox(false)));
+        static::assertSame('6f476c3bbc49048238b87c70f7a9deea', $oauthContext->getCacheKey($context));
+        static::assertSame('095f79b25fa21e988955fd6f9234e7a4', $oauthContext->getCacheKey($context->withSandbox(false)));
     }
 
     public function testDebugInformationSensitive(): void
@@ -56,5 +57,64 @@ class ClientTokenOAuthContextTest extends TestCase
         );
 
         static::assertSame(ClientTokenOAuthContext::class . " Object\n(\n)\n", \print_r($oauthContext, true));
+    }
+
+    /**
+     * @param array<string> $input
+     * @param array<string> $expected
+     */
+    #[DataProvider('provideWithDomains')]
+    public function testWithDomains(array $input, array $expected): void
+    {
+        $oauthContext = new ClientTokenOAuthContext(
+            'some-client-id',
+            'some-client-secret',
+        );
+
+        $oauthContext = $oauthContext->withDomains(...$input);
+        static::assertSame($expected, $oauthContext->getDomains());
+    }
+
+    public static function provideWithDomains(): \Generator
+    {
+        yield 'valid domains' => [
+            ['example.com', 'shopware.com'],
+            ['example.com', 'shopware.com'],
+        ];
+
+        yield 'domains with subdomains' => [
+            ['https://sub.example.com', 'test.shopware.com', 'deep.nested.sub.domain.test.com'],
+            ['sub.example.com', 'test.shopware.com', 'deep.nested.sub.domain.test.com'],
+        ];
+
+        yield 'domains with schemes' => [
+            ['http://example.com', 'https://sub.shopware.com', 'mailto://test@test.com'],
+            ['example.com', 'sub.shopware.com', 'test.com'],
+        ];
+
+        yield 'domains without top-level' => [
+            ['localhost', 'some-local-domain'],
+            [],
+        ];
+
+        yield 'mixed valid and invalid domains' => [
+            ['example.com', 'invalid_domain', 'sub.shopware.com', 'localhost'],
+            ['example.com', 'sub.shopware.com'],
+        ];
+
+        yield 'duplicate domains' => [
+            ['example.com', 'shopware.com', 'example.com', 'shopware.com'],
+            ['example.com', 'shopware.com'],
+        ];
+
+        yield 'complex domains' => [
+            ['example.com/some/path', 'sub.domain.shopware.com/path', 'https://test.com/?query=string#anchor', 'xn--mnchen-3ya.com:3000'],
+            ['example.com', 'sub.domain.shopware.com', 'test.com', 'xn--mnchen-3ya.com'],
+        ];
+
+        yield 'IPs' => [
+            ['127.0.0.1', 'https://172.0.1.1', 'http://127.0.0.2:2000/path', 'https://[::1]:443/path', '::1'],
+            [],
+        ];
     }
 }
