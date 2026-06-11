@@ -10,6 +10,9 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Builder;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\MetaData;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOption;
 
+/**
+ * @experimental
+ */
 final class MetaDataBuilder
 {
     public function __construct(

@@ -11,6 +11,9 @@ use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOption;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOptionCollection;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ValidationIssue;
 
+/**
+ * @experimental
+ */
 final class ResolutionBuilder
 {
     private ResolutionOption $resolution;
