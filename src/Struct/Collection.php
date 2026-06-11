@@ -178,7 +178,7 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
      */
     public function jsonSerialize(): array
     {
-        return \array_values($this->map(static fn (Struct $e): array => $e->jsonSerialize()));
+        return \array_values(\array_filter($this->map(static fn (Struct $e): array => $e->jsonSerialize())));
     }
 
     /**
