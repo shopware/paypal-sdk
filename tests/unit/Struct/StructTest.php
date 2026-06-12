@@ -12,12 +12,18 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\Bar;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\Foo;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\FooCollection;
 
 /**
  * @internal
  */
 #[CoversClass(Struct::class)]
 #[UsesClass(TestStruct::class)]
+#[UsesClass(Bar::class)]
+#[UsesClass(Foo::class)]
+#[UsesClass(FooCollection::class)]
 class StructTest extends TestCase
 {
     public function testAssignScalarValue(): void
@@ -52,6 +58,43 @@ class StructTest extends TestCase
             'foo' => [
                 [
                     'foo_baz' => 'fooBazTest',
+                ],
+            ],
+        ];
+        static::assertSame($data, $this->cycleStruct($data));
+    }
+
+    public function testAssignNestedStructAndCollectionTogether(): void
+    {
+        $data = [
+            'id' => 'testId',
+            'bar' => [
+                'bar' => 'testBar',
+            ],
+            'foo' => [
+                [
+                    'foo_baz' => 'fooBazTest',
+                ],
+            ],
+        ];
+        static::assertSame($data, $this->cycleStruct($data));
+    }
+
+    public function testAssignDeeplyNestedCollectionOfStructsWithNestedStruct(): void
+    {
+        $data = [
+            'foo' => [
+                [
+                    'foo_baz' => 'firstFoo',
+                    'bar' => [
+                        'bar' => 'firstBar',
+                    ],
+                ],
+                [
+                    'foo_baz' => 'secondFoo',
+                    'bar' => [
+                        'bar' => 'secondBar',
+                    ],
                 ],
             ],
         ];
@@ -111,6 +154,8 @@ class StructTest extends TestCase
         $paypalStructArray = \json_decode($testJsonString, true);
         static::assertIsArray($paypalStructArray);
 
-        return $paypalStructArray;
+        static::assertSame($paypalStruct->jsonSerialize(), $paypalStructArray);
+
+        return $paypalStruct->jsonSerialize();
     }
 }

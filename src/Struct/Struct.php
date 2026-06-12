@@ -80,14 +80,21 @@ abstract class Struct implements \JsonSerializable
         $data = [];
 
         foreach (\array_keys(\get_class_vars($this::class)) as $property) {
-            $snakeCasePropertyName = CaseConverter::normalize($property);
-
-            if ((new \ReflectionProperty($this, $property))->isInitialized($this)) {
-                $data[$snakeCasePropertyName] = match (true) {
-                    $this->{$property} instanceof \DateTimeInterface => $this->{$property}->format(\DateTimeInterface::ATOM),
-                    default => $this->{$property},
-                };
+            if (!(new \ReflectionProperty($this, $property))->isInitialized($this)) {
+                continue;
             }
+
+            $value = $this->{$property};
+
+            if ($value instanceof \DateTimeInterface) {
+                $value = $value->format(\DateTimeInterface::ATOM);
+            }
+
+            if ($value instanceof \JsonSerializable) {
+                $value = $value->jsonSerialize();
+            }
+
+            $data[CaseConverter::normalize($property)] = $value;
         }
 
         return $data;
