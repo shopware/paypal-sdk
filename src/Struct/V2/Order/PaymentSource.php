@@ -329,9 +329,9 @@ class PaymentSource extends Struct
      */
     public function first(string $expectedType = AbstractPaymentSource::class): ?AbstractPaymentSource
     {
-        foreach ($this->jsonSerialize() as $paymentSource) {
+        foreach ($this->getVars() as $paymentSource) {
             if ($paymentSource instanceof Bank) {
-                foreach ($paymentSource->jsonSerialize() as $bankPaymentSource) {
+                foreach ($paymentSource->getVars() as $bankPaymentSource) {
                     if ($bankPaymentSource instanceof $expectedType && $bankPaymentSource instanceof AbstractPaymentSource) {
                         return $bankPaymentSource;
                     }

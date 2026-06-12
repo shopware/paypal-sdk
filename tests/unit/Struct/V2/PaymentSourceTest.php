@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Afterpay;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bank\SepaDebit;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\ExperienceContext;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Klarna;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Klarna\AuthorizationContext;
@@ -219,5 +220,69 @@ class PaymentSourceTest extends TestCase
         static::assertSame('AU', $billingAddress->getCountryCode());
 
         static::assertArrayHasKey('afterpay', $paymentSource->jsonSerialize());
+    }
+
+    public function testFirstReturnsNullWhenNoPaymentSourceIsSet(): void
+    {
+        static::assertNull((new PaymentSource())->first());
+    }
+
+    public function testFirstReturnsTheOnlySetPaymentSource(): void
+    {
+        $paymentSource = (new PaymentSource())->assign([
+            'afterpay' => ['emailAddress' => 'jane.smith@example.com'],
+        ]);
+
+        $first = $paymentSource->first();
+        static::assertInstanceOf(Afterpay::class, $first);
+        static::assertSame($paymentSource->getAfterpay(), $first);
+    }
+
+    public function testFirstFiltersByExpectedType(): void
+    {
+        $paymentSource = (new PaymentSource())->assign([
+            'afterpay' => ['emailAddress' => 'jane.smith@example.com'],
+            'swish' => ['name' => 'John Doe'],
+        ]);
+
+        $swish = $paymentSource->first(Swish::class);
+        static::assertInstanceOf(Swish::class, $swish);
+        static::assertSame($paymentSource->getSwish(), $swish);
+    }
+
+    public function testFirstReturnsNullWhenExpectedTypeIsNotPresent(): void
+    {
+        $paymentSource = (new PaymentSource())->assign([
+            'afterpay' => ['emailAddress' => 'jane.smith@example.com'],
+        ]);
+
+        static::assertNull($paymentSource->first(Swish::class));
+    }
+
+    public function testFirstResolvesPaymentSourceNestedInsideBank(): void
+    {
+        $paymentSource = (new PaymentSource())->assign([
+            'bank' => [
+                'sepaDebit' => ['iban' => 'DE89370400440532013000'],
+            ],
+        ]);
+
+        $sepaDebit = $paymentSource->first();
+        static::assertInstanceOf(SepaDebit::class, $sepaDebit);
+        static::assertSame($paymentSource->getBank()?->getSepaDebit(), $sepaDebit);
+    }
+
+    public function testFirstResolvesNestedBankPaymentSourceByExpectedType(): void
+    {
+        $paymentSource = (new PaymentSource())->assign([
+            'afterpay' => ['emailAddress' => 'jane.smith@example.com'],
+            'bank' => [
+                'sepaDebit' => ['iban' => 'DE89370400440532013000'],
+            ],
+        ]);
+
+        $sepaDebit = $paymentSource->first(SepaDebit::class);
+        static::assertInstanceOf(SepaDebit::class, $sepaDebit);
+        static::assertSame('DE89370400440532013000', $sepaDebit->getIban());
     }
 }

@@ -25,9 +25,7 @@ class ThirdPartyDetails extends Struct
     public const FEATURE_TYPE_BILLING_AGREEMENT = 'BILLING_AGREEMENT';
     public const SIGNUP_MODE_VERIFY_WITH_PAYPAL = 'VERIFY_WITH_PAYPAL';
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     protected array $features = [];
 
