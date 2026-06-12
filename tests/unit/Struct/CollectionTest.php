@@ -13,12 +13,16 @@ use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\Foo;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\FooCollection;
 
 /**
  * @internal
  */
 #[CoversClass(Collection::class)]
 #[UsesClass(TestCollection::class)]
+#[UsesClass(Foo::class)]
+#[UsesClass(FooCollection::class)]
 class CollectionTest extends TestCase
 {
     public function testConstructor(): void
@@ -181,6 +185,62 @@ class CollectionTest extends TestCase
 
         static::assertEquals(
             [$elements[0]->jsonSerialize(), $elements[1]->jsonSerialize()],
+            $collection->jsonSerialize()
+        );
+    }
+
+    public function testJsonSerializeRecursesIntoNestedStructs(): void
+    {
+        $first = Foo::from(Foo::class, [
+            'foo_baz' => 'firstFoo',
+            'bar' => ['bar' => 'firstBar'],
+        ]);
+        $second = Foo::from(Foo::class, [
+            'foo_baz' => 'secondFoo',
+            'bar' => ['bar' => 'secondBar'],
+        ]);
+
+        $collection = new FooCollection([$first, $second]);
+
+        static::assertSame(
+            [
+                [
+                    'foo_baz' => 'firstFoo',
+                    'bar' => ['bar' => 'firstBar'],
+                ],
+                [
+                    'foo_baz' => 'secondFoo',
+                    'bar' => ['bar' => 'secondBar'],
+                ],
+            ],
+            $collection->jsonSerialize()
+        );
+    }
+
+    public function testJsonSerializeRoundTripsThroughJsonEncode(): void
+    {
+        $collection = FooCollection::createFromAssociative([
+            ['foo_baz' => 'firstFoo', 'bar' => ['bar' => 'firstBar']],
+            ['foo_baz' => 'secondFoo', 'bar' => ['bar' => 'secondBar']],
+        ]);
+
+        $encoded = \json_encode($collection);
+        static::assertNotFalse($encoded);
+
+        static::assertSame($collection->jsonSerialize(), \json_decode($encoded, true));
+    }
+
+    public function testJsonSerializeReindexesNonSequentialKeys(): void
+    {
+        $collection = new FooCollection();
+        $collection->set('a', Foo::from(Foo::class, ['foo_baz' => 'firstFoo']));
+        $collection->set('b', Foo::from(Foo::class, ['foo_baz' => 'secondFoo']));
+
+        static::assertSame(
+            [
+                ['foo_baz' => 'firstFoo'],
+                ['foo_baz' => 'secondFoo'],
+            ],
             $collection->jsonSerialize()
         );
     }

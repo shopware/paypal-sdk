@@ -7,13 +7,15 @@
 
 namespace Shopware\PayPalSDK\Struct;
 
+use Shopware\PayPalSDK\Util\CaseConverter;
+
 #[\AllowDynamicProperties]
 class ArrayStruct extends Struct
 {
     public function assign(array $data): static
     {
         foreach ($data as $key => $value) {
-            $this->{$key} = $value;
+            $this->{CaseConverter::denormalize((string) $key)} = $value;
         }
 
         return $this;

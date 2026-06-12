@@ -16,8 +16,15 @@ class Foo extends Struct
 {
     protected string $fooBaz;
 
+    protected Bar $bar;
+
     protected function setFooBaz(string $fooBaz): void
     {
         $this->fooBaz = $fooBaz;
+    }
+
+    protected function setBar(Bar $bar): void
+    {
+        $this->bar = $bar;
     }
 }
