@@ -111,6 +111,18 @@ abstract class Struct implements \JsonSerializable
     }
 
     /**
+     * Returns all initialized class properties mapped to their value.
+     * Unlike {@see self::jsonSerialize()}, property names are not normalized
+     * and properties return as actual values and struct instances.
+     *
+     * @return array<string, mixed>
+     */
+    public function getVars(): array
+    {
+        return \get_object_vars($this);
+    }
+
+    /**
      * @template T
      *
      * @param \ReflectionType[] $types
