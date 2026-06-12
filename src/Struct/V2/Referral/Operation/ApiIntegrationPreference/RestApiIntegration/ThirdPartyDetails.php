@@ -26,22 +26,10 @@ class ThirdPartyDetails extends Struct
     public const SIGNUP_MODE_VERIFY_WITH_PAYPAL = 'VERIFY_WITH_PAYPAL';
 
     /**
-     * @deprecated tag:v2.0.0 - feature array will be empty by default, each application needs to set their own features for its own requirements.
-     *
      * @var string[]
      */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
-    protected array $features = [
-        self::FEATURE_TYPE_PAYMENT,
-        self::FEATURE_TYPE_REFUND,
-        self::FEATURE_TYPE_ACCESS_MERCHANT_INFORMATION,
-        self::FEATURE_TYPE_ADVANCED_TRANSACTIONS_SEARCH,
-        self::FEATURE_TYPE_UPDATE_SELLER_DISPUTE,
-        self::FEATURE_TYPE_READ_SELLER_DISPUTE,
-        self::FEATURE_TYPE_TRACKING_SHIPMENT_READWRITE,
-        self::FEATURE_TYPE_VAULT,
-        self::FEATURE_TYPE_BILLING_AGREEMENT,
-    ];
+    protected array $features = [];
 
     #[OA\Property(type: 'string')]
     protected string $signupMode;
