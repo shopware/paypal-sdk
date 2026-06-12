@@ -9,7 +9,7 @@ namespace Shopware\PayPalSDK\Contract\Struct\V2\Order\PaymentSource;
 
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
-interface VaultedPaymentSourceInterface extends VaultablePaymentSourceInterface
+interface VaultedPaymentSourceInterface
 {
     public function getAttributes(): ?Attributes;
 

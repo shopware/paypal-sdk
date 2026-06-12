@@ -13,11 +13,6 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_token')]
 class Token extends Struct
 {
-    /**
-     * @deprecated tag:v2.0.0 - Will be removed and is replaced by {@see self::TTL_THRESHOLD_PERCENT}
-     */
-    public const TTL_THRESHOLD_SEC = 60 * 60;
-
     public const TTL_THRESHOLD_PERCENT = 0.95; // -5%
 
     /**
