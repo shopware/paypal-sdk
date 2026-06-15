@@ -40,6 +40,7 @@ class Event extends Struct
     #[OA\Property(type: 'string')]
     protected string $resourceType = '';
 
+    /** @var WebhookEventTypes::* */
     #[OA\Property(type: 'string')]
     protected string $eventType;
 
@@ -108,11 +109,17 @@ class Event extends Struct
         $this->resourceType = $resourceType;
     }
 
+    /**
+     * @return WebhookEventTypes::*
+     */
     public function getEventType(): string
     {
         return $this->eventType;
     }
 
+    /**
+     * @param WebhookEventTypes::* $eventType
+     */
     public function setEventType(string $eventType): void
     {
         $this->eventType = $eventType;
