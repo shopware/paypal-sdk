@@ -11,6 +11,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Afterpay;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\AppSwitchContext;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\AppSwitchContext\MobileWebContext;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\AppSwitchContext\NativeAppContext;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\ExperienceContext;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Klarna;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\P24;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Swish;
@@ -51,6 +55,59 @@ class PaymentSourceTest extends TestCase
         static::assertSame('+1234567890', $klarna->getPhone());
 
         static::assertArrayHasKey('klarna', $paymentSource->jsonSerialize());
+    }
+
+    public function testPaypalPaymentSourceWithAppSwitchContext(): void
+    {
+        $paymentSource = (new PaymentSource())->assign([
+            'paypal' => [
+                'experience_context' => [
+                    'return_url' => 'https://example.com/merchant-app',
+                    'cancel_url' => 'https://example.com/merchant-app',
+                    'user_action' => ExperienceContext::USER_ACTION_PAY_NOW,
+                    'app_switch_context' => [
+                        'native_app' => [
+                            'os_type' => NativeAppContext::OS_TYPE_IOS,
+                            'os_version' => '17.5',
+                        ],
+                        'mobile_web' => [
+                            'return_flow' => MobileWebContext::RETURN_FLOW_AUTO,
+                            'buyer_user_agent' => 'Mozilla/5.0',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $paypal = $paymentSource->getPaypal();
+        static::assertNotNull($paypal);
+
+        $experienceContext = $paypal->getExperienceContext();
+        $appSwitchContext = $experienceContext->getAppSwitchContext();
+        static::assertInstanceOf(AppSwitchContext::class, $appSwitchContext);
+
+        $nativeApp = $appSwitchContext->getNativeApp();
+        static::assertInstanceOf(NativeAppContext::class, $nativeApp);
+        static::assertSame(NativeAppContext::OS_TYPE_IOS, $nativeApp->getOsType());
+        static::assertSame('17.5', $nativeApp->getOsVersion());
+
+        $mobileWeb = $appSwitchContext->getMobileWeb();
+        static::assertInstanceOf(MobileWebContext::class, $mobileWeb);
+        static::assertSame(MobileWebContext::RETURN_FLOW_AUTO, $mobileWeb->getReturnFlow());
+        static::assertSame('Mozilla/5.0', $mobileWeb->getBuyerUserAgent());
+
+        $experienceContextPayload = $experienceContext->jsonSerialize();
+
+        static::assertSame([
+            'native_app' => [
+                'os_type' => NativeAppContext::OS_TYPE_IOS,
+                'os_version' => '17.5',
+            ],
+            'mobile_web' => [
+                'return_flow' => MobileWebContext::RETURN_FLOW_AUTO,
+                'buyer_user_agent' => 'Mozilla/5.0',
+            ],
+        ], $experienceContextPayload['app_switch_context']);
     }
 
     public function testSwishPaymentSource(): void

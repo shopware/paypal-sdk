@@ -74,6 +74,9 @@ class ExperienceContext extends Struct
     #[OA\Property(ref: OrderUpdateCallbackConfig::class)]
     protected ?OrderUpdateCallbackConfig $orderUpdateCallbackConfig = null;
 
+    #[OA\Property(ref: AppSwitchContext::class, nullable: true)]
+    protected ?AppSwitchContext $appSwitchContext = null;
+
     public function getLocale(): string
     {
         return $this->locale;
@@ -188,5 +191,29 @@ class ExperienceContext extends Struct
     public function setOrderUpdateCallbackConfig(?OrderUpdateCallbackConfig $orderUpdateCallbackConfig): void
     {
         $this->orderUpdateCallbackConfig = $orderUpdateCallbackConfig;
+    }
+
+    public function getAppSwitchContext(): ?AppSwitchContext
+    {
+        return $this->appSwitchContext;
+    }
+
+    public function setAppSwitchContext(?AppSwitchContext $appSwitchContext): void
+    {
+        $this->appSwitchContext = $appSwitchContext;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        $data = parent::jsonSerialize();
+
+        if ($this->appSwitchContext !== null) {
+            $data['app_switch_context'] = $this->appSwitchContext->jsonSerialize();
+        }
+
+        return $data;
     }
 }
