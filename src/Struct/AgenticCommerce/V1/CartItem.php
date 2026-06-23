@@ -8,7 +8,9 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\CustomOption;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\CustomOptionCollection;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\SelectedAttribute;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\SelectedAttributeCollection;
 use Shopware\PayPalSDK\Struct\Struct;
 
@@ -66,13 +68,13 @@ class CartItem extends Struct
     #[OA\Property(ref: Money::class)]
     protected ?Money $price = null;
 
-    #[OA\Property(ref: SelectedAttributeCollection::class)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: SelectedAttribute::class))]
     protected SelectedAttributeCollection $selectedAttributes;
 
     #[OA\Property(ref: GiftOptions::class)]
     protected ?GiftOptions $giftOptions = null;
 
-    #[OA\Property(ref: CustomOptionCollection::class)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: CustomOption::class))]
     protected CustomOptionCollection $customOptions;
 
     public function getItemId(): ?string
