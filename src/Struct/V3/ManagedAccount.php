@@ -45,7 +45,7 @@ class ManagedAccount extends Struct
     protected string $softDescriptor;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Capability::class))]
-    protected CapabilityCollection $capabilities = new CapabilityCollection();
+    protected CapabilityCollection $capabilities;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
@@ -132,7 +132,7 @@ class ManagedAccount extends Struct
 
     public function getCapabilities(): CapabilityCollection
     {
-        return $this->capabilities;
+        return $this->capabilities ?? new CapabilityCollection();
     }
 
     public function setCapabilities(CapabilityCollection $capabilities): void
