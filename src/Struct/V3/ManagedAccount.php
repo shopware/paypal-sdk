@@ -132,7 +132,7 @@ class ManagedAccount extends Struct
 
     public function getCapabilities(): CapabilityCollection
     {
-        return $this->capabilities;
+        return $this->capabilities ?? new CapabilityCollection();
     }
 
     public function setCapabilities(CapabilityCollection $capabilities): void
