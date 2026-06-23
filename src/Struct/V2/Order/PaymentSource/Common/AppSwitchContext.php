@@ -40,22 +40,4 @@ class AppSwitchContext extends Struct
     {
         $this->mobileWeb = $mobileWeb;
     }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function jsonSerialize(): array
-    {
-        $data = parent::jsonSerialize();
-
-        if ($this->nativeApp !== null) {
-            $data['native_app'] = $this->nativeApp->jsonSerialize();
-        }
-
-        if ($this->mobileWeb !== null) {
-            $data['mobile_web'] = $this->mobileWeb->jsonSerialize();
-        }
-
-        return $data;
-    }
 }

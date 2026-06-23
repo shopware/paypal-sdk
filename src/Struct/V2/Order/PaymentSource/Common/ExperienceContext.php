@@ -202,18 +202,4 @@ class ExperienceContext extends Struct
     {
         $this->appSwitchContext = $appSwitchContext;
     }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function jsonSerialize(): array
-    {
-        $data = parent::jsonSerialize();
-
-        if ($this->appSwitchContext !== null) {
-            $data['app_switch_context'] = $this->appSwitchContext->jsonSerialize();
-        }
-
-        return $data;
-    }
 }

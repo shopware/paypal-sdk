@@ -97,6 +97,18 @@ class PaymentSourceTest extends TestCase
         static::assertSame('Mozilla/5.0', $mobileWeb->getBuyerUserAgent());
 
         $experienceContextPayload = $experienceContext->jsonSerialize();
+        static::assertSame($appSwitchContext, $experienceContextPayload['app_switch_context']);
+
+        $appSwitchContextPayload = $appSwitchContext->jsonSerialize();
+        static::assertSame($nativeApp, $appSwitchContextPayload['native_app']);
+        static::assertSame($mobileWeb, $appSwitchContextPayload['mobile_web']);
+
+        /** @var array<string, mixed> $encodedExperienceContextPayload */
+        $encodedExperienceContextPayload = \json_decode(
+            \json_encode($experienceContext, \JSON_THROW_ON_ERROR),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
 
         static::assertSame([
             'native_app' => [
@@ -107,7 +119,7 @@ class PaymentSourceTest extends TestCase
                 'return_flow' => MobileWebContext::RETURN_FLOW_AUTO,
                 'buyer_user_agent' => 'Mozilla/5.0',
             ],
-        ], $experienceContextPayload['app_switch_context']);
+        ], $encodedExperienceContextPayload['app_switch_context']);
     }
 
     public function testSwishPaymentSource(): void
