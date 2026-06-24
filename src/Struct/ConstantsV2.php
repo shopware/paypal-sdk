@@ -18,6 +18,7 @@ class ConstantsV2
     public const ORDER_VOIDED = 'VOIDED';
     public const ORDER_COMPLETED = 'COMPLETED';
     public const ORDER_PAYER_ACTION_REQUIRED = 'PAYER_ACTION_REQUIRED';
+    public const ORDER_PENDING_APPROVAL = 'PENDING_APPROVAL';
 
     public const ORDER_CAPTURE_COMPLETED = 'COMPLETED';
     public const ORDER_CAPTURE_DECLINED = 'DECLINED';
