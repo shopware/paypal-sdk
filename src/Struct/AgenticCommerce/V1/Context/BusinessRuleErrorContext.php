@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\BusinessHour;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\BusinessHourCollection;
 
 /**
@@ -145,7 +146,7 @@ class BusinessRuleErrorContext extends AbstractContext
     /**
      * Store business hours
      */
-    #[OA\Property(ref: BusinessHourCollection::class)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: BusinessHour::class))]
     protected BusinessHourCollection $businessHours;
 
     /**

@@ -106,7 +106,7 @@ class ValidationIssue extends Struct
     /**
      * Available actions to resolve this issue
      */
-    #[OA\Property(ref: ResolutionOptionCollection::class)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: ResolutionOption::class))]
     protected ResolutionOptionCollection $resolutionOptions;
 
     public function getCode(): string

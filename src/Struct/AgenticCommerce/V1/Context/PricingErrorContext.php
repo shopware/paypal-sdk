@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\MixedItem;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\MixedItemCollection;
 
 /**
@@ -168,7 +169,7 @@ class PricingErrorContext extends AbstractContext
     /**
      * Items with different currencies
      */
-    #[OA\Property(ref: MixedItemCollection::class)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: MixedItem::class))]
     protected MixedItemCollection $mixedItems;
 
     public function getItemId(): ?string
