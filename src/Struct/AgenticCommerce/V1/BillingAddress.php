@@ -7,6 +7,8 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
+use OpenApi\Attributes as OA;
+
 /**
  * Billing address for merchant business purposes, obtained from customer's PayPal profile. Similar to shipping addresses, billing addresses can be retrieved from customer's default address information stored in their PayPal account.
  *
@@ -42,6 +44,10 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
  *
  * @experimental
  */
+#[OA\Schema(
+    schema: 'paypal_agentic_commerce_v1_billing_address',
+    allOf: [new OA\Schema(ref: Address::class)]
+)]
 class BillingAddress extends Address
 {
 }

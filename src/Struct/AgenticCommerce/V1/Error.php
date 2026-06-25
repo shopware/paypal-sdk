@@ -40,7 +40,7 @@ class Error extends Struct
     /**
      * Detailed error information
      */
-    #[OA\Property(ref: AgentErrorDetailCollection::class)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: AgentErrorDetail::class))]
     protected AgentErrorDetailCollection $details;
 
     public function getName(): string
