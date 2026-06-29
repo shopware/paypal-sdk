@@ -38,6 +38,17 @@ class ExceptionFactory
         }
 
         if ($error->getName() && $error->getMessage()) {
+            if ($error->getName() === ApiException::CODE_RATE_LIMIT_REACHED) {
+                return RetryAfterApiException::fromErrorResponse(
+                    $error->getName(),
+                    $error->getMessage(),
+                    $response,
+                    $error->getDebugId() ?? '',
+                    $error->getLinks(),
+                    $error->getDetails(),
+                );
+            }
+
             return new ErrorApiException(
                 $error->getName(),
                 $error->getMessage(),

@@ -14,12 +14,14 @@ use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\ErrorApiException;
 use Shopware\PayPalSDK\Exception\ExceptionFactory;
 use Shopware\PayPalSDK\Exception\OAuthApiException;
+use Shopware\PayPalSDK\Exception\RetryAfterApiException;
 use Shopware\PayPalSDK\Struct\Error\Error;
 
 /**
  * @internal
  */
 #[CoversClass(ExceptionFactory::class)]
+#[CoversClass(RetryAfterApiException::class)]
 class ExceptionFactoryTest extends TestCase
 {
     private Psr17Factory $factory;
@@ -116,6 +118,66 @@ class ExceptionFactoryTest extends TestCase
 
         static::assertSame(ApiException::class, $exception::class);
         static::assertSame('The error "UNKNOWN" occurred with the following message: something.', $exception->getMessage());
+    }
+
+    public function testCreateFromResponseWithRetryAfterSeconds(): void
+    {
+        $error = new Error();
+        $error->setName(ApiException::CODE_RATE_LIMIT_REACHED);
+        $error->setMessage('Rate limit reached');
+        $error->setDebugId('1234567890');
+
+        $response = $this->factory
+            ->createResponse()
+            ->withHeader('Retry-After', '120')
+            ->withBody($this->factory->createStream(\json_encode($error, \JSON_THROW_ON_ERROR)))
+            ->withStatus(429);
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertInstanceOf(RetryAfterApiException::class, $exception);
+        static::assertSame(ApiException::CODE_RATE_LIMIT_REACHED, $exception->getErrorCode());
+        static::assertSame(120000, $exception->getRetryDelay());
+    }
+
+    public function testCreateFromResponseWithRetryAfterDate(): void
+    {
+        $error = new Error();
+        $error->setName(ApiException::CODE_RATE_LIMIT_REACHED);
+        $error->setMessage('Rate limit reached');
+        $error->setDebugId('1234567890');
+
+        $response = $this->factory
+            ->createResponse()
+            ->withHeader('Retry-After', (new \DateTimeImmutable('+2 minutes'))->format(\DateTimeInterface::RFC7231))
+            ->withBody($this->factory->createStream(\json_encode($error, \JSON_THROW_ON_ERROR)))
+            ->withStatus(429);
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertInstanceOf(RetryAfterApiException::class, $exception);
+        static::assertNotNull($exception->getRetryDelay());
+        static::assertGreaterThanOrEqual(110000, $exception->getRetryDelay());
+        static::assertLessThanOrEqual(120000, $exception->getRetryDelay());
+    }
+
+    public function testCreateFromResponseWithInvalidRetryAfter(): void
+    {
+        $error = new Error();
+        $error->setName(ApiException::CODE_RATE_LIMIT_REACHED);
+        $error->setMessage('Rate limit reached');
+        $error->setDebugId('1234567890');
+
+        $response = $this->factory
+            ->createResponse()
+            ->withHeader('Retry-After', 'not-a-date')
+            ->withBody($this->factory->createStream(\json_encode($error, \JSON_THROW_ON_ERROR)))
+            ->withStatus(429);
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertInstanceOf(RetryAfterApiException::class, $exception);
+        static::assertNull($exception->getRetryDelay());
     }
 
     public function testCreateFromResponseWihBodyEmpty(): void
