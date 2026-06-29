@@ -68,7 +68,7 @@ class RetryAfterApiExceptionTest extends TestCase
         static::assertLessThanOrEqual(120000, $exception->getRetryDelay());
     }
 
-    #[DataProvider('provideInvalidRetryAfterHeaders')]
+    #[DataProvider('provideFromErrorResponseIgnoresInvalidHeaders')]
     public function testFromErrorResponseIgnoresInvalidHeaders(?string $retryAfter): void
     {
         $headers = $retryAfter !== null ? ['Retry-After' => $retryAfter] : [];
@@ -83,7 +83,7 @@ class RetryAfterApiExceptionTest extends TestCase
         static::assertNull($exception->getRetryDelay());
     }
 
-    public static function provideInvalidRetryAfterHeaders(): \Generator
+    public static function provideFromErrorResponseIgnoresInvalidHeaders(): \Generator
     {
         yield 'missing' => [null];
         yield 'empty' => [''];
