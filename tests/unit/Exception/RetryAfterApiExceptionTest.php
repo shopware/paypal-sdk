@@ -20,7 +20,7 @@ use Shopware\PayPalSDK\Exception\RetryAfterApiException;
 #[CoversClass(RetryAfterApiException::class)]
 class RetryAfterApiExceptionTest extends TestCase
 {
-    public function testGetRetryDelayFromConstructor(): void
+    public function testConstructorParsesSecondsHeader(): void
     {
         $response = new Response(429, body: '{"name":"RATE_LIMIT_REACHED"}');
 
@@ -29,61 +29,53 @@ class RetryAfterApiExceptionTest extends TestCase
             'Rate limit reached',
             $response,
             'debug-id',
-            retryDelay: 60000,
+            retryAfter: '120',
         );
 
         static::assertSame(ApiException::CODE_RATE_LIMIT_REACHED, $exception->getErrorCode());
         static::assertSame(429, $exception->getStatusCode());
         static::assertSame('debug-id', $exception->debugId);
-        static::assertSame(60000, $exception->getRetryDelay());
-    }
-
-    public function testFromErrorResponseParsesSecondsHeader(): void
-    {
-        $exception = RetryAfterApiException::fromErrorResponse(
-            ApiException::CODE_RATE_LIMIT_REACHED,
-            'Rate limit reached',
-            new Response(429, ['Retry-After' => '120']),
-            'debug-id',
-        );
-
-        static::assertSame(120000, $exception->getRetryDelay());
-    }
-
-    public function testFromErrorResponseParsesDateHeader(): void
-    {
-        $response = new Response(429, [
-            'Retry-After' => (new \DateTimeImmutable('+2 minutes'))->format(\DateTimeInterface::RFC7231),
-        ]);
-
-        $exception = RetryAfterApiException::fromErrorResponse(
-            ApiException::CODE_RATE_LIMIT_REACHED,
-            'Rate limit reached',
-            $response,
-            'debug-id',
-        );
-
+        static::assertNotNull($exception->getRetryAt());
         static::assertNotNull($exception->getRetryDelay());
         static::assertGreaterThanOrEqual(110000, $exception->getRetryDelay());
         static::assertLessThanOrEqual(120000, $exception->getRetryDelay());
     }
 
-    #[DataProvider('provideFromErrorResponseIgnoresInvalidHeaders')]
-    public function testFromErrorResponseIgnoresInvalidHeaders(?string $retryAfter): void
+    public function testConstructorParsesDateHeader(): void
     {
-        $headers = $retryAfter !== null ? ['Retry-After' => $retryAfter] : [];
+        $retryAt = new \DateTimeImmutable('+2 minutes');
 
-        $exception = RetryAfterApiException::fromErrorResponse(
+        $exception = new RetryAfterApiException(
             ApiException::CODE_RATE_LIMIT_REACHED,
             'Rate limit reached',
-            new Response(429, $headers),
+            new Response(429),
             'debug-id',
+            retryAfter: $retryAt->format(\DateTimeInterface::RFC7231),
         );
 
+        static::assertNotNull($exception->getRetryAt());
+        static::assertSame($retryAt->getTimestamp(), $exception->getRetryAt()->getTimestamp());
+        static::assertNotNull($exception->getRetryDelay());
+        static::assertGreaterThanOrEqual(110000, $exception->getRetryDelay());
+        static::assertLessThanOrEqual(120000, $exception->getRetryDelay());
+    }
+
+    #[DataProvider('provideConstructorIgnoresInvalidHeaders')]
+    public function testConstructorIgnoresInvalidHeaders(?string $retryAfter): void
+    {
+        $exception = new RetryAfterApiException(
+            ApiException::CODE_RATE_LIMIT_REACHED,
+            'Rate limit reached',
+            new Response(429),
+            'debug-id',
+            retryAfter: $retryAfter,
+        );
+
+        static::assertNull($exception->getRetryAt());
         static::assertNull($exception->getRetryDelay());
     }
 
-    public static function provideFromErrorResponseIgnoresInvalidHeaders(): \Generator
+    public static function provideConstructorIgnoresInvalidHeaders(): \Generator
     {
         yield 'missing' => [null];
         yield 'empty' => [''];

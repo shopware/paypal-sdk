@@ -16,7 +16,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
  */
 class RetryAfterApiException extends ErrorApiException
 {
-    private const MILLISECONDS_PER_SECOND = 1000;
+    private readonly ?\DateTimeImmutable $retryAt;
 
     public function __construct(
         string $errorCode,
@@ -25,9 +25,16 @@ class RetryAfterApiException extends ErrorApiException
         string $debugId,
         ?LinkCollection $links = null,
         ?DetailCollection $details = null,
-        private readonly ?int $retryDelay = null,
+        ?string $retryAfter = null,
     ) {
         parent::__construct($errorCode, $reason, $response, $debugId, $links, $details);
+
+        $this->retryAt = self::parseRetryAt($retryAfter);
+    }
+
+    public function getRetryAt(): ?\DateTimeImmutable
+    {
+        return $this->retryAt;
     }
 
     /**
@@ -35,47 +42,38 @@ class RetryAfterApiException extends ErrorApiException
      */
     public function getRetryDelay(): ?int
     {
-        return $this->retryDelay;
+        if ($this->retryAt === null) {
+            return null;
+        }
+
+        $retryDelay = ($this->retryAt->getTimestamp() - \time()) * 1000;
+
+        return $retryDelay > 0 ? $retryDelay : null;
     }
 
-    public static function fromErrorResponse(
-        string $errorCode,
-        string $reason,
-        ResponseInterface $response,
-        string $debugId,
-        ?LinkCollection $links = null,
-        ?DetailCollection $details = null,
-    ): self {
-        return new self(
-            $errorCode,
-            $reason,
-            $response,
-            $debugId,
-            $links,
-            $details,
-            self::parseRetryDelay($response->getHeaderLine('Retry-After') ?: null),
-        );
-    }
-
-    private static function parseRetryDelay(?string $retryAfter): ?int
+    private static function parseRetryAt(?string $retryAfter): ?\DateTimeImmutable
     {
         if ($retryAfter === null || ($retryAfter = \trim($retryAfter)) === '') {
             return null;
         }
 
         if (\ctype_digit($retryAfter)) {
-            $retryDelay = (int) $retryAfter * self::MILLISECONDS_PER_SECOND;
+            $seconds = (int) $retryAfter;
 
-            return $retryDelay > 0 ? $retryDelay : null;
+            if ($seconds <= 0) {
+                return null;
+            }
+
+            $retryAt = (new \DateTimeImmutable())->modify(\sprintf('+%d seconds', $seconds));
+
+            return $retryAt ?: null;
         }
 
         $retryAt = \strtotime($retryAfter);
-        if ($retryAt === false) {
+        if ($retryAt === false || $retryAt <= \time()) {
             return null;
         }
 
-        $retryDelay = ($retryAt - \time()) * self::MILLISECONDS_PER_SECOND;
-
-        return $retryDelay > 0 ? $retryDelay : null;
+        return (new \DateTimeImmutable())->setTimestamp($retryAt);
     }
 }

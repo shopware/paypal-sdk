@@ -38,14 +38,15 @@ class ExceptionFactory
         }
 
         if ($error->getName() && $error->getMessage()) {
-            if ($error->getName() === ApiException::CODE_RATE_LIMIT_REACHED) {
-                return RetryAfterApiException::fromErrorResponse(
+            if ($response->getStatusCode() === 429) {
+                return new RetryAfterApiException(
                     $error->getName(),
                     $error->getMessage(),
                     $response,
                     $error->getDebugId() ?? '',
                     $error->getLinks(),
                     $error->getDetails(),
+                    $response->getHeaderLine('Retry-After') ?: null,
                 );
             }
 

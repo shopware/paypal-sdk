@@ -123,7 +123,7 @@ class ExceptionFactoryTest extends TestCase
     public function testCreateFromResponseWithRetryAfterSeconds(): void
     {
         $error = new Error();
-        $error->setName(ApiException::CODE_RATE_LIMIT_REACHED);
+        $error->setName('OTHER_RATE_LIMIT');
         $error->setMessage('Rate limit reached');
         $error->setDebugId('1234567890');
 
@@ -136,8 +136,45 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertInstanceOf(RetryAfterApiException::class, $exception);
+        static::assertSame('OTHER_RATE_LIMIT', $exception->getErrorCode());
+        static::assertNotNull($exception->getRetryAt());
+        static::assertNotNull($exception->getRetryDelay());
+        static::assertGreaterThanOrEqual(110000, $exception->getRetryDelay());
+        static::assertLessThanOrEqual(120000, $exception->getRetryDelay());
+    }
+
+    public function testCreateFromResponseWithRetryAfterWithoutErrorBody(): void
+    {
+        $response = $this->factory
+            ->createResponse()
+            ->withHeader('Retry-After', '120')
+            ->withStatus(429);
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertNotInstanceOf(RetryAfterApiException::class, $exception);
+        static::assertSame(ApiException::class, $exception::class);
+        static::assertSame(ApiException::CODE_UNKNOWN, $exception->getErrorCode());
+        static::assertSame(429, $exception->getStatusCode());
+    }
+
+    public function testCreateFromResponseWithRateLimitCodeWithoutTooManyRequestsStatus(): void
+    {
+        $error = new Error();
+        $error->setName(ApiException::CODE_RATE_LIMIT_REACHED);
+        $error->setMessage('Rate limit reached');
+        $error->setDebugId('1234567890');
+
+        $response = $this->factory
+            ->createResponse()
+            ->withHeader('Retry-After', '120')
+            ->withBody($this->factory->createStream(\json_encode($error, \JSON_THROW_ON_ERROR)))
+            ->withStatus(400);
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertSame(ErrorApiException::class, $exception::class);
         static::assertSame(ApiException::CODE_RATE_LIMIT_REACHED, $exception->getErrorCode());
-        static::assertSame(120000, $exception->getRetryDelay());
     }
 
     public function testCreateFromResponseWithRetryAfterDate(): void
@@ -156,6 +193,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertInstanceOf(RetryAfterApiException::class, $exception);
+        static::assertNotNull($exception->getRetryAt());
         static::assertNotNull($exception->getRetryDelay());
         static::assertGreaterThanOrEqual(110000, $exception->getRetryDelay());
         static::assertLessThanOrEqual(120000, $exception->getRetryDelay());
@@ -177,6 +215,7 @@ class ExceptionFactoryTest extends TestCase
         $exception = ExceptionFactory::createFromResponse($response);
 
         static::assertInstanceOf(RetryAfterApiException::class, $exception);
+        static::assertNull($exception->getRetryAt());
         static::assertNull($exception->getRetryDelay());
     }
 
