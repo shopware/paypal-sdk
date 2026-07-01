@@ -14,18 +14,18 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\AuthenticationResult\T
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_card_authentication_result')]
 class AuthenticationResult extends Struct
 {
-    #[OA\Property(type: 'string')]
-    protected string $liabilityShift;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $liabilityShift = null;
 
     #[OA\Property(ref: ThreeDSecure::class, nullable: true)]
     protected ?ThreeDSecure $threeDSecure = null;
 
-    public function getLiabilityShift(): string
+    public function getLiabilityShift(): ?string
     {
         return $this->liabilityShift;
     }
 
-    public function setLiabilityShift(string $liabilityShift): void
+    public function setLiabilityShift(?string $liabilityShift): void
     {
         $this->liabilityShift = $liabilityShift;
     }
