@@ -34,9 +34,6 @@ jobs:
       - uses: ./.github/actions/setup-php
         with:
           php-version: "8.5"
-      # Installed globally on a current PHP so the checker's runtime stays
-      # independent of the library's PHP floor; inside require-dev it was stuck
-      # on a version whose bundled composer rejects GitHub app tokens (ghs_*).
       - name: Install bc-checker
         run: |
           composer global require roave/backward-compatibility-check:8.21.0 --no-audit
