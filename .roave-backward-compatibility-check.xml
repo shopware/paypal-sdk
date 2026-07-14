@@ -4,5 +4,7 @@
     xsi:noNamespaceSchemaLocation="vendor/roave/backward-compatibility-check/resources/schema.xsd">
     <baseline>
         <ignored-regex>#CHANGED: Property Shopware\\PayPalSDK\\Struct\\V2\\Referral\\Operation\\ApiIntegrationPreference\\RestApiIntegration\\ThirdPartyDetails\#\$features changed default value from array#</ignored-regex>
+        <!-- BetterReflection cannot evaluate new-expression parameter defaults (e.g. the gateway constructors); analysis-skip notices, not API changes -->
+        <ignored-regex>#SKIPPED: Unable to compile initializer in class Shopware\\PayPalSDK\\#</ignored-regex>
     </baseline>
 </roave-bc-check> 
