@@ -62,10 +62,6 @@ class OrderGateway extends AbstractGateway
         );
     }
 
-    /**
-     * Always requests the full representation: the minimal response omits fields
-     * like the processing instruction, which callers need to act on the result.
-     */
     public function confirmPaymentSource(string $orderId, ConfirmOrder $confirmOrder, ApiContextInterface $context): Order
     {
         return $this->request(

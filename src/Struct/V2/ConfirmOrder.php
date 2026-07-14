@@ -12,8 +12,6 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 /**
- * Request body for confirming (or re-confirming) the payment source of an order.
- *
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_confirm
  */
 #[OA\Schema(schema: 'paypal_v2_confirm_order')]
