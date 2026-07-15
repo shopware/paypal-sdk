@@ -7,17 +7,25 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
+use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
  * @experimental
  */
+#[OA\Schema(
+    schema: 'paypal_agentic_commerce_v1_agent_error_detail',
+    required: ['field', 'issue', 'description']
+)]
 class AgentErrorDetail extends Struct
 {
+    #[OA\Property(type: 'string')]
     protected string $field;
 
+    #[OA\Property(type: 'string')]
     protected string $issue;
 
+    #[OA\Property(type: 'string')]
     protected string $description;
 
     public function getField(): string

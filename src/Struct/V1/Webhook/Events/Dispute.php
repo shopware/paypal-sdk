@@ -12,6 +12,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\DisputeAmount;
+use Shopware\PayPalSDK\Struct\V1\Disputes\Item\DisputedTransaction;
+use Shopware\PayPalSDK\Struct\V1\Disputes\Item\DisputedTransactionCollection;
 
 #[OA\Schema(schema: 'paypal_v1_webhook_events_dispute')]
 class Dispute extends Struct
@@ -39,6 +41,9 @@ class Dispute extends Struct
 
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $disputeLifeCycleStage = null;
+
+    #[OA\Property(type: 'array', items: new OA\Items(ref: DisputedTransaction::class), nullable: true)]
+    protected ?DisputedTransactionCollection $disputedTransactions = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
@@ -121,6 +126,16 @@ class Dispute extends Struct
     public function setDisputeLifeCycleStage(?string $disputeLifeCycleStage): void
     {
         $this->disputeLifeCycleStage = $disputeLifeCycleStage;
+    }
+
+    public function getDisputedTransactions(): ?DisputedTransactionCollection
+    {
+        return $this->disputedTransactions;
+    }
+
+    public function setDisputedTransactions(?DisputedTransactionCollection $disputedTransactions): void
+    {
+        $this->disputedTransactions = $disputedTransactions;
     }
 
     public function getLinks(): LinkCollection

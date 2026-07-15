@@ -38,6 +38,18 @@ class ExceptionFactory
         }
 
         if ($error->getName() && $error->getMessage()) {
+            if ($response->getStatusCode() === 429) {
+                return new RetryAfterApiException(
+                    $error->getName(),
+                    $error->getMessage(),
+                    $response,
+                    $error->getDebugId() ?? '',
+                    $error->getLinks(),
+                    $error->getDetails(),
+                    $response->getHeaderLine('Retry-After') ?: null,
+                );
+            }
+
             return new ErrorApiException(
                 $error->getName(),
                 $error->getMessage(),

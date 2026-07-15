@@ -7,9 +7,15 @@
 
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
+use OpenApi\Attributes as OA;
+
 /**
  * @experimental
  */
+#[OA\Schema(
+    schema: 'paypal_agentic_commerce_v1_shipping_address',
+    allOf: [new OA\Schema(ref: Address::class)]
+)]
 class ShippingAddress extends Address
 {
 }
