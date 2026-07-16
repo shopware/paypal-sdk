@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
+use Shopware\PayPalSDK\Struct\V2\ConfirmOrder;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\Tracker;
 use Shopware\PayPalSDK\Struct\V2\PatchCollection;
@@ -104,6 +105,29 @@ class OrderGatewayTest extends TestCase
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/orderId/capture', $last->getRequest()->getUri()->getPath());
         static::assertSame('', (string) $last->getRequest()->getBody());
+    }
+
+    public function testConfirmPaymentSource(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $body = (new Order())->assign(['id' => 'some-order-id']);
+
+        $confirmOrder = new ConfirmOrder();
+        $confirmOrder->setPaymentSource((new Order\PaymentSource())->assign([]));
+
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+
+        $response = $this->gateways->orderGateway()->confirmPaymentSource('orderId', $confirmOrder, $context);
+        static::assertEquals($body, $response);
+
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame('POST', $last->getRequest()->getMethod());
+        static::assertSame('/v2/checkout/orders/orderId/confirm-payment-source', $last->getRequest()->getUri()->getPath());
+        static::assertSame('return=representation', $last->getRequest()->getHeaderLine('Prefer'));
+        static::assertSame(\json_encode($confirmOrder), (string) $last->getRequest()->getBody());
+        static::assertStringContainsString('"payment_source"', (string) $last->getRequest()->getBody());
     }
 
     public function testPatchOrder(): void
