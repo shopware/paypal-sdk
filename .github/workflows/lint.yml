@@ -32,11 +32,12 @@ jobs:
           fetch-depth: "0"
           fetch-tags: "1"
       - uses: ./.github/actions/setup-php
-      - name: Prepare repo
+        with:
+          php-version: "8.5"
+      - name: Install bc-checker
         run: |
-          set -e
-          git remote add bc-check-upstream ${{ github.server_url }}/${{ github.repository }}
-          git fetch bc-check-upstream
+          composer global require roave/backward-compatibility-check:8.21.0 --no-audit
+          echo "$(composer global config home)/vendor/bin" >> "$GITHUB_PATH"
       - name: Run bc-check
         if: github.event_name == 'pull_request' && !contains(github.base_ref, '/feature/')
-        run: composer bc-check -- --format=github-actions --from="origin/${{ github.base_ref }}"
+        run: roave-backward-compatibility-check --format=github-actions --from="origin/${{ github.base_ref }}"
