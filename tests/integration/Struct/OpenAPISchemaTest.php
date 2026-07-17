@@ -166,7 +166,13 @@ class OpenAPISchemaTest extends TestCase
             return $schema instanceof Schema ? $schema : null;
         }
 
-        return $this->oa->_analysis->getSchemaForSource($class);
+        if (!\method_exists($this->oa->_analysis, 'getSchemaForSource')) {
+            return null;
+        }
+
+        $schema = (new \ReflectionMethod($this->oa->_analysis, 'getSchemaForSource'))->invoke($this->oa->_analysis, $class);
+
+        return $schema instanceof Schema ? $schema : null;
     }
 
     private function namespaceToSchema(string $fqdn): string
