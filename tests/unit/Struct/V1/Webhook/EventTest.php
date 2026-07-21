@@ -16,7 +16,9 @@ use Shopware\PayPalSDK\Struct\V1\Webhook\Event;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Events\AccountEntities;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Events\Dispute;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Events\ManagedAccounts;
+use Shopware\PayPalSDK\Struct\V1\Webhook\Events\PaymentApprovalReversed;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Resource;
+use Shopware\PayPalSDK\Struct\V1\Webhook\WebhookEventTypes;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture;
@@ -100,6 +102,41 @@ class EventTest extends TestCase
         static::assertInstanceOf(Order::class, $resource);
         static::assertSame('4UX51220T4035005S', $resource->getId());
         static::assertSame('COMPLETED', $resource->getStatus());
+    }
+
+    public function testPaymentApprovalReversedResourceUsesOrderId(): void
+    {
+        $event = Struct::from(Event::class, [
+            'id' => 'WH-COC11055RA711503B-4YM959094A144403T',
+            'event_type' => WebhookEventTypes::CHECKOUT_PAYMENT_APPROVAL_REVERSED,
+            'summary' => 'A payment has been reversed after approval.',
+            'resource' => [
+                'order_id' => '5O190127TN364715T',
+                'purchase_units' => [
+                    [
+                        'reference_id' => 'd9f80740-38f0-11e8-b467-0ed5f89f718b',
+                        'custom_id' => 'MERCHANT_CUSTOM_ID',
+                        'invoice_id' => 'MERCHANT_INVOICE_ID',
+                    ],
+                ],
+                'payment_source' => [
+                    'ideal' => [
+                        'name' => 'John Doe',
+                        'country_code' => 'NL',
+                    ],
+                ],
+            ],
+            'create_time' => '2020-01-25T21:21:49.000Z',
+            'event_version' => '1.0',
+            'links' => [],
+        ]);
+
+        $resource = $event->getResource();
+        static::assertNotNull($resource);
+        static::assertInstanceOf(PaymentApprovalReversed::class, $resource);
+        static::assertSame('5O190127TN364715T', $resource->getOrderId());
+        static::assertSame('MERCHANT_CUSTOM_ID', $resource->getPurchaseUnits()?->first()?->getCustomId());
+        static::assertNotNull($resource->getPaymentSource()?->getIdeal());
     }
 
     public function testDisputeResourcePreservesFields(): void

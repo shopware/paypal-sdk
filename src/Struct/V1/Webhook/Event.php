@@ -15,6 +15,7 @@ use Shopware\PayPalSDK\Struct\V1\Subscription;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Events\AccountEntities;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Events\Dispute;
 use Shopware\PayPalSDK\Struct\V1\Webhook\Events\ManagedAccounts;
+use Shopware\PayPalSDK\Struct\V1\Webhook\Events\PaymentApprovalReversed;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture;
@@ -58,6 +59,7 @@ class Event extends Struct
         new OA\Schema(ref: ManagedAccounts::class),
         new OA\Schema(ref: AccountEntities::class),
         new OA\Schema(ref: Dispute::class),
+        new OA\Schema(ref: PaymentApprovalReversed::class),
     ])]
     protected ?Struct $resource = null;
 
@@ -82,7 +84,16 @@ class Event extends Struct
         unset($data['resource']);
         $webhook = parent::assign($data);
 
-        if (\is_array($resourceData) && $resourceClass = $this->identifyResourceType($this->resourceVersion, $this->resourceType)) {
+        if (!\is_array($resourceData)) {
+            return $webhook;
+        }
+
+        // PAYMENT-APPROVAL.REVERSED uses order_id (not id) and often omits resource_type.
+        $resourceClass = $this->eventType === WebhookEventTypes::CHECKOUT_PAYMENT_APPROVAL_REVERSED
+            ? PaymentApprovalReversed::class
+            : $this->identifyResourceType($this->resourceVersion, $this->resourceType);
+
+        if ($resourceClass !== null) {
             $webhook->resource = Struct::from($resourceClass, $resourceData);
         }
 
