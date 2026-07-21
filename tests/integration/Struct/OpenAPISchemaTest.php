@@ -12,6 +12,7 @@ use Monolog\Level;
 use Monolog\Logger;
 use Monolog\LogRecord;
 use OpenApi\Annotations\OpenApi;
+use OpenApi\Annotations\Schema;
 use OpenApi\Attributes\Property;
 use OpenApi\Generator;
 use PHPUnit\Framework\Attributes\CoversNothing;
@@ -58,9 +59,7 @@ class OpenAPISchemaTest extends TestCase
             static::assertDirectoryExists($dir);
         }
 
-        $oa = Generator::scan(self::DIRS, [
-            'logger' => $logger,
-        ]);
+        $oa = (new Generator($logger))->generate(self::DIRS);
 
         static::assertInstanceOf(OpenApi::class, $oa, 'OpenAPI schema could not be generated.');
 
@@ -72,7 +71,7 @@ class OpenAPISchemaTest extends TestCase
         $failures = [];
 
         foreach ($this->oa->_analysis->classes as $class => $classContext) {
-            $schema = $this->oa->_analysis->getSchemaForSource($class);
+            $schema = $this->schemaForSource($class);
 
             if (!$schema?->schema || $schema->schema === Generator::UNDEFINED) {
                 continue;
@@ -114,7 +113,7 @@ class OpenAPISchemaTest extends TestCase
         $failures = [];
 
         foreach ($this->oa->_analysis->classes as $class => $classContext) {
-            $schema = $this->oa->_analysis->getSchemaForSource($class);
+            $schema = $this->schemaForSource($class);
 
             if (!$schema?->schema || $schema->schema === Generator::UNDEFINED) {
                 continue;
@@ -135,7 +134,7 @@ class OpenAPISchemaTest extends TestCase
         $failures = [];
 
         foreach ($this->oa->_analysis->classes as $class => $classContext) {
-            $schema = $this->oa->_analysis->getSchemaForSource($class);
+            $schema = $this->schemaForSource($class);
 
             if (!$schema?->schema || $schema->schema === Generator::UNDEFINED || !\class_exists($class)) {
                 continue;
@@ -157,6 +156,23 @@ class OpenAPISchemaTest extends TestCase
         }
 
         static::assertEmpty($failures, \implode(\PHP_EOL, $failures));
+    }
+
+    private function schemaForSource(string $class): ?Schema
+    {
+        if (\method_exists($this->oa->_analysis, 'getAnnotationForSource')) {
+            $schema = $this->oa->_analysis->getAnnotationForSource($class, Schema::class);
+
+            return $schema instanceof Schema ? $schema : null;
+        }
+
+        if (!\method_exists($this->oa->_analysis, 'getSchemaForSource')) {
+            return null;
+        }
+
+        $schema = (new \ReflectionMethod($this->oa->_analysis, 'getSchemaForSource'))->invoke($this->oa->_analysis, $class);
+
+        return $schema instanceof Schema ? $schema : null;
     }
 
     private function namespaceToSchema(string $fqdn): string
