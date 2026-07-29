@@ -25,7 +25,7 @@ class AuthenticationResult extends Struct
         return $this->liabilityShift;
     }
 
-    public function setLiabilityShift(?string $liabilityShift): void
+    public function setLiabilityShift(string $liabilityShift): void
     {
         $this->liabilityShift = $liabilityShift;
     }
