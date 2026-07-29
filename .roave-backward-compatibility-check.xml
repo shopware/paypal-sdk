@@ -5,5 +5,7 @@
     <baseline>
         <ignored-regex>#CHANGED: Property Shopware\\PayPalSDK\\Struct\\V2\\Referral\\Operation\\ApiIntegrationPreference\\RestApiIntegration\\ThirdPartyDetails\#\$features changed default value from array#</ignored-regex>
         <ignored-regex>#SKIPPED: Unable to compile initializer in class Shopware\\PayPalSDK\\#</ignored-regex>
+        <ignored-regex>#CHANGED: Type of property Shopware\\PayPalSDK\\Struct\\V2\\Order\\PaymentSource\\Card\\AuthenticationResult\#\$liabilityShift changed from string to string\|null#</ignored-regex>
+        <ignored-regex>#CHANGED: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\\PaymentSource\\Card\\AuthenticationResult\#getLiabilityShift\(\) changed from string to#</ignored-regex>
     </baseline>
 </roave-bc-check> 
