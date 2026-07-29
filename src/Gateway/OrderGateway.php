@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Gateway;
 
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
+use Shopware\PayPalSDK\Struct\V2\ConfirmOrder;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\Tracker;
 use Shopware\PayPalSDK\Struct\V2\Patch;
@@ -58,6 +59,17 @@ class OrderGateway extends AbstractGateway
             null,
             Order::class,
             $context
+        );
+    }
+
+    public function confirmPaymentSource(string $orderId, ConfirmOrder $confirmOrder, ApiContextInterface $context): Order
+    {
+        return $this->request(
+            'POST',
+            self::GATEWAY_URL . '/' . $orderId . '/confirm-payment-source',
+            $confirmOrder,
+            Order::class,
+            $context->withHeader('Prefer', 'return=representation')
         );
     }
 
