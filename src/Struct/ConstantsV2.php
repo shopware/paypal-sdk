@@ -18,6 +18,10 @@ class ConstantsV2
     public const ORDER_VOIDED = 'VOIDED';
     public const ORDER_COMPLETED = 'COMPLETED';
     public const ORDER_PAYER_ACTION_REQUIRED = 'PAYER_ACTION_REQUIRED';
+    /**
+     * Order status for Pay Upon Invoice: payer checkout is done, but PayPal approval is still pending.
+     * Distinct from capture/authorization pending states ({@see self::ORDER_CAPTURE_PENDING}, {@see self::ORDER_AUTHORIZATION_PENDING}).
+     */
     public const ORDER_PENDING_APPROVAL = 'PENDING_APPROVAL';
 
     public const ORDER_CAPTURE_COMPLETED = 'COMPLETED';
