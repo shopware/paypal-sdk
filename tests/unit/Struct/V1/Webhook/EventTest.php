@@ -70,6 +70,86 @@ class EventTest extends TestCase
         static::assertInstanceOf($expectedClass, $event->getResource());
     }
 
+    /**
+     * @return iterable<string, array{string, string, string, class-string<Struct>}>
+     */
+    public static function provideIdentifyResourceByEventType(): iterable
+    {
+        yield 'v2 authorization family' => ['PAYMENT.AUTHORIZATION.CREATED', '2.0', '', Authorization::class];
+        yield 'v2 capture family' => ['PAYMENT.CAPTURE.COMPLETED', '2.0', '', Capture::class];
+        yield 'v2 checkout order family' => ['CHECKOUT.ORDER.APPROVED', '2.0', '', Order::class];
+        yield 'v2 subscription family' => ['BILLING.SUBSCRIPTION.CREATED', '2.0', '', Subscription::class];
+        yield 'v3 payment token family' => ['VAULT.PAYMENT-TOKEN.CREATED', '3.0', '', PaymentToken::class];
+        yield 'v1 dispute family' => ['CUSTOMER.DISPUTE.CREATED', '1.0', '', Dispute::class];
+        yield 'v1 managed account family' => ['CUSTOMER.MANAGED-ACCOUNT.ACCOUNT-CREATED', '1.0', '', ManagedAccounts::class];
+        yield 'v1 account entities family' => ['CUSTOMER.ACCOUNT-ENTITIES.CAPABILITY-UPDATED', '1.0', '', AccountEntities::class];
+
+        // A refunded or reversed capture carries a refund body, so the exact event wins over its family.
+        yield 'refunded capture is a refund' => ['PAYMENT.CAPTURE.REFUNDED', '2.0', '', Refund::class];
+        yield 'reversed capture is a refund' => ['PAYMENT.CAPTURE.REVERSED', '2.0', '', Refund::class];
+
+        // The event type wins over the resource type, but only for the version PayPal ships the family on.
+        yield 'event type wins over resource type' => ['PAYMENT.CAPTURE.REFUNDED', '2.0', 'capture', Refund::class];
+        yield 'family is not claimed on another version' => ['CHECKOUT.ORDER.APPROVED', '1.0', '', Resource::class];
+    }
+
+    /**
+     * @param class-string<Struct> $expectedClass
+     */
+    #[DataProvider('provideIdentifyResourceByEventType')]
+    public function testIdentifyResourceByEventType(string $eventType, string $resourceVersion, string $resourceType, string $expectedClass): void
+    {
+        $event = Struct::from(Event::class, [
+            'id' => 'WH-TEST-123',
+            'event_type' => $eventType,
+            'summary' => 'Test event',
+            'resource_type' => $resourceType,
+            'resource_version' => $resourceVersion,
+            'resource' => ['id' => 'RESOURCE-123'],
+            'create_time' => '2026-01-01T00:00:00Z',
+            'event_version' => '1.0',
+            'links' => [],
+        ]);
+
+        static::assertNotNull($event->getResource());
+        static::assertInstanceOf($expectedClass, $event->getResource());
+    }
+
+    public function testMissingEventTypeFallsBackToResourceType(): void
+    {
+        $event = Struct::from(Event::class, [
+            'id' => 'WH-NO-EVENT-TYPE',
+            'summary' => 'Test event',
+            'resource_type' => 'capture',
+            'resource_version' => '2.0',
+            'resource' => ['id' => 'CAPTURE-123'],
+            'create_time' => '2026-01-01T00:00:00Z',
+            'event_version' => '1.0',
+            'links' => [],
+        ]);
+
+        $resource = $event->getResource();
+        static::assertInstanceOf(Capture::class, $resource);
+        static::assertSame('CAPTURE-123', $resource->getId());
+    }
+
+    public function testSubclassResourceTypeOverrideStillApplies(): void
+    {
+        $event = Struct::from(ExtendedEvent::class, [
+            'id' => 'WH-SALE-COMPLETED',
+            'event_type' => 'PAYMENT.SALE.COMPLETED',
+            'summary' => 'A sale has been completed',
+            'resource_type' => 'sale',
+            'resource_version' => '1.0',
+            'resource' => ['id' => 'SALE-123'],
+            'create_time' => '2026-01-01T00:00:00Z',
+            'event_version' => '1.0',
+            'links' => [],
+        ]);
+
+        static::assertInstanceOf(Subscription::class, $event->getResource());
+    }
+
     public function testCheckoutOrderResourceHasId(): void
     {
         $event = Struct::from(Event::class, [
@@ -320,5 +400,20 @@ class EventTest extends TestCase
         ]);
 
         static::assertNull($event->getResource());
+    }
+}
+
+/**
+ * @internal
+ */
+class ExtendedEvent extends Event
+{
+    protected function identifyResourceType(string $resourceVersion, string $resourceType): ?string
+    {
+        if ($resourceType === 'sale') {
+            return Subscription::class;
+        }
+
+        return parent::identifyResourceType($resourceVersion, $resourceType);
     }
 }

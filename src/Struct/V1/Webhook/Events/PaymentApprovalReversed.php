@@ -16,8 +16,9 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 /**
  * Resource shape for {@see \Shopware\PayPalSDK\Struct\V1\Webhook\WebhookEventTypes::CHECKOUT_PAYMENT_APPROVAL_REVERSED}.
  *
- * PayPal sends `order_id` (not `id`) on this event and often omits `resource_type`,
- * so {@see \Shopware\PayPalSDK\Struct\V1\Webhook\Event::assign()} maps by event type.
+ * The resource is a projection of an order rather than a REST API object, so PayPal sends
+ * `order_id` instead of `id` and omits both `resource_type` and `resource_version`. It is
+ * therefore resolved by event type in {@see \Shopware\PayPalSDK\Struct\V1\Webhook\Event::identifyResource()}.
  */
 #[OA\Schema(schema: 'paypal_v1_webhook_events_payment_approval_reversed')]
 class PaymentApprovalReversed extends Struct
