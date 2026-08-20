@@ -83,6 +83,7 @@ class EventTest extends TestCase
         yield 'v1 dispute family' => ['CUSTOMER.DISPUTE.CREATED', '1.0', '', Dispute::class];
         yield 'v1 managed account family' => ['CUSTOMER.MANAGED-ACCOUNT.ACCOUNT-CREATED', '1.0', '', ManagedAccounts::class];
         yield 'v1 account entities family' => ['CUSTOMER.ACCOUNT-ENTITIES.CAPABILITY-UPDATED', '1.0', '', AccountEntities::class];
+        yield 'v1 account entities account updated' => ['CUSTOMER.ACCOUNT-ENTITIES.ACCOUNT-UPDATED', '1.0', '', AccountEntities::class];
 
         // A refunded or reversed capture carries a refund body, so the exact event wins over its family.
         yield 'refunded capture is a refund' => ['PAYMENT.CAPTURE.REFUNDED', '2.0', '', Refund::class];
