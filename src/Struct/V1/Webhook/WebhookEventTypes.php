@@ -190,6 +190,9 @@ final class WebhookEventTypes
     /* A capability of a partner's managed account entities is updated. */
     public const CUSTOMER_ACCOUNT_ENTITIES_CAPABILITY_UPDATED = 'CUSTOMER.ACCOUNT-ENTITIES.CAPABILITY-UPDATED';
 
+    /* An account of a partner's managed account entities is updated. */
+    public const CUSTOMER_ACCOUNT_ENTITIES_ACCOUNT_UPDATED = 'CUSTOMER.ACCOUNT-ENTITIES.ACCOUNT-UPDATED';
+
     /* Managed account has been created. */
     public const CUSTOMER_MANAGED_ACCOUNT_ACCOUNT_CREATED = 'CUSTOMER.MANAGED-ACCOUNT.ACCOUNT-CREATED';
 
