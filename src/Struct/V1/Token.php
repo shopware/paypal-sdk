@@ -57,8 +57,18 @@ class Token extends Struct
     #[OA\Property(type: 'string', format: 'date-time')]
     protected \DateTime $expireDateTime;
 
+    /**
+     * Whether this token was served from the token cache instead of freshly requested.
+     * Set by the SDK, not part of PayPal's response.
+     */
+    #[OA\Property(type: 'boolean', readOnly: true)]
+    protected bool $cached = false;
+
     public function assign(#[\SensitiveParameter] array $data): static
     {
+        // the cache flag is SDK internal state and must never be set from response data
+        unset($data['cached']);
+
         $newToken = parent::assign($data);
 
         // Calculate the expiration date manually
@@ -146,6 +156,16 @@ class Token extends Struct
     public function setExpireDateTime(\DateTime $expireDateTime): void
     {
         $this->expireDateTime = $expireDateTime;
+    }
+
+    public function isCached(): bool
+    {
+        return $this->cached;
+    }
+
+    public function setCached(bool $cached): void
+    {
+        $this->cached = $cached;
     }
 
     /**

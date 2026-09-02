@@ -47,8 +47,21 @@ abstract class AbstractGateway implements GatewayInterface
             $request = $this->requestService->withBody($request, $body);
         }
 
-        $response = $this->client->sendRequest($request);
-        $content = $this->requestService->handleResponse($response);
+        try {
+            $response = $this->client->sendRequest($request);
+            $content = $this->requestService->handleResponse($response);
+        } catch (ApiException $e) {
+            if ($token->isCached() && $e->is('invalid_token', ApiException::CODE_INVALID_TOKEN)) {
+                /** @phpstan-ignore-next-line arguments.count - $refresh will be a real parameter with v3.0.0 */
+                $token = $this->tokenGateway->getToken($context, true);
+                $request = $request->withHeader('Authorization', \sprintf('%s %s', $token->getTokenType(), $token->getAccessToken()));
+
+                $response = $this->client->sendRequest($request);
+                $content = $this->requestService->handleResponse($response);
+            } else {
+                throw $e;
+            }
+        }
 
         if ($responseClass) {
             if ($content === null) {

@@ -93,4 +93,111 @@ class TokenGatewayTest extends TestCase
 
         static::assertSame($token, $this->gateways->tokenGateway()->getToken($context));
     }
+
+    public function testFreshTokenIsNotMarkedAsCached(): void
+    {
+        $this->client->addResponse(new Response(200, [], \json_encode([
+            'access_token' => 'some-fresh-access-token',
+            'expires_in' => 36000,
+        ]) ?: null));
+
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
+
+        $token = $this->gateways->tokenGateway()->getToken($context);
+
+        static::assertFalse($token->isCached());
+    }
+
+    public function testCachedTokenIsMarkedAsCached(): void
+    {
+        $token = (new Token())->assign([
+            'access_token' => 'some-cached-access-token',
+            'expires_in' => 36000,
+        ]);
+        static::assertFalse($token->isCached());
+
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
+
+        $key = $context->getOAuthContext()->getCacheKey($context);
+        static::assertNotNull($key);
+        $this->gateways->getTokenCache()->set($key, $token, $token->getExpiresIn());
+
+        $cachedToken = $this->gateways->tokenGateway()->getToken($context);
+
+        static::assertSame($token, $cachedToken);
+        static::assertTrue($cachedToken->isCached());
+        static::assertCount(0, $this->client->getAll(), 'A cached token must not trigger a request.');
+    }
+
+    public function testGetTokenWithRefreshBypassesCache(): void
+    {
+        $cachedToken = (new Token())->assign([
+            'access_token' => 'some-cached-access-token',
+            'expires_in' => 36000,
+        ]);
+
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
+
+        $key = $context->getOAuthContext()->getCacheKey($context);
+        static::assertNotNull($key);
+        $this->gateways->getTokenCache()->set($key, $cachedToken, $cachedToken->getExpiresIn());
+
+        $this->client->addResponse(new Response(200, [], \json_encode([
+            'access_token' => 'some-refreshed-access-token',
+            'expires_in' => 36000,
+        ]) ?: null));
+
+        $token = $this->gateways->tokenGateway()->getToken($context, true);
+
+        static::assertSame('some-refreshed-access-token', $token->getAccessToken());
+        static::assertFalse($token->isCached());
+        static::assertCount(1, $this->client->getAll());
+
+        static::assertSame($token, $this->gateways->getTokenCache()->get($key), 'The refreshed token must replace the cached one.');
+    }
+
+    public function testGetTokenWithRefreshFalseUsesCache(): void
+    {
+        $cachedToken = (new Token())->assign([
+            'access_token' => 'some-cached-access-token',
+            'expires_in' => 36000,
+        ]);
+
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
+
+        $key = $context->getOAuthContext()->getCacheKey($context);
+        static::assertNotNull($key);
+        $this->gateways->getTokenCache()->set($key, $cachedToken, $cachedToken->getExpiresIn());
+
+        $token = $this->gateways->tokenGateway()->getToken($context, false);
+
+        static::assertSame($cachedToken, $token);
+        static::assertCount(0, $this->client->getAll());
+    }
+
+    public function testGetTokenWithExpiredCachedToken(): void
+    {
+        $expiredToken = (new Token())->assign([
+            'access_token' => 'some-expired-access-token',
+            'expires_in' => 36000,
+        ]);
+        $expiredToken->setExpireDateTime(new \DateTime('now -1 hour', new \DateTimeZone('UTC')));
+
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
+
+        $key = $context->getOAuthContext()->getCacheKey($context);
+        static::assertNotNull($key);
+        $this->gateways->getTokenCache()->set($key, $expiredToken, 36000);
+
+        $this->client->addResponse(new Response(200, [], \json_encode([
+            'access_token' => 'some-new-access-token',
+            'expires_in' => 36000,
+        ]) ?: null));
+
+        $token = $this->gateways->tokenGateway()->getToken($context);
+
+        static::assertSame('some-new-access-token', $token->getAccessToken());
+        static::assertFalse($token->isCached());
+        static::assertCount(1, $this->client->getAll(), 'An expired cached token must trigger a new request.');
+    }
 }
