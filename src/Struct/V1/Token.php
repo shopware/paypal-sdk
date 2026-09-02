@@ -57,11 +57,6 @@ class Token extends Struct
     #[OA\Property(type: 'string', format: 'date-time')]
     protected \DateTime $expireDateTime;
 
-    /**
-     * Whether this token was served from the token cache instead of freshly requested.
-     * Set by the SDK, not part of PayPal's response.
-     */
-    #[OA\Property(type: 'boolean', readOnly: true)]
     protected bool $cached = false;
 
     public function assign(#[\SensitiveParameter] array $data): static

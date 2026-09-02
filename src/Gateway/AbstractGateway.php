@@ -54,10 +54,15 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * @return array<mixed>|null
      */
-    private function _request(string $method, string $path, Struct|Collection|null $body, ApiContextInterface $context, bool $refreshToken = false): ?array
+    private function _request(string $method, string $path, Struct|Collection|null $body, ApiContextInterface $context, ?ApiException $rejection = null): ?array
     {
         /** @phpstan-ignore-next-line arguments.count - $refresh will be a real parameter with v3.0.0 */
-        $token = $this->tokenGateway->getToken($context, $refreshToken);
+        $token = $this->tokenGateway->getToken($context, $rejection !== null);
+
+        if ($rejection && $token->isCached()) {
+            // requested cache refresh, but got a cached token again, implementation not up-to-date
+            throw $rejection;
+        }
 
         $request = $this->requestService->createRequest($method, $path, $context)
             ->withHeader('Authorization', \sprintf('%s %s', $token->getTokenType(), $token->getAccessToken()));
@@ -71,8 +76,8 @@ abstract class AbstractGateway implements GatewayInterface
 
             return $this->requestService->handleResponse($response);
         } catch (ApiException $e) {
-            if ($token->isCached() && !$refreshToken && $e->is('invalid_token', ApiException::CODE_INVALID_TOKEN)) {
-                return $this->_request($method, $path, $body, $context, true);
+            if (!$rejection && $token->isCached() && $e->is('invalid_token', ApiException::CODE_INVALID_TOKEN)) {
+                return $this->_request($method, $path, $body, $context, $e);
             }
 
             throw $e;

@@ -79,6 +79,7 @@ class TokenGateway implements TokenGatewayInterface
             return null;
         }
 
+        $token = clone $token;
         $token->setCached(true);
 
         return $token;
