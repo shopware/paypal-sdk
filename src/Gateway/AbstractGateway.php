@@ -38,30 +38,7 @@ abstract class AbstractGateway implements GatewayInterface
      */
     protected function request(string $method, string $path, Struct|Collection|null $body, ?string $responseClass, ApiContextInterface $context): ?Struct
     {
-        $token = $this->tokenGateway->getToken($context);
-
-        $request = $this->requestService->createRequest($method, $path, $context)
-            ->withHeader('Authorization', \sprintf('%s %s', $token->getTokenType(), $token->getAccessToken()));
-
-        if ($body) {
-            $request = $this->requestService->withBody($request, $body);
-        }
-
-        try {
-            $response = $this->client->sendRequest($request);
-            $content = $this->requestService->handleResponse($response);
-        } catch (ApiException $e) {
-            if ($token->isCached() && $e->is('invalid_token', ApiException::CODE_INVALID_TOKEN)) {
-                /** @phpstan-ignore-next-line arguments.count - $refresh will be a real parameter with v3.0.0 */
-                $token = $this->tokenGateway->getToken($context, true);
-                $request = $request->withHeader('Authorization', \sprintf('%s %s', $token->getTokenType(), $token->getAccessToken()));
-
-                $response = $this->client->sendRequest($request);
-                $content = $this->requestService->handleResponse($response);
-            } else {
-                throw $e;
-            }
-        }
+        $content = $this->_request($method, $path, $body, $context);
 
         if ($responseClass) {
             if ($content === null) {
@@ -72,5 +49,33 @@ abstract class AbstractGateway implements GatewayInterface
         }
 
         return null;
+    }
+
+    /**
+     * @return array<mixed>|null
+     */
+    private function _request(string $method, string $path, Struct|Collection|null $body, ApiContextInterface $context, bool $refreshToken = false): ?array
+    {
+        /** @phpstan-ignore-next-line arguments.count - $refresh will be a real parameter with v3.0.0 */
+        $token = $this->tokenGateway->getToken($context, $refreshToken);
+
+        $request = $this->requestService->createRequest($method, $path, $context)
+            ->withHeader('Authorization', \sprintf('%s %s', $token->getTokenType(), $token->getAccessToken()));
+
+        if ($body) {
+            $request = $this->requestService->withBody($request, $body);
+        }
+
+        try {
+            $response = $this->client->sendRequest($request);
+
+            return $this->requestService->handleResponse($response);
+        } catch (ApiException $e) {
+            if ($token->isCached() && !$refreshToken && $e->is('invalid_token', ApiException::CODE_INVALID_TOKEN)) {
+                return $this->_request($method, $path, $body, $context, true);
+            }
+
+            throw $e;
+        }
     }
 }
