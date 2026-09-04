@@ -32,13 +32,14 @@ class TokenGateway implements TokenGatewayInterface
     /**
      * @throws ApiException|ClientExceptionInterface|\JsonException|\LogicException
      */
-    public function getToken(ApiContextInterface $context): Token
+    public function getToken(ApiContextInterface $context /* , bool $refresh */): Token
     {
+        $refresh = \func_num_args() > 1 && (bool) \func_get_arg(1);
         $context = $context->withHeader(RequestServiceInterface::HEADER_CONTENT_TYPE, RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
 
         $cacheKey = $context->getOAuthContext()->getCacheKey($context);
 
-        if ($token = $this->getCachedToken($cacheKey)) {
+        if (!$refresh && $token = $this->getCachedToken($cacheKey)) {
             return $token;
         }
 
@@ -74,8 +75,12 @@ class TokenGateway implements TokenGatewayInterface
 
         if (!$token || $token->getExpireDateTime() < new \DateTime('now', new \DateTimeZone('UTC'))) {
             $this->tokenCache->delete($key);
-            $token = null;
+
+            return null;
         }
+
+        $token = clone $token;
+        $token->setCached(true);
 
         return $token;
     }

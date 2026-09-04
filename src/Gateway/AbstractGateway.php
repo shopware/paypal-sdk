@@ -38,17 +38,7 @@ abstract class AbstractGateway implements GatewayInterface
      */
     protected function request(string $method, string $path, Struct|Collection|null $body, ?string $responseClass, ApiContextInterface $context): ?Struct
     {
-        $token = $this->tokenGateway->getToken($context);
-
-        $request = $this->requestService->createRequest($method, $path, $context)
-            ->withHeader('Authorization', \sprintf('%s %s', $token->getTokenType(), $token->getAccessToken()));
-
-        if ($body) {
-            $request = $this->requestService->withBody($request, $body);
-        }
-
-        $response = $this->client->sendRequest($request);
-        $content = $this->requestService->handleResponse($response);
+        $content = $this->requestAuthenticated($method, $path, $body, $context);
 
         if ($responseClass) {
             if ($content === null) {
@@ -59,5 +49,38 @@ abstract class AbstractGateway implements GatewayInterface
         }
 
         return null;
+    }
+
+    /**
+     * @return array<mixed>|null
+     */
+    private function requestAuthenticated(string $method, string $path, Struct|Collection|null $body, ApiContextInterface $context, ?ApiException $rejection = null): ?array
+    {
+        /** @phpstan-ignore-next-line arguments.count - $refresh will be a real parameter with v3.0.0 */
+        $token = $this->tokenGateway->getToken($context, $rejection !== null);
+
+        if ($rejection && $token->isCached()) {
+            // requested cache refresh, but got a cached token again, implementation not up-to-date
+            throw $rejection;
+        }
+
+        $request = $this->requestService->createRequest($method, $path, $context)
+            ->withHeader('Authorization', \sprintf('%s %s', $token->getTokenType(), $token->getAccessToken()));
+
+        if ($body) {
+            $request = $this->requestService->withBody($request, $body);
+        }
+
+        try {
+            $response = $this->client->sendRequest($request);
+
+            return $this->requestService->handleResponse($response);
+        } catch (ApiException $e) {
+            if (!$rejection && $token->isCached() && $e->is('invalid_token', ApiException::CODE_INVALID_TOKEN)) {
+                return $this->requestAuthenticated($method, $path, $body, $context, $e);
+            }
+
+            throw $e;
+        }
     }
 }

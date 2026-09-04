@@ -27,4 +27,75 @@ class TokenTest extends TestCase
         static::assertSame(Token::class . " Object\n(\n)\n", \print_r($token, true));
         static::assertEmpty($token->jsonSerialize());
     }
+
+    public function testIsNotCachedByDefault(): void
+    {
+        static::assertFalse((new Token())->isCached());
+
+        $token = (new Token())->assign([
+            'access_token' => 'some-access-token',
+            'expires_in' => 36000,
+        ]);
+
+        static::assertFalse($token->isCached());
+    }
+
+    public function testSetCached(): void
+    {
+        $token = new Token();
+
+        $token->setCached(true);
+        static::assertTrue($token->isCached());
+
+        $token->setCached(false);
+        static::assertFalse($token->isCached());
+    }
+
+    public function testCachedIsNotAssignedFromResponseData(): void
+    {
+        $token = (new Token())->assign([
+            'access_token' => 'some-access-token',
+            'expires_in' => 36000,
+            'cached' => true,
+        ]);
+
+        static::assertFalse($token->isCached(), 'The cache flag must be controlled by the SDK, not by the API response.');
+    }
+
+    public function testCachedIsNotSerialized(): void
+    {
+        $token = (new Token())->assign([
+            'access_token' => 'some-access-token',
+            'expires_in' => 36000,
+        ]);
+        $token->setCached(true);
+
+        static::assertEmpty($token->jsonSerialize());
+        static::assertSame(Token::class . " Object\n(\n)\n", \print_r($token, true));
+    }
+
+    public function testCloneDoesNotShareTheExpirationDate(): void
+    {
+        $token = (new Token())->assign([
+            'access_token' => 'some-access-token',
+            'expires_in' => 36000,
+        ]);
+
+        $clone = clone $token;
+        $clone->getExpireDateTime()->modify('+1 year');
+
+        static::assertNotSame($token->getExpireDateTime(), $clone->getExpireDateTime());
+        static::assertLessThan($clone->getExpireDateTime(), $token->getExpireDateTime());
+    }
+
+    public function testCloneWithoutExpirationDate(): void
+    {
+        $token = new Token();
+        $token->setAccessToken('some-access-token');
+
+        $clone = clone $token;
+
+        static::assertFalse($clone->isset('expireDateTime'));
+        static::assertSame('some-access-token', $clone->getAccessToken());
+    }
 }
