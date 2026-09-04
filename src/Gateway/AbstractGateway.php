@@ -38,7 +38,7 @@ abstract class AbstractGateway implements GatewayInterface
      */
     protected function request(string $method, string $path, Struct|Collection|null $body, ?string $responseClass, ApiContextInterface $context): ?Struct
     {
-        $content = $this->_request($method, $path, $body, $context);
+        $content = $this->requestAuthenticated($method, $path, $body, $context);
 
         if ($responseClass) {
             if ($content === null) {
@@ -54,7 +54,7 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * @return array<mixed>|null
      */
-    private function _request(string $method, string $path, Struct|Collection|null $body, ApiContextInterface $context, ?ApiException $rejection = null): ?array
+    private function requestAuthenticated(string $method, string $path, Struct|Collection|null $body, ApiContextInterface $context, ?ApiException $rejection = null): ?array
     {
         /** @phpstan-ignore-next-line arguments.count - $refresh will be a real parameter with v3.0.0 */
         $token = $this->tokenGateway->getToken($context, $rejection !== null);
@@ -77,7 +77,7 @@ abstract class AbstractGateway implements GatewayInterface
             return $this->requestService->handleResponse($response);
         } catch (ApiException $e) {
             if (!$rejection && $token->isCached() && $e->is('invalid_token', ApiException::CODE_INVALID_TOKEN)) {
-                return $this->_request($method, $path, $body, $context, $e);
+                return $this->requestAuthenticated($method, $path, $body, $context, $e);
             }
 
             throw $e;

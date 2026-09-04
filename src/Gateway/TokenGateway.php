@@ -43,6 +43,9 @@ class TokenGateway implements TokenGatewayInterface
             return $token;
         }
 
+        // drop the entry upfront, so a failing token request does not leave a rejected token cached
+        $this->deleteCachedToken($cacheKey);
+
         $request = $this->requestService->createRequest('POST', self::GATEWAY_URL, $context);
         $request = $this->requestService->withBody($request, $context->getOAuthContext()->getBody());
 
@@ -74,7 +77,7 @@ class TokenGateway implements TokenGatewayInterface
         $token = $token instanceof Token ? $token : null;
 
         if (!$token || $token->getExpireDateTime() < new \DateTime('now', new \DateTimeZone('UTC'))) {
-            $this->tokenCache->delete($key);
+            $this->deleteCachedToken($key);
 
             return null;
         }
@@ -83,6 +86,15 @@ class TokenGateway implements TokenGatewayInterface
         $token->setCached(true);
 
         return $token;
+    }
+
+    protected function deleteCachedToken(?string $key): void
+    {
+        if (!$key) {
+            return;
+        }
+
+        $this->tokenCache->delete($key);
     }
 
     protected function setCachedToken(Token $token, ?string $key): void

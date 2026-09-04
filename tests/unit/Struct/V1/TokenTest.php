@@ -73,4 +73,29 @@ class TokenTest extends TestCase
         static::assertEmpty($token->jsonSerialize());
         static::assertSame(Token::class . " Object\n(\n)\n", \print_r($token, true));
     }
+
+    public function testCloneDoesNotShareTheExpirationDate(): void
+    {
+        $token = (new Token())->assign([
+            'access_token' => 'some-access-token',
+            'expires_in' => 36000,
+        ]);
+
+        $clone = clone $token;
+        $clone->getExpireDateTime()->modify('+1 year');
+
+        static::assertNotSame($token->getExpireDateTime(), $clone->getExpireDateTime());
+        static::assertLessThan($clone->getExpireDateTime(), $token->getExpireDateTime());
+    }
+
+    public function testCloneWithoutExpirationDate(): void
+    {
+        $token = new Token();
+        $token->setAccessToken('some-access-token');
+
+        $clone = clone $token;
+
+        static::assertFalse($clone->isset('expireDateTime'));
+        static::assertSame('some-access-token', $clone->getAccessToken());
+    }
 }

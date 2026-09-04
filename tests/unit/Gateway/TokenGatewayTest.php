@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
+use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Gateway\TokenGateway;
 use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Test\Gateway\TestGateways;
@@ -224,5 +225,33 @@ class TokenGatewayTest extends TestCase
         static::assertSame('some-new-access-token', $token->getAccessToken());
         static::assertFalse($token->isCached());
         static::assertCount(1, $this->client->getAll(), 'An expired cached token must trigger a new request.');
+    }
+
+    public function testFailingRefreshDoesNotKeepTheRejectedTokenCached(): void
+    {
+        $cachedToken = (new Token())->assign([
+            'access_token' => 'some-rejected-access-token',
+            'expires_in' => 36000,
+        ]);
+
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
+
+        $key = $context->getOAuthContext()->getCacheKey($context);
+        static::assertNotNull($key);
+        $this->gateways->getTokenCache()->set($key, $cachedToken, $cachedToken->getExpiresIn());
+
+        $this->client->addResponse(new Response(500));
+
+        try {
+            $this->gateways->tokenGateway()->getToken($context, true);
+            static::fail('Expected an ' . ApiException::class . ' to be thrown.');
+        } catch (ApiException) {
+            // the token request itself failed, which is not what this test is about
+        }
+
+        static::assertNull(
+            $this->gateways->getTokenCache()->get($key),
+            'A token that was refreshed away must not stay cached when the refresh fails.',
+        );
     }
 }
