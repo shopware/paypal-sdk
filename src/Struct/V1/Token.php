@@ -57,9 +57,15 @@ class Token extends Struct
     #[OA\Property(type: 'string', format: 'date-time')]
     protected \DateTime $expireDateTime;
 
+    /**
+     * @internal
+     */
+    protected bool $cached = false;
+
     public function assign(#[\SensitiveParameter] array $data): static
     {
         $newToken = parent::assign($data);
+        $newToken->cached = false;
 
         // Calculate the expiration date manually
         $expiresIn = (int) ($newToken->expiresIn * self::TTL_THRESHOLD_PERCENT);
@@ -146,6 +152,29 @@ class Token extends Struct
     public function setExpireDateTime(\DateTime $expireDateTime): void
     {
         $this->expireDateTime = $expireDateTime;
+    }
+
+    /**
+     * @internal
+     */
+    public function isCached(): bool
+    {
+        return $this->cached;
+    }
+
+    /**
+     * @internal
+     */
+    public function setCached(bool $cached): void
+    {
+        $this->cached = $cached;
+    }
+
+    public function __clone(): void
+    {
+        if (isset($this->expireDateTime)) {
+            $this->expireDateTime = clone $this->expireDateTime;
+        }
     }
 
     /**

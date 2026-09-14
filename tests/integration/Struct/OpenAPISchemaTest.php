@@ -18,6 +18,7 @@ use OpenApi\Generator;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\Struct;
+use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Util\CaseConverter;
 
 /**
@@ -44,6 +45,14 @@ class OpenAPISchemaTest extends TestCase
     public const IGNORED_LOG_MESSAGES = [
         'Required @OA\PathItem() not found',
         'Required @OA\Info() not found',
+    ];
+
+    /**
+     * SDK internal properties that are intentionally not part of the generated schema,
+     * as they are never sent or received - keyed by class, holding the property names.
+     */
+    public const INTERNAL_PROPERTIES = [
+        Token::class => ['cached'],
     ];
 
     private OpenApi $oa;
@@ -83,6 +92,11 @@ class OpenAPISchemaTest extends TestCase
 
             $refClass = new \ReflectionClass($class);
             foreach ($refClass->getProperties() as $property) {
+                // the analysis keys classes with a leading backslash, ::class does not
+                if (\in_array($property->getName(), self::INTERNAL_PROPERTIES[\ltrim($class, '\\')] ?? [], true)) {
+                    continue;
+                }
+
                 if (\count($property->getAttributes(Property::class)) === 0) {
                     $failures[] = $class . '::' . $property->getName() . ' is missing an OA\Property annotation.';
                 }
