@@ -11,7 +11,6 @@ use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
 
 /**
- *
  * @template T of OAuthContextInterface = OAuthContextInterface
  *
  * @implements ApiContextInterface<T>
