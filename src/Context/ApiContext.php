@@ -11,9 +11,6 @@ use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
 
 /**
- * The with*() methods rebuild the context with `new static(...get_object_vars($this))`,
- * so a subclass has to accept each of its properties as a constructor parameter
- * of the same name and keep them public or protected.
  *
  * @template T of OAuthContextInterface = OAuthContextInterface
  *
