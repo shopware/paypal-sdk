@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
+use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
 
 /**
  * @internal
@@ -239,5 +240,93 @@ class ApiContextTest extends TestCase
 
         static::assertNotSame($context, $newContext);
         static::assertEmpty($newContext->getHeaders());
+    }
+
+    public function testWithMethodsKeepSubclass(): void
+    {
+        $oauthContext = new CredentialsOAuthContext('client-id', '');
+        $newOAuthContext = new CredentialsOAuthContext('new-client-id', '');
+        $headers = ['paypal-header' => 'header-value'];
+        $queryParameters = ['query-param' => 'query-value'];
+
+        $context = new ExtendedApiContext('extra', 'protected-extra', $oauthContext, false, 'merchantId', $headers, $queryParameters);
+
+        static::assertEquals(
+            new ExtendedApiContext('extra', 'protected-extra', $newOAuthContext, false, 'merchantId', $headers, $queryParameters),
+            $context->withOAuthContext($newOAuthContext),
+        );
+        static::assertEquals(
+            new ExtendedApiContext('extra', 'protected-extra', $oauthContext, true, 'merchantId', $headers, $queryParameters),
+            $context->withSandbox(true),
+        );
+        static::assertEquals(
+            new ExtendedApiContext('extra', 'protected-extra', $oauthContext, false, 'anotherMerchantId', $headers, $queryParameters),
+            $context->withMerchantId('anotherMerchantId'),
+        );
+        static::assertEquals(
+            new ExtendedApiContext('extra', 'protected-extra', $oauthContext, false, 'merchantId', ['paypal-header' => 'someId'], $queryParameters),
+            $context->withHeader('PayPal-Header', 'someId'),
+        );
+        static::assertEquals(
+            new ExtendedApiContext('extra', 'protected-extra', $oauthContext, false, 'merchantId', $headers, ['query-param' => 'someValue']),
+            $context->withQueryParameter('query-param', 'someValue'),
+        );
+        static::assertEquals(
+            new ExtendedApiContext('extra', 'protected-extra', $oauthContext, false, 'merchantId', $headers, $queryParameters, true),
+            $context->withThirdParty(true),
+        );
+    }
+
+    public function testHelperChainKeepsSubclass(): void
+    {
+        $oauthContext = new CredentialsOAuthContext('client-id', '');
+        $context = new ExtendedApiContext('extra', 'protected-extra', $oauthContext, true, 'merchantId', thirdParty: true);
+
+        $newContext = $context
+            ->withPartnerAttributionId('partnerAttributionId')
+            ->withPreferRepresentation(true)
+            ->withRequestId('requestId')
+            ->withClientMetadataId('clientMetadataId')
+            ->withThirdParty(false);
+
+        static::assertEquals(
+            new ExtendedApiContext(
+                'extra',
+                'protected-extra',
+                $oauthContext,
+                true,
+                'merchantId',
+                [
+                    'paypal-partner-attribution-id' => 'partnerAttributionId',
+                    'prefer' => 'return=representation',
+                    'paypal-request-id' => 'requestId',
+                    'paypal-client-metadata-id' => 'clientMetadataId',
+                ],
+            ),
+            $newContext,
+        );
+    }
+}
+
+/**
+ * @internal
+ */
+class ExtendedApiContext extends ApiContext
+{
+    /**
+     * @param array<string, ?string> $headers
+     * @param array<string, ?string> $queryParameters
+     */
+    public function __construct(
+        public readonly string $extra,
+        protected readonly string $protectedExtra,
+        OAuthContextInterface $oauthContext,
+        bool $sandbox,
+        ?string $merchantId = null,
+        array $headers = [],
+        array $queryParameters = [],
+        bool $thirdParty = false,
+    ) {
+        parent::__construct($oauthContext, $sandbox, $merchantId, $headers, $queryParameters, $thirdParty);
     }
 }

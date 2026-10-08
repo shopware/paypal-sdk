@@ -11,6 +11,10 @@ use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
 
 /**
+ * The with*() methods rebuild the context with `new static(...get_object_vars($this))`,
+ * so a subclass has to accept each of its properties as a constructor parameter
+ * of the same name and keep them public or protected.
+ *
  * @template T of OAuthContextInterface = OAuthContextInterface
  *
  * @implements ApiContextInterface<T>
@@ -81,42 +85,42 @@ class ApiContext implements ApiContextInterface
 
     public function withOAuthContext(OAuthContextInterface $oauthContext): static
     {
-        /** @phpstan-ignore-next-line argument.missing - will work */
-        return new self(...[...get_object_vars($this), 'oauthContext' => $oauthContext]);
+        /** @phpstan-ignore-next-line new.static, return.type - see class docblock */
+        return new static(...[...get_object_vars($this), 'oauthContext' => $oauthContext]);
     }
 
     public function withSandbox(bool $sandbox): static
     {
-        /** @phpstan-ignore-next-line argument.missing - will work */
-        return new self(...[...get_object_vars($this), 'sandbox' => $sandbox]);
+        /** @phpstan-ignore-next-line new.static, return.type - see class docblock */
+        return new static(...[...get_object_vars($this), 'sandbox' => $sandbox]);
     }
 
     public function withMerchantId(?string $merchantId): static
     {
-        /** @phpstan-ignore-next-line argument.missing - will work */
-        return new self(...[...get_object_vars($this), 'merchantId' => $merchantId]);
+        /** @phpstan-ignore-next-line new.static, return.type - see class docblock */
+        return new static(...[...get_object_vars($this), 'merchantId' => $merchantId]);
     }
 
     public function withHeader(string $name, ?string $value): static
     {
         $headers = [...$this->headers, \strtolower($name) => $value];
 
-        /** @phpstan-ignore-next-line argument.missing - will work */
-        return new self(...[...get_object_vars($this), 'headers' => $headers]);
+        /** @phpstan-ignore-next-line new.static, return.type - see class docblock */
+        return new static(...[...get_object_vars($this), 'headers' => $headers]);
     }
 
     public function withQueryParameter(string $name, ?string $value): static
     {
         $queryParameters = [...$this->queryParameters, $name => $value];
 
-        /** @phpstan-ignore-next-line argument.missing - will work */
-        return new self(...[...get_object_vars($this), 'queryParameters' => $queryParameters]);
+        /** @phpstan-ignore-next-line new.static, return.type - see class docblock */
+        return new static(...[...get_object_vars($this), 'queryParameters' => $queryParameters]);
     }
 
     public function withThirdParty(bool $thirdParty): static
     {
-        /** @phpstan-ignore-next-line argument.missing - will work */
-        return new self(...[...get_object_vars($this), 'thirdParty' => $thirdParty]);
+        /** @phpstan-ignore-next-line new.static, return.type - see class docblock */
+        return new static(...[...get_object_vars($this), 'thirdParty' => $thirdParty]);
     }
 
     public function withPartnerAttributionId(?string $partnerAttributionId): self
