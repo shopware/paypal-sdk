@@ -72,7 +72,7 @@ class MerchantIntegrations extends Struct
 
     public function getProducts(): ProductCollection
     {
-        return $this->products;
+        return $this->products ?? new ProductCollection();
     }
 
     public function setProducts(ProductCollection $products): void
@@ -169,7 +169,7 @@ class MerchantIntegrations extends Struct
 
     public function getSpecificProduct(string $name): ?Product
     {
-        foreach ($this->products as $product) {
+        foreach ($this->getProducts() as $product) {
             if ($product->getName() === $name) {
                 return $product;
             }
