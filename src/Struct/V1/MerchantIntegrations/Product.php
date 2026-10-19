@@ -22,8 +22,8 @@ class Product extends Struct
     #[OA\Property(type: 'string')]
     protected string $name;
 
-    #[OA\Property(type: 'string')]
-    protected string $vettingStatus;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $vettingStatus = null;
 
     #[OA\Property(type: 'string')]
     protected string $status;
@@ -42,7 +42,7 @@ class Product extends Struct
         $this->name = $name;
     }
 
-    public function getVettingStatus(): string
+    public function getVettingStatus(): ?string
     {
         return $this->vettingStatus;
     }
