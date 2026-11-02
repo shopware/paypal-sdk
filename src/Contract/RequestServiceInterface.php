@@ -28,6 +28,7 @@ interface RequestServiceInterface
     /**
      * Create a request based on the given $method, $path and $context.
      * All headers and query parameters which are available in $context.
+     * The Prefer header is always set to return=representation, overriding the context value.
      *
      * If {@see $method} is one of {@see self::JSON_CONTENT_METHODS}, the content type header is set to {@see self::CONTENT_TYPE_JSON}.
      */

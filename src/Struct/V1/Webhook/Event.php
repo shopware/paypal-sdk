@@ -228,39 +228,29 @@ class Event extends Struct
     protected function identifyResource(string $eventType, string $resourceVersion, string $resourceType): ?string
     {
         return $this->identifyResourceByEventType($eventType, $resourceVersion)
-            ?? $this->identifyResourceType($resourceVersion, $resourceType);
-    }
-
-    /**
-     * @deprecated tag:v3.0.0 - Will be removed and is replaced by {@see self::identifyResource()}
-     *
-     * @return class-string<Struct>|null
-     */
-    protected function identifyResourceType(string $resourceVersion, string $resourceType): ?string
-    {
-        return match ($resourceVersion) {
-            '3.0' => match ($resourceType) {
-                self::RESOURCE_TYPE_PAYMENT_TOKEN => PaymentToken::class,
-                default => null,
-            },
-            '2.0' => match ($resourceType) {
-                self::RESOURCE_TYPE_AUTHORIZATION => Authorization::class,
-                self::RESOURCE_TYPE_CAPTURE => Capture::class,
-                self::RESOURCE_TYPE_CHECKOUT_ORDER => Order::class,
-                self::RESOURCE_TYPE_REFUND => Refund::class,
-                self::RESOURCE_TYPE_SUBSCRIPTION => Subscription::class,
-                default => null,
-            },
-            '1.0' => match ($resourceType) {
-                self::RESOURCE_TYPE_MANAGED_ACCOUNTS => ManagedAccounts::class,
-                self::RESOURCE_TYPE_ACCOUNT_ENTITIES => AccountEntities::class,
-                self::RESOURCE_TYPE_DISPUTE => Dispute::class,
-                default => Resource::class,
-            },
-            default => match ($resourceType) {
-                default => Resource::class,
-            },
-        };
+            ?? match ($resourceVersion) {
+                '3.0' => match ($resourceType) {
+                    self::RESOURCE_TYPE_PAYMENT_TOKEN => PaymentToken::class,
+                    default => null,
+                },
+                '2.0' => match ($resourceType) {
+                    self::RESOURCE_TYPE_AUTHORIZATION => Authorization::class,
+                    self::RESOURCE_TYPE_CAPTURE => Capture::class,
+                    self::RESOURCE_TYPE_CHECKOUT_ORDER => Order::class,
+                    self::RESOURCE_TYPE_REFUND => Refund::class,
+                    self::RESOURCE_TYPE_SUBSCRIPTION => Subscription::class,
+                    default => null,
+                },
+                '1.0' => match ($resourceType) {
+                    self::RESOURCE_TYPE_MANAGED_ACCOUNTS => ManagedAccounts::class,
+                    self::RESOURCE_TYPE_ACCOUNT_ENTITIES => AccountEntities::class,
+                    self::RESOURCE_TYPE_DISPUTE => Dispute::class,
+                    default => Resource::class,
+                },
+                default => match ($resourceType) {
+                    default => Resource::class,
+                },
+            };
     }
 
     /**

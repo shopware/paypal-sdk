@@ -124,11 +124,6 @@ class ApiContext implements ApiContextInterface
         return $this->withHeader('PayPal-Partner-Attribution-Id', $partnerAttributionId);
     }
 
-    public function withPreferRepresentation(bool $preferRepresentation): self
-    {
-        return $this->withHeader('Prefer', $preferRepresentation ? 'return=representation' : null);
-    }
-
     public function withRequestId(?string $requestId): self
     {
         return $this->withHeader('PayPal-Request-Id', $requestId);

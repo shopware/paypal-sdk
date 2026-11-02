@@ -52,6 +52,7 @@ class TokenGatewayTest extends TestCase
         static::assertNotNull($request);
 
         static::assertSame('POST', $request->getMethod());
+        static::assertSame('return=representation', $request->getHeaderLine('Prefer'));
         static::assertSame('grant_type=client_credentials', (string) $request->getBody());
         static::assertSame('application/x-www-form-urlencoded', $request->getHeaderLine('content-type'));
         static::assertSame('Basic Y2xpZW50LWlkOmNsaWVudC1zZWNyZXQ=', $request->getHeaderLine('Authorization'));
@@ -172,7 +173,7 @@ class TokenGatewayTest extends TestCase
             'expires_in' => 36000,
         ]) ?: null));
 
-        $token = $this->gateways->tokenGateway()->getToken($context, true);
+        $token = $this->gateways->tokenGateway()->getToken($context, refresh: true);
 
         static::assertSame('some-refreshed-access-token', $token->getAccessToken());
         static::assertFalse($token->isCached());
@@ -194,7 +195,7 @@ class TokenGatewayTest extends TestCase
         static::assertNotNull($key);
         $this->gateways->getTokenCache()->set($key, $cachedToken, $cachedToken->getExpiresIn());
 
-        $token = $this->gateways->tokenGateway()->getToken($context, false);
+        $token = $this->gateways->tokenGateway()->getToken($context, refresh: false);
 
         static::assertSame('some-cached-access-token', $token->getAccessToken());
         static::assertCount(0, $this->client->getAll());

@@ -33,7 +33,7 @@ class Order extends Struct
     protected string $id;
 
     #[OA\Property(type: 'string', enum: [ConstantsV2::INTENT_CAPTURE, ConstantsV2::INTENT_AUTHORIZE])]
-    protected string $intent = ConstantsV2::INTENT_CAPTURE;
+    protected string $intent;
 
     #[OA\Property(ref: Payer::class)]
     protected Payer $payer;

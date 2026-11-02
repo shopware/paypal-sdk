@@ -47,7 +47,7 @@ class RequestServiceTest extends TestCase
 
         static::assertSame('GET', $request->getMethod());
         static::assertSame('https://api-m.paypal.com/some/endpoint', (string) $request->getUri());
-        static::assertEquals(['Host' => ['api-m.paypal.com']], $request->getHeaders());
+        static::assertEquals(['Host' => ['api-m.paypal.com'], 'Prefer' => ['return=representation']], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
 
@@ -62,8 +62,36 @@ class RequestServiceTest extends TestCase
 
         static::assertSame('GET', $request->getMethod());
         static::assertSame('https://api-m.sandbox.paypal.com/some/endpoint', (string) $request->getUri());
-        static::assertEquals(['Host' => ['api-m.sandbox.paypal.com']], $request->getHeaders());
+        static::assertEquals(['Host' => ['api-m.sandbox.paypal.com'], 'Prefer' => ['return=representation']], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
+    }
+
+    #[DataProvider('provideCreateRequestAlwaysPrefersRepresentation')]
+    public function testCreateRequestAlwaysPrefersRepresentation(string $method, ?string $prefer): void
+    {
+        $context = new ApiContext(
+            new CredentialsOAuthContext('', ''),
+            true,
+            headers: ['pReFeR' => $prefer, 'X-Header' => 'value'],
+        );
+
+        $request = $this->service->createRequest($method, '/some/endpoint', $context);
+
+        static::assertSame(['return=representation'], $request->getHeader('Prefer'));
+        static::assertSame('value', $request->getHeaderLine('X-Header'));
+        static::assertSame($prefer, $context->getHeader('Prefer'));
+    }
+
+    /**
+     * @return \Generator<string, array{string, ?string}>
+     */
+    public static function provideCreateRequestAlwaysPrefersRepresentation(): \Generator
+    {
+        foreach (['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as $method) {
+            foreach ([null, '', 'return=minimal', 'return=representation'] as $prefer) {
+                yield $method . ' with ' . ($prefer ?? 'no preference') => [$method, $prefer];
+            }
+        }
     }
 
     public function testCreateRequestWithQuery(): void
@@ -78,7 +106,7 @@ class RequestServiceTest extends TestCase
 
         static::assertSame('GET', $request->getMethod());
         static::assertSame('https://api-m.paypal.com/some/endpoint?key=value&kEY2=vaL%C3%BCe2', (string) $request->getUri());
-        static::assertEquals(['Host' => ['api-m.paypal.com']], $request->getHeaders());
+        static::assertEquals(['Host' => ['api-m.paypal.com'], 'Prefer' => ['return=representation']], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
 
@@ -98,6 +126,7 @@ class RequestServiceTest extends TestCase
             'Host' => ['api-m.paypal.com'],
             'x-header' => ['value'],
             'paypal-partner-attribution-id' => ['some-partner-id'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
@@ -118,6 +147,7 @@ class RequestServiceTest extends TestCase
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
             'PayPal-Auth-Assertion' => ['eyJhbGciOiJub25lIn0=.eyJpc3MiOiIiLCJwYXllcl9pZCI6InNvbWUtbWVyY2hhbnQtaWQifQ==.'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
@@ -151,6 +181,7 @@ class RequestServiceTest extends TestCase
         static::assertSame('https://api-m.paypal.com/some/endpoint', (string) $request->getUri());
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
@@ -176,6 +207,7 @@ class RequestServiceTest extends TestCase
             'paypal-partner-attribution-id' => ['some-partner-id'],
             'PayPal-Auth-Assertion' => ['eyJhbGciOiJub25lIn0=.eyJpc3MiOiIiLCJwYXllcl9pZCI6InNvbWUtbWVyY2hhbnQtaWQifQ==.'],
             'Content-Type' => ['application/json'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
@@ -196,6 +228,7 @@ class RequestServiceTest extends TestCase
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
             'Content-Type' => ['application/json'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertSame('{"key":"value"}', (string) $request->getBody());
     }
@@ -216,6 +249,7 @@ class RequestServiceTest extends TestCase
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
             'content-type' => ['application/x-www-form-urlencoded'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertSame('key=value', (string) $request->getBody());
     }
@@ -240,6 +274,7 @@ class RequestServiceTest extends TestCase
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
             'content-type' => ['application/x-www-form-urlencoded'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertSame('key=value', (string) $request->getBody());
     }

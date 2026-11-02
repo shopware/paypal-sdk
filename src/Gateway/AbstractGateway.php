@@ -56,7 +56,6 @@ abstract class AbstractGateway implements GatewayInterface
      */
     private function requestAuthenticated(string $method, string $path, Struct|Collection|null $body, ApiContextInterface $context, ?ApiException $rejection = null): ?array
     {
-        /** @phpstan-ignore-next-line arguments.count - $refresh will be a real parameter with v3.0.0 */
         $token = $this->tokenGateway->getToken($context, $rejection !== null);
 
         if ($rejection && $token->isCached()) {

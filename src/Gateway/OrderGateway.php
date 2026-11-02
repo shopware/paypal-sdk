@@ -69,7 +69,7 @@ class OrderGateway extends AbstractGateway
             self::GATEWAY_URL . '/' . $orderId . '/confirm-payment-source',
             $confirmOrder,
             Order::class,
-            $context->withHeader('Prefer', 'return=representation')
+            $context
         );
     }
 

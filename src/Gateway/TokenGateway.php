@@ -32,9 +32,8 @@ class TokenGateway implements TokenGatewayInterface
     /**
      * @throws ApiException|ClientExceptionInterface|\JsonException|\LogicException
      */
-    public function getToken(ApiContextInterface $context /* , bool $refresh */): Token
+    public function getToken(ApiContextInterface $context, bool $refresh = false): Token
     {
-        $refresh = \func_num_args() > 1 && (bool) \func_get_arg(1);
         $context = $context->withHeader(RequestServiceInterface::HEADER_CONTENT_TYPE, RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
 
         $cacheKey = $context->getOAuthContext()->getCacheKey($context);
