@@ -53,7 +53,7 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
 
     public function setPreferredDate(?string $preferredDate): void
     {
-        if (!\in_array($preferredDate, [self::TIME_WINDOW__MORNING, self::TIME_WINDOW__AFTERNOON, self::TIME_WINDOW__EVENING, self::TIME_WINDOW__ANYTIME], true)) {
+        if ($preferredDate !== null && !\in_array($preferredDate, [self::TIME_WINDOW__MORNING, self::TIME_WINDOW__AFTERNOON, self::TIME_WINDOW__EVENING, self::TIME_WINDOW__ANYTIME], true)) {
             throw new \InvalidArgumentException('PreferredDate must be a valid date');
         }
 

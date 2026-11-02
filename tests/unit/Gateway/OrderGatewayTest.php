@@ -14,6 +14,7 @@ use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
 use Shopware\PayPalSDK\Struct\V2\ConfirmOrder;
+use Shopware\PayPalSDK\Struct\V2\CreateOrder;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\Tracker;
 use Shopware\PayPalSDK\Struct\V2\PatchCollection;
@@ -39,14 +40,20 @@ class OrderGatewayTest extends TestCase
     public function testCreateOrder(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = (new Order())->assign(['id' => 'some-order-id', 'intent' => 'AUTHORIZE']);
+        $body = (new CreateOrder())->assign([
+            'intent' => 'AUTHORIZE',
+            'purchase_units' => [['amount' => ['currency_code' => 'EUR', 'value' => '10.00']]],
+        ]);
+        $expected = (new Order())->assign(['id' => 'some-order-id', 'intent' => 'AUTHORIZE', 'status' => 'CREATED']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($expected, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->orderGateway()->createOrder($body, $context);
-        static::assertEquals($body, $response);
+        static::assertEquals($expected, $response);
         static::assertSame('AUTHORIZE', $response->getIntent());
+        static::assertSame('some-order-id', $response->getId());
+        static::assertArrayNotHasKey('id', $body->jsonSerialize());
 
         $last = $this->client->getLast();
         static::assertNotNull($last);

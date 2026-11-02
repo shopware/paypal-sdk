@@ -17,6 +17,15 @@ This SDK provides a simple and easy-to-use interface for working with PayPal's R
 
 ### Upgrading to 3.0.0
 
+- PHP 8.4 or newer is required. CI tests PHP 8.4 and 8.5.
+- `OrderGateway::createOrder()` now accepts `CreateOrder` and returns `Order`. Use `CreateOrder` for request fields; response-only fields such as `id`, `status` and `links` are not serialized by this request model. Set an explicit `CAPTURE` or `AUTHORIZE` intent and at least one purchase unit before serializing the request.
+- Missing fields in `Order` and `Order\PurchaseUnit` return `null`, including collections. Getters no longer initialize response collections. Use `?->` or explicit null checks when reading a response. The request's `CreateOrder::getPurchaseUnits()` still provides a collection for building an order.
+- `Struct::assign()` now distinguishes missing keys, explicit `null`, and empty arrays. Missing keys leave values unchanged; `null` clears nullable values, and `[]` replaces a collection or array with an empty one. Assigning `null` to a required, non-nullable field raises a `TypeError`. `Order` serialization preserves explicitly assigned `null` and empty collections.
+- `Token` and `ClientToken` use `DateTimeImmutable` for expiration dates. To change the expiration explicitly, pass the result of `modify()` to `setExpireDateTime()`.
+- `RequestService` accepts separate PSR-17 request, stream and URI factories. Replace `new RequestService($factory)` with `new RequestService($factory, $factory, $factory)` when supplying a combined factory; named arguments are now `requestFactory`, `streamFactory` and `uriFactory`. Automatic discovery remains the default.
+- REST errors with HTTP 401 retain their API error code, message, debug ID and details as `ErrorApiException`. OAuth response bodies still produce `OAuthApiException`.
+- Appending with `$collection[] = $element` now adds and validates the element.
+
 - `RequestService` always sends `Prefer: return=representation`, including for token requests. A `Prefer` header in the API context no longer overrides this value. Custom implementations of `RequestServiceInterface` must follow the same behavior.
 - `ApiContext::withPreferRepresentation()` has been removed; remove these calls from context construction.
 - `TokenGatewayInterface::getToken()` now declares `bool $refresh = false` as its second parameter. Update custom implementations and decorators to accept and forward it, bypassing the token cache when it is `true`.
@@ -47,7 +56,8 @@ Alternatively you can provide a gateway with a concrete client of your choice.
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
-use Shopware\PayPalSDK\Struct\V2\Order;
+use Shopware\PayPalSDK\Struct\V2\CreateOrder;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
 $context = new ApiContext(
     new CredentialsOAuthContext('<clientId>', '<clientSecret>'),
@@ -56,8 +66,11 @@ $context = new ApiContext(
 
 $orderGateway = new OrderGateway();
 
-$toCreateOrder = new Order();
+$toCreateOrder = new CreateOrder();
 $toCreateOrder->setIntent('CAPTURE');
+$toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::createFromAssociative([
+    ['amount' => ['currency_code' => 'EUR', 'value' => '10.00']],
+]));
 $toCreateOrder->setPaymentSource(...);
 $createdOrder = $orderGateway->createOrder($toCreateOrder, $context);
 
@@ -70,7 +83,8 @@ use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\TokenGateway;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
-use Shopware\PayPalSDK\Struct\V2\Order;
+use Shopware\PayPalSDK\Struct\V2\CreateOrder;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
 $context = new ApiContext(
     new CredentialsOAuthContext('<clientId>', '<clientSecret>'),
@@ -79,7 +93,7 @@ $context = new ApiContext(
     headers: ['some-additional-header' => 'value'], // optional
     queryParameters: ['filter' => 'value'], // optional
     thirdParty: false, // optional
-)
+);
 
 $client = new Http\Adapter\Guzzle7\Client(new GuzzleHttp\Client([
     // some custom options like adding a logger middleware
@@ -88,8 +102,11 @@ $client = new Http\Adapter\Guzzle7\Client(new GuzzleHttp\Client([
 $tokenGateway = new TokenGateway($client);
 $orderGateway = new OrderGateway($client, $tokenGateway);
 
-$toCreateOrder = new Order();
+$toCreateOrder = new CreateOrder();
 $toCreateOrder->setIntent('CAPTURE');
+$toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::createFromAssociative([
+    ['amount' => ['currency_code' => 'EUR', 'value' => '10.00']],
+]));
 $toCreateOrder->setPaymentSource(...);
 $createdOrder = $orderGateway->createOrder($toCreateOrder, $context);
 

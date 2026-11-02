@@ -26,14 +26,14 @@ class ClientToken extends Struct
      * Calculated expiration date
      */
     #[OA\Property(type: 'string', format: 'date-time')]
-    protected \DateTime $expireDateTime;
+    protected \DateTimeImmutable $expireDateTime;
 
     public function assign(array $data): static
     {
         $newToken = parent::assign($data);
 
         // Calculate the expiration date manually
-        $expirationDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
+        $expirationDateTime = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
         $interval = \DateInterval::createFromDateString(\sprintf('%s seconds', $newToken->expiresIn));
         $newToken->expireDateTime = $expirationDateTime->add($interval ?: new \DateInterval('PT0S'));
 
@@ -60,12 +60,12 @@ class ClientToken extends Struct
         $this->expiresIn = $expiresIn;
     }
 
-    public function getExpireDateTime(): \DateTime
+    public function getExpireDateTime(): \DateTimeImmutable
     {
         return $this->expireDateTime;
     }
 
-    public function setExpireDateTime(\DateTime $expireDateTime): void
+    public function setExpireDateTime(\DateTimeImmutable $expireDateTime): void
     {
         $this->expireDateTime = $expireDateTime;
     }

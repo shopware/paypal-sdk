@@ -8,9 +8,14 @@
 namespace Shopware\PayPalSDK\Tests\Unit\Struct;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\ShippingErrorContext;
 use Shopware\PayPalSDK\Struct\Struct;
+use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Product;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bank\SepaDebit;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\AuthenticationResult;
 use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct;
 use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\Bar;
 use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\Foo;
@@ -104,13 +109,46 @@ class StructTest extends TestCase
     public function testAssignNull(): void
     {
         $data = ['foo' => null];
-        static::assertEmpty($this->cycleStruct($data));
+        $this->expectException(\TypeError::class);
+        (new TestStruct())->assign($data);
     }
 
     public function testAssignEmptyArray(): void
     {
         $data = ['foo' => []];
-        static::assertEmpty($this->cycleStruct($data));
+        static::assertSame($data, $this->cycleStruct($data));
+    }
+
+    /**
+     * @param class-string<Struct> $class
+     */
+    #[DataProvider('provideNullablePropertiesAcceptExplicitNull')]
+    public function testNullablePropertiesAcceptExplicitNull(string $class, string $property, mixed $value): void
+    {
+        $struct = Struct::from($class, [$property => $value]);
+        $struct->assign([$property => null]);
+
+        static::assertNull($struct->getVars()[$property]);
+    }
+
+    /**
+     * @return iterable<string, array{class-string<Struct>, string, mixed}>
+     */
+    public static function provideNullablePropertiesAcceptExplicitNull(): iterable
+    {
+        yield 'vetting status' => [Product::class, 'vettingStatus', 'SUBSCRIBED'];
+        yield 'restriction reason' => [ShippingErrorContext::class, 'restrictionReason', 'age_verification_required'];
+        yield 'liability shift' => [AuthenticationResult::class, 'liabilityShift', 'YES'];
+        yield 'IBAN last chars' => [SepaDebit::class, 'ibanLastChars', '1234'];
+        yield 'billing address' => [SepaDebit::class, 'billingAddress', ['country_code' => 'DE']];
+    }
+
+    public function testEmptyScalarArrayReplacesPreviousValues(): void
+    {
+        $struct = (new TestStruct())->assign(['scalar_array' => ['old']]);
+        $struct->assign(['scalar_array' => []]);
+
+        static::assertSame(['scalar_array' => []], $struct->jsonSerialize());
     }
 
     public function testAssignNoSetter(): void

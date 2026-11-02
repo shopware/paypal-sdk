@@ -55,7 +55,7 @@ class Token extends Struct
      * Calculated expiration date
      */
     #[OA\Property(type: 'string', format: 'date-time')]
-    protected \DateTime $expireDateTime;
+    protected \DateTimeImmutable $expireDateTime;
 
     /**
      * @internal
@@ -69,7 +69,7 @@ class Token extends Struct
 
         // Calculate the expiration date manually
         $expiresIn = (int) ($newToken->expiresIn * self::TTL_THRESHOLD_PERCENT);
-        $newToken->expireDateTime = new \DateTime("now + {$expiresIn} seconds", new \DateTimeZone('UTC'));
+        $newToken->expireDateTime = new \DateTimeImmutable("now + {$expiresIn} seconds", new \DateTimeZone('UTC'));
 
         return $newToken;
     }
@@ -144,12 +144,12 @@ class Token extends Struct
         $this->expiresIn = $expiresIn;
     }
 
-    public function getExpireDateTime(): \DateTime
+    public function getExpireDateTime(): \DateTimeImmutable
     {
         return $this->expireDateTime;
     }
 
-    public function setExpireDateTime(\DateTime $expireDateTime): void
+    public function setExpireDateTime(\DateTimeImmutable $expireDateTime): void
     {
         $this->expireDateTime = $expireDateTime;
     }
@@ -168,13 +168,6 @@ class Token extends Struct
     public function setCached(bool $cached): void
     {
         $this->cached = $cached;
-    }
-
-    public function __clone(): void
-    {
-        if (isset($this->expireDateTime)) {
-            $this->expireDateTime = clone $this->expireDateTime;
-        }
     }
 
     /**

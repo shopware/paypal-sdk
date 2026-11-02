@@ -156,7 +156,7 @@ class InventoryIssueContext extends AbstractContext
 
     public function setRequestedQuantity(?int $requestedQuantity): void
     {
-        if ($requestedQuantity < 1) {
+        if ($requestedQuantity !== null && $requestedQuantity < 1) {
             $requestedQuantity = 1;
         }
 

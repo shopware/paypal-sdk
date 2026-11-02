@@ -202,9 +202,9 @@ class ShippingErrorContext extends AbstractContext
         return $this->restrictionReason;
     }
 
-    public function setRestrictionReason(string $restrictionReason): void
+    public function setRestrictionReason(?string $restrictionReason): void
     {
-        if (!\in_array($restrictionReason, self::RESTRICTED_REASONS, true)) {
+        if ($restrictionReason !== null && !\in_array($restrictionReason, self::RESTRICTED_REASONS, true)) {
             throw new \InvalidArgumentException(\sprintf('Restricted reason "%s" is not valid.', $restrictionReason));
         }
 

@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
+use Shopware\PayPalSDK\Struct\V2\CreateOrder;
 use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\PatchCollection;
 use Shopware\PayPalSDK\Test\Gateway\TestGateways;
@@ -43,7 +44,10 @@ class TestClientTest extends TestCase
         );
         $this->gateways->setCachedToken($context);
 
-        $order = (new Order())->assign(['id' => 'create-order-id']);
+        $order = (new CreateOrder())->assign([
+            'intent' => 'CAPTURE',
+            'purchase_units' => [['amount' => ['currency_code' => 'EUR', 'value' => '10.00']]],
+        ]);
 
         $this->gateways->orderGateway()->createOrder($order, $context);
 
@@ -105,7 +109,10 @@ class TestClientTest extends TestCase
         $patches = PatchCollection::createFromAssociative([['op' => 'repalce', 'path' => '/path/to/value']]);
         $this->gateways->orderGateway()->patchOrder('patch-order-id-1', $patches, $context);
         $this->gateways->orderGateway()->patchOrder('patch-order-id-2', $patches, $context);
-        $order = (new Order())->assign(['id' => 'some-order-id']);
+        $order = (new CreateOrder())->assign([
+            'intent' => 'CAPTURE',
+            'purchase_units' => [['amount' => ['currency_code' => 'EUR', 'value' => '10.00']]],
+        ]);
         $this->gateways->orderGateway()->createOrder($order, $context);
 
         $first = $this->client->getFirst();

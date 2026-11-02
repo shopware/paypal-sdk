@@ -95,6 +95,34 @@ class ExceptionFactoryTest extends TestCase
         static::assertSame('The error "INVALID_CLIENT" occurred with the following message: Client authentication failed.', $exception->getMessage());
     }
 
+    public function testRestErrorWith401PreservesDetails(): void
+    {
+        $response = $this->factory->createResponse(401)->withBody($this->factory->createStream(\json_encode([
+            'name' => 'NOT_AUTHORIZED',
+            'message' => 'Permission denied',
+            'debug_id' => 'debug-123',
+            'details' => [['issue' => 'PERMISSION_DENIED', 'description' => 'Missing permission']],
+        ], \JSON_THROW_ON_ERROR)));
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertInstanceOf(ErrorApiException::class, $exception);
+        static::assertSame('NOT_AUTHORIZED', $exception->getErrorCode());
+        static::assertSame('Permission denied', $exception->getReason());
+        static::assertSame('debug-123', $exception->debugId);
+        static::assertTrue($exception->is('PERMISSION_DENIED'));
+    }
+
+    public function testOAuthErrorWithoutDescriptionPreservesErrorCode(): void
+    {
+        $response = $this->factory->createResponse(401)->withBody($this->factory->createStream('{"error":"invalid_token"}'));
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertInstanceOf(OAuthApiException::class, $exception);
+        static::assertSame('invalid_token', $exception->getErrorCode());
+    }
+
     public function testCreateFromResponseWithoutBody(): void
     {
         $response = $this->factory
@@ -186,7 +214,7 @@ class ExceptionFactoryTest extends TestCase
 
         $response = $this->factory
             ->createResponse()
-            ->withHeader('Retry-After', (new \DateTimeImmutable('+2 minutes'))->format(\DateTimeInterface::RFC7231))
+            ->withHeader('Retry-After', (new \DateTimeImmutable('+2 minutes', new \DateTimeZone('GMT')))->format('D, d M Y H:i:s \G\M\T'))
             ->withBody($this->factory->createStream(\json_encode($error, \JSON_THROW_ON_ERROR)))
             ->withStatus(429);
 

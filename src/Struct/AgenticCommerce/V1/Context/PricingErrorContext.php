@@ -219,7 +219,7 @@ class PricingErrorContext extends AbstractContext
 
     public function setPriceChangeReason(?string $priceChangeReason): void
     {
-        if (!\in_array($priceChangeReason, self::PRICE_CHANGED_REASONS, true)) {
+        if ($priceChangeReason !== null && !\in_array($priceChangeReason, self::PRICE_CHANGED_REASONS, true)) {
             throw new \InvalidArgumentException(\sprintf('Price change reason "%s" is not valid.', $priceChangeReason));
         }
 

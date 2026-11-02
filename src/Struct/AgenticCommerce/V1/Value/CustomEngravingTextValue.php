@@ -87,7 +87,7 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
 
     public function setFont(?string $font): void
     {
-        if (!\in_array($font, [self::FONT__ARIAL, self::FONT__TIMES, self::FONT__SCRIPT, self::FONT__BLOCK], true)) {
+        if ($font !== null && !\in_array($font, [self::FONT__ARIAL, self::FONT__TIMES, self::FONT__SCRIPT, self::FONT__BLOCK], true)) {
             throw new \InvalidArgumentException('Font must be one of "arial", "times", "script", "block"');
         }
 
@@ -101,7 +101,7 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
 
     public function setSize(?string $size): void
     {
-        if (!\in_array($size, [self::SIZE__SMALL, self::SIZE__MEDIUM, self::SIZE__LARGE], true)) {
+        if ($size !== null && !\in_array($size, [self::SIZE__SMALL, self::SIZE__MEDIUM, self::SIZE__LARGE], true)) {
             throw new \InvalidArgumentException('Size must be one of "small", "medium", "large"');
         }
 
@@ -115,7 +115,7 @@ class CustomEngravingTextValue extends Struct implements ValueInterface
 
     public function setPosition(?string $position): void
     {
-        if (!\in_array($position, [self::POSITION__FRONT, self::POSITION__BACK, self::POSITION__SIDE, self::POSITION__BOTTOM], true)) {
+        if ($position !== null && !\in_array($position, [self::POSITION__FRONT, self::POSITION__BACK, self::POSITION__SIDE, self::POSITION__BOTTOM], true)) {
             throw new \InvalidArgumentException('Position must be one of "front", "back", "side", "bottom"');
         }
 

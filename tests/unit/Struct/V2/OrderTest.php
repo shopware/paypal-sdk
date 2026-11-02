@@ -23,6 +23,7 @@ class OrderTest extends TestCase
         $order = (new Order())->assign(['id' => 'ORDER-123']);
 
         static::assertFalse($order->isset('intent'));
+        static::assertNull($order->getIntent());
         static::assertArrayNotHasKey('intent', $order->jsonSerialize());
     }
 
@@ -33,5 +34,35 @@ class OrderTest extends TestCase
 
         static::assertSame(ConstantsV2::INTENT_CAPTURE, $order->getIntent());
         static::assertSame(ConstantsV2::INTENT_CAPTURE, $order->jsonSerialize()['intent']);
+    }
+
+    public function testMissingResponseFieldsAreReadableWithoutChangingSerialization(): void
+    {
+        $order = (new Order())->assign(['id' => 'ORDER-123']);
+
+        static::assertNull($order->getCreateTime());
+        static::assertNull($order->getUpdateTime());
+        static::assertNull($order->getPayer());
+        static::assertNull($order->getPurchaseUnits());
+        static::assertNull($order->getApplicationContext());
+        static::assertNull($order->getPaymentSource());
+        static::assertNull($order->getStatus());
+        static::assertNull($order->getProcessingInstruction());
+        static::assertNull($order->getLinks());
+        static::assertSame(['id' => 'ORDER-123'], $order->jsonSerialize());
+    }
+
+    public function testExplicitNullAndEmptyCollectionArePreserved(): void
+    {
+        $order = (new Order())->assign([
+            'payer' => ['email_address' => 'buyer@example.com'],
+            'purchase_units' => [['reference_id' => 'old']],
+        ]);
+        $order->assign(['payer' => null, 'purchase_units' => []]);
+
+        static::assertNull($order->getPayer());
+        static::assertNotNull($order->getPurchaseUnits());
+        static::assertCount(0, $order->getPurchaseUnits());
+        static::assertSame(['payer' => null, 'purchase_units' => []], $order->jsonSerialize());
     }
 }

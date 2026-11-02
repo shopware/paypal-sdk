@@ -72,10 +72,6 @@ class StructRule implements Rule
         }
 
         if ($type) {
-            if (($type->isNull()->maybe() || $type->isNull()->yes()) && !$node->getDefault()) {
-                $errors[] = self::message($node, 'is nullable and should have an default value', 'default');
-            }
-
             $setter = 'set' . \ucfirst($node->getName());
 
             if (!$class->hasMethod($setter)) {

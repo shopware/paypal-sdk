@@ -11,12 +11,14 @@ use Http\Discovery\Psr17Factory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\AuthorizationCodeOAuthContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
 use Shopware\PayPalSDK\Exception\ApiException;
-use Shopware\PayPalSDK\Exception\OAuthApiException;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\Struct;
 
@@ -34,6 +36,28 @@ class RequestServiceTest extends TestCase
     {
         $this->service = new RequestService();
         $this->factory = new Psr17Factory();
+    }
+
+    public function testIndependentPsr17FactoriesCanBeInjected(): void
+    {
+        $uri = $this->factory->createUri('https://api-m.paypal.com');
+        $requestFactory = $this->createMock(RequestFactoryInterface::class);
+        $streamFactory = $this->createMock(StreamFactoryInterface::class);
+        $uriFactory = $this->createMock(UriFactoryInterface::class);
+
+        $uriFactory->expects(static::once())->method('createUri')->with('https://api-m.paypal.com/')->willReturn($uri);
+        $requestFactory->expects(static::once())->method('createRequest')
+            ->with('POST', $uri->withPath('/some/endpoint'))
+            ->willReturn($this->factory->createRequest('POST', $uri->withPath('/some/endpoint')));
+        $streamFactory->expects(static::once())->method('createStream')->with('{"key":"value"}')
+            ->willReturn($this->factory->createStream('{"key":"value"}'));
+
+        $service = new RequestService($requestFactory, $streamFactory, $uriFactory);
+        $context = new ApiContext(new CredentialsOAuthContext('', ''), false);
+        $request = $service->withBody($service->createRequest('POST', '/some/endpoint', $context), ['key' => 'value']);
+
+        static::assertSame('return=representation', $request->getHeaderLine('Prefer'));
+        static::assertSame('{"key":"value"}', (string) $request->getBody());
     }
 
     public function testCreateRequest(): void
@@ -325,13 +349,8 @@ class RequestServiceTest extends TestCase
         $response = $this->factory->createResponse($code)
             ->withBody($this->factory->createStream('{"name":"TEST", "message":"bad_request"}'));
 
-        if ($code === 401) {
-            static::expectException(OAuthApiException::class);
-            static::expectExceptionMessage('The error "INVALID_CLIENT" occurred with the following message: Client authentication failed');
-        } else {
-            static::expectException(ApiException::class);
-            static::expectExceptionMessage('The error "TEST" occurred with the following message: bad_request');
-        }
+        static::expectException(ApiException::class);
+        static::expectExceptionMessage('The error "TEST" occurred with the following message: bad_request');
 
         $this->service->handleResponse($response);
     }

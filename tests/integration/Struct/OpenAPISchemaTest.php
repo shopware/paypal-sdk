@@ -172,6 +172,43 @@ class OpenAPISchemaTest extends TestCase
         static::assertEmpty($failures, \implode(\PHP_EOL, $failures));
     }
 
+    public function testNullablePropertiesCanBeAssignedNull(): void
+    {
+        $failures = [];
+
+        foreach ($this->oa->_analysis->classes as $class => $classContext) {
+            if (!\class_exists($class) || !\is_subclass_of($class, Struct::class)) {
+                continue;
+            }
+
+            $reflection = new \ReflectionClass($class);
+            if ($reflection->isAbstract()) {
+                continue;
+            }
+
+            foreach ($reflection->getProperties() as $property) {
+                if (!$property->getType()?->allowsNull()) {
+                    continue;
+                }
+
+                $setter = 'set' . \ucfirst($property->getName());
+                if (!$reflection->hasMethod($setter)) {
+                    continue;
+                }
+
+                try {
+                    $instance = $reflection->newInstance();
+                    $reflection->getMethod($setter)->invoke($instance, null);
+                    static::assertNull($property->getValue($instance));
+                } catch (\Throwable $e) {
+                    $failures[] = $class . '::' . $setter . ' rejects null: ' . $e->getMessage();
+                }
+            }
+        }
+
+        static::assertEmpty($failures, \implode(\PHP_EOL, $failures));
+    }
+
     private function schemaForSource(string $class): ?Schema
     {
         if (\method_exists($this->oa->_analysis, 'getAnnotationForSource')) {

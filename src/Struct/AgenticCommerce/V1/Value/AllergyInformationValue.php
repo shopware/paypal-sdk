@@ -89,7 +89,7 @@ class AllergyInformationValue extends Struct implements ValueInterface
 
     public function setSeverity(?string $severity): void
     {
-        if (!\in_array($severity, [self::SEVERITY__LIFE_THREATENING, self::SEVERITY__MILD, self::SEVERITY__MODERATE, self::SEVERITY__SEVERE], true)) {
+        if ($severity !== null && !\in_array($severity, [self::SEVERITY__LIFE_THREATENING, self::SEVERITY__MILD, self::SEVERITY__MODERATE, self::SEVERITY__SEVERE], true)) {
             throw new \RuntimeException(\sprintf('Invalid value for severity: %s', $severity));
         }
 

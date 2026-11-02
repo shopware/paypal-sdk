@@ -207,7 +207,7 @@ class TokenGatewayTest extends TestCase
             'access_token' => 'some-expired-access-token',
             'expires_in' => 36000,
         ]);
-        $expiredToken->setExpireDateTime(new \DateTime('now -1 hour', new \DateTimeZone('UTC')));
+        $expiredToken->setExpireDateTime(new \DateTimeImmutable('now -1 hour', new \DateTimeZone('UTC')));
 
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
 

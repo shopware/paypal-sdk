@@ -72,7 +72,7 @@ class TokenGateway implements TokenGatewayInterface
         $token = $this->tokenCache->get($key);
         $token = $token instanceof Token ? $token : null;
 
-        if (!$token || $token->getExpireDateTime() < new \DateTime('now', new \DateTimeZone('UTC'))) {
+        if (!$token || $token->getExpireDateTime() < new \DateTimeImmutable('now', new \DateTimeZone('UTC'))) {
             $this->tokenCache->delete($key);
 
             return null;

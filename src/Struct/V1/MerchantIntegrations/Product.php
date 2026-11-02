@@ -47,7 +47,7 @@ class Product extends Struct
         return $this->vettingStatus;
     }
 
-    public function setVettingStatus(string $vettingStatus): void
+    public function setVettingStatus(?string $vettingStatus): void
     {
         $this->vettingStatus = $vettingStatus;
     }

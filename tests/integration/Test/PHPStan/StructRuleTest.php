@@ -39,10 +39,6 @@ class StructRuleTest extends RuleTestCase
                 20,
             ],
             [
-                'Property $missingDefaultValue is nullable and should have an default value',
-                22,
-            ],
-            [
                 'Property $missingSetter should have a setter "setMissingSetter"',
                 24,
             ],

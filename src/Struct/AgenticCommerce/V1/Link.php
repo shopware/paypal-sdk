@@ -96,7 +96,7 @@ class Link extends Struct
 
     public function setMethod(?string $method): void
     {
-        if (!\in_array($method, [self::METHOD__GET, self::METHOD__POST, self::METHOD__PUT], true)) {
+        if ($method !== null && !\in_array($method, [self::METHOD__GET, self::METHOD__POST, self::METHOD__PUT], true)) {
             throw new \InvalidArgumentException(\sprintf('Method "%s" is not valid.', $method));
         }
 

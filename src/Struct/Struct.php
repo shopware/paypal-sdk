@@ -38,10 +38,6 @@ abstract class Struct implements \JsonSerializable
         foreach ($data as $key => $value) {
             $propertyName = CaseConverter::denormalize((string) $key);
 
-            if ($value === null || $value === []) {
-                continue;
-            }
-
             if (!\property_exists($this, $propertyName)) {
                 continue;
             }

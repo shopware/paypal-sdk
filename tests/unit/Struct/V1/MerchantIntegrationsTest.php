@@ -28,7 +28,11 @@ class MerchantIntegrationsTest extends TestCase
 
         static::assertCount(0, $integrations->getProducts());
         static::assertNull($integrations->getSpecificProduct('PAYMENT_METHODS'));
-        static::assertArrayNotHasKey('products', $integrations->jsonSerialize());
+        if (\array_key_exists('products', $data)) {
+            static::assertSame([], $integrations->jsonSerialize()['products']);
+        } else {
+            static::assertArrayNotHasKey('products', $integrations->jsonSerialize());
+        }
     }
 
     public static function provideMissingProducts(): \Generator

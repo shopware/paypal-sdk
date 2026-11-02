@@ -26,14 +26,10 @@ class ExceptionFactory
 
     public static function createFromResponse(ResponseInterface $response): ApiException
     {
-        if ($response->getStatusCode() === 401) {
-            return self::createOAuthFromResponse($response);
-        }
-
         $content = \json_decode((string) $response->getBody(), true) ?: [];
         $error = (new Error())->assign(\is_array($content) ? $content : []);
 
-        if ($error->getError() && $error->getErrorDescription()) {
+        if ($error->getError()) {
             return self::createOAuthFromResponse($response);
         }
 
@@ -58,6 +54,10 @@ class ExceptionFactory
                 $error->getLinks(),
                 $error->getDetails(),
             );
+        }
+
+        if ($response->getStatusCode() === 401) {
+            return self::createOAuthFromResponse($response);
         }
 
         if ($response->getStatusCode() === 501) {

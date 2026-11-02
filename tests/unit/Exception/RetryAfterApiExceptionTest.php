@@ -50,7 +50,7 @@ class RetryAfterApiExceptionTest extends TestCase
             'Rate limit reached',
             new Response(429),
             'debug-id',
-            retryAfter: $retryAt->format(\DateTimeInterface::RFC7231),
+            retryAfter: $retryAt->setTimezone(new \DateTimeZone('GMT'))->format('D, d M Y H:i:s \G\M\T'),
         );
 
         static::assertNotNull($exception->getRetryAt());
@@ -81,6 +81,6 @@ class RetryAfterApiExceptionTest extends TestCase
         yield 'empty' => [''];
         yield 'zero seconds' => ['0'];
         yield 'invalid date' => ['not-a-date'];
-        yield 'past date' => [(new \DateTimeImmutable('-1 minute'))->format(\DateTimeInterface::RFC7231)];
+        yield 'past date' => [(new \DateTimeImmutable('-1 minute', new \DateTimeZone('GMT')))->format('D, d M Y H:i:s \G\M\T')];
     }
 }

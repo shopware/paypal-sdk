@@ -10,16 +10,26 @@ on:
 jobs:
   unit:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-php
+        with:
+          php-version: ${{ matrix.php-version }}
       - name: Run PHPUnit
         run: composer phpunit:unit -- --coverage-clover=coverage.xml
 
   integration:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-php
+        with:
+          php-version: ${{ matrix.php-version }}
       - name: Run PHPUnit
         run: composer phpunit:integration -- --coverage-clover=coverage.xml
