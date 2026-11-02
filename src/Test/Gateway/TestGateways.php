@@ -20,6 +20,7 @@ use Shopware\PayPalSDK\Gateway\WebhookGateway;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Util\TokenArrayCache;
+use Shopware\PayPalSDK\Util\TokenCacheKey;
 
 class TestGateways
 {
@@ -38,7 +39,7 @@ class TestGateways
     {
         $token ??= (new Token())->assign(['access_token' => 'ACCESS-TOKEN', 'token_type' => 'Bearer', 'expires_in' => 36000]);
 
-        if ($cacheKey = $context->getOAuthContext()->getCacheKey($context)) {
+        if ($cacheKey = TokenCacheKey::fromContext($context)) {
             $this->tokenCache->set($cacheKey, $token);
         }
     }

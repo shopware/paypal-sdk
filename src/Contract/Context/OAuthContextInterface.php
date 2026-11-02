@@ -15,7 +15,8 @@ use Shopware\PayPalSDK\Struct\V1\Token;
 interface OAuthContextInterface
 {
     /**
-     * Key to be used to identify a cached {@see Token}.
+     * Context identity for a cached {@see Token}. The gateway namespaces this key
+     * for the serialized token format using {@see \Shopware\PayPalSDK\Util\TokenCacheKey}.
      *
      * @return string|null If `null` is returned, this context is not cacheable.
      */
