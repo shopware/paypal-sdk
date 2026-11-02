@@ -402,6 +402,40 @@ class EventTest extends TestCase
 
         static::assertNull($event->getResource());
     }
+
+    public function testExplicitNullClearsAnExistingResource(): void
+    {
+        $event = Struct::from(Event::class, [
+            'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
+            'resource_version' => '2.0',
+            'resource' => ['id' => 'CAPTURE-123'],
+        ]);
+        static::assertInstanceOf(Capture::class, $event->getResource());
+
+        $event->assign(['resource' => null]);
+
+        static::assertNull($event->getResource());
+        static::assertArrayHasKey('resource', $event->jsonSerialize());
+        static::assertNull($event->jsonSerialize()['resource']);
+    }
+
+    public function testMissingResourcePreservesAnExistingResource(): void
+    {
+        $event = Struct::from(Event::class, [
+            'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
+            'resource_version' => '2.0',
+            'resource' => ['id' => 'CAPTURE-123'],
+        ]);
+        $resource = $event->getResource();
+        static::assertInstanceOf(Capture::class, $resource);
+
+        $event->assign(['summary' => 'Updated summary']);
+
+        static::assertSame($resource, $event->getResource());
+        $serializedResource = $event->jsonSerialize()['resource'];
+        static::assertIsArray($serializedResource);
+        static::assertSame('CAPTURE-123', $serializedResource['id']);
+    }
 }
 
 /**

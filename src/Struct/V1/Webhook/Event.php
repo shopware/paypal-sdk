@@ -89,9 +89,14 @@ class Event extends Struct
 
     public function assign(array $data): static
     {
+        $hasResource = \array_key_exists('resource', $data);
         $resourceData = $data['resource'] ?? null;
         unset($data['resource']);
         $webhook = parent::assign($data);
+
+        if ($hasResource && $resourceData === null) {
+            $webhook->setResource(null);
+        }
 
         if (!\is_array($resourceData)) {
             return $webhook;
