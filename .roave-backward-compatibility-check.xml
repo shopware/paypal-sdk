@@ -54,7 +54,6 @@
         <ignored-regex>#^\[BC\] CHANGED\: The parameter \$supplementaryData of Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnit\#setSupplementaryData\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnit\\SupplementaryData to Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnit\\SupplementaryData\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: Type of property Shopware\\PayPalSDK\\Struct\\V2\\Order\#\$createTime changed from string to string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: Type of property Shopware\\PayPalSDK\\Struct\\V2\\Order\#\$updateTime changed from string to string\|null$#</ignored-regex>
-        <ignored-regex>#^\[BC\] CHANGED\: Type of property Shopware\\PayPalSDK\\Struct\\V2\\Order\#\$id changed from string to string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: Type of property Shopware\\PayPalSDK\\Struct\\V2\\Order\#\$intent changed from string to string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: Property Shopware\\PayPalSDK\\Struct\\V2\\Order\#\$intent changed default value from 'CAPTURE' to NULL$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: Type of property Shopware\\PayPalSDK\\Struct\\V2\\Order\#\$payer changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\Payer to Shopware\\PayPalSDK\\Struct\\V2\\Order\\Payer\|null$#</ignored-regex>
@@ -68,17 +67,12 @@
         <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getUpdateTime\(\) changed from string to the non\-covariant string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getUpdateTime\(\) changed from string to string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The parameter \$updateTime of Shopware\\PayPalSDK\\Struct\\V2\\Order\#setUpdateTime\(\) changed from string to string\|null$#</ignored-regex>
-        <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getId\(\) changed from string to the non\-covariant string\|null$#</ignored-regex>
-        <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getId\(\) changed from string to string\|null$#</ignored-regex>
-        <ignored-regex>#^\[BC\] CHANGED\: The parameter \$id of Shopware\\PayPalSDK\\Struct\\V2\\Order\#setId\(\) changed from string to string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getIntent\(\) changed from string to the non\-covariant string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getIntent\(\) changed from string to string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The parameter \$intent of Shopware\\PayPalSDK\\Struct\\V2\\Order\#setIntent\(\) changed from string to string\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getPayer\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\Payer to the non\-covariant Shopware\\PayPalSDK\\Struct\\V2\\Order\\Payer\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getPayer\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\Payer to Shopware\\PayPalSDK\\Struct\\V2\\Order\\Payer\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The parameter \$payer of Shopware\\PayPalSDK\\Struct\\V2\\Order\#setPayer\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\Payer to Shopware\\PayPalSDK\\Struct\\V2\\Order\\Payer\|null$#</ignored-regex>
-        <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getPurchaseUnits\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnitCollection to the non\-covariant Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnitCollection\|null$#</ignored-regex>
-        <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getPurchaseUnits\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnitCollection to Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnitCollection\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getApplicationContext\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\ApplicationContext to the non\-covariant Shopware\\PayPalSDK\\Struct\\V2\\Order\\ApplicationContext\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Struct\\V2\\Order\#getApplicationContext\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\ApplicationContext to Shopware\\PayPalSDK\\Struct\\V2\\Order\\ApplicationContext\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The parameter \$applicationContext of Shopware\\PayPalSDK\\Struct\\V2\\Order\#setApplicationContext\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order\\ApplicationContext to Shopware\\PayPalSDK\\Struct\\V2\\Order\\ApplicationContext\|null$#</ignored-regex>
@@ -93,8 +87,6 @@
         <ignored-regex>#^\[BC\] CHANGED\: The parameter \$links of Shopware\\PayPalSDK\\Struct\\V2\\Order\#setLinks\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Common\\LinkCollection to Shopware\\PayPalSDK\\Struct\\V2\\Common\\LinkCollection\|null$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: The parameter \$factory of Shopware\\PayPalSDK\\RequestService\#__construct\(\) changed from Http\\Discovery\\Psr17Factory to Psr\\Http\\Message\\RequestFactoryInterface$#</ignored-regex>
         <ignored-regex>#^\[BC\] CHANGED\: Parameter 0 of Shopware\\PayPalSDK\\RequestService\#__construct\(\) changed name from factory to requestFactory$#</ignored-regex>
-        <ignored-regex>#^\[BC\] CHANGED\: The parameter \$order of Shopware\\PayPalSDK\\Gateway\\OrderGateway\#createOrder\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order to a non\-contravariant Shopware\\PayPalSDK\\Struct\\V2\\CreateOrder$#</ignored-regex>
-        <ignored-regex>#^\[BC\] CHANGED\: The parameter \$order of Shopware\\PayPalSDK\\Gateway\\OrderGateway\#createOrder\(\) changed from Shopware\\PayPalSDK\\Struct\\V2\\Order to Shopware\\PayPalSDK\\Struct\\V2\\CreateOrder$#</ignored-regex>
         <ignored-regex>#^\[BC\] REMOVED\: Method Shopware\\PayPalSDK\\Context\\ApiContext\#withPreferRepresentation\(\) was removed$#</ignored-regex>
         <ignored-regex>#^\[BC\] REMOVED\: Method Shopware\\PayPalSDK\\Struct\\V1\\Webhook\\Event\#identifyResourceType\(\) was removed$#</ignored-regex>
         <ignored-regex>#^\[BC\] REMOVED\: Method Shopware\\PayPalSDK\\Struct\\V1\\Token\#__clone\(\) was removed$#</ignored-regex>

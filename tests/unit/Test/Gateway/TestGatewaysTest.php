@@ -16,7 +16,6 @@ use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Test\Gateway\TestGateways;
 use Shopware\PayPalSDK\Test\Request\TestClient;
 use Shopware\PayPalSDK\Util\TokenArrayCache;
-use Shopware\PayPalSDK\Util\TokenCacheKey;
 
 /**
  * @internal
@@ -43,7 +42,7 @@ class TestGatewaysTest extends TestCase
     public function testSetCachedToken(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
-        $cacheKey = TokenCacheKey::fromContext($context);
+        $cacheKey = $context->getOAuthContext()->getCacheKey($context);
         static::assertNotNull($cacheKey);
 
         $this->gateways->setCachedToken($context);

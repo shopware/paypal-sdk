@@ -109,32 +109,32 @@ class StructTest extends TestCase
     public function testAssignNull(): void
     {
         $data = ['foo' => null];
-        $this->expectException(\TypeError::class);
-        (new TestStruct())->assign($data);
+        static::assertSame([], $this->cycleStruct($data));
     }
 
     public function testAssignEmptyArray(): void
     {
         $data = ['foo' => []];
-        static::assertSame($data, $this->cycleStruct($data));
+        static::assertSame([], $this->cycleStruct($data));
     }
 
     /**
      * @param class-string<Struct> $class
      */
-    #[DataProvider('provideNullablePropertiesAcceptExplicitNull')]
-    public function testNullablePropertiesAcceptExplicitNull(string $class, string $property, mixed $value): void
+    #[DataProvider('provideNullAssignmentsPreserveExistingValues')]
+    public function testNullAssignmentsPreserveExistingValues(string $class, string $property, mixed $value): void
     {
         $struct = Struct::from($class, [$property => $value]);
+        $previous = $struct->getVars()[$property];
         $struct->assign([$property => null]);
 
-        static::assertNull($struct->getVars()[$property]);
+        static::assertSame($previous, $struct->getVars()[$property]);
     }
 
     /**
      * @return iterable<string, array{class-string<Struct>, string, mixed}>
      */
-    public static function provideNullablePropertiesAcceptExplicitNull(): iterable
+    public static function provideNullAssignmentsPreserveExistingValues(): iterable
     {
         yield 'vetting status' => [Product::class, 'vettingStatus', 'SUBSCRIBED'];
         yield 'restriction reason' => [ShippingErrorContext::class, 'restrictionReason', 'age_verification_required'];
@@ -143,12 +143,12 @@ class StructTest extends TestCase
         yield 'billing address' => [SepaDebit::class, 'billingAddress', ['country_code' => 'DE']];
     }
 
-    public function testEmptyScalarArrayReplacesPreviousValues(): void
+    public function testEmptyScalarArrayPreservesPreviousValues(): void
     {
         $struct = (new TestStruct())->assign(['scalar_array' => ['old']]);
         $struct->assign(['scalar_array' => []]);
 
-        static::assertSame(['scalar_array' => []], $struct->jsonSerialize());
+        static::assertSame(['scalar_array' => ['old']], $struct->jsonSerialize());
     }
 
     public function testAssignNoSetter(): void

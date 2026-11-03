@@ -18,13 +18,11 @@ This SDK provides a simple and easy-to-use interface for working with PayPal's R
 ### Upgrading to 3.0.0
 
 - PHP 8.4 or newer is required. CI tests PHP 8.4 and 8.5.
-- `OrderGateway::createOrder()` now accepts `CreateOrder` and returns `Order`. Use `CreateOrder` for request fields; response-only fields such as `id`, `status` and `links` are not serialized by this request model. Set an explicit `CAPTURE` or `AUTHORIZE` intent and at least one purchase unit before serializing the request.
-- Missing fields in `Order` and `Order\PurchaseUnit` return `null`, including collections. Getters no longer initialize response collections. Use `?->` or explicit null checks when reading a response. The request's `CreateOrder::getPurchaseUnits()` still provides a collection for building an order.
-- `Struct::assign()` now distinguishes missing keys, explicit `null`, and empty arrays. Missing keys leave values unchanged; `null` clears nullable values, and `[]` replaces a collection or array with an empty one. Assigning `null` to a required, non-nullable field raises a `TypeError`. `Order` serialization preserves explicitly assigned `null` and empty collections.
+- Missing optional fields in `Order` and `Order\PurchaseUnit` return `null`. `Order::getId()` retains its required `string` type, and `Order::getPurchaseUnits()` still initializes a collection for building requests. `Order` remains the shared request and response model.
 - `Token` and `ClientToken` use `DateTimeImmutable` for expiration dates. To change the expiration explicitly, pass the result of `modify()` to `setExpireDateTime()`.
-- Token cache keys are namespaced for the 3.0 serialization format. Existing 2.x entries are left untouched and are not read; the first request obtains a fresh token. Use `TokenCacheKey::fromContext()` when accessing the token cache directly; `TestGateways::setCachedToken()` handles this automatically.
+- Clear the persistent token cache before SDK 3.0 handles any requests. Cache keys are unchanged, but serialized 2.x tokens contain `DateTime` values that are incompatible with the new `DateTimeImmutable` properties and can cause a `TypeError` when loaded. A major version upgrade does not clear the cache automatically. During rolling deployments, prevent 2.x processes from repopulating the token cache used by 3.0.
 - `RequestService` accepts separate PSR-17 request, stream and URI factories. Replace `new RequestService($factory)` with `new RequestService($factory, $factory, $factory)` when supplying a combined factory; named arguments are now `requestFactory`, `streamFactory` and `uriFactory`. Automatic discovery remains the default.
-- REST errors with HTTP 401 retain their API error code, message, debug ID and details as `ErrorApiException`. OAuth response bodies still produce `OAuthApiException`.
+- REST errors with HTTP 401 retain their API error code, message, debug ID and details as `ErrorApiException`. OAuth errors are identified by their response format, not HTTP status alone; unstructured 401 responses produce `ApiException`.
 - Appending with `$collection[] = $element` now adds and validates the element.
 
 - `RequestService` always sends `Prefer: return=representation`, including for token requests. A `Prefer` header in the API context no longer overrides this value. Custom implementations of `RequestServiceInterface` must follow the same behavior.
@@ -57,7 +55,7 @@ Alternatively you can provide a gateway with a concrete client of your choice.
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
-use Shopware\PayPalSDK\Struct\V2\CreateOrder;
+use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
 $context = new ApiContext(
@@ -67,7 +65,7 @@ $context = new ApiContext(
 
 $orderGateway = new OrderGateway();
 
-$toCreateOrder = new CreateOrder();
+$toCreateOrder = new Order();
 $toCreateOrder->setIntent('CAPTURE');
 $toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::createFromAssociative([
     ['amount' => ['currency_code' => 'EUR', 'value' => '10.00']],
@@ -84,7 +82,7 @@ use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\TokenGateway;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
-use Shopware\PayPalSDK\Struct\V2\CreateOrder;
+use Shopware\PayPalSDK\Struct\V2\Order;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
 $context = new ApiContext(
@@ -103,7 +101,7 @@ $client = new Http\Adapter\Guzzle7\Client(new GuzzleHttp\Client([
 $tokenGateway = new TokenGateway($client);
 $orderGateway = new OrderGateway($client, $tokenGateway);
 
-$toCreateOrder = new CreateOrder();
+$toCreateOrder = new Order();
 $toCreateOrder->setIntent('CAPTURE');
 $toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::createFromAssociative([
     ['amount' => ['currency_code' => 'EUR', 'value' => '10.00']],

@@ -17,7 +17,7 @@ interface TokenGatewayInterface extends GatewayInterface
     /**
      * Request an {@see Token} from PayPal's OAuth2 endpoint.
      *
-     * Set $refresh to true to bypass the token cache.
+     * @param bool $refresh true to bypass the token cache.
      *
      * @throws ApiException|ClientExceptionInterface|\JsonException
      */

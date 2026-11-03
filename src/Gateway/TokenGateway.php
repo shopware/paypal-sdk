@@ -18,7 +18,6 @@ use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Util\TokenArrayCache;
-use Shopware\PayPalSDK\Util\TokenCacheKey;
 
 class TokenGateway implements TokenGatewayInterface
 {
@@ -37,7 +36,7 @@ class TokenGateway implements TokenGatewayInterface
     {
         $context = $context->withHeader(RequestServiceInterface::HEADER_CONTENT_TYPE, RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
 
-        $cacheKey = TokenCacheKey::fromContext($context);
+        $cacheKey = $context->getOAuthContext()->getCacheKey($context);
 
         if (!$refresh && $token = $this->getCachedToken($cacheKey)) {
             return $token;

@@ -10,6 +10,9 @@ rules:
 
 parameters:
     level: max
+    phpVersion:
+        min: 80400 # PHP 8.4
+        max: 80599 # PHP 8.5
     tmpDir: var/cache/phpstan
     treatPhpDocTypesAsCertain: false
     checkFunctionNameCase: true

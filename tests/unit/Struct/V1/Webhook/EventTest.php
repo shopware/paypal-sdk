@@ -403,7 +403,7 @@ class EventTest extends TestCase
         static::assertNull($event->getResource());
     }
 
-    public function testExplicitNullClearsAnExistingResource(): void
+    public function testExplicitNullPreservesAnExistingResource(): void
     {
         $event = Struct::from(Event::class, [
             'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
@@ -411,12 +411,12 @@ class EventTest extends TestCase
             'resource' => ['id' => 'CAPTURE-123'],
         ]);
         static::assertInstanceOf(Capture::class, $event->getResource());
+        $resource = $event->getResource();
 
         $event->assign(['resource' => null]);
 
-        static::assertNull($event->getResource());
-        static::assertArrayHasKey('resource', $event->jsonSerialize());
-        static::assertNull($event->jsonSerialize()['resource']);
+        static::assertSame($resource, $event->getResource());
+        static::assertSame($resource->jsonSerialize(), $event->jsonSerialize()['resource']);
     }
 
     public function testMissingResourcePreservesAnExistingResource(): void

@@ -29,8 +29,8 @@ class Order extends Struct
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $updateTime;
 
-    #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $id;
+    #[OA\Property(type: 'string')]
+    protected string $id;
 
     #[OA\Property(type: 'string', enum: [ConstantsV2::INTENT_CAPTURE, ConstantsV2::INTENT_AUTHORIZE], nullable: true)]
     protected ?string $intent;
@@ -76,12 +76,12 @@ class Order extends Struct
         $this->updateTime = $updateTime;
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
-        return $this->id ?? null;
+        return $this->id;
     }
 
-    public function setId(?string $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
@@ -106,9 +106,9 @@ class Order extends Struct
         $this->payer = $payer;
     }
 
-    public function getPurchaseUnits(): ?PurchaseUnitCollection
+    public function getPurchaseUnits(): PurchaseUnitCollection
     {
-        return $this->purchaseUnits ?? null;
+        return $this->purchaseUnits ??= new PurchaseUnitCollection();
     }
 
     public function setPurchaseUnits(?PurchaseUnitCollection $purchaseUnits): void
@@ -164,5 +164,13 @@ class Order extends Struct
     public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return \array_filter(parent::jsonSerialize());
     }
 }

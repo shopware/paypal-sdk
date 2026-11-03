@@ -32,14 +32,14 @@ class PurchaseUnitTest extends TestCase
         static::assertSame([], $unit->jsonSerialize());
     }
 
-    public function testExplicitNullClearsValueWhileMissingValueIsRetained(): void
+    public function testNullAndMissingValuesPreserveExistingValues(): void
     {
         $unit = (new PurchaseUnit())->assign(['custom_id' => 'old', 'invoice_id' => 'keep']);
         $unit->assign(['custom_id' => null]);
 
-        static::assertNull($unit->getCustomId());
+        static::assertSame('old', $unit->getCustomId());
         static::assertSame('keep', $unit->getInvoiceId());
-        static::assertSame(['custom_id' => null, 'invoice_id' => 'keep'], $unit->jsonSerialize());
+        static::assertSame(['custom_id' => 'old', 'invoice_id' => 'keep'], $unit->jsonSerialize());
     }
 
     public function testPaymentInstructionAssignmentAndSerialization(): void

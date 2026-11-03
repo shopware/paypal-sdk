@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\ConstantsV2;
 use Shopware\PayPalSDK\Struct\V2\Order;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
 /**
  * @internal
@@ -43,7 +44,7 @@ class OrderTest extends TestCase
         static::assertNull($order->getCreateTime());
         static::assertNull($order->getUpdateTime());
         static::assertNull($order->getPayer());
-        static::assertNull($order->getPurchaseUnits());
+        static::assertCount(0, $order->getPurchaseUnits());
         static::assertNull($order->getApplicationContext());
         static::assertNull($order->getPaymentSource());
         static::assertNull($order->getStatus());
@@ -52,17 +53,27 @@ class OrderTest extends TestCase
         static::assertSame(['id' => 'ORDER-123'], $order->jsonSerialize());
     }
 
-    public function testExplicitNullAndEmptyCollectionArePreserved(): void
+    public function testNullAndEmptyAssignmentsPreserveExistingValues(): void
     {
         $order = (new Order())->assign([
             'payer' => ['email_address' => 'buyer@example.com'],
             'purchase_units' => [['reference_id' => 'old']],
         ]);
+        $previous = $order->jsonSerialize();
         $order->assign(['payer' => null, 'purchase_units' => []]);
 
-        static::assertNull($order->getPayer());
-        static::assertNotNull($order->getPurchaseUnits());
-        static::assertCount(0, $order->getPurchaseUnits());
-        static::assertSame(['payer' => null, 'purchase_units' => []], $order->jsonSerialize());
+        static::assertSame($previous, $order->jsonSerialize());
+        static::assertCount(1, $order->getPurchaseUnits());
+    }
+
+    public function testSerializationOmitsEmptyFieldsSetDirectly(): void
+    {
+        $order = new Order();
+        $order->setIntent(ConstantsV2::INTENT_CAPTURE);
+        $order->setPayer(null);
+        $order->setPurchaseUnits(new PurchaseUnitCollection());
+        $order->setProcessingInstruction('');
+
+        static::assertSame(['intent' => ConstantsV2::INTENT_CAPTURE], $order->jsonSerialize());
     }
 }
