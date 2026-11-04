@@ -92,5 +92,7 @@
         <ignored-regex>#^\[BC\] REMOVED\: Method Shopware\\PayPalSDK\\Struct\\V1\\Webhook\\Event\#identifyResourceType\(\) was removed$#</ignored-regex>
         <ignored-regex>#^\[BC\] REMOVED\: Method Shopware\\PayPalSDK\\Struct\\V1\\Token\#__clone\(\) was removed$#</ignored-regex>
         <ignored-regex>#^\[BC\] REMOVED\: Property Shopware\\PayPalSDK\\RequestService\#\$factory was removed$#</ignored-regex>
+        <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Gateway\\PaymentGateway\#voidAuthorization\(\) changed from void to the non\-covariant Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnit\\Payments\\Authorization\|null$#</ignored-regex>
+        <ignored-regex>#^\[BC\] CHANGED\: The return type of Shopware\\PayPalSDK\\Gateway\\PaymentGateway\#voidAuthorization\(\) changed from void to Shopware\\PayPalSDK\\Struct\\V2\\Order\\PurchaseUnit\\Payments\\Authorization\|null$#</ignored-regex>
     </baseline>
 </roave-bc-check>

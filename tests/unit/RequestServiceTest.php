@@ -90,8 +90,8 @@ class RequestServiceTest extends TestCase
         static::assertEmpty((string) $request->getBody());
     }
 
-    #[DataProvider('provideCreateRequestAlwaysPrefersRepresentation')]
-    public function testCreateRequestAlwaysPrefersRepresentation(string $method, ?string $prefer): void
+    #[DataProvider('provideCreateRequestPreferHeader')]
+    public function testCreateRequestPreferHeader(string $method, ?string $prefer): void
     {
         $context = new ApiContext(
             new CredentialsOAuthContext('', ''),
@@ -101,7 +101,7 @@ class RequestServiceTest extends TestCase
 
         $request = $this->service->createRequest($method, '/some/endpoint', $context);
 
-        static::assertSame(['return=representation'], $request->getHeader('Prefer'));
+        static::assertSame([$prefer ?? 'return=representation'], $request->getHeader('Prefer'));
         static::assertSame('value', $request->getHeaderLine('X-Header'));
         static::assertSame($prefer, $context->getHeader('Prefer'));
     }
@@ -109,7 +109,7 @@ class RequestServiceTest extends TestCase
     /**
      * @return \Generator<string, array{string, ?string}>
      */
-    public static function provideCreateRequestAlwaysPrefersRepresentation(): \Generator
+    public static function provideCreateRequestPreferHeader(): \Generator
     {
         foreach (['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as $method) {
             foreach ([null, '', 'return=minimal', 'return=representation'] as $prefer) {

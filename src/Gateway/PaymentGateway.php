@@ -73,13 +73,13 @@ class PaymentGateway extends AbstractGateway
         );
     }
 
-    public function voidAuthorization(string $authorizationId, ApiContextInterface $context): void
+    public function voidAuthorization(string $authorizationId, ApiContextInterface $context): ?Authorization
     {
-        $this->request(
+        return $this->requestWithOptionalResponse(
             'POST',
             self::GATEWAY_URL . '/authorizations/' . $authorizationId . '/void',
             null,
-            null,
+            Authorization::class,
             $context
         );
     }

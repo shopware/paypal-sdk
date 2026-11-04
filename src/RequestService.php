@@ -51,7 +51,7 @@ class RequestService implements RequestServiceInterface
             $request = $request->withHeader($key, $value);
         }
 
-        return $request->withHeader('Prefer', 'return=representation');
+        return $request->hasHeader('Prefer') ? $request : $request->withHeader('Prefer', 'return=representation');
     }
 
     /**

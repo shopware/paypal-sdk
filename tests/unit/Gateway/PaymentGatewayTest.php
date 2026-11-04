@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Tests\Unit\Gateway;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
@@ -124,20 +125,36 @@ class PaymentGatewayTest extends TestCase
         static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }
 
-    public function testVoidAuthorization(): void
+    #[DataProvider('provideVoidAuthorization')]
+    public function testVoidAuthorization(?string $prefer, int $statusCode): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', headers: ['Prefer' => $prefer]);
+        $body = (new Authorization())->assign(['id' => 'authorization-id', 'status' => 'VOIDED']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->addResponse(new Response());
+        $this->client->addResponse(new Response($statusCode, body: $statusCode === 204 ? '' : \json_encode($body, \JSON_THROW_ON_ERROR)));
 
-        $this->gateways->paymentGateway()->voidAuthorization('authorizationId', $context);
+        $response = $this->gateways->paymentGateway()->voidAuthorization('authorizationId', $context);
+        static::assertEquals($statusCode === 204 ? null : $body, $response);
+        static::assertCount(1, $this->client->getAll());
 
         $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/authorizations/authorizationId/void', $last->getRequest()->getUri()->getPath());
+        static::assertSame($prefer ?? 'return=representation', $last->getRequest()->getHeaderLine('Prefer'));
         static::assertSame('', (string) $last->getRequest()->getBody());
+    }
+
+    /**
+     * @return \Generator<string, array{?string, int}>
+     */
+    public static function provideVoidAuthorization(): \Generator
+    {
+        yield 'representation by default' => [null, 200];
+        yield 'minimal response' => ['return=minimal', 204];
+        yield 'representation despite minimal preference' => ['return=minimal', 200];
+        yield 'empty response despite representation preference' => ['return=representation', 204];
     }
 
     public function testFindEligibleMethods(): void

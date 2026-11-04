@@ -25,9 +25,10 @@ This SDK provides a simple and easy-to-use interface for working with PayPal's R
 - REST errors with HTTP 401 retain their API error code, message, debug ID and details as `ErrorApiException`. OAuth errors are identified by their response format, not HTTP status alone; unstructured 401 responses produce `ApiException`.
 - Appending with `$collection[] = $element` now adds and validates the element.
 
-- `RequestService` always sends `Prefer: return=representation`, including for token requests. A `Prefer` header in the API context no longer overrides this value. Custom implementations of `RequestServiceInterface` must follow the same behavior.
+- `RequestService` sends `Prefer: return=representation` by default, including for token requests. Override this with `$context->withHeader('Prefer', 'return=minimal')` when a minimal response is needed. Custom implementations of `RequestServiceInterface` must follow the same behavior.
 - `ApiContext::withPreferRepresentation()` has been removed; remove these calls from context construction.
 - `TokenGatewayInterface::getToken()` now declares `bool $refresh = false` as its second parameter. Update custom implementations and decorators to accept and forward it, bypassing the token cache when it is `true`.
+- `PaymentGateway::voidAuthorization()` now returns `?Authorization`: the updated authorization when PayPal returns a representation, or `null` for an empty response such as `204 No Content` with `return=minimal`. No additional GET is performed. Update overridden methods to use the new return type.
 - `Webhook\Event::identifyResourceType()` is now private. Custom event subclasses must override `identifyResource(string $eventType, string $resourceVersion, string $resourceType): ?string` instead, and update calls to the parent method. Resource-type fallback remains available for events not identified by their event type.
 
 `Order::intent` no longer defaults to `CAPTURE`. Set the intent explicitly when creating an order; a response without an intent no longer invents one.

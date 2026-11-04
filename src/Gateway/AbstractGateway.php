@@ -38,17 +38,29 @@ abstract class AbstractGateway implements GatewayInterface
      */
     protected function request(string $method, string $path, Struct|Collection|null $body, ?string $responseClass, ApiContextInterface $context): ?Struct
     {
-        $content = $this->requestAuthenticated($method, $path, $body, $context);
+        $response = $this->requestWithOptionalResponse($method, $path, $body, $responseClass, $context);
 
-        if ($responseClass) {
-            if ($content === null) {
-                throw new \LogicException('Expected response content for deserializing into ' . $responseClass);
-            }
-
-            return Struct::from($responseClass, $content);
+        if ($responseClass !== null && $response === null) {
+            throw new \LogicException('Expected response content for deserializing into ' . $responseClass);
         }
 
-        return null;
+        return $response;
+    }
+
+    /**
+     * @template T of Struct
+     *
+     * @param class-string<T>|null $responseClass
+     *
+     * @throws ApiException|ClientExceptionInterface|\JsonException|\LogicException
+     *
+     * @return ($responseClass is null ? null : T|null)
+     */
+    protected function requestWithOptionalResponse(string $method, string $path, Struct|Collection|null $body, ?string $responseClass, ApiContextInterface $context): ?Struct
+    {
+        $content = $this->requestAuthenticated($method, $path, $body, $context);
+
+        return $responseClass !== null && $content !== null ? Struct::from($responseClass, $content) : null;
     }
 
     /**
