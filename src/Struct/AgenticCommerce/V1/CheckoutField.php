@@ -42,25 +42,25 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class CheckoutField extends Struct
 {
-    public const TYPE__AGE_VERIFICATION_18_PLUS = 'AGE_VERIFICATION_18_PLUS';
-    public const TYPE__AGE_VERIFICATION_21_PLUS = 'AGE_VERIFICATION_21_PLUS';
-    public const TYPE__GIFT_RECIPIENT_EMAIL = 'GIFT_RECIPIENT_EMAIL';
-    public const TYPE__GIFT_RECIPIENT_NAME = 'GIFT_RECIPIENT_NAME';
-    public const TYPE__GIFT_MESSAGE = 'GIFT_MESSAGE';
-    public const TYPE__DELIVERY_INSTRUCTIONS = 'DELIVERY_INSTRUCTIONS';
-    public const TYPE__DELIVERY_DATE_PREFERENCE = 'DELIVERY_DATE_PREFERENCE';
-    public const TYPE__ALLERGY_INFORMATION = 'ALLERGY_INFORMATION';
-    public const TYPE__CUSTOM_ENGRAVING_TEXT = 'CUSTOM_ENGRAVING_TEXT';
-    public const TYPE__CUSTOM_SIZING_INFO = 'CUSTOM_SIZING_INFO';
-    public const TYPE__TERMS_ACCEPTANCE = 'TERMS_ACCEPTANCE';
-    public const TYPE__PRIVACY_CONSENT = 'PRIVACY_CONSENT';
+    public const string TYPE__AGE_VERIFICATION_18_PLUS = 'AGE_VERIFICATION_18_PLUS';
+    public const string TYPE__AGE_VERIFICATION_21_PLUS = 'AGE_VERIFICATION_21_PLUS';
+    public const string TYPE__GIFT_RECIPIENT_EMAIL = 'GIFT_RECIPIENT_EMAIL';
+    public const string TYPE__GIFT_RECIPIENT_NAME = 'GIFT_RECIPIENT_NAME';
+    public const string TYPE__GIFT_MESSAGE = 'GIFT_MESSAGE';
+    public const string TYPE__DELIVERY_INSTRUCTIONS = 'DELIVERY_INSTRUCTIONS';
+    public const string TYPE__DELIVERY_DATE_PREFERENCE = 'DELIVERY_DATE_PREFERENCE';
+    public const string TYPE__ALLERGY_INFORMATION = 'ALLERGY_INFORMATION';
+    public const string TYPE__CUSTOM_ENGRAVING_TEXT = 'CUSTOM_ENGRAVING_TEXT';
+    public const string TYPE__CUSTOM_SIZING_INFO = 'CUSTOM_SIZING_INFO';
+    public const string TYPE__TERMS_ACCEPTANCE = 'TERMS_ACCEPTANCE';
+    public const string TYPE__PRIVACY_CONSENT = 'PRIVACY_CONSENT';
 
-    public const STATUS__PENDING = 'PENDING';
-    public const STATUS__COMPLETED = 'COMPLETED';
-    public const STATUS__REJECTED = 'REJECTED';
-    public const STATUS__ERROR = 'ERROR';
+    public const string STATUS__PENDING = 'PENDING';
+    public const string STATUS__COMPLETED = 'COMPLETED';
+    public const string STATUS__REJECTED = 'REJECTED';
+    public const string STATUS__ERROR = 'ERROR';
 
-    private const TYPES = [
+    private const array TYPES = [
         self::TYPE__AGE_VERIFICATION_18_PLUS,
         self::TYPE__AGE_VERIFICATION_21_PLUS,
         self::TYPE__GIFT_RECIPIENT_EMAIL,
@@ -75,7 +75,7 @@ class CheckoutField extends Struct
         self::TYPE__PRIVACY_CONSENT,
     ];
 
-    private const STATUSES = [
+    private const array STATUSES = [
         self::STATUS__PENDING,
         self::STATUS__COMPLETED,
         self::STATUS__REJECTED,

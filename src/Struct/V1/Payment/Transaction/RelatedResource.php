@@ -19,11 +19,11 @@ use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource\Sale;
 #[OA\Schema(schema: 'paypal_v1_payment_transaction_related_resource')]
 class RelatedResource extends Struct
 {
-    public const SALE = ConstantsV1::INTENT_SALE;
-    public const AUTHORIZE = ConstantsV1::INTENT_AUTHORIZE;
-    public const ORDER = ConstantsV1::INTENT_ORDER;
-    public const REFUND = 'refund';
-    public const CAPTURE = 'capture';
+    public const string SALE = ConstantsV1::INTENT_SALE;
+    public const string AUTHORIZE = ConstantsV1::INTENT_AUTHORIZE;
+    public const string ORDER = ConstantsV1::INTENT_ORDER;
+    public const string REFUND = 'refund';
+    public const string CAPTURE = 'capture';
 
     #[OA\Property(ref: Sale::class, nullable: true)]
     protected ?Sale $sale = null;

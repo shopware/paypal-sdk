@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_referral_legal_consent')]
 class LegalConsent extends Struct
 {
-    public const CONSENT_TYPE_SHARE_DATA = 'SHARE_DATA_CONSENT';
+    public const string CONSENT_TYPE_SHARE_DATA = 'SHARE_DATA_CONSENT';
 
     #[OA\Property(type: 'string', default: self::CONSENT_TYPE_SHARE_DATA)]
     protected string $type = self::CONSENT_TYPE_SHARE_DATA;

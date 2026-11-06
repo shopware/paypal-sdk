@@ -25,24 +25,24 @@ use Shopware\PayPalSDK\Struct\V3\PaymentToken;
 #[OA\Schema(schema: 'paypal_v1_webhook_event')]
 class Event extends Struct
 {
-    public const RESOURCE_TYPE_AUTHORIZATION = 'authorization';
-    public const RESOURCE_TYPE_CAPTURE = 'capture';
-    public const RESOURCE_TYPE_CHECKOUT_ORDER = 'checkout-order';
-    public const RESOURCE_TYPE_REFUND = 'refund';
-    public const RESOURCE_TYPE_PAYMENT_TOKEN = 'payment_token';
-    public const RESOURCE_TYPE_SUBSCRIPTION = 'subscription';
-    public const RESOURCE_TYPE_MANAGED_ACCOUNTS = 'managed-accounts';
-    public const RESOURCE_TYPE_ACCOUNT_ENTITIES = 'account-entities';
-    public const RESOURCE_TYPE_DISPUTE = 'dispute';
+    public const string RESOURCE_TYPE_AUTHORIZATION = 'authorization';
+    public const string RESOURCE_TYPE_CAPTURE = 'capture';
+    public const string RESOURCE_TYPE_CHECKOUT_ORDER = 'checkout-order';
+    public const string RESOURCE_TYPE_REFUND = 'refund';
+    public const string RESOURCE_TYPE_PAYMENT_TOKEN = 'payment_token';
+    public const string RESOURCE_TYPE_SUBSCRIPTION = 'subscription';
+    public const string RESOURCE_TYPE_MANAGED_ACCOUNTS = 'managed-accounts';
+    public const string RESOURCE_TYPE_ACCOUNT_ENTITIES = 'account-entities';
+    public const string RESOURCE_TYPE_DISPUTE = 'dispute';
 
-    private const EVENT_FAMILY_PAYMENT_AUTHORIZATION = 'PAYMENT.AUTHORIZATION.';
-    private const EVENT_FAMILY_PAYMENT_CAPTURE = 'PAYMENT.CAPTURE.';
-    private const EVENT_FAMILY_CHECKOUT_ORDER = 'CHECKOUT.ORDER.';
-    private const EVENT_FAMILY_BILLING_SUBSCRIPTION = 'BILLING.SUBSCRIPTION.';
-    private const EVENT_FAMILY_VAULT_PAYMENT_TOKEN = 'VAULT.PAYMENT-TOKEN.';
-    private const EVENT_FAMILY_CUSTOMER_DISPUTE = 'CUSTOMER.DISPUTE.';
-    private const EVENT_FAMILY_CUSTOMER_MANAGED_ACCOUNT = 'CUSTOMER.MANAGED-ACCOUNT.';
-    private const EVENT_FAMILY_CUSTOMER_ACCOUNT_ENTITIES = 'CUSTOMER.ACCOUNT-ENTITIES.';
+    private const string EVENT_FAMILY_PAYMENT_AUTHORIZATION = 'PAYMENT.AUTHORIZATION.';
+    private const string EVENT_FAMILY_PAYMENT_CAPTURE = 'PAYMENT.CAPTURE.';
+    private const string EVENT_FAMILY_CHECKOUT_ORDER = 'CHECKOUT.ORDER.';
+    private const string EVENT_FAMILY_BILLING_SUBSCRIPTION = 'BILLING.SUBSCRIPTION.';
+    private const string EVENT_FAMILY_VAULT_PAYMENT_TOKEN = 'VAULT.PAYMENT-TOKEN.';
+    private const string EVENT_FAMILY_CUSTOMER_DISPUTE = 'CUSTOMER.DISPUTE.';
+    private const string EVENT_FAMILY_CUSTOMER_MANAGED_ACCOUNT = 'CUSTOMER.MANAGED-ACCOUNT.';
+    private const string EVENT_FAMILY_CUSTOMER_ACCOUNT_ENTITIES = 'CUSTOMER.ACCOUNT-ENTITIES.';
 
     #[OA\Property(type: 'string')]
     protected string $id;

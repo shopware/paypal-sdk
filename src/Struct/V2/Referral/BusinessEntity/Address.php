@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_referral_business_entity_address')]
 class Address extends Struct
 {
-    public const TYPE_WORK = 'WORK';
+    public const string TYPE_WORK = 'WORK';
 
     #[OA\Property(type: 'string')]
     protected string $countryCode;

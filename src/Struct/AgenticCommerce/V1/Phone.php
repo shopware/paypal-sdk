@@ -19,7 +19,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class Phone extends Struct
 {
-    private const PHONE_NUMBER_REGEX = '/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/';
+    private const string PHONE_NUMBER_REGEX = '/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/';
 
     /**
      * The country calling code (CC), in its canonical international E.164 numbering plan format.

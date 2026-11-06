@@ -15,15 +15,15 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\PaymentInstruction\PlatformF
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payment_instruction')]
 class PaymentInstruction extends Struct
 {
-    public const DISBURSEMENT_MODE_INSTANT = 'INSTANT';
-    public const DISBURSEMENT_MODE_DELAYED = 'DELAYED';
-    public const DISBURSEMENT_MODES = [
+    public const string DISBURSEMENT_MODE_INSTANT = 'INSTANT';
+    public const string DISBURSEMENT_MODE_DELAYED = 'DELAYED';
+    public const array DISBURSEMENT_MODES = [
         self::DISBURSEMENT_MODE_INSTANT,
         self::DISBURSEMENT_MODE_DELAYED,
     ];
 
-    public const MAX_LENGTH_PAYEE_PRICING_TIER_ID = 20;
-    public const MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID = 4000;
+    public const int MAX_LENGTH_PAYEE_PRICING_TIER_ID = 20;
+    public const int MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID = 4000;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: PlatformFee::class))]
     protected PlatformFeeCollection $platformFees;

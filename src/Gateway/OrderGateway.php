@@ -16,7 +16,7 @@ use Shopware\PayPalSDK\Struct\V2\PatchCollection;
 
 class OrderGateway extends AbstractGateway
 {
-    public const GATEWAY_URL = '/v2/checkout/orders';
+    public const string GATEWAY_URL = '/v2/checkout/orders';
 
     public function createOrder(Order $order, ApiContextInterface $context): Order
     {

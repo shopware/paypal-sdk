@@ -35,14 +35,14 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\SupportingInfoCollection;
 #[OA\Schema(schema: 'paypal_v1_disputes_item')]
 class Item extends Struct
 {
-    public const DISPUTE_STATE_REQUIRED_ACTION = 'REQUIRED_ACTION';
-    public const DISPUTE_STATE_REQUIRED_OTHER_PARTY_ACTION = 'REQUIRED_OTHER_PARTY_ACTION';
-    public const DISPUTE_STATE_UNDER_PAYPAL_REVIEW = 'UNDER_PAYPAL_REVIEW';
-    public const DISPUTE_STATE_RESOLVED = 'RESOLVED';
-    public const DISPUTE_STATE_OPEN_INQUIRIES = 'OPEN_INQUIRIES';
-    public const DISPUTE_STATE_APPEALABLE = 'APPEALABLE';
+    public const string DISPUTE_STATE_REQUIRED_ACTION = 'REQUIRED_ACTION';
+    public const string DISPUTE_STATE_REQUIRED_OTHER_PARTY_ACTION = 'REQUIRED_OTHER_PARTY_ACTION';
+    public const string DISPUTE_STATE_UNDER_PAYPAL_REVIEW = 'UNDER_PAYPAL_REVIEW';
+    public const string DISPUTE_STATE_RESOLVED = 'RESOLVED';
+    public const string DISPUTE_STATE_OPEN_INQUIRIES = 'OPEN_INQUIRIES';
+    public const string DISPUTE_STATE_APPEALABLE = 'APPEALABLE';
 
-    public const DISPUTE_STATES = [
+    public const array DISPUTE_STATES = [
         self::DISPUTE_STATE_REQUIRED_ACTION,
         self::DISPUTE_STATE_REQUIRED_OTHER_PARTY_ACTION,
         self::DISPUTE_STATE_UNDER_PAYPAL_REVIEW,

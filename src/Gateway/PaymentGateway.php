@@ -16,7 +16,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Refund;
 
 class PaymentGateway extends AbstractGateway
 {
-    public const GATEWAY_URL = '/v2/payments';
+    public const string GATEWAY_URL = '/v2/payments';
 
     public function getCapture(string $captureId, ApiContextInterface $context): Capture
     {
@@ -73,6 +73,10 @@ class PaymentGateway extends AbstractGateway
         );
     }
 
+    /**
+     * Returns the authorization for representation responses (normally HTTP 200),
+     * or null for empty responses (normally HTTP 204 with Prefer: return=minimal).
+     */
     public function voidAuthorization(string $authorizationId, ApiContextInterface $context): ?Authorization
     {
         return $this->requestWithOptionalResponse(

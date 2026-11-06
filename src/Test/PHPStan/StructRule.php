@@ -26,7 +26,7 @@ use Shopware\PayPalSDK\Util\CaseConverter;
  */
 class StructRule implements Rule
 {
-    private const EXCLUSIONS = [
+    private const array EXCLUSIONS = [
         Struct::class,
         Collection::class,
         ConstantsV1::class,

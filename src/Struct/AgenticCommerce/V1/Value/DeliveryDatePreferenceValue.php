@@ -17,10 +17,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_value_delivery_date_preference_value')]
 class DeliveryDatePreferenceValue extends Struct implements ValueInterface
 {
-    public const TIME_WINDOW__MORNING = 'morning';
-    public const TIME_WINDOW__AFTERNOON = 'afternoon';
-    public const TIME_WINDOW__EVENING = 'evening';
-    public const TIME_WINDOW__ANYTIME = 'anytime';
+    public const string TIME_WINDOW__MORNING = 'morning';
+    public const string TIME_WINDOW__AFTERNOON = 'afternoon';
+    public const string TIME_WINDOW__EVENING = 'evening';
+    public const string TIME_WINDOW__ANYTIME = 'anytime';
 
     /**
      * Preferred delivery date

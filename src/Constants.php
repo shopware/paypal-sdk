@@ -9,6 +9,6 @@ namespace Shopware\PayPalSDK;
 
 final class Constants
 {
-    public const BASEURL_SANDBOX = 'https://api-m.sandbox.paypal.com/';
-    public const BASEURL_LIVE = 'https://api-m.paypal.com/';
+    public const string BASEURL_SANDBOX = 'https://api-m.sandbox.paypal.com/';
+    public const string BASEURL_LIVE = 'https://api-m.paypal.com/';
 }

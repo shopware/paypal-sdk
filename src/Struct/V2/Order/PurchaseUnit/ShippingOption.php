@@ -15,9 +15,9 @@ use Shopware\PayPalSDK\Struct\V2\Common\Money;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_option')]
 class ShippingOption extends Struct
 {
-    public const TYPE_SHIPPING = 'SHIPPING';
+    public const string TYPE_SHIPPING = 'SHIPPING';
 
-    public const TYPE_PICKUP = 'PICKUP';
+    public const string TYPE_PICKUP = 'PICKUP';
 
     #[OA\Property(type: 'string')]
     protected string $id;

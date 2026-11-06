@@ -20,19 +20,19 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class CustomEngravingTextValue extends Struct implements ValueInterface
 {
-    public const FONT__ARIAL = 'arial';
-    public const FONT__TIMES = 'times';
-    public const FONT__SCRIPT = 'script';
-    public const FONT__BLOCK = 'block';
+    public const string FONT__ARIAL = 'arial';
+    public const string FONT__TIMES = 'times';
+    public const string FONT__SCRIPT = 'script';
+    public const string FONT__BLOCK = 'block';
 
-    public const SIZE__SMALL = 'small';
-    public const SIZE__MEDIUM = 'medium';
-    public const SIZE__LARGE = 'large';
+    public const string SIZE__SMALL = 'small';
+    public const string SIZE__MEDIUM = 'medium';
+    public const string SIZE__LARGE = 'large';
 
-    public const POSITION__FRONT = 'front';
-    public const POSITION__BACK = 'back';
-    public const POSITION__SIDE = 'side';
-    public const POSITION__BOTTOM = 'bottom';
+    public const string POSITION__FRONT = 'front';
+    public const string POSITION__BACK = 'back';
+    public const string POSITION__SIDE = 'side';
+    public const string POSITION__BOTTOM = 'bottom';
 
     /**
      * Text to be engraved

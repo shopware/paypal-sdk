@@ -21,7 +21,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 #[OA\Schema(schema: 'paypal_v2_order')]
 class Order extends Struct
 {
-    public const PROCESSING_INSTRUCTION_COMPLETE_ON_APPROVAL = 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL';
+    public const string PROCESSING_INSTRUCTION_COMPLETE_ON_APPROVAL = 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL';
 
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $createTime;

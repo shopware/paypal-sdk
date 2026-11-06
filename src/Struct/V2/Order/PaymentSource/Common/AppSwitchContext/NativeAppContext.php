@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_app_switch_context_native_app_context')]
 class NativeAppContext extends Struct
 {
-    public const OS_TYPE_ANDROID = 'ANDROID';
-    public const OS_TYPE_IOS = 'IOS';
-    public const OS_TYPE_OTHER = 'OTHER';
-    public const OS_TYPES = [
+    public const string OS_TYPE_ANDROID = 'ANDROID';
+    public const string OS_TYPE_IOS = 'IOS';
+    public const string OS_TYPE_OTHER = 'OTHER';
+    public const array OS_TYPES = [
         self::OS_TYPE_ANDROID,
         self::OS_TYPE_IOS,
         self::OS_TYPE_OTHER,

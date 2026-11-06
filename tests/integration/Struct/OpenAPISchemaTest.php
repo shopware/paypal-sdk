@@ -172,7 +172,7 @@ class OpenAPISchemaTest extends TestCase
         static::assertEmpty($failures, \implode(\PHP_EOL, $failures));
     }
 
-    public function testNullablePropertiesCanBeAssignedNull(): void
+    public function testNullablePropertiesCanBeReadAndAssignedNull(): void
     {
         $failures = [];
 
@@ -202,6 +202,19 @@ class OpenAPISchemaTest extends TestCase
                     static::assertNull($property->getValue($instance));
                 } catch (\Throwable $e) {
                     $failures[] = $class . '::' . $setter . ' rejects null: ' . $e->getMessage();
+                }
+
+                $getter = 'get' . \ucfirst($property->getName());
+                if (!$reflection->hasMethod($getter)) {
+                    $getter = \preg_match('/^is[A-Z]/', $property->getName())
+                        ? $property->getName()
+                        : 'is' . \ucfirst($property->getName());
+                }
+
+                try {
+                    $reflection->getMethod($getter)->invoke($reflection->newInstance());
+                } catch (\Throwable $e) {
+                    $failures[] = $class . '::' . $getter . ' cannot be called on a fresh instance: ' . $e->getMessage();
                 }
             }
         }

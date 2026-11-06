@@ -13,9 +13,9 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_patch')]
 class Patch extends Struct
 {
-    public const OPERATION_ADD = 'add';
-    public const OPERATION_REPLACE = 'replace';
-    public const OPERATION_REMOVE = 'remove';
+    public const string OPERATION_ADD = 'add';
+    public const string OPERATION_REPLACE = 'replace';
+    public const string OPERATION_REMOVE = 'remove';
 
     #[OA\Property(type: 'string')]
     protected string $op;

@@ -16,8 +16,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_subscription_application_context')]
 class ApplicationContext extends Struct
 {
-    public const USER_ACTION_TYPE_SUBSCRIBE_NOW = 'SUBSCRIBE_NOW';
-    public const USER_ACTION_TYPE_CONTINUE = 'CONTINUE';
+    public const string USER_ACTION_TYPE_SUBSCRIBE_NOW = 'SUBSCRIBE_NOW';
+    public const string USER_ACTION_TYPE_CONTINUE = 'CONTINUE';
 
     #[OA\Property(type: 'string', default: self::USER_ACTION_TYPE_SUBSCRIBE_NOW)]
     protected string $userAction = self::USER_ACTION_TYPE_SUBSCRIBE_NOW;

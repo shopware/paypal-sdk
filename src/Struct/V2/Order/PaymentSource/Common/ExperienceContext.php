@@ -14,26 +14,26 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes\OrderUpda
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_experience_context')]
 class ExperienceContext extends Struct
 {
-    public const LANDING_PAGE_TYPE_LOGIN = 'LOGIN';
-    public const LANDING_PAGE_TYPE_GUEST = 'GUEST_CHECKOUT';
-    public const LANDING_PAGE_TYPE_NO_PREFERENCE = 'NO_PREFERENCE';
-    public const LANDING_PAGE_TYPES = [
+    public const string LANDING_PAGE_TYPE_LOGIN = 'LOGIN';
+    public const string LANDING_PAGE_TYPE_GUEST = 'GUEST_CHECKOUT';
+    public const string LANDING_PAGE_TYPE_NO_PREFERENCE = 'NO_PREFERENCE';
+    public const array LANDING_PAGE_TYPES = [
         self::LANDING_PAGE_TYPE_LOGIN,
         self::LANDING_PAGE_TYPE_GUEST,
         self::LANDING_PAGE_TYPE_NO_PREFERENCE,
     ];
 
-    public const SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS = 'SET_PROVIDED_ADDRESS';
-    public const SHIPPING_PREFERENCE_NO_SHIPPING = 'NO_SHIPPING';
-    public const SHIPPING_PREFERENCE_GET_FROM_FILE = 'GET_FROM_FILE';
+    public const string SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS = 'SET_PROVIDED_ADDRESS';
+    public const string SHIPPING_PREFERENCE_NO_SHIPPING = 'NO_SHIPPING';
+    public const string SHIPPING_PREFERENCE_GET_FROM_FILE = 'GET_FROM_FILE';
 
-    public const USER_ACTION_CONTINUE = 'CONTINUE';
-    public const USER_ACTION_PAY_NOW = 'PAY_NOW';
+    public const string USER_ACTION_CONTINUE = 'CONTINUE';
+    public const string USER_ACTION_PAY_NOW = 'PAY_NOW';
 
-    public const PAYMENT_METHOD_PREFERENCE_UNRESTRICTED = 'UNRESTRICTED';
-    public const PAYMENT_METHOD_PREFERENCE_IMMEDIATE_REQUIRED = 'IMMEDIATE_PAYMENT_REQUIRED';
+    public const string PAYMENT_METHOD_PREFERENCE_UNRESTRICTED = 'UNRESTRICTED';
+    public const string PAYMENT_METHOD_PREFERENCE_IMMEDIATE_REQUIRED = 'IMMEDIATE_PAYMENT_REQUIRED';
 
-    public const ACQUIRING_CHANNEL_ECOMMERCE = 'ECOMMERCE';
+    public const string ACQUIRING_CHANNEL_ECOMMERCE = 'ECOMMERCE';
 
     #[OA\Property(type: 'string')]
     protected string $locale;

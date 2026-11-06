@@ -18,9 +18,10 @@ This SDK provides a simple and easy-to-use interface for working with PayPal's R
 ### Upgrading to 3.0.0
 
 - PHP 8.4 or newer is required. CI tests PHP 8.4 and 8.5.
+- SDK class and interface constants now declare their value types. Overrides in subclasses must declare compatible types as well.
 - Missing optional fields in `Order` and `Order\PurchaseUnit` return `null`. `Order::getId()` retains its required `string` type, and `Order::getPurchaseUnits()` still initializes a collection for building requests. `Order` remains the shared request and response model.
 - `Token` and `ClientToken` use `DateTimeImmutable` for expiration dates. To change the expiration explicitly, pass the result of `modify()` to `setExpireDateTime()`.
-- Clear the persistent token cache before SDK 3.0 handles any requests. Cache keys are unchanged, but serialized 2.x tokens contain `DateTime` values that are incompatible with the new `DateTimeImmutable` properties and can cause a `TypeError` when loaded. A major version upgrade does not clear the cache automatically. During rolling deployments, prevent 2.x processes from repopulating the token cache used by 3.0.
+- Cached 2.x tokens are incompatible with 3.0. Clear the token cache after stopping 2.x instances, or use separate cache namespaces for 2.x and 3.x during rolling deployments.
 - `RequestService` accepts separate PSR-17 request, stream and URI factories. Replace `new RequestService($factory)` with `new RequestService($factory, $factory, $factory)` when supplying a combined factory; named arguments are now `requestFactory`, `streamFactory` and `uriFactory`. Automatic discovery remains the default.
 - REST errors with HTTP 401 retain their API error code, message, debug ID and details as `ErrorApiException`. OAuth errors are identified by their response format, not HTTP status alone; unstructured 401 responses produce `ApiException`.
 - Appending with `$collection[] = $element` now adds and validates the element.

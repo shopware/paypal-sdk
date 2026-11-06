@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_token')]
 class Token extends Struct
 {
-    public const TTL_THRESHOLD_PERCENT = 0.95; // -5%
+    public const float TTL_THRESHOLD_PERCENT = 0.95; // -5%
 
     /**
      * Scopes expressed in the form of resource URL endpoints. The value of the scope parameter

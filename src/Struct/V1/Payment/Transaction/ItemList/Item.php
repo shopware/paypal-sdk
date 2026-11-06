@@ -13,8 +13,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_payment_transaction_item_list_item')]
 class Item extends Struct
 {
-    public const MAX_LENGTH_NAME = 127;
-    public const MAX_LENGTH_SKU = 127;
+    public const int MAX_LENGTH_NAME = 127;
+    public const int MAX_LENGTH_SKU = 127;
 
     #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME)]
     protected string $name;

@@ -17,10 +17,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_value_allergy_information_value')]
 class AllergyInformationValue extends Struct implements ValueInterface
 {
-    public const SEVERITY__MILD = 'mild';
-    public const SEVERITY__MODERATE = 'moderate';
-    public const SEVERITY__SEVERE = 'severe';
-    public const SEVERITY__LIFE_THREATENING = 'life_threatening';
+    public const string SEVERITY__MILD = 'mild';
+    public const string SEVERITY__MODERATE = 'moderate';
+    public const string SEVERITY__SEVERE = 'severe';
+    public const string SEVERITY__LIFE_THREATENING = 'life_threatening';
 
     /**
      * List of known allergies

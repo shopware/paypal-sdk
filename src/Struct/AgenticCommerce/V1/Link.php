@@ -19,13 +19,13 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class Link extends Struct
 {
-    public const REL__SELF = 'rel';
-    public const REL__UPDATE = 'update';
-    public const REL__CHECKOUT = 'checkout';
+    public const string REL__SELF = 'rel';
+    public const string REL__UPDATE = 'update';
+    public const string REL__CHECKOUT = 'checkout';
 
-    public const METHOD__GET = 'GET';
-    public const METHOD__POST = 'POST';
-    public const METHOD__PUT = 'PUT';
+    public const string METHOD__GET = 'GET';
+    public const string METHOD__POST = 'POST';
+    public const string METHOD__PUT = 'PUT';
 
     /**
      * Link relationship type

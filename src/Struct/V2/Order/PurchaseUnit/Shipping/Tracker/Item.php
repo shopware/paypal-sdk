@@ -13,9 +13,9 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_tracker_item')]
 class Item extends Struct
 {
-    public const MAX_LENGTH_NAME = 120;
-    public const MAX_LENGTH_SKU = 127;
-    public const MAX_LENGTH_URL = 2048;
+    public const int MAX_LENGTH_NAME = 120;
+    public const int MAX_LENGTH_SKU = 127;
+    public const int MAX_LENGTH_URL = 2048;
 
     #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME)]
     protected string $name;

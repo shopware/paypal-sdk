@@ -21,7 +21,7 @@ use Shopware\PayPalSDK\Util\TokenArrayCache;
 
 class TokenGateway implements TokenGatewayInterface
 {
-    public const GATEWAY_URL = '/v1/oauth2/token';
+    public const string GATEWAY_URL = '/v1/oauth2/token';
 
     public function __construct(
         protected readonly ClientInterface $client = new Psr18Client(),

@@ -16,8 +16,8 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Common\PaymentSuppl
 
 abstract class Payment extends Struct
 {
-    public const MAX_LENGTH_INVOICE_ID = 127;
-    public const MAX_LENGTH_NOTE_TO_PAYER = 255;
+    public const int MAX_LENGTH_INVOICE_ID = 127;
+    public const int MAX_LENGTH_NOTE_TO_PAYER = 255;
 
     #[OA\Property(type: 'string')]
     protected string $status;

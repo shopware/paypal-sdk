@@ -17,8 +17,8 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ItemCollection;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_tracker')]
 class Tracker extends Struct
 {
-    public const STATUS_SHIPPED = 'SHIPPED';
-    public const STATUS_CANCELLED = 'CANCELLED';
+    public const string STATUS_SHIPPED = 'SHIPPED';
+    public const string STATUS_CANCELLED = 'CANCELLED';
 
     #[OA\Property(type: 'string')]
     protected string $id;
