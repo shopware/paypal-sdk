@@ -26,7 +26,7 @@ use Shopware\PayPalSDK\Util\CaseConverter;
  */
 class StructRule implements Rule
 {
-    private const EXCLUSIONS = [
+    private const array EXCLUSIONS = [
         Struct::class,
         Collection::class,
         ConstantsV1::class,
@@ -72,10 +72,6 @@ class StructRule implements Rule
         }
 
         if ($type) {
-            if (($type->isNull()->maybe() || $type->isNull()->yes()) && !$node->getDefault()) {
-                $errors[] = self::message($node, 'is nullable and should have an default value', 'default');
-            }
-
             $setter = 'set' . \ucfirst($node->getName());
 
             if (!$class->hasMethod($setter)) {

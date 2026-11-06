@@ -21,7 +21,7 @@ use Shopware\PayPalSDK\Util\TokenArrayCache;
 
 class TokenGateway implements TokenGatewayInterface
 {
-    public const GATEWAY_URL = '/v1/oauth2/token';
+    public const string GATEWAY_URL = '/v1/oauth2/token';
 
     public function __construct(
         protected readonly ClientInterface $client = new Psr18Client(),
@@ -32,9 +32,8 @@ class TokenGateway implements TokenGatewayInterface
     /**
      * @throws ApiException|ClientExceptionInterface|\JsonException|\LogicException
      */
-    public function getToken(ApiContextInterface $context /* , bool $refresh */): Token
+    public function getToken(ApiContextInterface $context, bool $refresh = false): Token
     {
-        $refresh = \func_num_args() > 1 && (bool) \func_get_arg(1);
         $context = $context->withHeader(RequestServiceInterface::HEADER_CONTENT_TYPE, RequestServiceInterface::CONTENT_TYPE_URL_ENCODED);
 
         $cacheKey = $context->getOAuthContext()->getCacheKey($context);
@@ -73,7 +72,7 @@ class TokenGateway implements TokenGatewayInterface
         $token = $this->tokenCache->get($key);
         $token = $token instanceof Token ? $token : null;
 
-        if (!$token || $token->getExpireDateTime() < new \DateTime('now', new \DateTimeZone('UTC'))) {
+        if (!$token || $token->getExpireDateTime() < new \DateTimeImmutable('now', new \DateTimeZone('UTC'))) {
             $this->tokenCache->delete($key);
 
             return null;

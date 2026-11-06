@@ -290,6 +290,30 @@ class CollectionTest extends TestCase
         // @phpstan-ignore-next-line
         $collection->add(new Address());
     }
+
+    public function testArrayAccessAppendsAndReplacesElements(): void
+    {
+        $collection = new TestCollection();
+        $first = (new Money())->assign(['value' => '1']);
+        $second = (new Money())->assign(['value' => '2']);
+
+        $collection[] = $first;
+        $collection[] = $second;
+
+        static::assertSame([$first, $second], $collection->getElements());
+
+        $collection[0] = $second;
+        static::assertSame([$second, $second], $collection->getElements());
+    }
+
+    public function testArrayAccessAppendValidatesElementType(): void
+    {
+        $collection = new TestCollection();
+
+        $this->expectException(\InvalidArgumentException::class);
+        // @phpstan-ignore-next-line offsetAssign.valueType
+        $collection[] = new Address();
+    }
 }
 
 /**

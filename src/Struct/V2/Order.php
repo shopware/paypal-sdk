@@ -21,57 +21,57 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 #[OA\Schema(schema: 'paypal_v2_order')]
 class Order extends Struct
 {
-    public const PROCESSING_INSTRUCTION_COMPLETE_ON_APPROVAL = 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL';
+    public const string PROCESSING_INSTRUCTION_COMPLETE_ON_APPROVAL = 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL';
 
-    #[OA\Property(type: 'string')]
-    protected string $createTime;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $createTime;
 
-    #[OA\Property(type: 'string')]
-    protected string $updateTime;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $updateTime;
 
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string', enum: [ConstantsV2::INTENT_CAPTURE, ConstantsV2::INTENT_AUTHORIZE])]
-    protected string $intent = ConstantsV2::INTENT_CAPTURE;
+    #[OA\Property(type: 'string', enum: [ConstantsV2::INTENT_CAPTURE, ConstantsV2::INTENT_AUTHORIZE], nullable: true)]
+    protected ?string $intent;
 
-    #[OA\Property(ref: Payer::class)]
-    protected Payer $payer;
+    #[OA\Property(ref: Payer::class, nullable: true)]
+    protected ?Payer $payer;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), nullable: true)]
-    protected ?PurchaseUnitCollection $purchaseUnits = null;
+    protected ?PurchaseUnitCollection $purchaseUnits;
 
-    #[OA\Property(ref: ApplicationContext::class)]
-    protected ApplicationContext $applicationContext;
+    #[OA\Property(ref: ApplicationContext::class, nullable: true)]
+    protected ?ApplicationContext $applicationContext;
 
     #[OA\Property(ref: PaymentSource::class, nullable: true)]
-    protected ?PaymentSource $paymentSource = null;
+    protected ?PaymentSource $paymentSource;
 
-    #[OA\Property(type: 'string')]
-    protected string $status;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $status;
 
-    #[OA\Property(type: 'string')]
-    protected string $processingInstruction;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $processingInstruction;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), nullable: true)]
+    protected ?LinkCollection $links;
 
-    public function getCreateTime(): string
+    public function getCreateTime(): ?string
     {
-        return $this->createTime;
+        return $this->createTime ?? null;
     }
 
-    public function setCreateTime(string $createTime): void
+    public function setCreateTime(?string $createTime): void
     {
         $this->createTime = $createTime;
     }
 
-    public function getUpdateTime(): string
+    public function getUpdateTime(): ?string
     {
-        return $this->updateTime;
+        return $this->updateTime ?? null;
     }
 
-    public function setUpdateTime(string $updateTime): void
+    public function setUpdateTime(?string $updateTime): void
     {
         $this->updateTime = $updateTime;
     }
@@ -86,29 +86,29 @@ class Order extends Struct
         $this->id = $id;
     }
 
-    public function getIntent(): string
+    public function getIntent(): ?string
     {
-        return $this->intent;
+        return $this->intent ?? null;
     }
 
-    public function setIntent(string $intent): void
+    public function setIntent(?string $intent): void
     {
         $this->intent = $intent;
     }
 
-    public function getPayer(): Payer
+    public function getPayer(): ?Payer
     {
-        return $this->payer;
+        return $this->payer ?? null;
     }
 
-    public function setPayer(Payer $payer): void
+    public function setPayer(?Payer $payer): void
     {
         $this->payer = $payer;
     }
 
     public function getPurchaseUnits(): PurchaseUnitCollection
     {
-        return $this->purchaseUnits ?? $this->purchaseUnits = new PurchaseUnitCollection();
+        return $this->purchaseUnits ??= new PurchaseUnitCollection();
     }
 
     public function setPurchaseUnits(?PurchaseUnitCollection $purchaseUnits): void
@@ -116,19 +116,19 @@ class Order extends Struct
         $this->purchaseUnits = $purchaseUnits;
     }
 
-    public function getApplicationContext(): ApplicationContext
+    public function getApplicationContext(): ?ApplicationContext
     {
-        return $this->applicationContext;
+        return $this->applicationContext ?? null;
     }
 
-    public function setApplicationContext(ApplicationContext $applicationContext): void
+    public function setApplicationContext(?ApplicationContext $applicationContext): void
     {
         $this->applicationContext = $applicationContext;
     }
 
     public function getPaymentSource(): ?PaymentSource
     {
-        return $this->paymentSource;
+        return $this->paymentSource ?? null;
     }
 
     public function setPaymentSource(?PaymentSource $paymentSource): void
@@ -136,32 +136,32 @@ class Order extends Struct
         $this->paymentSource = $paymentSource;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
-        return $this->status;
+        return $this->status ?? null;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }
 
-    public function getProcessingInstruction(): string
+    public function getProcessingInstruction(): ?string
     {
-        return $this->processingInstruction;
+        return $this->processingInstruction ?? null;
     }
 
-    public function setProcessingInstruction(string $processingInstruction): void
+    public function setProcessingInstruction(?string $processingInstruction): void
     {
         $this->processingInstruction = $processingInstruction;
     }
 
-    public function getLinks(): LinkCollection
+    public function getLinks(): ?LinkCollection
     {
-        return $this->links;
+        return $this->links ?? null;
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

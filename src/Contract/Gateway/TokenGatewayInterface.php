@@ -17,9 +17,9 @@ interface TokenGatewayInterface extends GatewayInterface
     /**
      * Request an {@see Token} from PayPal's OAuth2 endpoint.
      *
-     * @deprecated tag:v3.0.0 - will have a new parameter `$refresh`
+     * @param bool $refresh true to bypass the token cache.
      *
      * @throws ApiException|ClientExceptionInterface|\JsonException
      */
-    public function getToken(ApiContextInterface $context /* , bool $refresh */): Token;
+    public function getToken(ApiContextInterface $context, bool $refresh = false): Token;
 }

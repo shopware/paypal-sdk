@@ -13,17 +13,17 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_referral_operation_api_integration_preference_rest_api_integration_third_party_details')]
 class ThirdPartyDetails extends Struct
 {
-    public const FEATURE_TYPE_PAYMENT = 'PAYMENT';
-    public const FEATURE_TYPE_REFUND = 'REFUND';
-    public const FEATURE_TYPE_ACCESS_MERCHANT_INFORMATION = 'ACCESS_MERCHANT_INFORMATION';
-    public const FEATURE_TYPE_ADVANCED_TRANSACTIONS_SEARCH = 'ADVANCED_TRANSACTIONS_SEARCH';
-    public const FEATURE_TYPE_UPDATE_SELLER_DISPUTE = 'UPDATE_SELLER_DISPUTE';
-    public const FEATURE_TYPE_READ_SELLER_DISPUTE = 'READ_SELLER_DISPUTE';
-    public const FEATURE_TYPE_DELAY_FUNDS_DISBURSEMENT = 'DELAY_FUNDS_DISBURSEMENT';
-    public const FEATURE_TYPE_TRACKING_SHIPMENT_READWRITE = 'TRACKING_SHIPMENT_READWRITE';
-    public const FEATURE_TYPE_VAULT = 'VAULT';
-    public const FEATURE_TYPE_BILLING_AGREEMENT = 'BILLING_AGREEMENT';
-    public const SIGNUP_MODE_VERIFY_WITH_PAYPAL = 'VERIFY_WITH_PAYPAL';
+    public const string FEATURE_TYPE_PAYMENT = 'PAYMENT';
+    public const string FEATURE_TYPE_REFUND = 'REFUND';
+    public const string FEATURE_TYPE_ACCESS_MERCHANT_INFORMATION = 'ACCESS_MERCHANT_INFORMATION';
+    public const string FEATURE_TYPE_ADVANCED_TRANSACTIONS_SEARCH = 'ADVANCED_TRANSACTIONS_SEARCH';
+    public const string FEATURE_TYPE_UPDATE_SELLER_DISPUTE = 'UPDATE_SELLER_DISPUTE';
+    public const string FEATURE_TYPE_READ_SELLER_DISPUTE = 'READ_SELLER_DISPUTE';
+    public const string FEATURE_TYPE_DELAY_FUNDS_DISBURSEMENT = 'DELAY_FUNDS_DISBURSEMENT';
+    public const string FEATURE_TYPE_TRACKING_SHIPMENT_READWRITE = 'TRACKING_SHIPMENT_READWRITE';
+    public const string FEATURE_TYPE_VAULT = 'VAULT';
+    public const string FEATURE_TYPE_BILLING_AGREEMENT = 'BILLING_AGREEMENT';
+    public const string SIGNUP_MODE_VERIFY_WITH_PAYPAL = 'VERIFY_WITH_PAYPAL';
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]

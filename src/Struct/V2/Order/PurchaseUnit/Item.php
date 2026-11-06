@@ -14,12 +14,12 @@ use Shopware\PayPalSDK\Struct\V2\Common\Money;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_item')]
 class Item extends Struct
 {
-    public const MAX_LENGTH_NAME = 120;
-    public const MAX_LENGTH_SKU = 127;
+    public const int MAX_LENGTH_NAME = 120;
+    public const int MAX_LENGTH_SKU = 127;
 
-    public const CATEGORY_PHYSICAL_GOODS = 'PHYSICAL_GOODS';
-    public const CATEGORY_DIGITAL_GOODS = 'DIGITAL_GOODS';
-    public const CATEGORY_DONATION = 'DONATION';
+    public const string CATEGORY_PHYSICAL_GOODS = 'PHYSICAL_GOODS';
+    public const string CATEGORY_DIGITAL_GOODS = 'DIGITAL_GOODS';
+    public const string CATEGORY_DONATION = 'DONATION';
 
     #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME)]
     protected string $name;

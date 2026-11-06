@@ -13,16 +13,16 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_card_stored_credential')]
 class StoredCredential extends Struct
 {
-    public const PAYMENT_INITIATOR_MERCHANT = 'MERCHANT';
-    public const PAYMENT_INITIATOR_CUSTOMER = 'CUSTOMER';
+    public const string PAYMENT_INITIATOR_MERCHANT = 'MERCHANT';
+    public const string PAYMENT_INITIATOR_CUSTOMER = 'CUSTOMER';
 
-    public const PAYMENT_TYPE_ONE_TIME = 'ONE_TIME';
-    public const PAYMENT_TYPE_RECURRING = 'RECURRING';
-    public const PAYMENT_TYPE_UNSCHEDULED = 'UNSCHEDULED';
+    public const string PAYMENT_TYPE_ONE_TIME = 'ONE_TIME';
+    public const string PAYMENT_TYPE_RECURRING = 'RECURRING';
+    public const string PAYMENT_TYPE_UNSCHEDULED = 'UNSCHEDULED';
 
-    public const USAGE_FIRST = 'FIRST';
-    public const USAGE_SUBSEQUENT = 'SUBSEQUENT';
-    public const USAGE_DERIVED = 'DERIVED';
+    public const string USAGE_FIRST = 'FIRST';
+    public const string USAGE_SUBSEQUENT = 'SUBSEQUENT';
+    public const string USAGE_DERIVED = 'DERIVED';
 
     #[OA\Property(type: 'string', enum: [self::PAYMENT_INITIATOR_MERCHANT, self::PAYMENT_INITIATOR_CUSTOMER])]
     protected string $paymentInitiator;

@@ -15,8 +15,8 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping\Tracker\ItemCollect
 #[OA\Schema(schema: 'paypal_v2_order_tracker')]
 class Tracker extends Struct
 {
-    public const MAX_LENGTH_TRACKING_NUMBER = 64;
-    public const CARRIER_OTHER = 'OTHER';
+    public const int MAX_LENGTH_TRACKING_NUMBER = 64;
+    public const string CARRIER_OTHER = 'OTHER';
 
     #[OA\Property(type: 'string')]
     protected string $captureId;

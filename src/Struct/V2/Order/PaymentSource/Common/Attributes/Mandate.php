@@ -13,9 +13,9 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_mandate')]
 class Mandate extends Struct
 {
-    public const TYPE_ONE_OFF = 'ONE_OFF';
-    public const TYPE_RECURRENT = 'RECURRENT';
-    public const MANDATE_TYPES = [
+    public const string TYPE_ONE_OFF = 'ONE_OFF';
+    public const string TYPE_RECURRENT = 'RECURRENT';
+    public const array MANDATE_TYPES = [
         self::TYPE_ONE_OFF,
         self::TYPE_RECURRENT,
     ];

@@ -23,95 +23,95 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit')]
 class PurchaseUnit extends Struct
 {
-    #[OA\Property(type: 'string')]
-    protected string $referenceId;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $referenceId;
 
-    #[OA\Property(ref: Amount::class)]
-    protected Amount $amount;
+    #[OA\Property(ref: Amount::class, nullable: true)]
+    protected ?Amount $amount;
 
-    #[OA\Property(ref: Payee::class)]
-    protected Payee $payee;
+    #[OA\Property(ref: Payee::class, nullable: true)]
+    protected ?Payee $payee;
 
-    #[OA\Property(ref: PaymentInstruction::class)]
-    protected PaymentInstruction $paymentInstruction;
-
-    #[OA\Property(type: 'string')]
-    protected string $description;
+    #[OA\Property(ref: PaymentInstruction::class, nullable: true)]
+    protected ?PaymentInstruction $paymentInstruction;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $customId = null;
+    protected ?string $description;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $invoiceId = null;
+    protected ?string $customId;
+
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $invoiceId;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), nullable: true)]
-    protected ?ItemCollection $items = null;
+    protected ?ItemCollection $items;
 
-    #[OA\Property(ref: Shipping::class)]
-    protected ?Shipping $shipping = null;
+    #[OA\Property(ref: Shipping::class, nullable: true)]
+    protected ?Shipping $shipping;
 
     #[OA\Property(ref: Payments::class, nullable: true)]
-    protected ?Payments $payments = null;
+    protected ?Payments $payments;
 
-    #[OA\Property(ref: SupplementaryData::class)]
-    protected SupplementaryData $supplementaryData;
+    #[OA\Property(ref: SupplementaryData::class, nullable: true)]
+    protected ?SupplementaryData $supplementaryData;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: ShippingOption::class), nullable: true)]
-    protected ?ShippingOptionCollection $shippingOptions = null;
+    protected ?ShippingOptionCollection $shippingOptions;
 
-    public function getReferenceId(): string
+    public function getReferenceId(): ?string
     {
-        return $this->referenceId;
+        return $this->referenceId ?? null;
     }
 
-    public function setReferenceId(string $referenceId): void
+    public function setReferenceId(?string $referenceId): void
     {
         $this->referenceId = $referenceId;
     }
 
-    public function getAmount(): Amount
+    public function getAmount(): ?Amount
     {
-        return $this->amount;
+        return $this->amount ?? null;
     }
 
-    public function setAmount(Amount $amount): void
+    public function setAmount(?Amount $amount): void
     {
         $this->amount = $amount;
     }
 
-    public function getPayee(): Payee
+    public function getPayee(): ?Payee
     {
-        return $this->payee;
+        return $this->payee ?? null;
     }
 
-    public function setPayee(Payee $payee): void
+    public function setPayee(?Payee $payee): void
     {
         $this->payee = $payee;
     }
 
-    public function getPaymentInstruction(): PaymentInstruction
+    public function getPaymentInstruction(): ?PaymentInstruction
     {
-        return $this->paymentInstruction;
+        return $this->paymentInstruction ?? null;
     }
 
-    public function setPaymentInstruction(PaymentInstruction $paymentInstruction): void
+    public function setPaymentInstruction(?PaymentInstruction $paymentInstruction): void
     {
         $this->paymentInstruction = $paymentInstruction;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
-        return $this->description;
+        return $this->description ?? null;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
     public function getCustomId(): ?string
     {
-        return $this->customId;
+        return $this->customId ?? null;
     }
 
     public function setCustomId(?string $customId): void
@@ -121,7 +121,7 @@ class PurchaseUnit extends Struct
 
     public function getInvoiceId(): ?string
     {
-        return $this->invoiceId;
+        return $this->invoiceId ?? null;
     }
 
     public function setInvoiceId(?string $invoiceId): void
@@ -131,7 +131,7 @@ class PurchaseUnit extends Struct
 
     public function getItems(): ?ItemCollection
     {
-        return $this->items;
+        return $this->items ?? null;
     }
 
     public function setItems(?ItemCollection $items): void
@@ -141,7 +141,7 @@ class PurchaseUnit extends Struct
 
     public function getShipping(): ?Shipping
     {
-        return $this->shipping;
+        return $this->shipping ?? null;
     }
 
     public function setShipping(?Shipping $shipping): void
@@ -151,7 +151,7 @@ class PurchaseUnit extends Struct
 
     public function getPayments(): ?Payments
     {
-        return $this->payments;
+        return $this->payments ?? null;
     }
 
     public function setPayments(?Payments $payments): void
@@ -159,19 +159,19 @@ class PurchaseUnit extends Struct
         $this->payments = $payments;
     }
 
-    public function getSupplementaryData(): SupplementaryData
+    public function getSupplementaryData(): ?SupplementaryData
     {
-        return $this->supplementaryData;
+        return $this->supplementaryData ?? null;
     }
 
-    public function setSupplementaryData(SupplementaryData $supplementaryData): void
+    public function setSupplementaryData(?SupplementaryData $supplementaryData): void
     {
         $this->supplementaryData = $supplementaryData;
     }
 
     public function getShippingOptions(): ?ShippingOptionCollection
     {
-        return $this->shippingOptions;
+        return $this->shippingOptions ?? null;
     }
 
     public function setShippingOptions(?ShippingOptionCollection $shippingOptions): void

@@ -19,10 +19,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class PayPalCart extends Struct
 {
-    public const STATUS__CREATED = 'CREATED';
-    public const STATUS__INCOMPLETE = 'INCOMPLETE';
-    public const STATUS__READY = 'READY';
-    public const STATUS__COMPLETE = 'COMPLETE';
+    public const string STATUS__CREATED = 'CREATED';
+    public const string STATUS__INCOMPLETE = 'INCOMPLETE';
+    public const string STATUS__READY = 'READY';
+    public const string STATUS__COMPLETE = 'COMPLETE';
 
     /**
      * Cart data is complete and valid, ready for checkout
@@ -33,7 +33,7 @@ class PayPalCart extends Struct
      * validation_issues array is empty
      * Can proceed directly to checkout
      */
-    public const VALIDATION_STATUS__VALID = 'VALID';
+    public const string VALIDATION_STATUS__VALID = 'VALID';
 
     /**
      * Cart has data issues that prevent checkout
@@ -43,7 +43,7 @@ class PayPalCart extends Struct
      * validation_issues array contains specific problems
      * Customer/AI agent must resolve issues before checkout
      */
-    public const VALIDATION_STATUS__INVALID = 'INVALID';
+    public const string VALIDATION_STATUS__INVALID = 'INVALID';
 
     /**
      * Cart needs more data but is otherwise valid
@@ -53,10 +53,10 @@ class PayPalCart extends Struct
      * Items and pricing are valid, just needs customer input
      * validation_issues array indicates what information is needed
      */
-    public const VALIDATION_STATUS__REQUIRES_ADDITIONAL_INFORMATION = 'REQUIRES_ADDITIONAL_INFORMATION';
+    public const string VALIDATION_STATUS__REQUIRES_ADDITIONAL_INFORMATION = 'REQUIRES_ADDITIONAL_INFORMATION';
 
-    private const STATUSES = [self::STATUS__CREATED, self::STATUS__COMPLETE, self::STATUS__READY, self::STATUS__INCOMPLETE];
-    private const VALIDATION_STATUSES = [self::VALIDATION_STATUS__VALID, self::VALIDATION_STATUS__INVALID, self::VALIDATION_STATUS__REQUIRES_ADDITIONAL_INFORMATION];
+    private const array STATUSES = [self::STATUS__CREATED, self::STATUS__COMPLETE, self::STATUS__READY, self::STATUS__INCOMPLETE];
+    private const array VALIDATION_STATUSES = [self::VALIDATION_STATUS__VALID, self::VALIDATION_STATUS__INVALID, self::VALIDATION_STATUS__REQUIRES_ADDITIONAL_INFORMATION];
 
     #[OA\Property(type: 'string', readOnly: true)]
     protected string $id;

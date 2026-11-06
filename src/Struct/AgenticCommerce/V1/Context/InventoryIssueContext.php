@@ -15,16 +15,16 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_inventory_issue_context')]
 class InventoryIssueContext extends AbstractContext
 {
-    public const ISSUE__ITEM_OUT_OF_STOCK = 'ITEM_OUT_OF_STOCK';
-    public const ISSUE__INSUFFICIENT_INVENTORY = 'INSUFFICIENT_INVENTORY';
-    public const ISSUE__BACK_ORDERED = 'BACK_ORDERED';
-    public const ISSUE__PRE_ORDER_ONLY = 'PRE_ORDER_ONLY';
-    public const ISSUE__ITEM_DISCONTINUED = 'ITEM_DISCONTINUED';
-    public const ISSUE__LOW_STOCK_WARNING = 'LOW_STOCK_WARNING';
-    public const ISSUE__INVENTORY_RESERVED = 'INVENTORY_RESERVED';
-    public const ISSUE__SEASONAL_UNAVAILABLE = 'SEASONAL_UNAVAILABLE';
-    public const ISSUE__VARIANT_NOT_AVAILABLE = 'VARIANT_NOT_AVAILABLE';
-    public const ISSUE__CUSTOM_OPTION_UNAVAILABLE = 'CUSTOM_OPTION_UNAVAILABLE';
+    public const string ISSUE__ITEM_OUT_OF_STOCK = 'ITEM_OUT_OF_STOCK';
+    public const string ISSUE__INSUFFICIENT_INVENTORY = 'INSUFFICIENT_INVENTORY';
+    public const string ISSUE__BACK_ORDERED = 'BACK_ORDERED';
+    public const string ISSUE__PRE_ORDER_ONLY = 'PRE_ORDER_ONLY';
+    public const string ISSUE__ITEM_DISCONTINUED = 'ITEM_DISCONTINUED';
+    public const string ISSUE__LOW_STOCK_WARNING = 'LOW_STOCK_WARNING';
+    public const string ISSUE__INVENTORY_RESERVED = 'INVENTORY_RESERVED';
+    public const string ISSUE__SEASONAL_UNAVAILABLE = 'SEASONAL_UNAVAILABLE';
+    public const string ISSUE__VARIANT_NOT_AVAILABLE = 'VARIANT_NOT_AVAILABLE';
+    public const string ISSUE__CUSTOM_OPTION_UNAVAILABLE = 'CUSTOM_OPTION_UNAVAILABLE';
 
     /**
      * Product item identifier
@@ -156,7 +156,7 @@ class InventoryIssueContext extends AbstractContext
 
     public function setRequestedQuantity(?int $requestedQuantity): void
     {
-        if ($requestedQuantity < 1) {
+        if ($requestedQuantity !== null && $requestedQuantity < 1) {
             $requestedQuantity = 1;
         }
 

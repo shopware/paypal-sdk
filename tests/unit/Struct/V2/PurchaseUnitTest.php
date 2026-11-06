@@ -19,6 +19,29 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\PaymentInstruction\PlatformF
 #[CoversClass(PurchaseUnit::class)]
 class PurchaseUnitTest extends TestCase
 {
+    public function testMissingResponseFieldsAreReadable(): void
+    {
+        $unit = new PurchaseUnit();
+
+        static::assertNull($unit->getReferenceId());
+        static::assertNull($unit->getAmount());
+        static::assertNull($unit->getPayee());
+        static::assertNull($unit->getPaymentInstruction());
+        static::assertNull($unit->getDescription());
+        static::assertNull($unit->getSupplementaryData());
+        static::assertSame([], $unit->jsonSerialize());
+    }
+
+    public function testNullAndMissingValuesPreserveExistingValues(): void
+    {
+        $unit = (new PurchaseUnit())->assign(['custom_id' => 'old', 'invoice_id' => 'keep']);
+        $unit->assign(['custom_id' => null]);
+
+        static::assertSame('old', $unit->getCustomId());
+        static::assertSame('keep', $unit->getInvoiceId());
+        static::assertSame(['custom_id' => 'old', 'invoice_id' => 'keep'], $unit->jsonSerialize());
+    }
+
     public function testPaymentInstructionAssignmentAndSerialization(): void
     {
         $purchaseUnit = (new PurchaseUnit())->assign([
@@ -47,6 +70,7 @@ class PurchaseUnitTest extends TestCase
         ]);
 
         $paymentInstruction = $purchaseUnit->getPaymentInstruction();
+        static::assertNotNull($paymentInstruction);
         static::assertSame(PaymentInstruction::DISBURSEMENT_MODE_INSTANT, $paymentInstruction->getDisbursementMode());
         static::assertSame('tier-1', $paymentInstruction->getPayeePricingTierId());
         static::assertSame('fx-rate-1', $paymentInstruction->getPayeeReceivableFxRateId());
@@ -77,12 +101,6 @@ class PurchaseUnitTest extends TestCase
                 'payee_pricing_tier_id' => 'tier-1',
                 'payee_receivable_fx_rate_id' => 'fx-rate-1',
             ],
-            'custom_id' => null,
-            'invoice_id' => null,
-            'items' => null,
-            'shipping' => null,
-            'payments' => null,
-            'shipping_options' => null,
         ], \json_decode((string) \json_encode($purchaseUnit, \JSON_THROW_ON_ERROR), true, 512, \JSON_THROW_ON_ERROR));
     }
 

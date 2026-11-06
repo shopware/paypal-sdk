@@ -21,17 +21,17 @@ use Shopware\PayPalSDK\Struct\V2\Referral\PartnerConfigOverride;
 #[OA\Schema(schema: 'paypal_v2_referral')]
 class Referral extends Struct
 {
-    public const PRODUCT_TYPE_PPCP = 'PPCP';
-    public const PRODUCT_TYPE_PAYMENT_METHODS = 'PAYMENT_METHODS';
-    public const PRODUCT_TYPE_ADVANCED_VAULTING = 'ADVANCED_VAULTING';
-    public const PRODUCT_TYPE_KLARNA = 'KLARNA';
-    public const PRODUCT_TYPE_SWISH = 'SWISH';
-    public const PRODUCT_TYPE_SEPA = 'SEPA';
+    public const string PRODUCT_TYPE_PPCP = 'PPCP';
+    public const string PRODUCT_TYPE_PAYMENT_METHODS = 'PAYMENT_METHODS';
+    public const string PRODUCT_TYPE_ADVANCED_VAULTING = 'ADVANCED_VAULTING';
+    public const string PRODUCT_TYPE_KLARNA = 'KLARNA';
+    public const string PRODUCT_TYPE_SWISH = 'SWISH';
+    public const string PRODUCT_TYPE_SEPA = 'SEPA';
 
-    public const CAPABILITY_PAYPAL_WALLET_VAULTING_ADVANCED = 'PAYPAL_WALLET_VAULTING_ADVANCED';
-    public const CAPABILITY_PAY_UPON_INVOICE = 'PAY_UPON_INVOICE';
-    public const CAPABILITY_APPLE_PAY = 'APPLE_PAY';
-    public const CAPABILITY_GOOGLE_PAY = 'GOOGLE_PAY';
+    public const string CAPABILITY_PAYPAL_WALLET_VAULTING_ADVANCED = 'PAYPAL_WALLET_VAULTING_ADVANCED';
+    public const string CAPABILITY_PAY_UPON_INVOICE = 'PAY_UPON_INVOICE';
+    public const string CAPABILITY_APPLE_PAY = 'APPLE_PAY';
+    public const string CAPABILITY_GOOGLE_PAY = 'GOOGLE_PAY';
 
     #[OA\Property(ref: BusinessEntity::class)]
     protected BusinessEntity $businessEntity;

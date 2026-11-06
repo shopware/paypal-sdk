@@ -16,7 +16,7 @@ use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource\Sale;
 
 class PaymentV1Gateway extends AbstractGateway
 {
-    public const GATEWAY_URL = '/v1/payments';
+    public const string GATEWAY_URL = '/v1/payments';
 
     public function getAuthorization(string $authorizationId, ApiContextInterface $context): Authorization
     {

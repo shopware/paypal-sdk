@@ -11,12 +11,14 @@ use Http\Discovery\Psr17Factory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\AuthorizationCodeOAuthContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
 use Shopware\PayPalSDK\Exception\ApiException;
-use Shopware\PayPalSDK\Exception\OAuthApiException;
 use Shopware\PayPalSDK\RequestService;
 use Shopware\PayPalSDK\Struct\Struct;
 
@@ -36,6 +38,28 @@ class RequestServiceTest extends TestCase
         $this->factory = new Psr17Factory();
     }
 
+    public function testIndependentPsr17FactoriesCanBeInjected(): void
+    {
+        $uri = $this->factory->createUri('https://api-m.paypal.com');
+        $requestFactory = $this->createMock(RequestFactoryInterface::class);
+        $streamFactory = $this->createMock(StreamFactoryInterface::class);
+        $uriFactory = $this->createMock(UriFactoryInterface::class);
+
+        $uriFactory->expects(static::once())->method('createUri')->with('https://api-m.paypal.com/')->willReturn($uri);
+        $requestFactory->expects(static::once())->method('createRequest')
+            ->with('POST', $uri->withPath('/some/endpoint'))
+            ->willReturn($this->factory->createRequest('POST', $uri->withPath('/some/endpoint')));
+        $streamFactory->expects(static::once())->method('createStream')->with('{"key":"value"}')
+            ->willReturn($this->factory->createStream('{"key":"value"}'));
+
+        $service = new RequestService($requestFactory, $streamFactory, $uriFactory);
+        $context = new ApiContext(new CredentialsOAuthContext('', ''), false);
+        $request = $service->withBody($service->createRequest('POST', '/some/endpoint', $context), ['key' => 'value']);
+
+        static::assertSame('return=representation', $request->getHeaderLine('Prefer'));
+        static::assertSame('{"key":"value"}', (string) $request->getBody());
+    }
+
     public function testCreateRequest(): void
     {
         $context = new ApiContext(
@@ -47,7 +71,7 @@ class RequestServiceTest extends TestCase
 
         static::assertSame('GET', $request->getMethod());
         static::assertSame('https://api-m.paypal.com/some/endpoint', (string) $request->getUri());
-        static::assertEquals(['Host' => ['api-m.paypal.com']], $request->getHeaders());
+        static::assertEquals(['Host' => ['api-m.paypal.com'], 'Prefer' => ['return=representation']], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
 
@@ -62,8 +86,36 @@ class RequestServiceTest extends TestCase
 
         static::assertSame('GET', $request->getMethod());
         static::assertSame('https://api-m.sandbox.paypal.com/some/endpoint', (string) $request->getUri());
-        static::assertEquals(['Host' => ['api-m.sandbox.paypal.com']], $request->getHeaders());
+        static::assertEquals(['Host' => ['api-m.sandbox.paypal.com'], 'Prefer' => ['return=representation']], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
+    }
+
+    #[DataProvider('provideCreateRequestPreferHeader')]
+    public function testCreateRequestPreferHeader(string $method, ?string $prefer): void
+    {
+        $context = new ApiContext(
+            new CredentialsOAuthContext('', ''),
+            true,
+            headers: ['pReFeR' => $prefer, 'X-Header' => 'value'],
+        );
+
+        $request = $this->service->createRequest($method, '/some/endpoint', $context);
+
+        static::assertSame([$prefer ?? 'return=representation'], $request->getHeader('Prefer'));
+        static::assertSame('value', $request->getHeaderLine('X-Header'));
+        static::assertSame($prefer, $context->getHeader('Prefer'));
+    }
+
+    /**
+     * @return \Generator<string, array{string, ?string}>
+     */
+    public static function provideCreateRequestPreferHeader(): \Generator
+    {
+        foreach (['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as $method) {
+            foreach ([null, '', 'return=minimal', 'return=representation'] as $prefer) {
+                yield $method . ' with ' . ($prefer ?? 'no preference') => [$method, $prefer];
+            }
+        }
     }
 
     public function testCreateRequestWithQuery(): void
@@ -78,7 +130,7 @@ class RequestServiceTest extends TestCase
 
         static::assertSame('GET', $request->getMethod());
         static::assertSame('https://api-m.paypal.com/some/endpoint?key=value&kEY2=vaL%C3%BCe2', (string) $request->getUri());
-        static::assertEquals(['Host' => ['api-m.paypal.com']], $request->getHeaders());
+        static::assertEquals(['Host' => ['api-m.paypal.com'], 'Prefer' => ['return=representation']], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
 
@@ -98,6 +150,7 @@ class RequestServiceTest extends TestCase
             'Host' => ['api-m.paypal.com'],
             'x-header' => ['value'],
             'paypal-partner-attribution-id' => ['some-partner-id'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
@@ -118,6 +171,7 @@ class RequestServiceTest extends TestCase
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
             'PayPal-Auth-Assertion' => ['eyJhbGciOiJub25lIn0=.eyJpc3MiOiIiLCJwYXllcl9pZCI6InNvbWUtbWVyY2hhbnQtaWQifQ==.'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
@@ -151,6 +205,7 @@ class RequestServiceTest extends TestCase
         static::assertSame('https://api-m.paypal.com/some/endpoint', (string) $request->getUri());
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
@@ -176,6 +231,7 @@ class RequestServiceTest extends TestCase
             'paypal-partner-attribution-id' => ['some-partner-id'],
             'PayPal-Auth-Assertion' => ['eyJhbGciOiJub25lIn0=.eyJpc3MiOiIiLCJwYXllcl9pZCI6InNvbWUtbWVyY2hhbnQtaWQifQ==.'],
             'Content-Type' => ['application/json'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertEmpty((string) $request->getBody());
     }
@@ -196,6 +252,7 @@ class RequestServiceTest extends TestCase
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
             'Content-Type' => ['application/json'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertSame('{"key":"value"}', (string) $request->getBody());
     }
@@ -216,6 +273,7 @@ class RequestServiceTest extends TestCase
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
             'content-type' => ['application/x-www-form-urlencoded'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertSame('key=value', (string) $request->getBody());
     }
@@ -240,6 +298,7 @@ class RequestServiceTest extends TestCase
         static::assertEquals([
             'Host' => ['api-m.paypal.com'],
             'content-type' => ['application/x-www-form-urlencoded'],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertSame('key=value', (string) $request->getBody());
     }
@@ -290,13 +349,8 @@ class RequestServiceTest extends TestCase
         $response = $this->factory->createResponse($code)
             ->withBody($this->factory->createStream('{"name":"TEST", "message":"bad_request"}'));
 
-        if ($code === 401) {
-            static::expectException(OAuthApiException::class);
-            static::expectExceptionMessage('The error "INVALID_CLIENT" occurred with the following message: Client authentication failed');
-        } else {
-            static::expectException(ApiException::class);
-            static::expectExceptionMessage('The error "TEST" occurred with the following message: bad_request');
-        }
+        static::expectException(ApiException::class);
+        static::expectExceptionMessage('The error "TEST" occurred with the following message: bad_request');
 
         $this->service->handleResponse($response);
     }

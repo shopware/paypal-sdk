@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V2\Referral\Operation\ApiIntegrationPreference;
 #[OA\Schema(schema: 'paypal_v2_referral_operation')]
 class Operation extends Struct
 {
-    public const OPERATION_TYPE_API_INTEGRATION = 'API_INTEGRATION';
+    public const string OPERATION_TYPE_API_INTEGRATION = 'API_INTEGRATION';
 
     #[OA\Property(type: 'string', default: self::OPERATION_TYPE_API_INTEGRATION)]
     protected string $operation = self::OPERATION_TYPE_API_INTEGRATION;

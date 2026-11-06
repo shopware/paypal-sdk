@@ -17,7 +17,7 @@ use Shopware\PayPalSDK\Struct\V1\Payment\PaymentInstruction\RecipientBankingInst
 #[OA\Schema(schema: 'paypal_v1_payment_payment_instruction')]
 class PaymentInstruction extends Struct
 {
-    public const TYPE_INVOICE = 'PAY_UPON_INVOICE';
+    public const string TYPE_INVOICE = 'PAY_UPON_INVOICE';
 
     #[OA\Property(type: 'string')]
     protected string $referenceNumber;

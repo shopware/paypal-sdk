@@ -13,8 +13,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_verification')]
 class Verification extends Struct
 {
-    public const METHOD_SCA_WHEN_REQUIRED = 'SCA_WHEN_REQUIRED';
-    public const METHOD_SCA_ALWAYS = 'SCA_ALWAYS';
+    public const string METHOD_SCA_WHEN_REQUIRED = 'SCA_WHEN_REQUIRED';
+    public const string METHOD_SCA_ALWAYS = 'SCA_ALWAYS';
 
     #[OA\Property(type: 'string')]
     protected string $method = self::METHOD_SCA_ALWAYS;

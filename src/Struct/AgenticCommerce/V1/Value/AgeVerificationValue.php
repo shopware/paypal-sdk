@@ -19,9 +19,9 @@ use Shopware\PayPalSDK\Contract\Struct\AgenticCommerce\V1\Value\ValueInterface;
 )]
 class AgeVerificationValue implements ValueInterface
 {
-    public const METHOD__SELF_DECLARATION = 'self_declaration';
-    public const METHOD__ID_VERIFICATION = 'id_verification';
-    public const METHOD__THIRD_PARTY = 'third_party';
+    public const string METHOD__SELF_DECLARATION = 'self_declaration';
+    public const string METHOD__ID_VERIFICATION = 'id_verification';
+    public const string METHOD__THIRD_PARTY = 'third_party';
 
     /**
      * Whether age verification was confirmed

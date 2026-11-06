@@ -18,7 +18,7 @@ use Shopware\PayPalSDK\Struct\V2\FindEligibleMethods\Preferences\PaymentSourceCo
 #[OA\Schema(schema: 'paypal_v2_find_eligible_methods_preferences')]
 class Preferences extends Struct
 {
-    public const PAYMENT_FLOW_ONE_TIME_PAYMENT = 'ONE_TIME_PAYMENT';
+    public const string PAYMENT_FLOW_ONE_TIME_PAYMENT = 'ONE_TIME_PAYMENT';
 
     #[OA\Property(type: 'string', enum: [self::PAYMENT_FLOW_ONE_TIME_PAYMENT])]
     protected string $paymentFlow;

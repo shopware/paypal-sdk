@@ -15,27 +15,30 @@ class ExceptionFactory
     protected static function createOAuthFromResponse(ResponseInterface $response): OAuthApiException
     {
         $content = \json_decode((string) $response->getBody(), true) ?: [];
-        $error = (new Error())->assign(\is_array($content) ? $content : []);
+        $error = (new Error())->assign(\is_array($content) ? \array_intersect_key($content, [
+            'error' => true,
+            'error_description' => true,
+        ]) : []);
 
         return new OAuthApiException(
             $error->getError() ?? OAuthApiException::CODE_INVALID_CLIENT,
-            $error->getErrorDescription() ?? 'Client authentication failed.',
+            $error->getErrorDescription() ?? $response->getReasonPhrase(),
             $response,
         );
     }
 
     public static function createFromResponse(ResponseInterface $response): ApiException
     {
-        if ($response->getStatusCode() === 401) {
-            return self::createOAuthFromResponse($response);
-        }
-
         $content = \json_decode((string) $response->getBody(), true) ?: [];
-        $error = (new Error())->assign(\is_array($content) ? $content : []);
+        $content = \is_array($content) ? $content : [];
 
-        if ($error->getError() && $error->getErrorDescription()) {
+        if (self::isOAuthError($content)) {
             return self::createOAuthFromResponse($response);
         }
+
+        // Non-OAuth payloads can use these names with unrelated value types.
+        unset($content['error'], $content['error_description']);
+        $error = (new Error())->assign($content);
 
         if ($error->getName() && $error->getMessage()) {
             if ($response->getStatusCode() === 429) {
@@ -73,5 +76,18 @@ class ExceptionFactory
             $reason ?? (string) $response->getBody() ?: $response->getReasonPhrase(),
             $response,
         );
+    }
+
+    /**
+     * RFC 6749 section 5.2 requires an error code; description and URI are optional.
+     *
+     * @param array<mixed> $content
+     */
+    private static function isOAuthError(array $content): bool
+    {
+        return \is_string($content['error'] ?? null)
+            && $content['error'] !== ''
+            && (!isset($content['error_description']) || \is_string($content['error_description']))
+            && (!isset($content['error_uri']) || \is_string($content['error_uri']));
     }
 }

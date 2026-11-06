@@ -17,25 +17,25 @@ use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\SuggestedCorrectionCol
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_shipping_error_context')]
 class ShippingErrorContext extends AbstractContext
 {
-    public const ISSUE__MISSING_SHIPPING_ADDRESS = 'MISSING_SHIPPING_ADDRESS';
-    public const ISSUE__SHIPPING_ADDRESS_INVALID = 'SHIPPING_ADDRESS_INVALID';
-    public const ISSUE__SHIPPING_TO_PO_BOX_NOT_ALLOWED = 'SHIPPING_TO_PO_BOX_NOT_ALLOWED';
-    public const ISSUE__NO_SHIPPING_OPTIONS = 'NO_SHIPPING_OPTIONS';
-    public const ISSUE__INTERNATIONAL_SHIPPING_RESTRICTED = 'INTERNATIONAL_SHIPPING_RESTRICTED';
-    public const ISSUE__REGION_RESTRICTED = 'REGION_RESTRICTED';
-    public const ISSUE__OVERSIZED_ITEM_SHIPPING = 'OVERSIZED_ITEM_SHIPPING';
-    public const ISSUE__HAZARDOUS_MATERIAL_SHIPPING = 'HAZARDOUS_MATERIAL_SHIPPING';
-    public const ISSUE__SHIPPING_ZONE_NOT_COVERED = 'SHIPPING_ZONE_NOT_COVERED';
-    public const ISSUE__MISSING_COORDINATES_FOR_ENHANCED_DELIVERY = 'MISSING_COORDINATES_FOR_ENHANCED_DELIVERY';
+    public const string ISSUE__MISSING_SHIPPING_ADDRESS = 'MISSING_SHIPPING_ADDRESS';
+    public const string ISSUE__SHIPPING_ADDRESS_INVALID = 'SHIPPING_ADDRESS_INVALID';
+    public const string ISSUE__SHIPPING_TO_PO_BOX_NOT_ALLOWED = 'SHIPPING_TO_PO_BOX_NOT_ALLOWED';
+    public const string ISSUE__NO_SHIPPING_OPTIONS = 'NO_SHIPPING_OPTIONS';
+    public const string ISSUE__INTERNATIONAL_SHIPPING_RESTRICTED = 'INTERNATIONAL_SHIPPING_RESTRICTED';
+    public const string ISSUE__REGION_RESTRICTED = 'REGION_RESTRICTED';
+    public const string ISSUE__OVERSIZED_ITEM_SHIPPING = 'OVERSIZED_ITEM_SHIPPING';
+    public const string ISSUE__HAZARDOUS_MATERIAL_SHIPPING = 'HAZARDOUS_MATERIAL_SHIPPING';
+    public const string ISSUE__SHIPPING_ZONE_NOT_COVERED = 'SHIPPING_ZONE_NOT_COVERED';
+    public const string ISSUE__MISSING_COORDINATES_FOR_ENHANCED_DELIVERY = 'MISSING_COORDINATES_FOR_ENHANCED_DELIVERY';
 
-    public const RESTRICTED_REASON__SIGNATURE_REQUIRED = 'signature_required';
-    public const RESTRICTED_REASON__AGE_VERIFICATION_REQUIRED = 'age_verification_required';
-    public const RESTRICTED_REASON__EXPORT_CONTROLLED = 'export_controlled';
-    public const RESTRICTED_REASON__HAZARDOUS_MATERIAL = 'hazardous_material';
-    public const RESTRICTED_REASON__OVERSIZED_ITEM = 'oversized_item';
-    public const RESTRICTED_REASON__PO_BOX_RESTRICTION = 'po_box_restriction';
+    public const string RESTRICTED_REASON__SIGNATURE_REQUIRED = 'signature_required';
+    public const string RESTRICTED_REASON__AGE_VERIFICATION_REQUIRED = 'age_verification_required';
+    public const string RESTRICTED_REASON__EXPORT_CONTROLLED = 'export_controlled';
+    public const string RESTRICTED_REASON__HAZARDOUS_MATERIAL = 'hazardous_material';
+    public const string RESTRICTED_REASON__OVERSIZED_ITEM = 'oversized_item';
+    public const string RESTRICTED_REASON__PO_BOX_RESTRICTION = 'po_box_restriction';
 
-    public const RESTRICTED_REASONS = [
+    public const array RESTRICTED_REASONS = [
         self::RESTRICTED_REASON__SIGNATURE_REQUIRED,
         self::RESTRICTED_REASON__AGE_VERIFICATION_REQUIRED,
         self::RESTRICTED_REASON__EXPORT_CONTROLLED,
@@ -202,9 +202,9 @@ class ShippingErrorContext extends AbstractContext
         return $this->restrictionReason;
     }
 
-    public function setRestrictionReason(string $restrictionReason): void
+    public function setRestrictionReason(?string $restrictionReason): void
     {
-        if (!\in_array($restrictionReason, self::RESTRICTED_REASONS, true)) {
+        if ($restrictionReason !== null && !\in_array($restrictionReason, self::RESTRICTED_REASONS, true)) {
             throw new \InvalidArgumentException(\sprintf('Restricted reason "%s" is not valid.', $restrictionReason));
         }
 

@@ -15,8 +15,8 @@ use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_vault')]
 class Vault extends Struct
 {
-    public const STORE_IN_VAULT_ON_SUCCESS = 'ON_SUCCESS';
-    public const USAGE_TYPE_MERCHANT = 'MERCHANT';
+    public const string STORE_IN_VAULT_ON_SUCCESS = 'ON_SUCCESS';
+    public const string USAGE_TYPE_MERCHANT = 'MERCHANT';
 
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $id = null;

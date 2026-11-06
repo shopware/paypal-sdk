@@ -13,8 +13,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_patch')]
 class Patch extends Struct
 {
-    public const OPERATION_ADD = 'add';
-    public const OPERATION_REPLACE = 'replace';
+    public const string OPERATION_ADD = 'add';
+    public const string OPERATION_REPLACE = 'replace';
 
     #[OA\Property(type: 'string', enum: [self::OPERATION_ADD, self::OPERATION_REPLACE])]
     protected string $op;
