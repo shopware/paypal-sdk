@@ -128,7 +128,11 @@ class PaymentGatewayTest extends TestCase
     #[DataProvider('provideVoidAuthorization')]
     public function testVoidAuthorization(?string $prefer, int $statusCode): void
     {
-        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id', headers: ['Prefer' => $prefer]);
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
+        if ($prefer !== null) {
+            $context = $context->withPreferRepresentation($prefer === 'return=representation');
+        }
+
         $body = (new Authorization())->assign(['id' => 'authorization-id', 'status' => 'VOIDED']);
 
         $this->gateways->setCachedToken($context);

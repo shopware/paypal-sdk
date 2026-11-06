@@ -26,8 +26,7 @@ This SDK provides a simple and easy-to-use interface for working with PayPal's R
 - REST errors with HTTP 401 retain their API error code, message, debug ID and details as `ErrorApiException`. OAuth errors are identified by their response format, not HTTP status alone; unstructured 401 responses produce `ApiException`.
 - Appending with `$collection[] = $element` now adds and validates the element.
 
-- `RequestService` sends `Prefer: return=representation` by default, including for token requests. Override this with `$context->withHeader('Prefer', 'return=minimal')` when a minimal response is needed. Custom implementations of `RequestServiceInterface` must follow the same behavior.
-- `ApiContext::withPreferRepresentation()` has been removed; remove these calls from context construction.
+- `RequestService` sends `Prefer: return=representation` by default, including for token requests. Use `$context->withPreferRepresentation(false)` to explicitly request `return=minimal`, or `true` for a full representation. Custom implementations of `RequestServiceInterface` must preserve explicit context preferences.
 - `TokenGatewayInterface::getToken()` now declares `bool $refresh = false` as its second parameter. Update custom implementations and decorators to accept and forward it, bypassing the token cache when it is `true`.
 - `PaymentGateway::voidAuthorization()` now returns `?Authorization`: the updated authorization when PayPal returns a representation, or `null` for an empty response such as `204 No Content` with `return=minimal`. No additional GET is performed. Update overridden methods to use the new return type.
 - `Webhook\Event::identifyResourceType()` is now private. Custom event subclasses must override `identifyResource(string $eventType, string $resourceVersion, string $resourceType): ?string` instead, and update calls to the parent method. Resource-type fallback remains available for events not identified by their event type.

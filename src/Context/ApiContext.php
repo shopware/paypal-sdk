@@ -124,6 +124,14 @@ class ApiContext implements ApiContextInterface
         return $this->withHeader('PayPal-Partner-Attribution-Id', $partnerAttributionId);
     }
 
+    /**
+     * Explicitly request a full representation (true) or a minimal response (false).
+     */
+    public function withPreferRepresentation(bool $preferRepresentation): self
+    {
+        return $this->withHeader('Prefer', $preferRepresentation ? 'return=representation' : 'return=minimal');
+    }
+
     public function withRequestId(?string $requestId): self
     {
         return $this->withHeader('PayPal-Request-Id', $requestId);

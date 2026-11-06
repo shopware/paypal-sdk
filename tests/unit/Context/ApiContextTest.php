@@ -185,6 +185,24 @@ class ApiContextTest extends TestCase
         static::assertEmpty($newContext->getHeaders());
     }
 
+    public function testWithPreferRepresentation(): void
+    {
+        $headers = ['prefer' => 'header-value'];
+        $context = new ApiContext(new CredentialsOAuthContext('', ''), true, headers: $headers);
+
+        $newContext = $context->withPreferRepresentation(true);
+
+        static::assertNotSame($context, $newContext);
+        static::assertSame($headers, $context->getHeaders());
+        static::assertSame('return=representation', $newContext->getHeader('Prefer'));
+
+        $minimalContext = $newContext->withPreferRepresentation(false);
+
+        static::assertNotSame($newContext, $minimalContext);
+        static::assertSame('return=representation', $newContext->getHeader('Prefer'));
+        static::assertSame('return=minimal', $minimalContext->getHeader('Prefer'));
+    }
+
     public function testWithRequestId(): void
     {
         $headers = ['paypal-request-id' => 'header-value'];
@@ -265,6 +283,7 @@ class ApiContextTest extends TestCase
 
         $newContext = $context
             ->withPartnerAttributionId('partnerAttributionId')
+            ->withPreferRepresentation(true)
             ->withRequestId('requestId')
             ->withClientMetadataId('clientMetadataId')
             ->withThirdParty(false);
@@ -278,6 +297,7 @@ class ApiContextTest extends TestCase
                 'merchantId',
                 [
                     'paypal-partner-attribution-id' => 'partnerAttributionId',
+                    'prefer' => 'return=representation',
                     'paypal-request-id' => 'requestId',
                     'paypal-client-metadata-id' => 'clientMetadataId',
                 ],
