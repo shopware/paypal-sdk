@@ -91,6 +91,30 @@ class ErrorApiExceptionTest extends TestCase
         static::assertSame($is, $exception->is(...$codes));
     }
 
+    public function testDebugIdOfTheBodyWinsOverTheHeader(): void
+    {
+        $exception = new ErrorApiException(
+            ApiException::CODE_UNPROCESSABLE_ENTITY,
+            'Some message',
+            new Response(422, ['PayPal-Debug-Id' => 'header-debug-id']),
+            'body-debug-id',
+        );
+
+        static::assertSame('body-debug-id', $exception->getDebugId());
+    }
+
+    public function testDebugIdFallsBackToTheHeader(): void
+    {
+        $exception = new ErrorApiException(
+            ApiException::CODE_UNPROCESSABLE_ENTITY,
+            'Some message',
+            new Response(422, ['PayPal-Debug-Id' => 'header-debug-id']),
+            '',
+        );
+
+        static::assertSame('header-debug-id', $exception->getDebugId());
+    }
+
     public static function provideIs(): \Generator
     {
         yield 'is matching single' => [true, ApiException::CODE_INVALID_REQUEST];

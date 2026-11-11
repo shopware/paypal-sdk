@@ -48,6 +48,24 @@ class ApiExceptionTest extends TestCase
         );
     }
 
+    public function testDebugIdIsReadFromTheHeader(): void
+    {
+        $exception = new OAuthApiException(
+            ApiException::CODE_INVALID_CLIENT,
+            'Client Authentication failed',
+            new Response(401, ['PayPal-Debug-Id' => 'f2ea4b1c6e1c']),
+        );
+
+        static::assertSame('f2ea4b1c6e1c', $exception->getDebugId());
+    }
+
+    public function testDebugIdIsNullWithoutTheHeader(): void
+    {
+        $exception = new ApiException(ApiException::CODE_SERVICE_UNAVAILABLE, 'PayPal is unavailable.', new Response(503));
+
+        static::assertNull($exception->getDebugId());
+    }
+
     public function testDotTrim(): void
     {
         $response = new Response(200, body: '{"key":"value"}');
