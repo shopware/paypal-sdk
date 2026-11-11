@@ -85,6 +85,14 @@ class ApiException extends \Exception implements \JsonSerializable
     }
 
     /**
+     * Read from the `PayPal-Debug-Id` header, the only place an OAuth error names it.
+     */
+    public function getDebugId(): ?string
+    {
+        return $this->response->getHeaderLine('PayPal-Debug-Id') ?: null;
+    }
+
+    /**
      * Is error code or issue one of the given codes/issues?
      *
      * @param self::CODE_*|string $codes
