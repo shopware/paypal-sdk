@@ -8,7 +8,6 @@
 namespace Shopware\PayPalSDK\Tests\Unit\Struct\V1;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 
@@ -18,23 +17,22 @@ use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 #[CoversClass(MerchantIntegrations::class)]
 class MerchantIntegrationsTest extends TestCase
 {
-    /**
-     * @param array<string, mixed> $data
-     */
-    #[DataProvider('provideMissingProducts')]
-    public function testMissingProducts(array $data): void
+    public function testMissingProducts(): void
     {
-        $integrations = (new MerchantIntegrations())->assign(['merchant_id' => 'some-merchant-id', ...$data]);
+        $integrations = (new MerchantIntegrations())->assign(['merchant_id' => 'some-merchant-id']);
 
         static::assertCount(0, $integrations->getProducts());
         static::assertNull($integrations->getSpecificProduct('PAYMENT_METHODS'));
         static::assertArrayNotHasKey('products', $integrations->jsonSerialize());
     }
 
-    public static function provideMissingProducts(): \Generator
+    public function testEmptyProducts(): void
     {
-        yield 'missing' => [[]];
-        yield 'empty' => [['products' => []]];
+        $integrations = (new MerchantIntegrations())->assign(['products' => []]);
+
+        static::assertCount(0, $integrations->getProducts());
+        static::assertNull($integrations->getSpecificProduct('PAYMENT_METHODS'));
+        static::assertSame([], $integrations->jsonSerialize()['products']);
     }
 
     public function testSpecificProduct(): void
