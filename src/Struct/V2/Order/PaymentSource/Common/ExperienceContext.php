@@ -77,6 +77,12 @@ class ExperienceContext extends Struct
     #[OA\Property(ref: AppSwitchContext::class, nullable: true)]
     protected ?AppSwitchContext $appSwitchContext = null;
 
+    /**
+     * Only: PayPal Wallet
+     */
+    #[OA\Property(ref: PreferredPaymentSource::class, nullable: true)]
+    protected ?PreferredPaymentSource $preferredPaymentSource = null;
+
     public function getLocale(): string
     {
         return $this->locale;
@@ -201,5 +207,15 @@ class ExperienceContext extends Struct
     public function setAppSwitchContext(?AppSwitchContext $appSwitchContext): void
     {
         $this->appSwitchContext = $appSwitchContext;
+    }
+
+    public function getPreferredPaymentSource(): ?PreferredPaymentSource
+    {
+        return $this->preferredPaymentSource;
+    }
+
+    public function setPreferredPaymentSource(?PreferredPaymentSource $preferredPaymentSource): void
+    {
+        $this->preferredPaymentSource = $preferredPaymentSource;
     }
 }
