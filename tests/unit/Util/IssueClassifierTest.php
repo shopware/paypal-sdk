@@ -13,18 +13,18 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Exception\ExceptionFactory;
 use Shopware\PayPalSDK\Util\IssueCategory;
-use Shopware\PayPalSDK\Util\IssueClassificator;
+use Shopware\PayPalSDK\Util\IssueClassifier;
 
 /**
  * @internal
  */
-#[CoversClass(IssueClassificator::class)]
-class IssueClassificatorTest extends TestCase
+#[CoversClass(IssueClassifier::class)]
+class IssueClassifierTest extends TestCase
 {
     #[DataProvider('provideClassify')]
     public function testClassify(?IssueCategory $expected, int $status, string $body): void
     {
-        static::assertSame($expected, IssueClassificator::classify(ExceptionFactory::createFromResponse(new Response($status, body: $body))));
+        static::assertSame($expected, IssueClassifier::classify(ExceptionFactory::createFromResponse(new Response($status, body: $body))));
     }
 
     public static function provideClassify(): \Generator
@@ -36,6 +36,8 @@ class IssueClassificatorTest extends TestCase
         yield 'buyer' => [IssueCategory::BUYER, 422, self::error('UNPROCESSABLE_ENTITY', 'INSTRUMENT_DECLINED')];
         yield 'mistyped security code' => [IssueCategory::BUYER_RESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'INVALID_SECURITY_CODE')];
         yield 'unverifiable buyer data' => [IssueCategory::BUYER_RESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'PAYMENT_SOURCE_INFO_CANNOT_BE_VERIFIED')];
+        yield 'address issue known from Shopware Payments' => [IssueCategory::BUYER_RESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'ADDRESS_VALIDATION_ERROR')];
+        yield 'payer transaction limit' => [IssueCategory::BUYER, 422, self::error('UNPROCESSABLE_ENTITY', 'TRANSACTION_LIMIT_EXCEEDED')];
         yield 'invalid payee in request' => [IssueCategory::LOGIC, 422, self::error('UNPROCESSABLE_ENTITY', 'PAYEE_ACCOUNT_INVALID')];
         yield 'most specific issue wins' => [IssueCategory::BUYER_RESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'INSTRUMENT_DECLINED', 'POSTAL_CODE_REQUIRED')];
         yield 'risk decline as oauth error' => [IssueCategory::BUYER, 400, '{"error":"RISK_DECLINE","error_description":"Risk check failed"}'];
@@ -49,9 +51,9 @@ class IssueClassificatorTest extends TestCase
 
     public function testClassifyCodes(): void
     {
-        static::assertSame(IssueCategory::BUYER, IssueClassificator::classifyCodes('UNPROCESSABLE_ENTITY', 'CARD_EXPIRED'));
-        static::assertNull(IssueClassificator::classifyCodes(null, 'RESOURCE_NOT_FOUND'));
-        static::assertNull(IssueClassificator::classifyCodes());
+        static::assertSame(IssueCategory::BUYER, IssueClassifier::classifyCodes('UNPROCESSABLE_ENTITY', 'CARD_EXPIRED'));
+        static::assertNull(IssueClassifier::classifyCodes(null, 'RESOURCE_NOT_FOUND'));
+        static::assertNull(IssueClassifier::classifyCodes());
     }
 
     private static function error(string $name, string ...$issues): string

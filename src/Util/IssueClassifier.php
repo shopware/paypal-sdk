@@ -11,9 +11,9 @@ use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\ErrorApiException;
 
 /**
- * Tells who has to act on a PayPal error, `null` means a technical error neither the merchant nor the buyer can fix.
+ * Tells who has to act on a PayPal error, `null` means none of the categories applies, e.g. a technical error.
  */
-final class IssueClassificator
+final class IssueClassifier
 {
     /**
      * One response can carry several issues, so the first matching category wins: most specific on top.
@@ -62,7 +62,10 @@ final class IssueClassificator
             ApiException::CODE_INVALID_POSTAL_CODE_LENGTH,
             ApiException::CODE_CITY_REQUIRED,
             ApiException::CODE_SHIPPING_ADDRESS_INVALID,
+            ApiException::CODE_INVALID_SHIPPING_ADDRESS,
             ApiException::CODE_BILLING_ADDRESS_INVALID,
+            ApiException::CODE_INVALID_BILLING_ADDRESS,
+            ApiException::CODE_ADDRESS_VALIDATION_ERROR,
         ],
         IssueCategory::BUYER->value => [
             // payment method
@@ -86,6 +89,7 @@ final class IssueClassificator
             ApiException::CODE_PAYER_ACCOUNT_RESTRICTED,
             ApiException::CODE_DOMESTIC_TRANSACTION_REQUIRED,
             ApiException::CODE_MAX_NUMBER_OF_PAYMENT_ATTEMPTS_EXCEEDED,
+            ApiException::CODE_TRANSACTION_LIMIT_EXCEEDED,
             ApiException::CODE_TRANSACTION_REFUSED,
             ApiException::CODE_PAYMENT_DENIED,
             ApiException::CODE_COMPLIANCE_VIOLATION,
