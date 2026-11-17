@@ -31,6 +31,7 @@ class IssueClassifierTest extends TestCase
     {
         yield 'merchant' => [IssueCategory::MERCHANT, 422, self::error('UNPROCESSABLE_ENTITY', 'PAYEE_ACCOUNT_RESTRICTED')];
         yield 'closed merchant account as oauth error' => [IssueCategory::MERCHANT, 401, '{"error":"closed_user","error_description":"Closed user credentials"}'];
+        yield 'risk decline of the token request' => [IssueCategory::MERCHANT, 401, '{"error":"RISK_DECLINE","error_description":"Request declined by risk"}'];
         yield 'merchant balance for refund' => [IssueCategory::MERCHANT, 422, self::error('UNPROCESSABLE_ENTITY', 'REFUND_FAILED_INSUFFICIENT_FUNDS')];
         yield 'buyer resolvable' => [IssueCategory::BUYER_RESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'POSTAL_CODE_REQUIRED')];
         yield 'buyer' => [IssueCategory::BUYER, 422, self::error('UNPROCESSABLE_ENTITY', 'INSTRUMENT_DECLINED')];
@@ -40,7 +41,6 @@ class IssueClassifierTest extends TestCase
         yield 'payer transaction limit' => [IssueCategory::BUYER, 422, self::error('UNPROCESSABLE_ENTITY', 'TRANSACTION_LIMIT_EXCEEDED')];
         yield 'invalid payee in request' => [IssueCategory::LOGIC, 422, self::error('UNPROCESSABLE_ENTITY', 'PAYEE_ACCOUNT_INVALID')];
         yield 'most specific issue wins' => [IssueCategory::BUYER_RESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'INSTRUMENT_DECLINED', 'POSTAL_CODE_REQUIRED')];
-        yield 'risk decline as oauth error' => [IssueCategory::BUYER, 400, '{"error":"RISK_DECLINE","error_description":"Risk check failed"}'];
         yield 'logic' => [IssueCategory::LOGIC, 422, self::error('UNPROCESSABLE_ENTITY', 'ITEM_TOTAL_MISMATCH')];
         yield 'malformed request' => [IssueCategory::LOGIC, 400, self::error('INVALID_REQUEST', 'INVALID_STRING_LENGTH')];
         yield 'buyer issue wins over malformed request' => [IssueCategory::BUYER_RESOLVABLE, 400, self::error('INVALID_REQUEST', 'POSTAL_CODE_REQUIRED')];
