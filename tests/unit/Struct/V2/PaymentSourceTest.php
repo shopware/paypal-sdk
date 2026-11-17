@@ -15,6 +15,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\AppSwitchContext;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\AppSwitchContext\MobileWebContext;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\AppSwitchContext\NativeAppContext;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\ExperienceContext;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\PreferredPaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Klarna;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\P24;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Swish;
@@ -120,6 +121,34 @@ class PaymentSourceTest extends TestCase
                 'buyer_user_agent' => 'Mozilla/5.0',
             ],
         ], $encodedExperienceContextPayload['app_switch_context']);
+    }
+
+    public function testPaypalPaymentSourceWithPreferredPaymentSource(): void
+    {
+        $paymentSource = (new PaymentSource())->assign([
+            'paypal' => [
+                'experience_context' => [
+                    'preferred_payment_source' => ['vault_id' => 'nkq2y9g'],
+                ],
+            ],
+        ]);
+
+        $paypal = $paymentSource->getPaypal();
+        static::assertNotNull($paypal);
+
+        $experienceContext = $paypal->getExperienceContext();
+        $preferredPaymentSource = $experienceContext->getPreferredPaymentSource();
+        static::assertInstanceOf(PreferredPaymentSource::class, $preferredPaymentSource);
+        static::assertSame('nkq2y9g', $preferredPaymentSource->getVaultId());
+
+        /** @var array<string, mixed> $encodedExperienceContextPayload */
+        $encodedExperienceContextPayload = \json_decode(
+            \json_encode($experienceContext, \JSON_THROW_ON_ERROR),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+
+        static::assertSame(['vault_id' => 'nkq2y9g'], $encodedExperienceContextPayload['preferred_payment_source']);
     }
 
     public function testSwishPaymentSource(): void
