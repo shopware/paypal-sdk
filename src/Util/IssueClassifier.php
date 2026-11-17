@@ -17,9 +17,10 @@ final class IssueClassifier
 {
     /**
      * One response can carry several issues, so the first matching category wins: most specific on top.
+     * The keys are literal category values, as PHP 8.1 doesn't allow `IssueCategory::MERCHANT->value` in constant expressions.
      */
     private const CATEGORIES = [
-        IssueCategory::MERCHANT->value => [
+        'MERCHANT' => [
             ApiException::CODE_PAYEE_ACCOUNT_RESTRICTED,
             ApiException::CODE_PAYEE_ACCOUNT_LOCKED_OR_CLOSED,
             ApiException::CODE_PAYEE_ACCOUNT_NOT_SUPPORTED,
@@ -51,7 +52,7 @@ final class IssueClassifier
             ApiException::CODE_CLOSED_USER,
             ApiException::CODE_RISK_DECLINE,
         ],
-        IssueCategory::BUYER_RESOLVABLE->value => [
+        'BUYER_RESOLVABLE' => [
             ApiException::CODE_PAYER_ACTION_REQUIRED,
             ApiException::CODE_ORDER_NOT_APPROVED,
             ApiException::CODE_REDIRECT_PAYER_FOR_ALTERNATE_FUNDING,
@@ -68,7 +69,7 @@ final class IssueClassifier
             ApiException::CODE_INVALID_BILLING_ADDRESS,
             ApiException::CODE_ADDRESS_VALIDATION_ERROR,
         ],
-        IssueCategory::BUYER->value => [
+        'BUYER' => [
             // payment method
             ApiException::CODE_INSTRUMENT_DECLINED,
             ApiException::CODE_PAYMENT_SOURCE_DECLINED_BY_PROCESSOR,
@@ -97,7 +98,7 @@ final class IssueClassifier
             ApiException::CODE_PAYEE_BLOCKED_TRANSACTION,
             ApiException::CODE_TRANSACTION_BLOCKED_BY_PAYEE,
         ],
-        IssueCategory::LOGIC->value => [
+        'LOGIC' => [
             // amounts
             ApiException::CODE_AMOUNT_MISMATCH,
             ApiException::CODE_ITEM_TOTAL_MISMATCH,
