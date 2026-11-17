@@ -53,7 +53,7 @@ class DetailCollectionTest extends TestCase
     public function testToString(): void
     {
         static::assertSame(
-            '[INVALID_FORMAT] (address: 1234) Invalid format | (code: äöü) INVALID_SYNTAX | [INVALID_SOMETHING] Another error',
+            '[INVALID_FORMAT] (address) Invalid format | (code) INVALID_SYNTAX | [INVALID_SOMETHING] Another error',
             (string) $this->collection
         );
     }
