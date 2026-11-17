@@ -49,6 +49,7 @@ final class IssueClassifier
             ApiException::CODE_FAILED_TO_PULL_DOMAIN_VERIFICATION_FILE,
             ApiException::CODE_INCORRECT_DOMAIN_VERIFICATION_FILE,
             ApiException::CODE_CLOSED_USER,
+            ApiException::CODE_RISK_DECLINE,
         ],
         IssueCategory::BUYER_RESOLVABLE->value => [
             ApiException::CODE_PAYER_ACTION_REQUIRED,
@@ -95,7 +96,6 @@ final class IssueClassifier
             ApiException::CODE_COMPLIANCE_VIOLATION,
             ApiException::CODE_PAYEE_BLOCKED_TRANSACTION,
             ApiException::CODE_TRANSACTION_BLOCKED_BY_PAYEE,
-            ApiException::CODE_RISK_DECLINE,
         ],
         IssueCategory::LOGIC->value => [
             // amounts

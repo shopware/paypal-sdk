@@ -15,7 +15,7 @@ namespace Shopware\PayPalSDK\Util;
 enum IssueCategory: string
 {
     /**
-     * The merchant has to fix their PayPal account, until then PayPal rejects these requests.
+     * The merchant has to fix their PayPal account or resolve it with PayPal, until then PayPal rejects these requests.
      */
     case MERCHANT = 'MERCHANT';
 
