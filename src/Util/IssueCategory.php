@@ -8,7 +8,7 @@
 namespace Shopware\PayPalSDK\Util;
 
 /**
- * Who has to act on a PayPal error, see `IssueClassificator`.
+ * Who has to act on a PayPal error, see `IssueClassifier`.
  *
  * Should not be handled exhaustively, new cases may be added in a minor release.
  */
