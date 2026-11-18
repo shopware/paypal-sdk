@@ -31,7 +31,13 @@ enum IssueCategory: string
     case BUYER = 'BUYER';
 
     /**
-     * The integration sent a request PayPal can't process, e.g. amounts that don't add up, so a developer has to fix the code.
+     * The order, authorization or referenced transaction expired or was charged back, e.g. capturing an expired authorization.
+     * Nobody can fix it and retrying doesn't help.
+     */
+    case UNRESOLVABLE = 'UNRESOLVABLE';
+
+    /**
+     * The integration sent a request PayPal can't process, e.g. amounts that don't add up or a second capture of an order, so a developer has to fix the code.
      */
     case LOGIC = 'LOGIC';
 }

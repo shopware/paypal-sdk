@@ -41,6 +41,10 @@ class IssueClassifierTest extends TestCase
         yield 'payer transaction limit' => [IssueCategory::BUYER, 422, self::error('UNPROCESSABLE_ENTITY', 'TRANSACTION_LIMIT_EXCEEDED')];
         yield 'invalid payee in request' => [IssueCategory::LOGIC, 422, self::error('UNPROCESSABLE_ENTITY', 'PAYEE_ACCOUNT_INVALID')];
         yield 'most specific issue wins' => [IssueCategory::BUYER_RESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'INSTRUMENT_DECLINED', 'POSTAL_CODE_REQUIRED')];
+        yield 'unresolvable' => [IssueCategory::UNRESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'AUTHORIZATION_EXPIRED')];
+        yield 'charged back reference' => [IssueCategory::UNRESOLVABLE, 422, self::error('UNPROCESSABLE_ENTITY', 'PREVIOUS_TRANSACTION_REFERENCE_HAS_CHARGEBACK')];
+        yield 'second capture of an order' => [IssueCategory::LOGIC, 422, self::error('UNPROCESSABLE_ENTITY', 'ORDER_ALREADY_CAPTURED')];
+        yield 'unresolvable wins over malformed request' => [IssueCategory::UNRESOLVABLE, 400, self::error('INVALID_REQUEST', 'PNREF_EXPIRED')];
         yield 'logic' => [IssueCategory::LOGIC, 422, self::error('UNPROCESSABLE_ENTITY', 'ITEM_TOTAL_MISMATCH')];
         yield 'malformed request' => [IssueCategory::LOGIC, 400, self::error('INVALID_REQUEST', 'INVALID_STRING_LENGTH')];
         yield 'buyer issue wins over malformed request' => [IssueCategory::BUYER_RESOLVABLE, 400, self::error('INVALID_REQUEST', 'POSTAL_CODE_REQUIRED')];
