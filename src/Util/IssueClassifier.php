@@ -100,10 +100,6 @@ final class IssueClassifier
         IssueCategory::UNRESOLVABLE->value => [
             ApiException::CODE_ORDER_EXPIRED,
             ApiException::CODE_AUTHORIZATION_EXPIRED,
-            ApiException::CODE_PREVIOUS_TRANSACTION_REFERENCE_VOIDED,
-            ApiException::CODE_PREVIOUS_TRANSACTION_REFERENCE_HAS_CHARGEBACK,
-            ApiException::CODE_PNREF_EXPIRED,
-            ApiException::CODE_PAYPAL_TRANSACTION_ID_EXPIRED,
         ],
         IssueCategory::LOGIC->value => [
             // amounts

@@ -124,13 +124,9 @@ class ApiException extends \Exception implements \JsonSerializable
     public const CODE_PAYEE_BLOCKED_TRANSACTION = 'PAYEE_BLOCKED_TRANSACTION';
     public const CODE_TRANSACTION_BLOCKED_BY_PAYEE = 'TRANSACTION_BLOCKED_BY_PAYEE';
 
-    // issues nobody can fix: an expired order or authorization, or an expired, voided or charged back reference
+    // issues nobody can fix: an expired order or authorization
     public const CODE_ORDER_EXPIRED = 'ORDER_EXPIRED';
     public const CODE_AUTHORIZATION_EXPIRED = 'AUTHORIZATION_EXPIRED';
-    public const CODE_PREVIOUS_TRANSACTION_REFERENCE_VOIDED = 'PREVIOUS_TRANSACTION_REFERENCE_VOIDED';
-    public const CODE_PREVIOUS_TRANSACTION_REFERENCE_HAS_CHARGEBACK = 'PREVIOUS_TRANSACTION_REFERENCE_HAS_CHARGEBACK';
-    public const CODE_PNREF_EXPIRED = 'PNREF_EXPIRED';
-    public const CODE_PAYPAL_TRANSACTION_ID_EXPIRED = 'PAYPAL_TRANSACTION_ID_EXPIRED';
 
     // issues the integration's code has to fix
     public const CODE_AMOUNT_MISMATCH = 'AMOUNT_MISMATCH';
@@ -162,6 +158,11 @@ class ApiException extends \Exception implements \JsonSerializable
     public const CODE_ORDER_ALREADY_COMPLETED = 'ORDER_ALREADY_COMPLETED';
     public const CODE_ORDER_COMPLETED_OR_VOIDED = 'ORDER_COMPLETED_OR_VOIDED';
     public const CODE_PREVIOUSLY_CAPTURED = 'PREVIOUSLY_CAPTURED';
+    // unclassified: the referenced transaction can't be used any more, the caller can reference another one
+    public const CODE_PREVIOUS_TRANSACTION_REFERENCE_VOIDED = 'PREVIOUS_TRANSACTION_REFERENCE_VOIDED';
+    public const CODE_PREVIOUS_TRANSACTION_REFERENCE_HAS_CHARGEBACK = 'PREVIOUS_TRANSACTION_REFERENCE_HAS_CHARGEBACK';
+    public const CODE_PNREF_EXPIRED = 'PNREF_EXPIRED';
+    public const CODE_PAYPAL_TRANSACTION_ID_EXPIRED = 'PAYPAL_TRANSACTION_ID_EXPIRED';
 
     /**
      * @param string $errorCode error code or name given.

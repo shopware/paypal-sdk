@@ -31,7 +31,7 @@ enum IssueCategory: string
     case BUYER = 'BUYER';
 
     /**
-     * The order or authorization expired, or a referenced transaction expired, was voided or charged back, e.g. capturing an expired authorization.
+     * The order or authorization expired, e.g. capturing an expired authorization.
      * Nobody can fix it and retrying doesn't help.
      */
     case UNRESOLVABLE = 'UNRESOLVABLE';
