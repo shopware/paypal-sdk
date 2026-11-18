@@ -100,6 +100,7 @@ final class IssueClassifier
         IssueCategory::UNRESOLVABLE->value => [
             ApiException::CODE_ORDER_EXPIRED,
             ApiException::CODE_AUTHORIZATION_EXPIRED,
+            ApiException::CODE_PREVIOUS_TRANSACTION_REFERENCE_VOIDED,
             ApiException::CODE_PREVIOUS_TRANSACTION_REFERENCE_HAS_CHARGEBACK,
             ApiException::CODE_PNREF_EXPIRED,
             ApiException::CODE_PAYPAL_TRANSACTION_ID_EXPIRED,
@@ -131,13 +132,6 @@ final class IssueClassifier
             ApiException::CODE_PAYPAL_REQUEST_ID_REQUIRED,
             ApiException::CODE_PAYEE_ACCOUNT_INVALID,
             ApiException::CODE_INVALID_PAYEE_ACCOUNT,
-            // actions the state of the order or authorization rules out, e.g. a second capture
-            ApiException::CODE_ORDER_ALREADY_CAPTURED,
-            ApiException::CODE_ORDER_ALREADY_AUTHORIZED,
-            ApiException::CODE_ORDER_ALREADY_COMPLETED,
-            ApiException::CODE_ORDER_COMPLETED_OR_VOIDED,
-            ApiException::CODE_PREVIOUSLY_CAPTURED,
-            ApiException::CODE_PREVIOUS_TRANSACTION_REFERENCE_VOIDED,
             // error names of malformed requests, after the issues as they also carry buyer issues
             ApiException::CODE_INVALID_REQUEST,
             ApiException::CODE_MEDIA_TYPE_NOT_ACCEPTABLE,
