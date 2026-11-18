@@ -98,6 +98,10 @@ final class IssueClassifier
             ApiException::CODE_PAYEE_BLOCKED_TRANSACTION,
             ApiException::CODE_TRANSACTION_BLOCKED_BY_PAYEE,
         ],
+        'UNRESOLVABLE' => [
+            ApiException::CODE_ORDER_EXPIRED,
+            ApiException::CODE_AUTHORIZATION_EXPIRED,
+        ],
         'LOGIC' => [
             // amounts
             ApiException::CODE_AMOUNT_MISMATCH,
