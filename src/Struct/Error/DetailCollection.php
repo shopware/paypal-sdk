@@ -38,12 +38,10 @@ class DetailCollection extends Collection implements \Stringable
             if ($detailIssue = $detail->getIssue()) {
                 $message .= \sprintf('[%s] ', $detailIssue);
             }
+            // The value is left out: PayPal echoes what a field was rejected with, often personal data such as
+            // an IBAN or a phone number, and exception messages end up in logs. Detail::getValue() still has it.
             if ($field = $detail->getField()) {
-                if ($value = $detail->getValue()) {
-                    $message .= \sprintf('(%s: %s) ', $field, $value);
-                } else {
-                    $message .= \sprintf('(%s) ', $field);
-                }
+                $message .= \sprintf('(%s) ', $field);
             }
             if ($description = $detail->getDescription()) {
                 $message .= \sprintf('%s', $description);
