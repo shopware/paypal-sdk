@@ -53,17 +53,17 @@ class OrderTest extends TestCase
         static::assertSame(['id' => 'ORDER-123'], $order->jsonSerialize());
     }
 
-    public function testNullAndEmptyAssignmentsPreserveExistingValues(): void
+    public function testAssignIgnoresNullAndClearsEmptyCollections(): void
     {
         $order = (new Order())->assign([
             'payer' => ['email_address' => 'buyer@example.com'],
             'purchase_units' => [['reference_id' => 'old']],
         ]);
-        $previous = $order->jsonSerialize();
+        $payer = $order->jsonSerialize()['payer'];
         $order->assign(['payer' => null, 'purchase_units' => []]);
 
-        static::assertSame($previous, $order->jsonSerialize());
-        static::assertCount(1, $order->getPurchaseUnits());
+        static::assertSame(['payer' => $payer], $order->jsonSerialize());
+        static::assertCount(0, $order->getPurchaseUnits());
     }
 
     public function testSerializationOmitsEmptyFieldsSetDirectly(): void

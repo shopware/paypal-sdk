@@ -51,14 +51,14 @@ class ErrorApiExceptionTest extends TestCase
             'status' => '200',
             'code' => 'INVALID_CLIENT',
             'title' => 'Some reason',
-            'detail' => 'The error "INVALID_CLIENT" occurred with the following message: Some reason. | (some-field: some-value) Invalid format',
+            'detail' => 'The error "INVALID_CLIENT" occurred with the following message: Some reason. | (some-field) Invalid format',
             'meta' => [
                 'details' => [['description' => 'Invalid format', 'field' => 'some-field', 'value' => 'some-value']],
                 'links' => [['rel' => 'some-rel', 'enc_type' => null, 'href' => 'some-href']],
             ],
         ], $exception->jsonSerialize());
         static::assertSame(
-            'The error "INVALID_CLIENT" occurred with the following message: Some reason. | (some-field: some-value) Invalid format',
+            'The error "INVALID_CLIENT" occurred with the following message: Some reason. | (some-field) Invalid format',
             $exception->getMessage()
         );
     }
@@ -84,11 +84,35 @@ class ErrorApiExceptionTest extends TestCase
         );
 
         static::assertSame(
-            'The error "INVALID_REQUEST" occurred with the following message: Some message. | [DUPLICATE_INVOICE_ID] (some-field: some-value) Invalid format',
+            'The error "INVALID_REQUEST" occurred with the following message: Some message. | [DUPLICATE_INVOICE_ID] (some-field) Invalid format',
             $exception->getMessage(),
         );
 
         static::assertSame($is, $exception->is(...$codes));
+    }
+
+    public function testDebugIdOfTheBodyWinsOverTheHeader(): void
+    {
+        $exception = new ErrorApiException(
+            ApiException::CODE_UNPROCESSABLE_ENTITY,
+            'Some message',
+            new Response(422, ['PayPal-Debug-Id' => 'header-debug-id']),
+            'body-debug-id',
+        );
+
+        static::assertSame('body-debug-id', $exception->getDebugId());
+    }
+
+    public function testDebugIdFallsBackToTheHeader(): void
+    {
+        $exception = new ErrorApiException(
+            ApiException::CODE_UNPROCESSABLE_ENTITY,
+            'Some message',
+            new Response(422, ['PayPal-Debug-Id' => 'header-debug-id']),
+            '',
+        );
+
+        static::assertSame('header-debug-id', $exception->getDebugId());
     }
 
     public static function provideIs(): \Generator

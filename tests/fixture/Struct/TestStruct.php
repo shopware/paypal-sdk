@@ -30,6 +30,11 @@ class TestStruct extends Struct
     /** @var string[] */
     protected array $scalarArray;
 
+    /** @var string[]|string */
+    protected array|string $unionArray;
+
+    protected string|int|float $scalarUnion;
+
     protected function setId(string $id): void
     {
         $this->id = $id;

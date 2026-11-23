@@ -36,26 +36,30 @@ abstract class Struct implements \JsonSerializable
     public function assign(array $data): static
     {
         foreach ($data as $key => $value) {
-            $propertyName = CaseConverter::denormalize((string) $key);
-
-            if ($value === null || $value === []) {
+            if ($value === null) {
                 continue;
             }
 
+            $propertyName = CaseConverter::denormalize((string) $key);
             if (!\property_exists($this, $propertyName)) {
                 continue;
             }
 
             $property = new \ReflectionProperty($this, $propertyName);
-
             if (!$type = $property->getType()) {
                 $this->assignValue($propertyName, $value);
 
                 continue;
             }
 
-            if (\is_array($value) && $className = $this->getPropertyClassType([$type], Collection::class)) {
-                $this->assignValue($propertyName, $className::createFromAssociative($value));
+            // Only assign empty arrays to collections and scalar arrays
+            $collectionClassName = $this->getPropertyClassType([$type], Collection::class);
+            if ($value === [] && !$this->acceptsArrayType([$type]) && !$collectionClassName) {
+                continue;
+            }
+
+            if (\is_array($value) && $collectionClassName) {
+                $this->assignValue($propertyName, $collectionClassName::createFromAssociative($value));
 
                 continue;
             }
@@ -152,6 +156,29 @@ abstract class Struct implements \JsonSerializable
         }
 
         return null;
+    }
+
+    /**
+     * @param \ReflectionType[] $types
+     */
+    private function acceptsArrayType(array $types): bool
+    {
+        foreach ($types as $type) {
+            if ($type instanceof \ReflectionNamedType) {
+                if (\in_array($type->getName(), ['array', 'iterable', 'mixed'], true)) {
+                    return true;
+                }
+
+                continue;
+            }
+
+            // intersection types are object-only, so they can never admit an array
+            if ($type instanceof \ReflectionUnionType && $this->acceptsArrayType($type->getTypes())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function assignValue(string $propertyName, mixed $value): void

@@ -53,6 +53,11 @@ class ErrorApiException extends ApiException
         return $this->links;
     }
 
+    public function getDebugId(): ?string
+    {
+        return $this->debugId ?: parent::getDebugId();
+    }
+
     public function is(string ...$codes): bool
     {
         $issues = $this->getDetails()->getIssues();
