@@ -157,6 +157,7 @@ class PaymentSourceTest extends TestCase
         static::assertInstanceOf(Klarna::class, $klarna);
 
         $experienceContext = $klarna->getExperienceContext();
+        static::assertNotNull($experienceContext);
         static::assertSame('en-US', $experienceContext->getLocale());
         static::assertSame('Test Brand', $experienceContext->getBrandName());
         static::assertSame('https://example.com/return', $experienceContext->getReturnUrl());
@@ -190,6 +191,7 @@ class PaymentSourceTest extends TestCase
         static::assertNotNull($paypal);
 
         $experienceContext = $paypal->getExperienceContext();
+        static::assertNotNull($experienceContext);
         $appSwitchContext = $experienceContext->getAppSwitchContext();
         static::assertInstanceOf(AppSwitchContext::class, $appSwitchContext);
 

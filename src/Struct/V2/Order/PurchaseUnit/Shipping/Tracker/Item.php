@@ -13,23 +13,22 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_tracker_item')]
 class Item extends Struct
 {
-    public const int MAX_LENGTH_NAME = 120;
     public const int MAX_LENGTH_SKU = 127;
     public const int MAX_LENGTH_URL = 2048;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME)]
+    #[OA\Property(type: 'string', minLength: 1)]
     protected string $name;
 
     #[OA\Property(type: 'integer')]
     protected int $quantity;
 
-    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_SKU)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_SKU, minLength: 1, nullable: true)]
     protected ?string $sku = null;
 
-    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_URL)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_URL, format: 'uri', minLength: 1, nullable: true)]
     protected ?string $url = null;
 
-    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_URL)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_URL, format: 'uri', minLength: 1, nullable: true)]
     protected ?string $imageUrl = null;
 
     public function getName(): string
@@ -37,17 +36,8 @@ class Item extends Struct
         return $this->name;
     }
 
-    /**
-     * @throws \LengthException if given parameter is too long
-     */
     public function setName(string $name): void
     {
-        if (\mb_strlen($name) > self::MAX_LENGTH_NAME) {
-            throw new \LengthException(
-                \sprintf('%s::$name must not be longer than %s characters', self::class, self::MAX_LENGTH_NAME)
-            );
-        }
-
         $this->name = $name;
     }
 

@@ -35,10 +35,10 @@ class ExperienceContext extends Struct
 
     public const string ACQUIRING_CHANNEL_ECOMMERCE = 'ECOMMERCE';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 10, pattern: '^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|[0-9]{3}))?$')]
     protected string $locale;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
     protected string $brandName;
 
     #[OA\Property(type: 'string')]
@@ -53,10 +53,10 @@ class ExperienceContext extends Struct
     #[OA\Property(type: 'string', default: self::USER_ACTION_PAY_NOW, enum: [self::USER_ACTION_CONTINUE, self::USER_ACTION_PAY_NOW])]
     protected string $userAction = self::USER_ACTION_PAY_NOW;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri')]
     protected string $returnUrl;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri')]
     protected string $cancelUrl;
 
     #[OA\Property(type: 'string')]

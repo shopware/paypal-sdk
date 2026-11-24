@@ -15,8 +15,12 @@ class Patch extends Struct
 {
     public const string OPERATION_ADD = 'add';
     public const string OPERATION_REPLACE = 'replace';
+    public const string OPERATION_REMOVE = 'remove';
+    public const string OPERATION_MOVE = 'move';
+    public const string OPERATION_COPY = 'copy';
+    public const string OPERATION_TEST = 'test';
 
-    #[OA\Property(type: 'string', enum: [self::OPERATION_ADD, self::OPERATION_REPLACE])]
+    #[OA\Property(type: 'string', enum: [self::OPERATION_ADD, self::OPERATION_REPLACE, self::OPERATION_REMOVE, self::OPERATION_MOVE, self::OPERATION_COPY, self::OPERATION_TEST])]
     protected string $op;
 
     #[OA\Property(type: 'string')]

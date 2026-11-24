@@ -24,6 +24,19 @@ jobs:
       - name: Run PHPStan
         run: composer phpstan
 
+  openapi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-php
+      - name: Cache PayPal OpenAPI specs
+        uses: actions/cache@v4
+        with:
+          path: var/openapi/specs
+          key: openapi-specs-${{ hashFiles('tools/openapi/SpecRepository.php') }}
+      - name: Check structs against the PayPal OpenAPI specs
+        run: composer openapi:check
+
   bc-check:
     runs-on: ubuntu-latest
     steps:

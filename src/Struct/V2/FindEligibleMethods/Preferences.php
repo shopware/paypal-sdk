@@ -19,8 +19,11 @@ use Shopware\PayPalSDK\Struct\V2\FindEligibleMethods\Preferences\PaymentSourceCo
 class Preferences extends Struct
 {
     public const string PAYMENT_FLOW_ONE_TIME_PAYMENT = 'ONE_TIME_PAYMENT';
+    public const string PAYMENT_FLOW_RECURRING_PAYMENT = 'RECURRING_PAYMENT';
+    public const string PAYMENT_FLOW_VAULT_WITH_PAYMENT = 'VAULT_WITH_PAYMENT';
+    public const string PAYMENT_FLOW_VAULT_WITHOUT_PAYMENT = 'VAULT_WITHOUT_PAYMENT';
 
-    #[OA\Property(type: 'string', enum: [self::PAYMENT_FLOW_ONE_TIME_PAYMENT])]
+    #[OA\Property(type: 'string', enum: [self::PAYMENT_FLOW_ONE_TIME_PAYMENT, self::PAYMENT_FLOW_RECURRING_PAYMENT, self::PAYMENT_FLOW_VAULT_WITH_PAYMENT, self::PAYMENT_FLOW_VAULT_WITHOUT_PAYMENT])]
     protected string $paymentFlow;
 
     #[OA\Property(type: 'boolean')]

@@ -14,16 +14,16 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Risk\Parti
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data_risk')]
 class Risk extends Struct
 {
-    #[OA\Property(ref: ParticipantMetadata::class)]
-    protected ParticipantMetadata $address;
+    #[OA\Property(ref: ParticipantMetadata::class, nullable: true)]
+    protected ?ParticipantMetadata $customer;
 
-    public function getAddress(): ParticipantMetadata
+    public function getCustomer(): ?ParticipantMetadata
     {
-        return $this->address;
+        return $this->customer ?? null;
     }
 
-    public function setAddress(ParticipantMetadata $address): void
+    public function setCustomer(?ParticipantMetadata $customer): void
     {
-        $this->address = $address;
+        $this->customer = $customer;
     }
 }

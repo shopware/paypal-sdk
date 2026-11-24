@@ -16,7 +16,7 @@ class Authorization extends Payment
     #[OA\Property(ref: SellerProtection::class)]
     protected SellerProtection $sellerProtection;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$')]
     protected string $expirationTime;
 
     public function getSellerProtection(): SellerProtection

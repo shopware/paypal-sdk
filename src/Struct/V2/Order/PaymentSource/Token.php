@@ -15,7 +15,7 @@ class Token extends AbstractPaymentSource
 {
     public const string TYPE_BILLING_AGREEMENT = 'BILLING_AGREEMENT';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9a-zA-Z_-]+$')]
     protected string $id;
 
     #[OA\Property(type: 'string')]

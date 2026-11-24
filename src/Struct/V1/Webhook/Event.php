@@ -72,16 +72,16 @@ class Event extends Struct
     ])]
     protected ?Struct $resource = null;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time')]
     protected string $createTime;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', pattern: '^([0-9]+.[0-9]+)$')]
     protected string $eventVersion;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', pattern: '^([0-9]+.[0-9]+)$')]
     protected string $resourceVersion = '1.0';
 
     #[OA\Property(ref: ApplicationContext::class)]

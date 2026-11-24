@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_disputes_common_buyer')]
 class Buyer extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: '^[^~!@#$%^*()_{}:|\\t\\n/]+$')]
     protected string $name;
 
     public function getName(): string

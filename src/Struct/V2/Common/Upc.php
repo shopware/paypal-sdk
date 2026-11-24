@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_common_upc')]
 class Upc extends Struct
 {
-    #[OA\Property(type: 'string', maxLength: 5, minLength: 1)]
+    #[OA\Property(type: 'string')]
     protected string $type;
 
-    #[OA\Property(type: 'string', maxLength: 17, minLength: 6)]
+    #[OA\Property(type: 'string', minLength: 6, maxLength: 17, pattern: '^[0-9]{0,17}$')]
     protected string $code;
 
     public function getType(): string

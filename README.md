@@ -15,25 +15,7 @@ This SDK provides a simple and easy-to-use interface for working with PayPal's R
 
 ## Quick start
 
-### Upgrading to 3.0.0
-
-- PHP 8.4 or newer is required. CI tests PHP 8.4 and 8.5.
-- SDK class and interface constants now declare their value types. Overrides in subclasses must declare compatible types as well.
-- Missing optional fields in `Order` and `Order\PurchaseUnit` return `null`. `Order::getId()` retains its required `string` type, and `Order::getPurchaseUnits()` still initializes a collection for building requests. `Order` remains the shared request and response model.
-- `Token` and `ClientToken` use `DateTimeImmutable` for expiration dates. To change the expiration explicitly, pass the result of `modify()` to `setExpireDateTime()`.
-- Cached 2.x tokens are incompatible with 3.0. Clear the token cache after stopping 2.x instances, or use separate cache namespaces for 2.x and 3.x during rolling deployments.
-- `RequestService` accepts separate PSR-17 request, stream and URI factories. Replace `new RequestService($factory)` with `new RequestService($factory, $factory, $factory)` when supplying a combined factory; named arguments are now `requestFactory`, `streamFactory` and `uriFactory`. Automatic discovery remains the default.
-- REST errors with HTTP 401 retain their API error code, message, debug ID and details as `ErrorApiException`. OAuth errors are identified by their response format, not HTTP status alone; unstructured 401 responses produce `ApiException`.
-- Appending with `$collection[] = $element` now adds and validates the element.
-
-- `RequestService` sends `Prefer: return=representation` by default, including for token requests. Use `$context->withPreferRepresentation(false)` to explicitly request `return=minimal`, or `true` for a full representation. Custom implementations of `RequestServiceInterface` must preserve explicit context preferences.
-- `TokenGatewayInterface::getToken()` now declares `bool $refresh = false` as its second parameter. Update custom implementations and decorators to accept and forward it, bypassing the token cache when it is `true`.
-- `PaymentGateway::voidAuthorization()` now returns `?Authorization`: the updated authorization when PayPal returns a representation, or `null` for an empty response such as `204 No Content` with `return=minimal`. No additional GET is performed. Update overridden methods to use the new return type.
-- `Webhook\Event::identifyResourceType()` is now private. Custom event subclasses must override `identifyResource(string $eventType, string $resourceVersion, string $resourceType): ?string` instead, and update calls to the parent method. Resource-type fallback remains available for events not identified by their event type.
-
-`Order::intent` no longer defaults to `CAPTURE`. Set the intent explicitly when creating an order; a response without an intent no longer invents one.
-
-`OrderGateway::patchOrder()` still returns `void`: PayPal documents a `204 No Content` response for this endpoint. Fetch the order separately when its updated state is needed.
+Upgrading from an older version? See [MIGRATION.md](MIGRATION.md).
 
 ### Installation
 You can install the SDK via Composer. Run the following command in your terminal:

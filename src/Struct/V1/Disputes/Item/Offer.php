@@ -22,10 +22,10 @@ class Offer extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $sellerOfferedAmount;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $offerType;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: History::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: History::class), minItems: 1, maxItems: 1000, nullable: true)]
     protected ?HistoryCollection $history = null;
 
     public function getBuyerRequestedAmount(): Money

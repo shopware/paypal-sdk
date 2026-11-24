@@ -78,5 +78,6 @@ file that was distributed with this source code.', 'separate' => 'bottom', 'loca
         (new Finder())->in([
             __DIR__ . '/src',
             __DIR__ . '/tests',
+            __DIR__ . '/tools',
         ])
     );

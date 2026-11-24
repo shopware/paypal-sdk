@@ -16,7 +16,7 @@ class Money extends Struct
     #[OA\Property(type: 'string', maxLength: 3, minLength: 3)]
     protected string $currencyCode;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 32, pattern: '^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$')]
     protected string $value;
 
     public function getCurrencyCode(): string

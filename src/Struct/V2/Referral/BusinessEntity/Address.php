@@ -15,10 +15,10 @@ class Address extends Struct
 {
     public const string TYPE_WORK = 'WORK';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: '^([A-Z]{2}|C2)$')]
     protected string $countryCode;
 
-    #[OA\Property(type: 'string', default: self::TYPE_WORK)]
+    #[OA\Property(type: 'string', default: self::TYPE_WORK, minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $type = self::TYPE_WORK;
 
     public function getCountryCode(): string

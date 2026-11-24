@@ -51,61 +51,61 @@ class Item extends Struct
         self::DISPUTE_STATE_APPEALABLE,
     ];
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Za-z0-9-]+$')]
     protected string $disputeId;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$')]
     protected string $createTime;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$')]
     protected string $updateTime;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: DisputedTransaction::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: DisputedTransaction::class), minItems: 1, maxItems: 1000, nullable: true)]
     protected ?DisputedTransactionCollection $disputedTransactions = null;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $reason;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $status;
 
-    #[OA\Property(type: 'string', enum: self::DISPUTE_STATES, nullable: true)]
+    #[OA\Property(type: 'string', enum: self::DISPUTE_STATES, minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$', nullable: true)]
     protected ?string $disputeState = null;
 
     #[OA\Property(ref: DisputeAmount::class)]
     protected DisputeAmount $disputeAmount;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: '^[A-Za-z0-9._-]+$', nullable: true)]
     protected ?string $externalReasonCode = null;
 
     #[OA\Property(ref: DisputeOutcome::class, nullable: true)]
     protected ?DisputeOutcome $disputeOutcome = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Adjudication::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Adjudication::class), minItems: 1, maxItems: 10)]
     protected AdjudicationCollection $adjudications;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: MoneyMovement::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: MoneyMovement::class), minItems: 1, maxItems: 50)]
     protected MoneyMovementCollection $moneyMovements;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $disputeLifeCycleStage;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Z0-9_]+$', nullable: true)]
     protected ?string $disputeChannel = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Message::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Message::class), minItems: 1, maxItems: 1000, nullable: true)]
     protected ?MessageCollection $messages = null;
 
     #[OA\Property(ref: Extensions::class)]
     protected Extensions $extensions;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Evidence::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Evidence::class), minItems: 1, maxItems: 100, nullable: true)]
     protected ?EvidenceCollection $evidences = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$', nullable: true)]
     protected ?string $buyerResponseDueDate = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$', nullable: true)]
     protected ?string $sellerResponseDueDate = null;
 
     #[OA\Property(ref: Offer::class, nullable: true)]
@@ -120,10 +120,10 @@ class Item extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: PartnerAction::class), nullable: true)]
     protected ?PartnerActionCollection $partnerActions = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: SupportingInfo::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: SupportingInfo::class), minItems: 1, maxItems: 100, nullable: true)]
     protected ?SupportingInfoCollection $supportingInfo = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]
     protected LinkCollection $links;
 
     public function getDisputeId(): string

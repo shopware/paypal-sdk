@@ -14,10 +14,10 @@ use Shopware\PayPalSDK\Struct\V1\Common\Address;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_shipping_info')]
 class ShippingInfo extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: '^[a-zA-Z0-9_\'\\-., ":;\\!?]*$', nullable: true)]
     protected ?string $name = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: '^[a-zA-Z0-9_\'\\-., ":;\\!?]*$', nullable: true)]
     protected ?string $method = null;
 
     #[OA\Property(ref: Address::class, nullable: true)]

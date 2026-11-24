@@ -18,19 +18,19 @@ class Tracker extends Struct
     public const int MAX_LENGTH_TRACKING_NUMBER = 64;
     public const string CARRIER_OTHER = 'OTHER';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 50, pattern: '^[a-zA-Z0-9]*$')]
     protected string $captureId;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_TRACKING_NUMBER)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_TRACKING_NUMBER, minLength: 1)]
     protected string $trackingNumber;
 
     #[OA\Property(type: 'string')]
     protected string $carrier;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 64, nullable: true)]
     protected ?string $carrierNameOther = null;
 
-    #[OA\Property(type: 'bool', default: false)]
+    #[OA\Property(type: 'boolean', default: false)]
     protected bool $notifyPayer = false;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]

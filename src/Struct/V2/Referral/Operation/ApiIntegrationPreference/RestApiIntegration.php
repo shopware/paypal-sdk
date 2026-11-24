@@ -18,10 +18,10 @@ class RestApiIntegration extends Struct
     public const string INTEGRATION_METHOD_TYPE_SDK = 'SDK';
     public const string INTEGRATION_TYPE_THIRD_PARTY = 'THIRD_PARTY';
 
-    #[OA\Property(type: 'string', default: self::INTEGRATION_METHOD_TYPE_PAYPAL)]
+    #[OA\Property(type: 'string', default: self::INTEGRATION_METHOD_TYPE_PAYPAL, minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_-]+$')]
     protected string $integrationMethod = self::INTEGRATION_METHOD_TYPE_PAYPAL;
 
-    #[OA\Property(type: 'string', default: self::INTEGRATION_TYPE_THIRD_PARTY)]
+    #[OA\Property(type: 'string', default: self::INTEGRATION_TYPE_THIRD_PARTY, minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_-]+$')]
     protected string $integrationType = self::INTEGRATION_TYPE_THIRD_PARTY;
 
     #[OA\Property(ref: ThirdPartyDetails::class)]

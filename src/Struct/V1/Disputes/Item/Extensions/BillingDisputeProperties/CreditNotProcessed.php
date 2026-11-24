@@ -18,7 +18,7 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperti
 #[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_credit_not_processed')]
 class CreditNotProcessed extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $issueType;
 
     #[OA\Property(ref: Money::class)]

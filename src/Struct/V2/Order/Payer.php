@@ -19,17 +19,17 @@ class Payer extends Struct
     #[OA\Property(ref: Name::class)]
     protected Name $name;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: '^.*(?:[a-zA-Z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\]).*$')]
     protected string $emailAddress;
 
-    #[OA\Property(type: 'string')]
-    protected string $payerId;
+    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: '^[2-9A-HJ-NP-Z]{13}$', nullable: true)]
+    protected ?string $payerId;
 
     #[OA\Property(ref: Phone::class, nullable: true)]
     protected ?Phone $phone = null;
 
-    #[OA\Property(ref: Address::class)]
-    protected Address $address;
+    #[OA\Property(ref: Address::class, nullable: true)]
+    protected ?Address $address;
 
     public function getName(): Name
     {
@@ -51,12 +51,12 @@ class Payer extends Struct
         $this->emailAddress = $emailAddress;
     }
 
-    public function getPayerId(): string
+    public function getPayerId(): ?string
     {
-        return $this->payerId;
+        return $this->payerId ?? null;
     }
 
-    public function setPayerId(string $payerId): void
+    public function setPayerId(?string $payerId): void
     {
         $this->payerId = $payerId;
     }
@@ -71,12 +71,12 @@ class Payer extends Struct
         $this->phone = $phone;
     }
 
-    public function getAddress(): Address
+    public function getAddress(): ?Address
     {
-        return $this->address;
+        return $this->address ?? null;
     }
 
-    public function setAddress(Address $address): void
+    public function setAddress(?Address $address): void
     {
         $this->address = $address;
     }

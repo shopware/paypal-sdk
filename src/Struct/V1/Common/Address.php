@@ -22,7 +22,7 @@ class Address extends Struct
     #[OA\Property(type: 'string')]
     protected string $city;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: '^([A-Z]{2}|C2)$')]
     protected string $countryCode;
 
     #[OA\Property(type: 'string')]

@@ -19,10 +19,10 @@ class PaymentByOtherMeans extends Struct
     #[OA\Property(type: 'boolean')]
     protected bool $receivedDuplicate;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $paymentMethod;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 4)]
     protected string $paymentInstrumentSuffix;
 
     public function isChargeDifferentFromOriginal(): bool

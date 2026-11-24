@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\Money;
 #[OA\Schema(schema: 'paypal_v1_disputes_item_dispute_outcome')]
 class DisputeOutcome extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $outcomeCode;
 
     #[OA\Property(ref: Money::class)]

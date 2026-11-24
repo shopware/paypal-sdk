@@ -25,7 +25,7 @@ class PaymentInstruction extends Struct
     public const int MAX_LENGTH_PAYEE_PRICING_TIER_ID = 20;
     public const int MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID = 4000;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: PlatformFee::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: PlatformFee::class), maxItems: 1)]
     protected PlatformFeeCollection $platformFees;
 
     /**
@@ -34,10 +34,10 @@ class PaymentInstruction extends Struct
     #[OA\Property(type: 'string', enum: self::DISBURSEMENT_MODES)]
     protected string $disbursementMode;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_PAYEE_PRICING_TIER_ID)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_PAYEE_PRICING_TIER_ID, minLength: 1)]
     protected string $payeePricingTierId;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID, minLength: 1)]
     protected string $payeeReceivableFxRateId;
 
     public function getPlatformFees(): PlatformFeeCollection

@@ -42,7 +42,7 @@ class Address extends Struct
     #[OA\Property(type: 'string', maxLength: 60, nullable: true)]
     protected ?string $postalCode = null;
 
-    #[OA\Property(type: 'string', maxLength: 2, minLength: 2)]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: '^([A-Z]{2}|C2)$')]
     protected string $countryCode;
 
     public function getAddressLine1(): ?string

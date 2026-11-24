@@ -13,15 +13,15 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\ExperienceContext;
 
 abstract class AbstractPaymentSource extends Struct
 {
-    #[OA\Property(ref: ExperienceContext::class)]
-    protected ExperienceContext $experienceContext;
+    #[OA\Property(ref: ExperienceContext::class, nullable: true)]
+    protected ?ExperienceContext $experienceContext;
 
-    public function getExperienceContext(): ExperienceContext
+    public function getExperienceContext(): ?ExperienceContext
     {
-        return $this->experienceContext;
+        return $this->experienceContext ?? null;
     }
 
-    public function setExperienceContext(ExperienceContext $experienceContext): void
+    public function setExperienceContext(?ExperienceContext $experienceContext): void
     {
         $this->experienceContext = $experienceContext;
     }

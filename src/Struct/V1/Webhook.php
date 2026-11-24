@@ -21,10 +21,10 @@ class Webhook extends Struct
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string', maxLength: 2048)]
+    #[OA\Property(type: 'string', format: 'uri', maxLength: 2048)]
     protected string $url;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: EventType::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: EventType::class), maxItems: 500)]
     protected EventTypeCollection $eventTypes;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]

@@ -5,17 +5,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\EvidenceInfo;
+namespace Shopware\PayPalSDK\Tests\Unit\Tools\OpenApi\Fixture;
 
 use Shopware\PayPalSDK\Struct\Collection;
 
 /**
- * @extends Collection<RefundId>
+ * @extends Collection<Part>
  */
-class RefundIdCollection extends Collection
+class PartCollection extends Collection
 {
     public static function getExpectedClass(): string
     {
-        return RefundId::class;
+        return Part::class;
     }
 }

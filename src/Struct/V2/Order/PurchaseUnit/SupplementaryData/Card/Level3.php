@@ -27,10 +27,10 @@ class Level3 extends Struct
     #[OA\Property(ref: Address::class)]
     protected Address $shippingAddress;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 60, pattern: '^[a-zA-Z0-9_\'.-]*$')]
     protected string $shipsFromPostalCode;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: LineItem::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: LineItem::class), minItems: 1, maxItems: 100)]
     protected LineItemCollection $lineItems;
 
     public function getShippingAmount(): Money

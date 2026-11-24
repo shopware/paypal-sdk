@@ -17,7 +17,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_card')]
 class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInterface
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 4, pattern: '^[0-9]{2,4}$')]
     protected string $lastDigits;
 
     #[OA\Property(type: 'string')]
@@ -26,8 +26,8 @@ class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInter
     #[OA\Property(type: 'string')]
     protected string $type;
 
-    #[OA\Property(type: 'string')]
-    protected string $vaultId;
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9a-zA-Z_-]+$', nullable: true)]
+    protected ?string $vaultId;
 
     #[OA\Property(ref: Address::class, nullable: true)]
     protected ?Address $billingAddress = null;
@@ -71,12 +71,12 @@ class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInter
         $this->type = $type;
     }
 
-    public function getVaultId(): string
+    public function getVaultId(): ?string
     {
-        return $this->vaultId;
+        return $this->vaultId ?? null;
     }
 
-    public function setVaultId(string $vaultId): void
+    public function setVaultId(?string $vaultId): void
     {
         $this->vaultId = $vaultId;
     }

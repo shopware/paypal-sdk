@@ -65,7 +65,7 @@ class ShippingErrorContext extends AbstractContext
      * Address validation quality score
      */
     #[OA\Property(
-        type: 'float',
+        type: 'number',
         maximum: 1,
         minimum: 0,
     )]

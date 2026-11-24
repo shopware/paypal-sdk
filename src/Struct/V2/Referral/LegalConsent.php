@@ -15,7 +15,7 @@ class LegalConsent extends Struct
 {
     public const string CONSENT_TYPE_SHARE_DATA = 'SHARE_DATA_CONSENT';
 
-    #[OA\Property(type: 'string', default: self::CONSENT_TYPE_SHARE_DATA)]
+    #[OA\Property(type: 'string', default: self::CONSENT_TYPE_SHARE_DATA, minLength: 1, maxLength: 127, pattern: '^[0-9A-Z_-]+$')]
     protected string $type = self::CONSENT_TYPE_SHARE_DATA;
 
     #[OA\Property(type: 'boolean')]

@@ -18,7 +18,7 @@ use Shopware\PayPalSDK\Struct\V3\PaymentToken\Metadata;
 #[OA\Schema(schema: 'paypal_v3_payment_token')]
 class PaymentToken extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 36, pattern: '^[0-9a-zA-Z_-]+$')]
     protected string $id;
 
     #[OA\Property(type: 'string')]
@@ -30,7 +30,7 @@ class PaymentToken extends Struct
     #[OA\Property(ref: PaymentSource::class)]
     protected PaymentSource $paymentSource;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 32)]
     protected LinkCollection $links;
 
     #[OA\Property(ref: Metadata::class, nullable: true)]

@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V2\Common\Money;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data_card_level2')]
 class Level2 extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: '^[\\w‘\\-.,":;\\!?]*$')]
     protected string $invoiceId;
 
     #[OA\Property(ref: Money::class)]

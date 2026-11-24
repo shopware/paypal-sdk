@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_disputes_item_evidence_document')]
 class Document extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: '^[A-Za-z0-9-_,\\s]+[.]{1}[A-Za-z]+$')]
     protected string $name;
 
     public function getName(): string

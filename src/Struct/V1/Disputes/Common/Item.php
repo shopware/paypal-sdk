@@ -14,25 +14,25 @@ use Shopware\PayPalSDK\Struct\V1\Common\Money;
 #[OA\Schema(schema: 'paypal_v1_disputes_common_item')]
 class Item extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
     protected string $itemId;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: '^(.|\\r?\\n)*$')]
     protected string $itemDescription;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 10, pattern: '^[1-9][0-9]{0,9}$')]
     protected string $itemQuantity;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Za-z0-9]+$')]
     protected string $partnerTransactionId;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
     protected string $reason;
 
     #[OA\Property(ref: Money::class)]
     protected Money $disputeAmount;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: '^(.|\\r?\\n)*$')]
     protected string $notes;
 
     public function getItemId(): string

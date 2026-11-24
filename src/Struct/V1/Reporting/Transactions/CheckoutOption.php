@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_checkout_option')]
 class CheckoutOption extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: '^[a-zA-Z0-9_\'\\-., ":;\\!?]*$', nullable: true)]
     protected ?string $checkoutOptionName = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: '^[a-zA-Z0-9_\'\\-., ":;\\!?]*$', nullable: true)]
     protected ?string $checkoutOptionValue = null;
 
     public function getCheckoutOptionName(): ?string

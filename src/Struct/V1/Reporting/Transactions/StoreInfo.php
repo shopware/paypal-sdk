@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_store_info')]
 class StoreInfo extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 100, pattern: '^[a-zA-Z0-9]*$', nullable: true)]
     protected ?string $storeId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 60, pattern: '^[a-zA-Z0-9]*$', nullable: true)]
     protected ?string $terminalId = null;
 
     public function getStoreId(): ?string

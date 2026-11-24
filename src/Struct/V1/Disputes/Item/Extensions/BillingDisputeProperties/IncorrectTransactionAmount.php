@@ -17,7 +17,7 @@ class IncorrectTransactionAmount extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $correctTransactionAmount;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$')]
     protected string $correctTransactionTime;
 
     public function getCorrectTransactionAmount(): Money

@@ -18,13 +18,13 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_common_related_ids')]
 class RelatedIds extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 20, pattern: '^[A-Z0-9]+$', nullable: true)]
     protected ?string $orderId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 20, pattern: '^[A-Z0-9]+$', nullable: true)]
     protected ?string $authorizationId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 20, pattern: '^[A-Z0-9]+$', nullable: true)]
     protected ?string $captureId = null;
 
     public function getOrderId(): ?string

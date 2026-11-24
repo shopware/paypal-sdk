@@ -69,7 +69,7 @@ class PaymentSource extends Struct
     protected ?Multibanco $multibanco = null;
 
     #[OA\Property(ref: MyBank::class, nullable: true)]
-    protected ?MyBank $myBank = null;
+    protected ?MyBank $mybank = null;
 
     #[OA\Property(ref: Oxxo::class, nullable: true)]
     protected ?Oxxo $oxxo = null;
@@ -208,14 +208,14 @@ class PaymentSource extends Struct
         $this->multibanco = $multibanco;
     }
 
-    public function getMyBank(): ?MyBank
+    public function getMybank(): ?MyBank
     {
-        return $this->myBank;
+        return $this->mybank;
     }
 
-    public function setMyBank(?MyBank $myBank): void
+    public function setMybank(?MyBank $mybank): void
     {
-        $this->myBank = $myBank;
+        $this->mybank = $mybank;
     }
 
     public function getOxxo(): ?Oxxo
