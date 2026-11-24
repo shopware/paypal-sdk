@@ -8,18 +8,19 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_phone_number')]
 class PhoneNumber extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 3, pattern: '^[0-9]{1,3}?$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 3, pattern: Pattern::PHONE_COUNTRY_CODE, nullable: true)]
     protected ?string $countryCode = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 14, pattern: '^[0-9]{1,14}?$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 14, pattern: Pattern::PHONE_NATIONAL_NUMBER, nullable: true)]
     protected ?string $nationalNumber = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 15, pattern: '^[0-9]{1,15}?$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 15, pattern: Pattern::PHONE_EXTENSION, nullable: true)]
     protected ?string $extensionNumber = null;
 
     public function getCountryCode(): ?string

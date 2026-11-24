@@ -8,13 +8,14 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Card;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data_card_level2')]
 class Level2 extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: '^[\\w‘\\-.,":;\\!?]*$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::INVOICE_ID)]
     protected string $invoiceId;
 
     #[OA\Property(ref: Money::class)]

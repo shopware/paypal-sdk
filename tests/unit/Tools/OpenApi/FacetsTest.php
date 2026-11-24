@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Tests\Unit\Tools\OpenApi;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Tools\OpenApi\Facets;
 
 /**
@@ -40,6 +41,14 @@ class FacetsTest extends TestCase
         $diff = Facets::diff(['maxLength' => 120, 'pattern' => '^a$'], ['maxLength' => 127, 'minLength' => 1]);
 
         static::assertSame(['minLength' => '+minLength 1', 'maxLength' => 'maxLength 120 -> 127', 'pattern' => '-pattern'], $diff);
+    }
+
+    public function testDiffNamesKnownPatterns(): void
+    {
+        static::assertSame(['pattern' => '+pattern Pattern::DATE'], Facets::diff([], ['pattern' => Pattern::DATE]));
+        static::assertSame(['pattern' => 'pattern Pattern::ALNUM -> Pattern::ALNUM_OR_EMPTY'], Facets::diff(['pattern' => Pattern::ALNUM], ['pattern' => Pattern::ALNUM_OR_EMPTY]));
+        static::assertSame('UPPER_ALNUM', Facets::patternName('^[A-Z0-9]+$'));
+        static::assertNull(Facets::patternName('^x$'));
     }
 
     public function testDiffKeepsLongValuesDistinct(): void

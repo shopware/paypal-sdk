@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Common;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v2_common_address')]
@@ -42,7 +43,7 @@ class Address extends Struct
     #[OA\Property(type: 'string', maxLength: 60, nullable: true)]
     protected ?string $postalCode = null;
 
-    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: '^([A-Z]{2}|C2)$')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
     protected string $countryCode;
 
     public function getAddressLine1(): ?string

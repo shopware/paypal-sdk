@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\EligibleMethodsData\EligibleMethods;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 
 /**
  * @experimental
@@ -18,7 +19,7 @@ class PaypalPayLater extends Paypal
     /**
      * ISO 3166-1 alpha-2 country code
      */
-    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: '^([A-Z]{2}|C2)$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE, nullable: true)]
     protected ?string $countryCode;
 
     #[OA\Property(type: 'string', nullable: true)]

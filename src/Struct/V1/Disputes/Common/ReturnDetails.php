@@ -8,21 +8,22 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Common;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_disputes_common_return_details')]
 class ReturnDetails extends Struct
 {
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $returnTime;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Z_]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_UNDERSCORE)]
     protected string $mode;
 
     #[OA\Property(type: 'boolean')]
     protected bool $receipt;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Za-z0-9:\\-]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_COLON_HYPHEN)]
     protected string $returnConfirmationNumber;
 
     #[OA\Property(type: 'boolean')]

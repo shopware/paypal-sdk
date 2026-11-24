@@ -8,21 +8,22 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\StoredCredential;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_card_stored_credential_network_transaction_reference')]
 class NetworkTransactionReference extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 9, maxLength: 36, pattern: '^[a-zA-Z0-9-_@.:&+=*^\'~#!$%()]+$')]
+    #[OA\Property(type: 'string', minLength: 9, maxLength: 36, pattern: Pattern::NETWORK_TRANSACTION_ID)]
     protected string $id;
 
-    #[OA\Property(type: 'string', minLength: 4, maxLength: 4, pattern: '^[0-9]+$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 4, maxLength: 4, pattern: Pattern::DIGITS, nullable: true)]
     protected ?string $date;
 
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $network;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 36, pattern: '^[a-zA-Z0-9]+$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 36, pattern: Pattern::ACQUIRER_REFERENCE_NUMBER, nullable: true)]
     protected ?string $acquirerReferenceNumber;
 
     public function getId(): string

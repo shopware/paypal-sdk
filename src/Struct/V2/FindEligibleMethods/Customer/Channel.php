@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\FindEligibleMethods\Customer;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -16,13 +17,13 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_find_eligible_methods_customer_channel')]
 class Channel extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 30, pattern: '^[0-9a-zA-Z_,. -]+$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 30, pattern: Pattern::DEVICE_INFO, nullable: true)]
     protected ?string $browserType = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 30, pattern: '^[0-9a-zA-Z_,. -]+$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 30, pattern: Pattern::DEVICE_INFO, nullable: true)]
     protected ?string $clientOs = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 30, pattern: '^[0-9a-zA-Z_,. -]+$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 30, pattern: Pattern::DEVICE_INFO, nullable: true)]
     protected ?string $deviceType = null;
 
     public function getBrowserType(): ?string

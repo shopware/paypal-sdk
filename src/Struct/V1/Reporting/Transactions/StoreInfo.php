@@ -8,15 +8,16 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_store_info')]
 class StoreInfo extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 100, pattern: '^[a-zA-Z0-9]*$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 100, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
     protected ?string $storeId = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 60, pattern: '^[a-zA-Z0-9]*$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 60, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
     protected ?string $terminalId = null;
 
     public function getStoreId(): ?string

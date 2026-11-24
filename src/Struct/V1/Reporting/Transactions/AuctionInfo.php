@@ -8,21 +8,22 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_auction_info')]
 class AuctionInfo extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: '^[a-zA-Z0-9_\'\\-., ":;\\!?]*$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $auctionSite = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 4000, pattern: '^[a-zA-Z0-9_\'\\-., ":;\\!?]*$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 4000, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $auctionItemSite = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: '^[a-zA-Z0-9_\'\\-., ":;\\!?]*$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $auctionBuyerId = null;
 
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
     protected ?string $auctionClosingDate = null;
 
     public function getAuctionSite(): ?string

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
@@ -51,31 +52,31 @@ class Item extends Struct
         self::DISPUTE_STATE_APPEALABLE,
     ];
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Za-z0-9-]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_HYPHEN)]
     protected string $disputeId;
 
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $createTime;
 
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $updateTime;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: DisputedTransaction::class), minItems: 1, maxItems: 1000, nullable: true)]
     protected ?DisputedTransactionCollection $disputedTransactions = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $reason;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $status;
 
-    #[OA\Property(type: 'string', enum: self::DISPUTE_STATES, minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$', nullable: true)]
+    #[OA\Property(type: 'string', enum: self::DISPUTE_STATES, minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE, nullable: true)]
     protected ?string $disputeState = null;
 
     #[OA\Property(ref: DisputeAmount::class)]
     protected DisputeAmount $disputeAmount;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: '^[A-Za-z0-9._-]+$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: Pattern::ALNUM_DOT_UNDERSCORE_HYPHEN, nullable: true)]
     protected ?string $externalReasonCode = null;
 
     #[OA\Property(ref: DisputeOutcome::class, nullable: true)]
@@ -87,10 +88,10 @@ class Item extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: MoneyMovement::class), minItems: 1, maxItems: 50)]
     protected MoneyMovementCollection $moneyMovements;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $disputeLifeCycleStage;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Z0-9_]+$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::DISPUTE_CHANNEL, nullable: true)]
     protected ?string $disputeChannel = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Message::class), minItems: 1, maxItems: 1000, nullable: true)]
@@ -102,10 +103,10 @@ class Item extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Evidence::class), minItems: 1, maxItems: 100, nullable: true)]
     protected ?EvidenceCollection $evidences = null;
 
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
     protected ?string $buyerResponseDueDate = null;
 
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
     protected ?string $sellerResponseDueDate = null;
 
     #[OA\Property(ref: Offer::class, nullable: true)]

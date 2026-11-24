@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -77,7 +78,7 @@ class Address extends Struct
         type: 'string',
         maxLength: 2,
         minLength: 2,
-        pattern: '^[A-Z]{2}$'
+        pattern: Pattern::ISO_COUNTRY_CODE
     )]
     protected string $countryCode;
 

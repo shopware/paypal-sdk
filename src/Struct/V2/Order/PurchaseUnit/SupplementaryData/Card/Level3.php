@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Card;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
@@ -27,7 +28,7 @@ class Level3 extends Struct
     #[OA\Property(ref: Address::class)]
     protected Address $shippingAddress;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 60, pattern: '^[a-zA-Z0-9_\'.-]*$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 60, pattern: Pattern::LEVEL_3_CODE)]
     protected string $shipsFromPostalCode;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: LineItem::class), minItems: 1, maxItems: 100)]

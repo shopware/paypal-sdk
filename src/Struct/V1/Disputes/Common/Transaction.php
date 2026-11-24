@@ -8,34 +8,35 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Common;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
 #[OA\Schema(schema: 'paypal_v1_disputes_common_transaction')]
 class Transaction extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Za-z0-9-]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_HYPHEN)]
     protected string $buyerTransactionId;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[A-Za-z0-9-]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_HYPHEN)]
     protected string $sellerTransactionId;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
     protected string $referenceId;
 
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $createTime;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $transactionStatus;
 
     #[OA\Property(ref: Money::class)]
     protected Money $grossAmount;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: '^[A-Za-z0-9:\\-|]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::ALNUM_COLON_HYPHEN_PIPE)]
     protected string $invoiceNumber;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: '^(.|\\r?\\n)*$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: Pattern::MULTILINE_TEXT)]
     protected string $custom;
 
     #[OA\Property(ref: Buyer::class)]

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Offer\History;
@@ -22,7 +23,7 @@ class Offer extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $sellerOfferedAmount;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: '^[0-9A-Z_]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $offerType;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: History::class), minItems: 1, maxItems: 1000, nullable: true)]

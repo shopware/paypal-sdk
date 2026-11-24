@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V3;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Link;
 use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
@@ -18,7 +19,7 @@ use Shopware\PayPalSDK\Struct\V3\PaymentToken\Metadata;
 #[OA\Schema(schema: 'paypal_v3_payment_token')]
 class PaymentToken extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 36, pattern: '^[0-9a-zA-Z_-]+$')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 36, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN)]
     protected string $id;
 
     #[OA\Property(type: 'string')]

@@ -8,12 +8,13 @@
 namespace Shopware\PayPalSDK\Struct\V1\Common;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_common_money')]
 class Money extends Struct
 {
-    #[OA\Property(type: 'string', maxLength: 32, pattern: '^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$')]
+    #[OA\Property(type: 'string', maxLength: 32, pattern: Pattern::DECIMAL)]
     protected string $value;
 
     #[OA\Property(type: 'string', minLength: 3, maxLength: 3)]

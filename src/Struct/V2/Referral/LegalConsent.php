@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Referral;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v2_referral_legal_consent')]
@@ -15,7 +16,7 @@ class LegalConsent extends Struct
 {
     public const string CONSENT_TYPE_SHARE_DATA = 'SHARE_DATA_CONSENT';
 
-    #[OA\Property(type: 'string', default: self::CONSENT_TYPE_SHARE_DATA, minLength: 1, maxLength: 127, pattern: '^[0-9A-Z_-]+$')]
+    #[OA\Property(type: 'string', default: self::CONSENT_TYPE_SHARE_DATA, minLength: 1, maxLength: 127, pattern: Pattern::UPPER_ALNUM_UNDERSCORE_HYPHEN)]
     protected string $type = self::CONSENT_TYPE_SHARE_DATA;
 
     #[OA\Property(type: 'boolean')]

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Link;
 use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
@@ -36,7 +37,7 @@ class Referral extends Struct
     #[OA\Property(ref: BusinessEntity::class)]
     protected BusinessEntity $businessEntity;
 
-    #[OA\Property(type: 'string', minLength: 2, maxLength: 10, pattern: '^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 10, pattern: Pattern::LANGUAGE_ALPHA_REGION)]
     protected string $preferredLanguageCode;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
@@ -71,7 +72,7 @@ class Referral extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]
     protected LinkCollection $links;
 
-    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: '^([A-Z]{2}|C2)$')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
     protected string $legalCountryCode;
 
     public function getBusinessEntity(): BusinessEntity

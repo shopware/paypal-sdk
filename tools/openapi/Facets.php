@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Tools\OpenApi;
 
 use OpenApi\Attributes\Property;
+use Shopware\PayPalSDK\Struct\Pattern;
 
 /**
  * The `#[OA\Property]` arguments taken from the spec. All other arguments are
@@ -152,8 +153,8 @@ final class Facets
 
             $change = match (true) {
                 $has && $wants && $actual[$facet] === $expected[$facet] => null,
-                $has && $wants => \sprintf('%s %s -> %s', $facet, self::show($actual[$facet]), self::show($expected[$facet])),
-                $wants => \sprintf('+%s %s', $facet, self::show($expected[$facet])),
+                $has && $wants => \sprintf('%s %s -> %s', $facet, self::show($facet, $actual[$facet]), self::show($facet, $expected[$facet])),
+                $wants => \sprintf('+%s %s', $facet, self::show($facet, $expected[$facet])),
                 $has => '-' . $facet,
                 default => null,
             };
@@ -164,6 +165,16 @@ final class Facets
         }
 
         return $changes;
+    }
+
+    /**
+     * The {@see Pattern} constant with the pattern, e.g. `DATE_TIME`.
+     */
+    public static function patternName(string $pattern): ?string
+    {
+        $name = array_search($pattern, (new \ReflectionClass(Pattern::class))->getConstants(), true);
+
+        return \is_string($name) ? $name : null;
     }
 
     private static function format(mixed $format): ?string
@@ -182,13 +193,18 @@ final class Facets
     }
 
     /**
-     * A long string is cut, with a hash of the whole so that it stays distinct
-     * in baseline keys.
+     * A known pattern is shown by its {@see Pattern} name. Another long string
+     * is cut, with a hash of the whole so that it stays distinct in baseline keys.
      */
-    private static function show(mixed $value): string
+    private static function show(string $facet, mixed $value): string
     {
         if (!\is_string($value)) {
             return \is_scalar($value) ? (string) $value : get_debug_type($value);
+        }
+
+        $name = $facet === 'pattern' ? self::patternName($value) : null;
+        if ($name !== null) {
+            return 'Pattern::' . $name;
         }
 
         return mb_strlen($value) > 40

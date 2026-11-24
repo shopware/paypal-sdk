@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes\OrderUpdateCallbackConfig;
 
@@ -35,7 +36,7 @@ class ExperienceContext extends Struct
 
     public const string ACQUIRING_CHANNEL_ECOMMERCE = 'ECOMMERCE';
 
-    #[OA\Property(type: 'string', minLength: 2, maxLength: 10, pattern: '^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|[0-9]{3}))?$')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 10, pattern: Pattern::LANGUAGE)]
     protected string $locale;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -25,8 +26,7 @@ class Money extends Struct
     #[OA\Property(
         type: 'string',
         maxLength: 3,
-        minLength: 3,
-        pattern: '^[\S\s]*$'
+        minLength: 3
     )]
     protected string $currencyCode;
 
@@ -39,7 +39,7 @@ class Money extends Struct
         type: 'string',
         maxLength: 0,
         minLength: 32,
-        pattern: '^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$'
+        pattern: Pattern::DECIMAL
     )]
     protected string $value;
 

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Name;
@@ -19,10 +20,10 @@ class Payer extends Struct
     #[OA\Property(ref: Name::class)]
     protected Name $name;
 
-    #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: '^.*(?:[a-zA-Z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\]).*$')]
+    #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::CONTAINS_EMAIL_ADDRESS)]
     protected string $emailAddress;
 
-    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: '^[2-9A-HJ-NP-Z]{13}$', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
     protected ?string $payerId;
 
     #[OA\Property(ref: Phone::class, nullable: true)]
