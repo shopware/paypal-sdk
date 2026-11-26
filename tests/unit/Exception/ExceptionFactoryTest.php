@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Tests\Unit\Exception;
 
 use Http\Discovery\Psr17Factory;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\ErrorApiException;
@@ -91,8 +92,62 @@ class ExceptionFactoryTest extends TestCase
 
         $exception = ExceptionFactory::createFromResponse($response);
 
+        static::assertSame(ApiException::class, $exception::class);
+        static::assertSame(ApiException::CODE_UNKNOWN, $exception->getErrorCode());
+        static::assertSame('Unauthorized', $exception->getReason());
+    }
+
+    #[DataProvider('provideNonOAuth401PreservesResponseBody')]
+    public function testNonOAuth401PreservesResponseBody(string $body): void
+    {
+        $response = $this->factory->createResponse(401)->withBody($this->factory->createStream($body));
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertSame(ApiException::class, $exception::class);
+        static::assertSame(ApiException::CODE_UNKNOWN, $exception->getErrorCode());
+        static::assertSame($body, $exception->getReason());
+        static::assertSame(401, $exception->getStatusCode());
+    }
+
+    public static function provideNonOAuth401PreservesResponseBody(): \Generator
+    {
+        yield 'plain text' => ['Gateway authentication rejected'];
+        yield 'JSON scalar' => ['"Access denied"'];
+        yield 'missing error code' => ['{"error_description":"Access denied"}'];
+        yield 'empty error code' => ['{"error":""}'];
+        yield 'nested error' => ['{"error":{"message":"Access denied"}}'];
+        yield 'numeric error code' => ['{"error":401}'];
+        yield 'invalid description' => ['{"error":"invalid_client","error_description":[]}'];
+        yield 'invalid URI' => ['{"error":"invalid_client","error_uri":123}'];
+    }
+
+    public function testRestErrorWith401PreservesDetails(): void
+    {
+        $response = $this->factory->createResponse(401)->withBody($this->factory->createStream(\json_encode([
+            'name' => 'NOT_AUTHORIZED',
+            'message' => 'Permission denied',
+            'debug_id' => 'debug-123',
+            'details' => [['issue' => 'PERMISSION_DENIED', 'description' => 'Missing permission']],
+        ], \JSON_THROW_ON_ERROR)));
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
+        static::assertInstanceOf(ErrorApiException::class, $exception);
+        static::assertSame('NOT_AUTHORIZED', $exception->getErrorCode());
+        static::assertSame('Permission denied', $exception->getReason());
+        static::assertSame('debug-123', $exception->debugId);
+        static::assertTrue($exception->is('PERMISSION_DENIED'));
+    }
+
+    public function testOAuthErrorWithoutDescriptionPreservesErrorCode(): void
+    {
+        $response = $this->factory->createResponse(401)->withBody($this->factory->createStream('{"error":"invalid_token"}'));
+
+        $exception = ExceptionFactory::createFromResponse($response);
+
         static::assertInstanceOf(OAuthApiException::class, $exception);
-        static::assertSame('The error "INVALID_CLIENT" occurred with the following message: Client authentication failed.', $exception->getMessage());
+        static::assertSame('invalid_token', $exception->getErrorCode());
     }
 
     public function testCreateFromResponseWithoutBody(): void
@@ -186,7 +241,7 @@ class ExceptionFactoryTest extends TestCase
 
         $response = $this->factory
             ->createResponse()
-            ->withHeader('Retry-After', (new \DateTimeImmutable('+2 minutes'))->format(\DateTimeInterface::RFC7231))
+            ->withHeader('Retry-After', (new \DateTimeImmutable('+2 minutes', new \DateTimeZone('GMT')))->format('D, d M Y H:i:s \G\M\T'))
             ->withBody($this->factory->createStream(\json_encode($error, \JSON_THROW_ON_ERROR)))
             ->withStatus(429);
 

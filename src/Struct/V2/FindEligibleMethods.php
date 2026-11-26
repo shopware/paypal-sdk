@@ -30,7 +30,7 @@ class FindEligibleMethods extends Struct
      * Does not have to be a full purchase unit.
      * `[{"amount":{"currency_code":"<iso-4217-code>"},"payee":{"merchant_id":"<merchant-id>"}}]` is enough.
      */
-    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), minItems: 1, maxItems: 10)]
     protected PurchaseUnitCollection $purchaseUnits;
 
     public function getCustomer(): ?Customer

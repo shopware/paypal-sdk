@@ -18,7 +18,7 @@ final class IssueClassifier
     /**
      * One response can carry several issues, so the first matching category wins: most specific on top.
      */
-    private const CATEGORIES = [
+    private const array CATEGORIES = [
         IssueCategory::MERCHANT->value => [
             ApiException::CODE_PAYEE_ACCOUNT_RESTRICTED,
             ApiException::CODE_PAYEE_ACCOUNT_LOCKED_OR_CLOSED,

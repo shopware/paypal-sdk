@@ -8,14 +8,15 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Token\StoredPaymentSource;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_token')]
 class Token extends AbstractPaymentSource
 {
-    public const TYPE_BILLING_AGREEMENT = 'BILLING_AGREEMENT';
+    public const string TYPE_BILLING_AGREEMENT = 'BILLING_AGREEMENT';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN)]
     protected string $id;
 
     #[OA\Property(type: 'string')]

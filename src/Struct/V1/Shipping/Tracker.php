@@ -13,8 +13,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_shipping_tracker')]
 class Tracker extends Struct
 {
-    public const STATUS_SHIPPED = 'SHIPPED';
-    public const STATUS_CANCELLED = 'CANCELLED';
+    public const string STATUS_SHIPPED = 'SHIPPED';
+    public const string STATUS_CANCELLED = 'CANCELLED';
 
     #[OA\Property(type: 'string')]
     protected string $transactionId;

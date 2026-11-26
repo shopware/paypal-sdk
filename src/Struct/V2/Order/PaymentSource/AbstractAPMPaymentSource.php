@@ -8,13 +8,14 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 
 abstract class AbstractAPMPaymentSource extends AbstractPaymentSource
 {
-    #[OA\Property(type: 'string', maxLength: 300, minLength: 3)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 300)]
     protected string $name;
 
-    #[OA\Property(type: 'string', maxLength: 2, minLength: 2)]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
     protected string $countryCode;
 
     public function getName(): string

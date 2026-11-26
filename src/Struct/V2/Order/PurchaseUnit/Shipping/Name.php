@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_name')]
 class Name extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', maxLength: 300)]
     protected string $fullName;
 
     public function getFullName(): string

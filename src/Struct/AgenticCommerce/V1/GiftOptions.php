@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\Recipient;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -38,7 +39,7 @@ class GiftOptions extends Struct
         type: 'string',
         maxLength: 64,
         minLength: 20,
-        pattern: '^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$'
+        pattern: Pattern::DATE_TIME
     )]
     protected ?string $deliveryDate = null;
 

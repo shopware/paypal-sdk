@@ -9,16 +9,16 @@ namespace Shopware\PayPalSDK\Struct;
 
 class ConstantsV1
 {
-    public const INTENT_SALE = 'sale';
-    public const INTENT_AUTHORIZE = 'authorize';
-    public const INTENT_ORDER = 'order';
+    public const string INTENT_SALE = 'sale';
+    public const string INTENT_AUTHORIZE = 'authorize';
+    public const string INTENT_ORDER = 'order';
 
-    public const STATUS_COMPLETED = 'completed';
-    public const STATUS_AUTHORIZED = 'authorized';
-    public const STATUS_VOIDED = 'voided';
-    public const STATUS_CAPTURED = 'captured';
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_PARTIALLY_REFUNDED = 'partially_refunded';
-    public const STATUS_REFUNDED = 'refunded';
-    public const STATUS_DENIED = 'denied';
+    public const string STATUS_COMPLETED = 'completed';
+    public const string STATUS_AUTHORIZED = 'authorized';
+    public const string STATUS_VOIDED = 'voided';
+    public const string STATUS_CAPTURED = 'captured';
+    public const string STATUS_PENDING = 'pending';
+    public const string STATUS_PARTIALLY_REFUNDED = 'partially_refunded';
+    public const string STATUS_REFUNDED = 'refunded';
+    public const string STATUS_DENIED = 'denied';
 }

@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\V2\Referral\BusinessEntity\AddressCollection;
 #[OA\Schema(schema: 'paypal_v2_referral_business_entity')]
 class BusinessEntity extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Address::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Address::class), maxItems: 5)]
     protected AddressCollection $addresses;
 
     public function getAddresses(): AddressCollection

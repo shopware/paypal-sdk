@@ -13,23 +13,23 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_application_context')]
 class ApplicationContext extends Struct
 {
-    public const LANDING_PAGE_TYPE_LOGIN = 'LOGIN';
-    public const LANDING_PAGE_TYPE_BILLING = 'BILLING';
-    public const LANDING_PAGE_TYPE_NO_PREFERENCE = 'NO_PREFERENCE';
-    public const LANDING_PAGE_TYPES = [
+    public const string LANDING_PAGE_TYPE_LOGIN = 'LOGIN';
+    public const string LANDING_PAGE_TYPE_BILLING = 'BILLING';
+    public const string LANDING_PAGE_TYPE_NO_PREFERENCE = 'NO_PREFERENCE';
+    public const array LANDING_PAGE_TYPES = [
         self::LANDING_PAGE_TYPE_LOGIN,
         self::LANDING_PAGE_TYPE_BILLING,
         self::LANDING_PAGE_TYPE_NO_PREFERENCE,
     ];
 
-    public const SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS = 'SET_PROVIDED_ADDRESS';
-    public const SHIPPING_PREFERENCE_NO_SHIPPING = 'NO_SHIPPING';
-    public const SHIPPING_PREFERENCE_GET_FROM_FILE = 'GET_FROM_FILE';
+    public const string SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS = 'SET_PROVIDED_ADDRESS';
+    public const string SHIPPING_PREFERENCE_NO_SHIPPING = 'NO_SHIPPING';
+    public const string SHIPPING_PREFERENCE_GET_FROM_FILE = 'GET_FROM_FILE';
 
-    public const USER_ACTION_CONTINUE = 'CONTINUE';
-    public const USER_ACTION_PAY_NOW = 'PAY_NOW';
+    public const string USER_ACTION_CONTINUE = 'CONTINUE';
+    public const string USER_ACTION_PAY_NOW = 'PAY_NOW';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
     protected string $brandName;
 
     #[OA\Property(type: 'string', default: self::LANDING_PAGE_TYPE_NO_PREFERENCE, enum: self::LANDING_PAGE_TYPES)]
@@ -45,10 +45,10 @@ class ApplicationContext extends Struct
     #[OA\Property(type: 'string', default: self::USER_ACTION_PAY_NOW, enum: [self::USER_ACTION_CONTINUE, self::USER_ACTION_PAY_NOW])]
     protected string $userAction = self::USER_ACTION_PAY_NOW;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri')]
     protected string $returnUrl;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri')]
     protected string $cancelUrl;
 
     public function getBrandName(): string

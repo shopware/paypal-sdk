@@ -17,23 +17,23 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ItemCollection;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_tracker')]
 class Tracker extends Struct
 {
-    public const STATUS_SHIPPED = 'SHIPPED';
-    public const STATUS_CANCELLED = 'CANCELLED';
+    public const string STATUS_SHIPPED = 'SHIPPED';
+    public const string STATUS_CANCELLED = 'CANCELLED';
 
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string')]
-    protected string $status;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $status;
 
-    #[OA\Property(type: 'bool')]
-    protected bool $notifyPayer;
+    #[OA\Property(type: 'boolean', nullable: true)]
+    protected ?bool $notifyPayer;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]
-    protected ItemCollection $items;
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), nullable: true)]
+    protected ?ItemCollection $items;
 
     public function getId(): string
     {
@@ -45,22 +45,22 @@ class Tracker extends Struct
         $this->id = $id;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
-        return $this->status;
+        return $this->status ?? null;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }
 
-    public function isNotifyPayer(): bool
+    public function getNotifyPayer(): ?bool
     {
-        return $this->notifyPayer;
+        return $this->notifyPayer ?? null;
     }
 
-    public function setNotifyPayer(bool $notifyPayer): void
+    public function setNotifyPayer(?bool $notifyPayer): void
     {
         $this->notifyPayer = $notifyPayer;
     }
@@ -77,10 +77,10 @@ class Tracker extends Struct
 
     public function getItems(): ItemCollection
     {
-        return $this->items;
+        return $this->items ??= new ItemCollection();
     }
 
-    public function setItems(ItemCollection $items): void
+    public function setItems(?ItemCollection $items): void
     {
         $this->items = $items;
     }

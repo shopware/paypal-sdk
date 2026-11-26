@@ -8,18 +8,19 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_cart_info')]
 class CartInfo extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: ItemDetail::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: ItemDetail::class), minItems: 1, nullable: true)]
     protected ?ItemDetailCollection $itemDetails = null;
 
     #[OA\Property(type: 'boolean', nullable: true)]
     protected ?bool $taxInclusive = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $paypalInvoiceId = null;
 
     public function getItemDetails(): ItemDetailCollection

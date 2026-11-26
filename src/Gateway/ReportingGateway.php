@@ -16,7 +16,7 @@ use Shopware\PayPalSDK\Util\QueryParameterFormatter;
 
 class ReportingGateway extends AbstractGateway
 {
-    public const GATEWAY_URL = '/v1/reporting';
+    public const string GATEWAY_URL = '/v1/reporting';
 
     public function listTransactions(TransactionSearch $search, ApiContextInterface $context): Transactions
     {

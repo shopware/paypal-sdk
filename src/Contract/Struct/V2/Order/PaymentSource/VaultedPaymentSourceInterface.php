@@ -15,9 +15,12 @@ interface VaultedPaymentSourceInterface
 
     public function setAttributes(?Attributes $attributes): void;
 
-    public function getVaultId(): string;
+    public function getVaultId(): ?string;
 
-    public function setVaultId(string $vaultId): void;
+    public function setVaultId(?string $vaultId): void;
 
-    public function getVaultIdentifier(): string;
+    /**
+     * Human-readable label of the vaulted source, e.g. the PayPal email address.
+     */
+    public function getVaultIdentifier(): ?string;
 }

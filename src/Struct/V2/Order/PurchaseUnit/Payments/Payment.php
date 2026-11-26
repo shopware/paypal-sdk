@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Link;
 use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
@@ -16,8 +17,8 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Common\PaymentSuppl
 
 abstract class Payment extends Struct
 {
-    public const MAX_LENGTH_INVOICE_ID = 127;
-    public const MAX_LENGTH_NOTE_TO_PAYER = 255;
+    public const int MAX_LENGTH_INVOICE_ID = 127;
+    public const int MAX_LENGTH_NOTE_TO_PAYER = 255;
 
     #[OA\Property(type: 'string')]
     protected string $status;
@@ -28,17 +29,17 @@ abstract class Payment extends Struct
     #[OA\Property(ref: Money::class, nullable: true)]
     protected ?Money $amount = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, nullable: true)]
     protected ?string $customId = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
 
-    #[OA\Property(type: 'string')]
-    protected string $createTime;
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
+    protected ?string $createTime;
 
-    #[OA\Property(type: 'string')]
-    protected string $updateTime;
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
+    protected ?string $updateTime;
 
     #[OA\Property(ref: PaymentSupplementaryData::class, nullable: true)]
     protected ?PaymentSupplementaryData $supplementaryData = null;
@@ -93,22 +94,22 @@ abstract class Payment extends Struct
         $this->links = $links;
     }
 
-    public function getCreateTime(): string
+    public function getCreateTime(): ?string
     {
-        return $this->createTime;
+        return $this->createTime ?? null;
     }
 
-    public function setCreateTime(string $createTime): void
+    public function setCreateTime(?string $createTime): void
     {
         $this->createTime = $createTime;
     }
 
-    public function getUpdateTime(): string
+    public function getUpdateTime(): ?string
     {
-        return $this->updateTime;
+        return $this->updateTime ?? null;
     }
 
-    public function setUpdateTime(string $updateTime): void
+    public function setUpdateTime(?string $updateTime): void
     {
         $this->updateTime = $updateTime;
     }

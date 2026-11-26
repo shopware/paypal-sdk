@@ -188,20 +188,19 @@ class ApiContextTest extends TestCase
     public function testWithPreferRepresentation(): void
     {
         $headers = ['prefer' => 'header-value'];
-
-        $oauthContext = new CredentialsOAuthContext('', '');
-        $context = new ApiContext($oauthContext, true, headers: $headers);
+        $context = new ApiContext(new CredentialsOAuthContext('', ''), true, headers: $headers);
 
         $newContext = $context->withPreferRepresentation(true);
 
         static::assertNotSame($context, $newContext);
         static::assertSame($headers, $context->getHeaders());
-        static::assertEquals(['prefer' => 'return=representation'], $newContext->getHeaders());
+        static::assertSame('return=representation', $newContext->getHeader('Prefer'));
 
-        $newContext = $context->withPreferRepresentation(false);
+        $minimalContext = $newContext->withPreferRepresentation(false);
 
-        static::assertNotSame($context, $newContext);
-        static::assertEmpty($newContext->getHeaders());
+        static::assertNotSame($newContext, $minimalContext);
+        static::assertSame('return=representation', $newContext->getHeader('Prefer'));
+        static::assertSame('return=minimal', $minimalContext->getHeader('Prefer'));
     }
 
     public function testWithRequestId(): void

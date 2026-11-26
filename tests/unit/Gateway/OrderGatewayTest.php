@@ -39,18 +39,26 @@ class OrderGatewayTest extends TestCase
     public function testCreateOrder(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = (new Order())->assign(['id' => 'some-order-id']);
+        $body = (new Order())->assign([
+            'intent' => 'AUTHORIZE',
+            'purchase_units' => [['amount' => ['currency_code' => 'EUR', 'value' => '10.00']]],
+        ]);
+        $expected = (new Order())->assign(['id' => 'some-order-id', 'intent' => 'AUTHORIZE', 'status' => 'CREATED']);
 
         $this->gateways->setCachedToken($context);
-        $this->client->addResponse(new Response(body: \json_encode($body, \JSON_THROW_ON_ERROR)));
+        $this->client->addResponse(new Response(body: \json_encode($expected, \JSON_THROW_ON_ERROR)));
 
         $response = $this->gateways->orderGateway()->createOrder($body, $context);
-        static::assertEquals($body, $response);
+        static::assertEquals($expected, $response);
+        static::assertSame('AUTHORIZE', $response->getIntent());
+        static::assertSame('some-order-id', $response->getId());
+        static::assertArrayNotHasKey('id', $body->jsonSerialize());
 
         $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders', $last->getRequest()->getUri()->getPath());
+        static::assertSame('return=representation', $last->getRequest()->getHeaderLine('Prefer'));
         static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }
 
@@ -69,6 +77,21 @@ class OrderGatewayTest extends TestCase
         static::assertNotNull($last);
         static::assertSame('GET', $last->getRequest()->getMethod());
         static::assertSame('/v2/checkout/orders/orderId', $last->getRequest()->getUri()->getPath());
+    }
+
+    public function testCreateOrderPreservesAdditionalOrderFields(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
+        $order = (new Order())->assign(['id' => 'existing-id', 'status' => 'CREATED', 'intent' => 'CAPTURE']);
+        $this->gateways->setCachedToken($context);
+        $this->client->addResponse(new Response(body: '{"id":"new-id","status":"CREATED"}'));
+
+        $response = $this->gateways->orderGateway()->createOrder($order, $context);
+
+        static::assertSame('new-id', $response->getId());
+        $last = $this->client->getLast();
+        static::assertNotNull($last);
+        static::assertSame($order->jsonSerialize(), \json_decode((string) $last->getRequest()->getBody(), true, 512, \JSON_THROW_ON_ERROR));
     }
 
     public function testAuthorizeOrder(): void
@@ -139,13 +162,15 @@ class OrderGatewayTest extends TestCase
         ]]);
 
         $this->gateways->setCachedToken($context);
-        $this->client->addResponse(new Response());
+        $this->client->addResponse(new Response(204));
 
         $this->gateways->orderGateway()->patchOrder('orderId', $body, $context);
 
         $last = $this->client->getLast();
         static::assertNotNull($last);
         static::assertSame('PATCH', $last->getRequest()->getMethod());
+        static::assertSame('return=representation', $last->getRequest()->getHeaderLine('Prefer'));
+        static::assertCount(1, $this->client->getAll());
         static::assertSame('/v2/checkout/orders/orderId', $last->getRequest()->getUri()->getPath());
         static::assertSame(\json_encode($body), (string) $last->getRequest()->getBody());
     }

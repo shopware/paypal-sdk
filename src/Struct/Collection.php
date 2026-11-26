@@ -229,6 +229,8 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     {
         if ($offset !== null) {
             $this->set($offset, $value);
+        } else {
+            $this->add($value);
         }
     }
 

@@ -26,18 +26,18 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class ValidationIssue extends Struct
 {
-    public const CODE__INVENTORY_ISSUE = 'INVENTORY_ISSUE';
-    public const CODE__PRICING_ERROR = 'PRICING_ERROR';
-    public const CODE__SHIPPING_ERROR = 'SHIPPING_ERROR';
-    public const CODE__PAYMENT_ERROR = 'PAYMENT_ERROR';
-    public const CODE__DATA_ERROR = 'DATA_ERROR';
-    public const CODE__BUSINESS_RULE_ERROR = 'BUSINESS_RULE_ERROR';
+    public const string CODE__INVENTORY_ISSUE = 'INVENTORY_ISSUE';
+    public const string CODE__PRICING_ERROR = 'PRICING_ERROR';
+    public const string CODE__SHIPPING_ERROR = 'SHIPPING_ERROR';
+    public const string CODE__PAYMENT_ERROR = 'PAYMENT_ERROR';
+    public const string CODE__DATA_ERROR = 'DATA_ERROR';
+    public const string CODE__BUSINESS_RULE_ERROR = 'BUSINESS_RULE_ERROR';
 
-    public const TYPE__MISSING_FIELD = 'MISSING_FIELD';
-    public const TYPE__INVALID_DATA = 'INVALID_DATA';
-    public const TYPE__BUSINESS_RULE = 'BUSINESS_RULE';
+    public const string TYPE__MISSING_FIELD = 'MISSING_FIELD';
+    public const string TYPE__INVALID_DATA = 'INVALID_DATA';
+    public const string TYPE__BUSINESS_RULE = 'BUSINESS_RULE';
 
-    private const CODES = [
+    private const array CODES = [
         self::CODE__INVENTORY_ISSUE,
         self::CODE__PRICING_ERROR,
         self::CODE__SHIPPING_ERROR,
@@ -46,7 +46,7 @@ class ValidationIssue extends Struct
         self::CODE__BUSINESS_RULE_ERROR,
     ];
 
-    private const TYPES = [self::TYPE__MISSING_FIELD, self::TYPE__INVALID_DATA, self::TYPE__BUSINESS_RULE];
+    private const array TYPES = [self::TYPE__MISSING_FIELD, self::TYPE__INVALID_DATA, self::TYPE__BUSINESS_RULE];
 
     /**
      * Consolidated error category

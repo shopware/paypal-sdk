@@ -34,7 +34,7 @@ class EventTest extends TestCase
     /**
      * @return iterable<string, array{string, string, class-string<Struct>}>
      */
-    public static function provideIdentifyResourceType(): iterable
+    public static function provideResourceTypeFallback(): iterable
     {
         yield 'v2 authorization' => ['2.0', 'authorization', Authorization::class];
         yield 'v2 capture' => ['2.0', 'capture', Capture::class];
@@ -51,8 +51,8 @@ class EventTest extends TestCase
     /**
      * @param class-string<Struct> $expectedClass
      */
-    #[DataProvider('provideIdentifyResourceType')]
-    public function testIdentifyResourceType(string $resourceVersion, string $resourceType, string $expectedClass): void
+    #[DataProvider('provideResourceTypeFallback')]
+    public function testResourceTypeFallback(string $resourceVersion, string $resourceType, string $expectedClass): void
     {
         $event = Struct::from(Event::class, [
             'id' => 'WH-TEST-123',
@@ -134,7 +134,7 @@ class EventTest extends TestCase
         static::assertSame('CAPTURE-123', $resource->getId());
     }
 
-    public function testSubclassResourceTypeOverrideStillApplies(): void
+    public function testSubclassIdentifyResourceOverrideApplies(): void
     {
         $event = Struct::from(ExtendedEvent::class, [
             'id' => 'WH-SALE-COMPLETED',
@@ -402,6 +402,40 @@ class EventTest extends TestCase
 
         static::assertNull($event->getResource());
     }
+
+    public function testExplicitNullPreservesAnExistingResource(): void
+    {
+        $event = Struct::from(Event::class, [
+            'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
+            'resource_version' => '2.0',
+            'resource' => ['id' => 'CAPTURE-123'],
+        ]);
+        static::assertInstanceOf(Capture::class, $event->getResource());
+        $resource = $event->getResource();
+
+        $event->assign(['resource' => null]);
+
+        static::assertSame($resource, $event->getResource());
+        static::assertSame($resource->jsonSerialize(), $event->jsonSerialize()['resource']);
+    }
+
+    public function testMissingResourcePreservesAnExistingResource(): void
+    {
+        $event = Struct::from(Event::class, [
+            'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
+            'resource_version' => '2.0',
+            'resource' => ['id' => 'CAPTURE-123'],
+        ]);
+        $resource = $event->getResource();
+        static::assertInstanceOf(Capture::class, $resource);
+
+        $event->assign(['summary' => 'Updated summary']);
+
+        static::assertSame($resource, $event->getResource());
+        $serializedResource = $event->jsonSerialize()['resource'];
+        static::assertIsArray($serializedResource);
+        static::assertSame('CAPTURE-123', $serializedResource['id']);
+    }
 }
 
 /**
@@ -409,12 +443,12 @@ class EventTest extends TestCase
  */
 class ExtendedEvent extends Event
 {
-    protected function identifyResourceType(string $resourceVersion, string $resourceType): ?string
+    protected function identifyResource(string $eventType, string $resourceVersion, string $resourceType): ?string
     {
         if ($resourceType === 'sale') {
             return Subscription::class;
         }
 
-        return parent::identifyResourceType($resourceVersion, $resourceType);
+        return parent::identifyResource($eventType, $resourceVersion, $resourceType);
     }
 }

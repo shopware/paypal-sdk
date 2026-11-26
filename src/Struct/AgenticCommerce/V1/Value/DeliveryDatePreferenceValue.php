@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Contract\Struct\AgenticCommerce\V1\Value\ValueInterface;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -17,10 +18,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_value_delivery_date_preference_value')]
 class DeliveryDatePreferenceValue extends Struct implements ValueInterface
 {
-    public const TIME_WINDOW__MORNING = 'morning';
-    public const TIME_WINDOW__AFTERNOON = 'afternoon';
-    public const TIME_WINDOW__EVENING = 'evening';
-    public const TIME_WINDOW__ANYTIME = 'anytime';
+    public const string TIME_WINDOW__MORNING = 'morning';
+    public const string TIME_WINDOW__AFTERNOON = 'afternoon';
+    public const string TIME_WINDOW__EVENING = 'evening';
+    public const string TIME_WINDOW__ANYTIME = 'anytime';
 
     /**
      * Preferred delivery date
@@ -42,7 +43,7 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
      */
     #[OA\Property(
         type: 'string',
-        pattern: '^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
+        pattern: Pattern::TIME
     )]
     protected ?string $specificTime = null;
 
@@ -53,7 +54,7 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
 
     public function setPreferredDate(?string $preferredDate): void
     {
-        if (!\in_array($preferredDate, [self::TIME_WINDOW__MORNING, self::TIME_WINDOW__AFTERNOON, self::TIME_WINDOW__EVENING, self::TIME_WINDOW__ANYTIME], true)) {
+        if ($preferredDate !== null && !\in_array($preferredDate, [self::TIME_WINDOW__MORNING, self::TIME_WINDOW__AFTERNOON, self::TIME_WINDOW__EVENING, self::TIME_WINDOW__ANYTIME], true)) {
             throw new \InvalidArgumentException('PreferredDate must be a valid date');
         }
 

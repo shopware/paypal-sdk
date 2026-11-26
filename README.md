@@ -14,6 +14,9 @@ This SDK provides a simple and easy-to-use interface for working with PayPal's R
 > Only use cases and API responses used within the plugin are covered.
 
 ## Quick start
+
+Upgrading from an older version? See [MIGRATION.md](MIGRATION.md).
+
 ### Installation
 You can install the SDK via Composer. Run the following command in your terminal:
 
@@ -36,6 +39,7 @@ use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
 use Shopware\PayPalSDK\Struct\V2\Order;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
 $context = new ApiContext(
     new CredentialsOAuthContext('<clientId>', '<clientSecret>'),
@@ -45,6 +49,10 @@ $context = new ApiContext(
 $orderGateway = new OrderGateway();
 
 $toCreateOrder = new Order();
+$toCreateOrder->setIntent('CAPTURE');
+$toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::createFromAssociative([
+    ['amount' => ['currency_code' => 'EUR', 'value' => '10.00']],
+]));
 $toCreateOrder->setPaymentSource(...);
 $createdOrder = $orderGateway->createOrder($toCreateOrder, $context);
 
@@ -58,6 +66,7 @@ use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
 use Shopware\PayPalSDK\Gateway\TokenGateway;
 use Shopware\PayPalSDK\Gateway\OrderGateway;
 use Shopware\PayPalSDK\Struct\V2\Order;
+use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
 $context = new ApiContext(
     new CredentialsOAuthContext('<clientId>', '<clientSecret>'),
@@ -66,7 +75,7 @@ $context = new ApiContext(
     headers: ['some-additional-header' => 'value'], // optional
     queryParameters: ['filter' => 'value'], // optional
     thirdParty: false, // optional
-)
+);
 
 $client = new Http\Adapter\Guzzle7\Client(new GuzzleHttp\Client([
     // some custom options like adding a logger middleware
@@ -76,6 +85,10 @@ $tokenGateway = new TokenGateway($client);
 $orderGateway = new OrderGateway($client, $tokenGateway);
 
 $toCreateOrder = new Order();
+$toCreateOrder->setIntent('CAPTURE');
+$toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::createFromAssociative([
+    ['amount' => ['currency_code' => 'EUR', 'value' => '10.00']],
+]));
 $toCreateOrder->setPaymentSource(...);
 $createdOrder = $orderGateway->createOrder($toCreateOrder, $context);
 

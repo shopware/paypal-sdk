@@ -23,7 +23,7 @@ use Shopware\PayPalSDK\Struct\Struct;
  */
 class StructMethodRule implements Rule
 {
-    private const EXCLUSIONS = [Struct::class];
+    private const array EXCLUSIONS = [Struct::class];
 
     public function getNodeType(): string
     {

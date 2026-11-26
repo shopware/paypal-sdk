@@ -9,20 +9,21 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\StoredCredential\NetworkTransactionReference;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_card_stored_credential')]
 class StoredCredential extends Struct
 {
-    public const PAYMENT_INITIATOR_MERCHANT = 'MERCHANT';
-    public const PAYMENT_INITIATOR_CUSTOMER = 'CUSTOMER';
+    public const string PAYMENT_INITIATOR_MERCHANT = 'MERCHANT';
+    public const string PAYMENT_INITIATOR_CUSTOMER = 'CUSTOMER';
 
-    public const PAYMENT_TYPE_ONE_TIME = 'ONE_TIME';
-    public const PAYMENT_TYPE_RECURRING = 'RECURRING';
-    public const PAYMENT_TYPE_UNSCHEDULED = 'UNSCHEDULED';
+    public const string PAYMENT_TYPE_ONE_TIME = 'ONE_TIME';
+    public const string PAYMENT_TYPE_RECURRING = 'RECURRING';
+    public const string PAYMENT_TYPE_UNSCHEDULED = 'UNSCHEDULED';
 
-    public const USAGE_FIRST = 'FIRST';
-    public const USAGE_SUBSEQUENT = 'SUBSEQUENT';
-    public const USAGE_DERIVED = 'DERIVED';
+    public const string USAGE_FIRST = 'FIRST';
+    public const string USAGE_SUBSEQUENT = 'SUBSEQUENT';
+    public const string USAGE_DERIVED = 'DERIVED';
 
     #[OA\Property(type: 'string', enum: [self::PAYMENT_INITIATOR_MERCHANT, self::PAYMENT_INITIATOR_CUSTOMER])]
     protected string $paymentInitiator;
@@ -33,8 +34,8 @@ class StoredCredential extends Struct
     #[OA\Property(type: 'string', enum: [self::USAGE_DERIVED, self::USAGE_FIRST, self::USAGE_SUBSEQUENT])]
     protected string $usage;
 
-    #[OA\Property(type: 'string')]
-    protected string $previousNetworkTransactionReference;
+    #[OA\Property(ref: NetworkTransactionReference::class, nullable: true)]
+    protected ?NetworkTransactionReference $previousNetworkTransactionReference;
 
     public function getPaymentInitiator(): string
     {
@@ -66,12 +67,12 @@ class StoredCredential extends Struct
         $this->usage = $usage;
     }
 
-    public function getPreviousNetworkTransactionReference(): string
+    public function getPreviousNetworkTransactionReference(): ?NetworkTransactionReference
     {
-        return $this->previousNetworkTransactionReference;
+        return $this->previousNetworkTransactionReference ?? null;
     }
 
-    public function setPreviousNetworkTransactionReference(string $previousNetworkTransactionReference): void
+    public function setPreviousNetworkTransactionReference(?NetworkTransactionReference $previousNetworkTransactionReference): void
     {
         $this->previousNetworkTransactionReference = $previousNetworkTransactionReference;
     }

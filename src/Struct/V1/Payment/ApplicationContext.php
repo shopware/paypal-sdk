@@ -13,15 +13,15 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_payment_application_context')]
 class ApplicationContext extends Struct
 {
-    public const LANDING_PAGE_TYPE_LOGIN = 'Login';
-    public const LANDING_PAGE_TYPE_BILLING = 'Billing';
-    public const LANDING_PAGE_TYPES = [
+    public const string LANDING_PAGE_TYPE_LOGIN = 'Login';
+    public const string LANDING_PAGE_TYPE_BILLING = 'Billing';
+    public const array LANDING_PAGE_TYPES = [
         self::LANDING_PAGE_TYPE_LOGIN,
         self::LANDING_PAGE_TYPE_BILLING,
     ];
 
-    public const USER_ACTION_TYPE_COMMIT = 'commit';
-    public const USER_ACTION_TYPE_CONTINUE = 'continue';
+    public const string USER_ACTION_TYPE_COMMIT = 'commit';
+    public const string USER_ACTION_TYPE_CONTINUE = 'continue';
 
     #[OA\Property(type: 'string')]
     protected string $brandName;

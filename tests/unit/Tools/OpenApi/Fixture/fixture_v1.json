@@ -1,0 +1,65 @@
+{
+    "openapi": "3.0.3",
+    "paths": {
+        "/v1/things": {
+            "post": {
+                "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/thing_request"}}}},
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {"$ref": "#/components/schemas/thing"},
+                                "examples": {
+                                    "full": {"value": {"id": "1", "status": "NEW", "name": "a", "parts": [{"code": "X"}]}},
+                                    "minimal": {"value": {"id": "1", "status": "NEW"}}
+                                }
+                            }
+                        }
+                    },
+                    "400": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/error"}}}}
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "thing_request": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "minLength": 1, "maxLength": 3000},
+                    "kind": {"type": "string", "enum": ["A", "B"]},
+                    "line1": {"type": "string"},
+                    "postcode": {"type": "string"},
+                    "count": {"type": "string"},
+                    "parts": {"type": "array", "items": {"$ref": "#/components/schemas/part_alias"}}
+                }
+            },
+            "thing": {
+                "allOf": [
+                    {"$ref": "#/components/schemas/thing_base"},
+                    {
+                        "properties": {
+                            "kind": {"type": "string", "enum": ["A", "C"]},
+                            "parts": {"type": "array", "items": {"$ref": "#/components/schemas/part"}},
+                            "extra": {"type": "string"}
+                        }
+                    }
+                ]
+            },
+            "thing_base": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "string"},
+                    "status": {"type": "string"},
+                    "name": {"type": "string", "maxLength": 127},
+                    "created": {"allOf": [{"$ref": "#/components/schemas/date_time"}, {"description": "When it was created."}]}
+                }
+            },
+            "date_time": {"type": "string", "format": "ppaas_date_time_v3", "minLength": 20},
+            "part_alias": {"$ref": "#/components/schemas/part"},
+            "part": {"type": "object", "properties": {"code": {"type": "string"}, "note": {"type": "string"}}},
+            "error": {"type": "object", "properties": {"name": {"type": "string"}}},
+            "loop": {"allOf": [{"$ref": "#/components/schemas/loop"}, {"properties": {"a": {"type": "string"}}}]}
+        }
+    }
+}

@@ -74,18 +74,24 @@ class TokenTest extends TestCase
         static::assertSame(Token::class . " Object\n(\n)\n", \print_r($token, true));
     }
 
-    public function testCloneDoesNotShareTheExpirationDate(): void
+    public function testExpirationDateCannotBeModifiedThroughGetter(): void
     {
         $token = (new Token())->assign([
             'access_token' => 'some-access-token',
             'expires_in' => 36000,
         ]);
 
-        $clone = clone $token;
-        $clone->getExpireDateTime()->modify('+1 year');
+        $expiration = $token->getExpireDateTime();
+        $changed = $expiration->modify('+1 year');
 
-        static::assertNotSame($token->getExpireDateTime(), $clone->getExpireDateTime());
-        static::assertLessThan($clone->getExpireDateTime(), $token->getExpireDateTime());
+        static::assertSame($expiration, $token->getExpireDateTime());
+        static::assertNotSame($expiration, $changed);
+        static::assertLessThan($changed, $expiration);
+
+        $clone = clone $token;
+        $clone->setExpireDateTime($changed);
+        static::assertSame($expiration, $token->getExpireDateTime());
+        static::assertSame($changed, $clone->getExpireDateTime());
     }
 
     public function testCloneWithoutExpirationDate(): void

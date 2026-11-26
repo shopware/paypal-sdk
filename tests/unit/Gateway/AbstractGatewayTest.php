@@ -93,6 +93,7 @@ class AbstractGatewayTest extends TestCase
             'PayPal-Auth-Assertion' => ['eyJhbGciOiJub25lIn0=.eyJpc3MiOiJjbGllbnQtaWQiLCJwYXllcl9pZCI6Im1lcmNoYW50LWlkIn0=.'],
             'Authorization' => ['Bearer ACCESS-TOKEN'],
             'Content-Type' => [RequestServiceInterface::CONTENT_TYPE_JSON],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertSame(
             'https://api-m.sandbox.paypal.com/some/path/to/endpoint?query-key=query-value',
@@ -129,6 +130,7 @@ class AbstractGatewayTest extends TestCase
             'Host' => ['api-m.sandbox.paypal.com'],
             'Authorization' => ['Bearer ACCESS-TOKEN'],
             'Content-Type' => [RequestServiceInterface::CONTENT_TYPE_JSON],
+            'Prefer' => ['return=representation'],
         ], $request->getHeaders());
         static::assertSame(
             'https://api-m.sandbox.paypal.com/some/path/to/endpoint',
@@ -276,6 +278,7 @@ class AbstractGatewayTest extends TestCase
 
         $retry = $this->client->get(2)?->getRequest();
         static::assertNotNull($retry);
+        static::assertSame('return=representation', $retry->getHeaderLine('Prefer'));
         static::assertJsonStringEqualsJsonString(\json_encode($body, \JSON_THROW_ON_ERROR), (string) $retry->getBody());
     }
 

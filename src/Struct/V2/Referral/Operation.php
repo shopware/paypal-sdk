@@ -8,15 +8,16 @@
 namespace Shopware\PayPalSDK\Struct\V2\Referral;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Referral\Operation\ApiIntegrationPreference;
 
 #[OA\Schema(schema: 'paypal_v2_referral_operation')]
 class Operation extends Struct
 {
-    public const OPERATION_TYPE_API_INTEGRATION = 'API_INTEGRATION';
+    public const string OPERATION_TYPE_API_INTEGRATION = 'API_INTEGRATION';
 
-    #[OA\Property(type: 'string', default: self::OPERATION_TYPE_API_INTEGRATION)]
+    #[OA\Property(type: 'string', default: self::OPERATION_TYPE_API_INTEGRATION, minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE_HYPHEN)]
     protected string $operation = self::OPERATION_TYPE_API_INTEGRATION;
 
     #[OA\Property(ref: ApiIntegrationPreference::class)]

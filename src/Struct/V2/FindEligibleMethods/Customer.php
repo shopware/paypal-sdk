@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\FindEligibleMethods;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\FindEligibleMethods\Customer\Channel;
 
@@ -20,7 +21,7 @@ class Customer extends Struct
     /**
      * ISO 3166-1 alpha-2 country code
      */
-    #[OA\Property(type: 'string', maxLength: 2, minLength: 2)]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
     protected string $countryCode;
 
     #[OA\Property(ref: Channel::class)]

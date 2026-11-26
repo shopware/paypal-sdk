@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -21,7 +22,7 @@ class GeoCoordinates extends Struct
      */
     #[OA\Property(
         type: 'string',
-        pattern: '^-?([1-8]?[0-9](\.\d+)?|90(\.0+)?)$'
+        pattern: Pattern::LATITUDE
     )]
     protected ?string $latitude = null;
 
@@ -30,7 +31,7 @@ class GeoCoordinates extends Struct
      */
     #[OA\Property(
         type: 'string',
-        pattern: '^-?((1[0-7]|[1-9])?[0-9](\.\d+)?|180(\.0+)?)$'
+        pattern: Pattern::LONGITUDE
     )]
     protected ?string $longitude = null;
 
@@ -42,7 +43,7 @@ class GeoCoordinates extends Struct
         type: 'string',
         maxLength: 10,
         minLength: 1,
-        pattern: '^[A-Z0-9-]+$'
+        pattern: Pattern::UPPER_ALNUM_HYPHEN
     )]
     protected ?string $subdivision = null;
 
@@ -53,7 +54,7 @@ class GeoCoordinates extends Struct
         type: 'string',
         maxLength: 2,
         minLength: 2,
-        pattern: '^[A-Z]{2}$'
+        pattern: Pattern::ISO_COUNTRY_CODE
     )]
     protected ?string $countryCode = null;
 

@@ -13,14 +13,14 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_order_update_callback_config')]
 class OrderUpdateCallbackConfig extends Struct
 {
-    public const CALLBACK_EVENT_SHIPPING_ADDRESS = 'SHIPPING_ADDRESS';
-    public const CALLBACK_EVENT_SHIPPING_OPTIONS = 'SHIPPING_OPTIONS';
+    public const string CALLBACK_EVENT_SHIPPING_ADDRESS = 'SHIPPING_ADDRESS';
+    public const string CALLBACK_EVENT_SHIPPING_OPTIONS = 'SHIPPING_OPTIONS';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri', minLength: 10, maxLength: 2040)]
     protected string $callbackUrl;
 
     /** @var string[] */
-    #[OA\Property(type: 'array', items: new OA\Items(type: 'string', enum: [self::CALLBACK_EVENT_SHIPPING_ADDRESS, self::CALLBACK_EVENT_SHIPPING_OPTIONS]))]
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string', enum: [self::CALLBACK_EVENT_SHIPPING_ADDRESS, self::CALLBACK_EVENT_SHIPPING_OPTIONS]), minItems: 1, maxItems: 5)]
     protected array $callbackEvents;
 
     public function getCallbackUrl(): string

@@ -9,19 +9,18 @@ namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
-use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\EvidenceInfo\RefundId;
-use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\EvidenceInfo\RefundIdCollection;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\EvidenceInfo\TrackingInfo;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\EvidenceInfo\TrackingInfoCollection;
 
 #[OA\Schema(schema: 'paypal_v1_disputes_item_evidence_evidence_info')]
 class EvidenceInfo extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: TrackingInfo::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: TrackingInfo::class), minItems: 1, maxItems: 10)]
     protected TrackingInfoCollection $trackingInfo;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: RefundId::class))]
-    protected RefundIdCollection $refundIds;
+    /** @var string[] */
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 100)]
+    protected array $refundIds = [];
 
     public function getTrackingInfo(): TrackingInfoCollection
     {
@@ -33,12 +32,18 @@ class EvidenceInfo extends Struct
         $this->trackingInfo = $trackingInfo;
     }
 
-    public function getRefundIds(): RefundIdCollection
+    /**
+     * @return string[]
+     */
+    public function getRefundIds(): array
     {
         return $this->refundIds;
     }
 
-    public function setRefundIds(RefundIdCollection $refundIds): void
+    /**
+     * @param string[] $refundIds
+     */
+    public function setRefundIds(array $refundIds): void
     {
         $this->refundIds = $refundIds;
     }

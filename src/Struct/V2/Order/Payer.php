@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Name;
@@ -19,17 +20,17 @@ class Payer extends Struct
     #[OA\Property(ref: Name::class)]
     protected Name $name;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::CONTAINS_EMAIL_ADDRESS)]
     protected string $emailAddress;
 
-    #[OA\Property(type: 'string')]
-    protected string $payerId;
+    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
+    protected ?string $payerId;
 
     #[OA\Property(ref: Phone::class, nullable: true)]
     protected ?Phone $phone = null;
 
-    #[OA\Property(ref: Address::class)]
-    protected Address $address;
+    #[OA\Property(ref: Address::class, nullable: true)]
+    protected ?Address $address;
 
     public function getName(): Name
     {
@@ -51,12 +52,12 @@ class Payer extends Struct
         $this->emailAddress = $emailAddress;
     }
 
-    public function getPayerId(): string
+    public function getPayerId(): ?string
     {
-        return $this->payerId;
+        return $this->payerId ?? null;
     }
 
-    public function setPayerId(string $payerId): void
+    public function setPayerId(?string $payerId): void
     {
         $this->payerId = $payerId;
     }
@@ -71,12 +72,12 @@ class Payer extends Struct
         $this->phone = $phone;
     }
 
-    public function getAddress(): Address
+    public function getAddress(): ?Address
     {
-        return $this->address;
+        return $this->address ?? null;
     }
 
-    public function setAddress(Address $address): void
+    public function setAddress(?Address $address): void
     {
         $this->address = $address;
     }

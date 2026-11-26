@@ -8,20 +8,21 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payee\DisplayData;
 
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payee')]
 class Payee extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::CONTAINS_EMAIL_ADDRESS)]
     protected string $emailAddress;
 
-    #[OA\Property(type: 'string')]
-    protected string $merchantId;
+    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
+    protected ?string $merchantId;
 
-    #[OA\Property(ref: DisplayData::class)]
-    protected DisplayData $displayData;
+    #[OA\Property(ref: DisplayData::class, nullable: true)]
+    protected ?DisplayData $displayData;
 
     public function getEmailAddress(): string
     {
@@ -33,22 +34,22 @@ class Payee extends Struct
         $this->emailAddress = $emailAddress;
     }
 
-    public function getMerchantId(): string
+    public function getMerchantId(): ?string
     {
-        return $this->merchantId;
+        return $this->merchantId ?? null;
     }
 
-    public function setMerchantId(string $merchantId): void
+    public function setMerchantId(?string $merchantId): void
     {
         $this->merchantId = $merchantId;
     }
 
-    public function getDisplayData(): DisplayData
+    public function getDisplayData(): ?DisplayData
     {
-        return $this->displayData;
+        return $this->displayData ?? null;
     }
 
-    public function setDisplayData(DisplayData $displayData): void
+    public function setDisplayData(?DisplayData $displayData): void
     {
         $this->displayData = $displayData;
     }

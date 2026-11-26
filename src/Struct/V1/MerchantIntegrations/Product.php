@@ -16,8 +16,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class Product extends Struct
 {
-    public const VETTING_STATUS_APPROVED = 'APPROVED';
-    public const VETTING_STATUS_SUBSCRIBED = 'SUBSCRIBED';
+    public const string VETTING_STATUS_APPROVED = 'APPROVED';
+    public const string VETTING_STATUS_SUBSCRIBED = 'SUBSCRIBED';
 
     #[OA\Property(type: 'string')]
     protected string $name;
@@ -47,7 +47,7 @@ class Product extends Struct
         return $this->vettingStatus;
     }
 
-    public function setVettingStatus(string $vettingStatus): void
+    public function setVettingStatus(?string $vettingStatus): void
     {
         $this->vettingStatus = $vettingStatus;
     }

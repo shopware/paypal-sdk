@@ -17,25 +17,25 @@ use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\MixedItemCollection;
 #[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_pricing_error_context')]
 class PricingErrorContext extends AbstractContext
 {
-    public const ISSUE__PRICE_MISMATCH = 'PRICE_MISMATCH';
-    public const ISSUE__DISCOUNT_EXPIRED = 'DISCOUNT_EXPIRED';
-    public const ISSUE__DISCOUNT_USAGE_LIMIT_EXCEEDED = 'DISCOUNT_USAGE_LIMIT_EXCEEDED';
-    public const ISSUE__DISCOUNT_CUSTOMER_INELIGIBLE = 'DISCOUNT_CUSTOMER_INELIGIBLE';
-    public const ISSUE__DISCOUNT_MINIMUM_NOT_MET = 'DISCOUNT_MINIMUM_NOT_MET';
-    public const ISSUE__TAX_CALCULATION_FAILED = 'TAX_CALCULATION_FAILED';
-    public const ISSUE__CURRENCY_NOT_SUPPORTED = 'CURRENCY_NOT_SUPPORTED';
-    public const ISSUE__CURRENCY_MISMATCH = 'CURRENCY_MISMATCH';
-    public const ISSUE__PROMOTIONAL_CONFLICT = 'PROMOTIONAL_CONFLICT';
+    public const string ISSUE__PRICE_MISMATCH = 'PRICE_MISMATCH';
+    public const string ISSUE__DISCOUNT_EXPIRED = 'DISCOUNT_EXPIRED';
+    public const string ISSUE__DISCOUNT_USAGE_LIMIT_EXCEEDED = 'DISCOUNT_USAGE_LIMIT_EXCEEDED';
+    public const string ISSUE__DISCOUNT_CUSTOMER_INELIGIBLE = 'DISCOUNT_CUSTOMER_INELIGIBLE';
+    public const string ISSUE__DISCOUNT_MINIMUM_NOT_MET = 'DISCOUNT_MINIMUM_NOT_MET';
+    public const string ISSUE__TAX_CALCULATION_FAILED = 'TAX_CALCULATION_FAILED';
+    public const string ISSUE__CURRENCY_NOT_SUPPORTED = 'CURRENCY_NOT_SUPPORTED';
+    public const string ISSUE__CURRENCY_MISMATCH = 'CURRENCY_MISMATCH';
+    public const string ISSUE__PROMOTIONAL_CONFLICT = 'PROMOTIONAL_CONFLICT';
 
-    public const PRICE_CHANGE_REASON__PROMOTIONAL_ENDED = 'promotional_ended';
-    public const PRICE_CHANGE_REASON__PROMOTIONAL_STARTED = 'promotional_started';
-    public const PRICE_CHANGE_REASON__MARKET_ADJUSTMENT = 'market_adjustment';
-    public const PRICE_CHANGE_REASON__COST_INCREASE = 'cost_increase';
-    public const PRICE_CHANGE_REASON__SEASONAL_PRICING = 'seasonal_pricing';
-    public const PRICE_CHANGE_REASON__COMPONENT_COST_INCREASE = 'component_cost_increase';
-    public const PRICE_CHANGE_REASON__TERMS_UPDATED = 'terms_updated';
+    public const string PRICE_CHANGE_REASON__PROMOTIONAL_ENDED = 'promotional_ended';
+    public const string PRICE_CHANGE_REASON__PROMOTIONAL_STARTED = 'promotional_started';
+    public const string PRICE_CHANGE_REASON__MARKET_ADJUSTMENT = 'market_adjustment';
+    public const string PRICE_CHANGE_REASON__COST_INCREASE = 'cost_increase';
+    public const string PRICE_CHANGE_REASON__SEASONAL_PRICING = 'seasonal_pricing';
+    public const string PRICE_CHANGE_REASON__COMPONENT_COST_INCREASE = 'component_cost_increase';
+    public const string PRICE_CHANGE_REASON__TERMS_UPDATED = 'terms_updated';
 
-    private const PRICE_CHANGED_REASONS = [
+    private const array PRICE_CHANGED_REASONS = [
         self::PRICE_CHANGE_REASON__PROMOTIONAL_ENDED,
         self::PRICE_CHANGE_REASON__PROMOTIONAL_STARTED,
         self::PRICE_CHANGE_REASON__MARKET_ADJUSTMENT,
@@ -219,7 +219,7 @@ class PricingErrorContext extends AbstractContext
 
     public function setPriceChangeReason(?string $priceChangeReason): void
     {
-        if (!\in_array($priceChangeReason, self::PRICE_CHANGED_REASONS, true)) {
+        if ($priceChangeReason !== null && !\in_array($priceChangeReason, self::PRICE_CHANGED_REASONS, true)) {
             throw new \InvalidArgumentException(\sprintf('Price change reason "%s" is not valid.', $priceChangeReason));
         }
 

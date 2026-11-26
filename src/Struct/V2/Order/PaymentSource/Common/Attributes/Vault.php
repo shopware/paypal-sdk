@@ -15,23 +15,23 @@ use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_vault')]
 class Vault extends Struct
 {
-    public const STORE_IN_VAULT_ON_SUCCESS = 'ON_SUCCESS';
-    public const USAGE_TYPE_MERCHANT = 'MERCHANT';
+    public const string STORE_IN_VAULT_ON_SUCCESS = 'ON_SUCCESS';
+    public const string USAGE_TYPE_MERCHANT = 'MERCHANT';
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, nullable: true)]
     protected ?string $id = null;
 
-    #[OA\Property(type: 'string')]
-    protected string $storeInVault;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $storeInVault;
 
-    #[OA\Property(type: 'string')]
-    protected string $usageType;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $usageType;
 
     #[OA\Property(type: 'string')]
     protected string $status;
 
-    #[OA\Property(type: 'string')]
-    protected string $confirmPaymentToken;
+    #[OA\Property(type: 'string', nullable: true)]
+    protected ?string $confirmPaymentToken;
 
     #[OA\Property(type: 'boolean')]
     protected bool $permitMultiplePaymentTokens = true;
@@ -39,8 +39,8 @@ class Vault extends Struct
     #[OA\Property(ref: Customer::class, nullable: true)]
     protected ?Customer $customer = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10, nullable: true)]
+    protected ?LinkCollection $links;
 
     public function getId(): ?string
     {
@@ -52,22 +52,22 @@ class Vault extends Struct
         $this->id = $id;
     }
 
-    public function getStoreInVault(): string
+    public function getStoreInVault(): ?string
     {
-        return $this->storeInVault;
+        return $this->storeInVault ?? null;
     }
 
-    public function setStoreInVault(string $storeInVault): void
+    public function setStoreInVault(?string $storeInVault): void
     {
         $this->storeInVault = $storeInVault;
     }
 
-    public function getUsageType(): string
+    public function getUsageType(): ?string
     {
-        return $this->usageType;
+        return $this->usageType ?? null;
     }
 
-    public function setUsageType(string $usageType): void
+    public function setUsageType(?string $usageType): void
     {
         $this->usageType = $usageType;
     }
@@ -82,12 +82,12 @@ class Vault extends Struct
         $this->status = $status;
     }
 
-    public function getConfirmPaymentToken(): string
+    public function getConfirmPaymentToken(): ?string
     {
-        return $this->confirmPaymentToken;
+        return $this->confirmPaymentToken ?? null;
     }
 
-    public function setConfirmPaymentToken(string $confirmPaymentToken): void
+    public function setConfirmPaymentToken(?string $confirmPaymentToken): void
     {
         $this->confirmPaymentToken = $confirmPaymentToken;
     }
@@ -112,12 +112,12 @@ class Vault extends Struct
         $this->customer = $customer;
     }
 
-    public function getLinks(): LinkCollection
+    public function getLinks(): ?LinkCollection
     {
-        return $this->links;
+        return $this->links ?? null;
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

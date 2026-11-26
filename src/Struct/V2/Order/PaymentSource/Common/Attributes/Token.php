@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_token')]
 class Token extends Struct
 {
-    public const TYPE_BANK_REFERENCE_TOKEN = 'BANK_REFERENCE_TOKEN';
+    public const string TYPE_BANK_REFERENCE_TOKEN = 'BANK_REFERENCE_TOKEN';
 
     #[OA\Property(type: 'string')]
     protected string $id;

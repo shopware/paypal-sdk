@@ -13,17 +13,17 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_merchant_integrations_capability')]
 class Capability extends Struct
 {
-    public const STATUS_ACTIVE = 'ACTIVE';
-    public const STATUS_SUSPENDED = 'SUSPENDED';
-    public const STATUS_REVOKED = 'REVOKED';
-    public const STATUS_APPROVED = 'APPROVED';
-    public const STATUS_NEED_DATA = 'NEED_DATA';
-    public const STATUS_DENY = 'DENY';
-    public const STATUS_IN_REVIEW = 'IN_REVIEW';
-    public const STATUS_INACTIVE = 'INACTIVE';
-    public const STATUS_PENDING = 'PENDING';
+    public const string STATUS_ACTIVE = 'ACTIVE';
+    public const string STATUS_SUSPENDED = 'SUSPENDED';
+    public const string STATUS_REVOKED = 'REVOKED';
+    public const string STATUS_APPROVED = 'APPROVED';
+    public const string STATUS_NEED_DATA = 'NEED_DATA';
+    public const string STATUS_DENY = 'DENY';
+    public const string STATUS_IN_REVIEW = 'IN_REVIEW';
+    public const string STATUS_INACTIVE = 'INACTIVE';
+    public const string STATUS_PENDING = 'PENDING';
 
-    public const STATUSES = [
+    public const array STATUSES = [
         self::STATUS_ACTIVE,
         self::STATUS_SUSPENDED,
         self::STATUS_REVOKED,

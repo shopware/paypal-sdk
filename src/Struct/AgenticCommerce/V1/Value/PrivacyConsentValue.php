@@ -20,10 +20,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class PrivacyConsentValue extends Struct implements ValueInterface
 {
-    public const CONSENT_TYPE__DATA_PROCESSING = 'data_processing';
-    public const CONSENT_TYPE__MARKETING = 'marketing';
-    public const CONSENT_TYPE__THIRD_PARTY_SHARING = 'third_party_sharing';
-    public const CONSENT_TYPE__ANALYTICS = 'analytics';
+    public const string CONSENT_TYPE__DATA_PROCESSING = 'data_processing';
+    public const string CONSENT_TYPE__MARKETING = 'marketing';
+    public const string CONSENT_TYPE__THIRD_PARTY_SHARING = 'third_party_sharing';
+    public const string CONSENT_TYPE__ANALYTICS = 'analytics';
 
     /**
      * Whether privacy policy was consented to

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Card;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 use Shopware\PayPalSDK\Struct\V2\Common\Upc;
@@ -27,10 +28,10 @@ class LineItem extends Struct
     #[OA\Property(type: 'string', maxLength: 127)]
     protected string $sku;
 
-    #[OA\Property(type: 'string', maxLength: 2048, minLength: 1)]
+    #[OA\Property(type: 'string', format: 'uri', minLength: 1, maxLength: 2048)]
     protected string $url;
 
-    #[OA\Property(type: 'string', maxLength: 2048, minLength: 1)]
+    #[OA\Property(type: 'string', format: 'uri', minLength: 1, maxLength: 2048)]
     protected string $imageUrl;
 
     #[OA\Property(ref: Upc::class)]
@@ -42,7 +43,7 @@ class LineItem extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $tax;
 
-    #[OA\Property(type: 'string', maxLength: 12, minLength: 1)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 12, pattern: Pattern::LEVEL_3_CODE)]
     protected string $commodityCode;
 
     #[OA\Property(ref: Money::class)]
@@ -51,7 +52,7 @@ class LineItem extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $totalAmount;
 
-    #[OA\Property(type: 'string', maxLength: 12, minLength: 1)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 12, pattern: Pattern::LEVEL_3_CODE)]
     protected string $unitOfMeasure;
 
     public function getName(): string
@@ -69,9 +70,9 @@ class LineItem extends Struct
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): void
+    public function setQuantity(int|string $quantity): void
     {
-        $this->quantity = $quantity;
+        $this->quantity = (int) $quantity;
     }
 
     public function getDescription(): string

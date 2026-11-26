@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
@@ -17,31 +18,31 @@ use Shopware\PayPalSDK\Struct\V1\Reporting\Transactions\TransactionDetailCollect
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions')]
 class Transactions extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: TransactionDetail::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: TransactionDetail::class), minItems: 1, nullable: true)]
     protected ?TransactionDetailCollection $transactionDetails = null;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected string $accountNumber;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $startDate;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $endDate;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $lastRefreshedDatetime;
 
-    #[OA\Property(type: 'integer')]
+    #[OA\Property(type: 'integer', minimum: 0, maximum: 2147483647)]
     protected int $page;
 
-    #[OA\Property(type: 'integer')]
+    #[OA\Property(type: 'integer', minimum: 0, maximum: 2147483647)]
     protected int $totalItems;
 
-    #[OA\Property(type: 'integer')]
+    #[OA\Property(type: 'integer', minimum: 0, maximum: 2147483647)]
     protected int $totalPages;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1)]
     protected LinkCollection $links;
 
     public function getTransactionDetails(): ?TransactionDetailCollection

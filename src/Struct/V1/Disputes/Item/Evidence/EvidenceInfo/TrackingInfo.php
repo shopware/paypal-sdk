@@ -8,21 +8,22 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\EvidenceInfo;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_disputes_item_evidence_evidence_info_tracking_info')]
 class TrackingInfo extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $carrierName;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000)]
     protected string $carrierNameOther;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri')]
     protected string $trackingUrl;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
     protected string $trackingNumber;
 
     public function getCarrierName(): string

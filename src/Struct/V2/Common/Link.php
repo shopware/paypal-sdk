@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_common_link')]
 class Link extends Struct
 {
-    public const RELATION_APPROVE = 'approve';
-    public const RELATION_PAYER_ACTION = 'payer-action';
-    public const RELATION_UP = 'up';
-    public const RELATION_ACTION_URL = 'action_url';
+    public const string RELATION_APPROVE = 'approve';
+    public const string RELATION_PAYER_ACTION = 'payer-action';
+    public const string RELATION_UP = 'up';
+    public const string RELATION_ACTION_URL = 'action_url';
 
     #[OA\Property(type: 'string')]
     protected string $href;

@@ -13,9 +13,9 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_app_switch_context_mobile_web_context')]
 class MobileWebContext extends Struct
 {
-    public const RETURN_FLOW_AUTO = 'AUTO';
-    public const RETURN_FLOW_MANUAL = 'MANUAL';
-    public const RETURN_FLOWS = [
+    public const string RETURN_FLOW_AUTO = 'AUTO';
+    public const string RETURN_FLOW_MANUAL = 'MANUAL';
+    public const array RETURN_FLOWS = [
         self::RETURN_FLOW_AUTO,
         self::RETURN_FLOW_MANUAL,
     ];

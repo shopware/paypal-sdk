@@ -17,17 +17,18 @@ use Shopware\PayPalSDK\Exception\ApiException;
  */
 interface RequestServiceInterface
 {
-    public const HEADER_CONTENT_TYPE = 'Content-Type';
+    public const string HEADER_CONTENT_TYPE = 'Content-Type';
 
-    public const CONTENT_TYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
-    public const CONTENT_TYPE_JSON = 'application/json';
-    public const JSON_CONTENT_METHODS = ['PATCH', 'PUT', 'POST'];
+    public const string CONTENT_TYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
+    public const string CONTENT_TYPE_JSON = 'application/json';
+    public const array JSON_CONTENT_METHODS = ['PATCH', 'PUT', 'POST'];
 
-    public const ALG_NONE_HEADER = 'eyJhbGciOiJub25lIn0=';
+    public const string ALG_NONE_HEADER = 'eyJhbGciOiJub25lIn0=';
 
     /**
      * Create a request based on the given $method, $path and $context.
      * All headers and query parameters which are available in $context.
+     * The Prefer header defaults to return=representation unless explicitly set in the context.
      *
      * If {@see $method} is one of {@see self::JSON_CONTENT_METHODS}, the content type header is set to {@see self::CONTENT_TYPE_JSON}.
      */

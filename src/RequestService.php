@@ -8,8 +8,11 @@
 namespace Shopware\PayPalSDK;
 
 use Http\Discovery\Psr17Factory;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Shopware\PayPalSDK\Contract\Context\ApiContextInterface;
 use Shopware\PayPalSDK\Contract\Context\CredentialsOAuthContextInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
@@ -19,7 +22,9 @@ use Shopware\PayPalSDK\Exception\ExceptionFactory;
 class RequestService implements RequestServiceInterface
 {
     public function __construct(
-        protected readonly Psr17Factory $factory = new Psr17Factory(),
+        protected readonly RequestFactoryInterface $requestFactory = new Psr17Factory(),
+        protected readonly StreamFactoryInterface $streamFactory = new Psr17Factory(),
+        protected readonly UriFactoryInterface $uriFactory = new Psr17Factory(),
     ) {}
 
     /**
@@ -27,12 +32,12 @@ class RequestService implements RequestServiceInterface
      */
     public function createRequest(string $method, string $path, ApiContextInterface $context): RequestInterface
     {
-        $uri = $this->factory
+        $uri = $this->uriFactory
             ->createUri($context->isSandbox() ? Constants::BASEURL_SANDBOX : Constants::BASEURL_LIVE)
             ->withPath($path)
             ->withQuery(\http_build_query($context->getQueryParameters()));
 
-        $request = $this->factory->createRequest($method, $uri);
+        $request = $this->requestFactory->createRequest($method, $uri);
 
         if ($assertion = $this->getAuthAssertion($context)) {
             $request = $request->withHeader('PayPal-Auth-Assertion', $assertion);
@@ -46,7 +51,7 @@ class RequestService implements RequestServiceInterface
             $request = $request->withHeader($key, $value);
         }
 
-        return $request;
+        return $request->hasHeader('Prefer') ? $request : $request->withHeader('Prefer', 'return=representation');
     }
 
     /**
@@ -70,7 +75,7 @@ class RequestService implements RequestServiceInterface
             default => throw new \InvalidArgumentException(__METHOD__ . ' is unable to handle content-type "' . $contentType . '"'),
         };
 
-        return $request->withBody($this->factory->createStream($body));
+        return $request->withBody($this->streamFactory->createStream($body));
     }
 
     /**

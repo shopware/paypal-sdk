@@ -10,31 +10,35 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
+use Shopware\PayPalSDK\Util\Utf16;
 
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_item')]
 class Item extends Struct
 {
-    public const MAX_LENGTH_NAME = 120;
-    public const MAX_LENGTH_SKU = 127;
+    /**
+     * In UTF-16 code units, see {@see Utf16::truncate()}.
+     */
+    public const int MAX_LENGTH_NAME = 127;
+    public const int MAX_LENGTH_SKU = 127;
 
-    public const CATEGORY_PHYSICAL_GOODS = 'PHYSICAL_GOODS';
-    public const CATEGORY_DIGITAL_GOODS = 'DIGITAL_GOODS';
-    public const CATEGORY_DONATION = 'DONATION';
+    public const string CATEGORY_PHYSICAL_GOODS = 'PHYSICAL_GOODS';
+    public const string CATEGORY_DIGITAL_GOODS = 'DIGITAL_GOODS';
+    public const string CATEGORY_DONATION = 'DONATION';
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NAME, minLength: 1)]
     protected string $name;
 
     #[OA\Property(ref: Money::class)]
     protected Money $unitAmount;
 
-    #[OA\Property(ref: Money::class)]
-    protected Money $tax;
+    #[OA\Property(ref: Money::class, nullable: true)]
+    protected ?Money $tax;
 
-    #[OA\Property(oneOf: [new OA\Schema(type: 'string'), new OA\Schema(type: 'integer'), new OA\Schema(type: 'float')])]
-    protected string|int|float $taxRate;
+    #[OA\Property(oneOf: [new OA\Schema(type: 'string'), new OA\Schema(type: 'integer'), new OA\Schema(type: 'number')], nullable: true)]
+    protected string|int|float|null $taxRate;
 
-    #[OA\Property(type: 'string', enum: [self::CATEGORY_PHYSICAL_GOODS, self::CATEGORY_DIGITAL_GOODS, self::CATEGORY_DONATION])]
-    protected string $category;
+    #[OA\Property(type: 'string', enum: [self::CATEGORY_PHYSICAL_GOODS, self::CATEGORY_DIGITAL_GOODS, self::CATEGORY_DONATION], nullable: true)]
+    protected ?string $category;
 
     #[OA\Property(type: 'integer')]
     protected int $quantity;
@@ -52,9 +56,9 @@ class Item extends Struct
      */
     public function setName(string $name): void
     {
-        if (\mb_strlen($name) > self::MAX_LENGTH_NAME) {
+        if (Utf16::length($name) > self::MAX_LENGTH_NAME) {
             throw new \LengthException(
-                \sprintf('%s::$name must not be longer than %s characters', self::class, self::MAX_LENGTH_NAME)
+                \sprintf('%s::$name must not be longer than %s UTF-16 code units', self::class, self::MAX_LENGTH_NAME)
             );
         }
 
@@ -71,32 +75,32 @@ class Item extends Struct
         $this->unitAmount = $unitAmount;
     }
 
-    public function getTax(): Money
+    public function getTax(): ?Money
     {
-        return $this->tax;
+        return $this->tax ?? null;
     }
 
-    public function setTax(Money $tax): void
+    public function setTax(?Money $tax): void
     {
         $this->tax = $tax;
     }
 
-    public function getTaxRate(): float|int|string
+    public function getTaxRate(): float|int|string|null
     {
-        return $this->taxRate;
+        return $this->taxRate ?? null;
     }
 
-    public function setTaxRate(float|int|string $taxRate): void
+    public function setTaxRate(float|int|string|null $taxRate): void
     {
         $this->taxRate = $taxRate;
     }
 
-    public function getCategory(): string
+    public function getCategory(): ?string
     {
-        return $this->category;
+        return $this->category ?? null;
     }
 
-    public function setCategory(string $category): void
+    public function setCategory(?string $category): void
     {
         $this->category = $category;
     }

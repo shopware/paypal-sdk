@@ -45,7 +45,7 @@ class SepaDebit extends AbstractPaymentSource
         return $this->ibanLastChars;
     }
 
-    public function setIbanLastChars(string $ibanLastChars): void
+    public function setIbanLastChars(?string $ibanLastChars): void
     {
         $this->ibanLastChars = $ibanLastChars;
     }
@@ -65,7 +65,7 @@ class SepaDebit extends AbstractPaymentSource
         return $this->billingAddress;
     }
 
-    public function setBillingAddress(Address $billingAddress): void
+    public function setBillingAddress(?Address $billingAddress): void
     {
         $this->billingAddress = $billingAddress;
     }

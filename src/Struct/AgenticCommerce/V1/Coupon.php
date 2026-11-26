@@ -30,8 +30,8 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class Coupon extends Struct
 {
-    public const APPLY = 'APPLY';
-    public const REMOVE = 'REMOVE';
+    public const string APPLY = 'APPLY';
+    public const string REMOVE = 'REMOVE';
 
     /**
      * Coupon code identifier

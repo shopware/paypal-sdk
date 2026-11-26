@@ -8,37 +8,38 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes\OrderUpdateCallbackConfig;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_experience_context')]
 class ExperienceContext extends Struct
 {
-    public const LANDING_PAGE_TYPE_LOGIN = 'LOGIN';
-    public const LANDING_PAGE_TYPE_GUEST = 'GUEST_CHECKOUT';
-    public const LANDING_PAGE_TYPE_NO_PREFERENCE = 'NO_PREFERENCE';
-    public const LANDING_PAGE_TYPES = [
+    public const string LANDING_PAGE_TYPE_LOGIN = 'LOGIN';
+    public const string LANDING_PAGE_TYPE_GUEST = 'GUEST_CHECKOUT';
+    public const string LANDING_PAGE_TYPE_NO_PREFERENCE = 'NO_PREFERENCE';
+    public const array LANDING_PAGE_TYPES = [
         self::LANDING_PAGE_TYPE_LOGIN,
         self::LANDING_PAGE_TYPE_GUEST,
         self::LANDING_PAGE_TYPE_NO_PREFERENCE,
     ];
 
-    public const SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS = 'SET_PROVIDED_ADDRESS';
-    public const SHIPPING_PREFERENCE_NO_SHIPPING = 'NO_SHIPPING';
-    public const SHIPPING_PREFERENCE_GET_FROM_FILE = 'GET_FROM_FILE';
+    public const string SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS = 'SET_PROVIDED_ADDRESS';
+    public const string SHIPPING_PREFERENCE_NO_SHIPPING = 'NO_SHIPPING';
+    public const string SHIPPING_PREFERENCE_GET_FROM_FILE = 'GET_FROM_FILE';
 
-    public const USER_ACTION_CONTINUE = 'CONTINUE';
-    public const USER_ACTION_PAY_NOW = 'PAY_NOW';
+    public const string USER_ACTION_CONTINUE = 'CONTINUE';
+    public const string USER_ACTION_PAY_NOW = 'PAY_NOW';
 
-    public const PAYMENT_METHOD_PREFERENCE_UNRESTRICTED = 'UNRESTRICTED';
-    public const PAYMENT_METHOD_PREFERENCE_IMMEDIATE_REQUIRED = 'IMMEDIATE_PAYMENT_REQUIRED';
+    public const string PAYMENT_METHOD_PREFERENCE_UNRESTRICTED = 'UNRESTRICTED';
+    public const string PAYMENT_METHOD_PREFERENCE_IMMEDIATE_REQUIRED = 'IMMEDIATE_PAYMENT_REQUIRED';
 
-    public const ACQUIRING_CHANNEL_ECOMMERCE = 'ECOMMERCE';
+    public const string ACQUIRING_CHANNEL_ECOMMERCE = 'ECOMMERCE';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 10, pattern: Pattern::LANGUAGE)]
     protected string $locale;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
     protected string $brandName;
 
     #[OA\Property(type: 'string')]
@@ -53,10 +54,10 @@ class ExperienceContext extends Struct
     #[OA\Property(type: 'string', default: self::USER_ACTION_PAY_NOW, enum: [self::USER_ACTION_CONTINUE, self::USER_ACTION_PAY_NOW])]
     protected string $userAction = self::USER_ACTION_PAY_NOW;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri')]
     protected string $returnUrl;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri')]
     protected string $cancelUrl;
 
     #[OA\Property(type: 'string')]

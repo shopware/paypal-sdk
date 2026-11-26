@@ -10,8 +10,10 @@ namespace Shopware\PayPalSDK\Tests\Unit\Gateway;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Psr\SimpleCache\CacheInterface;
 use Shopware\PayPalSDK\Context\ApiContext;
 use Shopware\PayPalSDK\Context\CredentialsOAuthContext;
+use Shopware\PayPalSDK\Contract\Context\OAuthContextInterface;
 use Shopware\PayPalSDK\Gateway\TokenGateway;
 use Shopware\PayPalSDK\Struct\V1\Token;
 use Shopware\PayPalSDK\Test\Gateway\TestGateways;
@@ -52,6 +54,7 @@ class TokenGatewayTest extends TestCase
         static::assertNotNull($request);
 
         static::assertSame('POST', $request->getMethod());
+        static::assertSame('return=representation', $request->getHeaderLine('Prefer'));
         static::assertSame('grant_type=client_credentials', (string) $request->getBody());
         static::assertSame('application/x-www-form-urlencoded', $request->getHeaderLine('content-type'));
         static::assertSame('Basic Y2xpZW50LWlkOmNsaWVudC1zZWNyZXQ=', $request->getHeaderLine('Authorization'));
@@ -74,6 +77,60 @@ class TokenGatewayTest extends TestCase
         static::expectExceptionMessage('Expected response content for deserializing into ' . Token::class);
 
         $this->gateways->tokenGateway()->getToken($context);
+    }
+
+    public function testPersistentCacheStoresAndReusesTokens(): void
+    {
+        $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
+        $cacheKey = $context->getOAuthContext()->getCacheKey($context);
+        static::assertNotNull($cacheKey);
+
+        /** @var array<string, string> $entries */
+        $entries = [];
+        $cache = $this->createMock(CacheInterface::class);
+        $cache->expects(static::exactly(2))->method('get')->with($cacheKey)->willReturnCallback(
+            static function (string $key) use (&$entries): mixed {
+                return isset($entries[$key]) ? \unserialize($entries[$key]) : null;
+            },
+        );
+        $cache->expects(static::once())->method('set')->willReturnCallback(
+            static function (string $key, Token $token, int $ttl) use (&$entries, $cacheKey): bool {
+                static::assertSame($cacheKey, $key);
+                static::assertSame(3420, $ttl);
+                $entries[$key] = \serialize($token);
+
+                return true;
+            },
+        );
+        $cache->expects(static::once())->method('delete')->with($cacheKey)->willReturn(true);
+        $this->client->addResponse(new Response(200, [], '{"access_token":"new-token","expires_in":3600}'));
+        $gateway = new TokenGateway($this->client, $cache);
+
+        static::assertFalse($gateway->getToken($context)->isCached());
+        $cachedToken = $gateway->getToken($context);
+        static::assertSame('new-token', $cachedToken->getAccessToken());
+        static::assertTrue($cachedToken->isCached());
+        static::assertCount(1, $this->client->getAll());
+        static::assertCount(1, $entries);
+    }
+
+    public function testNonCacheableContextNeverAccessesCache(): void
+    {
+        $oauthContext = $this->createMock(OAuthContextInterface::class);
+        $oauthContext->method('getCacheKey')->willReturn(null);
+        $oauthContext->method('getBody')->willReturn(['grant_type' => 'client_credentials']);
+        $context = new ApiContext($oauthContext, true);
+        $cache = $this->createMock(CacheInterface::class);
+        $cache->expects(static::never())->method('get');
+        $cache->expects(static::never())->method('set');
+        $cache->expects(static::never())->method('delete');
+        $this->client->addResponse(new Response(200, [], '{"access_token":"first-token","expires_in":3600}'));
+        $this->client->addResponse(new Response(200, [], '{"access_token":"second-token","expires_in":3600}'));
+        $gateway = new TokenGateway($this->client, $cache);
+
+        static::assertSame('first-token', $gateway->getToken($context)->getAccessToken());
+        static::assertSame('second-token', $gateway->getToken($context)->getAccessToken());
+        static::assertCount(2, $this->client->getAll());
     }
 
     public function testGetCachedToken(): void
@@ -172,7 +229,7 @@ class TokenGatewayTest extends TestCase
             'expires_in' => 36000,
         ]) ?: null));
 
-        $token = $this->gateways->tokenGateway()->getToken($context, true);
+        $token = $this->gateways->tokenGateway()->getToken($context, refresh: true);
 
         static::assertSame('some-refreshed-access-token', $token->getAccessToken());
         static::assertFalse($token->isCached());
@@ -194,7 +251,7 @@ class TokenGatewayTest extends TestCase
         static::assertNotNull($key);
         $this->gateways->getTokenCache()->set($key, $cachedToken, $cachedToken->getExpiresIn());
 
-        $token = $this->gateways->tokenGateway()->getToken($context, false);
+        $token = $this->gateways->tokenGateway()->getToken($context, refresh: false);
 
         static::assertSame('some-cached-access-token', $token->getAccessToken());
         static::assertCount(0, $this->client->getAll());
@@ -206,7 +263,7 @@ class TokenGatewayTest extends TestCase
             'access_token' => 'some-expired-access-token',
             'expires_in' => 36000,
         ]);
-        $expiredToken->setExpireDateTime(new \DateTime('now -1 hour', new \DateTimeZone('UTC')));
+        $expiredToken->setExpireDateTime(new \DateTimeImmutable('now -1 hour', new \DateTimeZone('UTC')));
 
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true);
 

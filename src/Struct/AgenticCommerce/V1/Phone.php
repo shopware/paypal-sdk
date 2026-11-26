@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -19,7 +20,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 )]
 class Phone extends Struct
 {
-    private const PHONE_NUMBER_REGEX = '/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/';
+    private const string PHONE_NUMBER_REGEX = '/\+(\d{1,3})\s(\d{1,14})(-?(\d{1,15}))?/';
 
     /**
      * The country calling code (CC), in its canonical international E.164 numbering plan format.
@@ -30,7 +31,7 @@ class Phone extends Struct
         type: 'string',
         maxLength: 3,
         minLength: 1,
-        pattern: '^[0-9]{1,3}?$'
+        pattern: Pattern::PHONE_COUNTRY_CODE
     )]
     protected string $countryCode;
 
@@ -43,7 +44,7 @@ class Phone extends Struct
         type: 'string',
         maxLength: 14,
         minLength: 1,
-        pattern: '^[0-9]{1,14}?$'
+        pattern: Pattern::PHONE_NATIONAL_NUMBER
     )]
     protected string $nationalNumber;
 
@@ -54,7 +55,7 @@ class Phone extends Struct
         type: 'string',
         maxLength: 15,
         minLength: 1,
-        pattern: '^[0-9]{1,15}?$'
+        pattern: Pattern::PHONE_EXTENSION
     )]
     protected ?string $extensionNumber = null;
 

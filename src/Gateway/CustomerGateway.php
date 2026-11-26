@@ -21,9 +21,9 @@ use Shopware\PayPalSDK\Struct\V3\ManagedAccounts;
 
 class CustomerGateway extends AbstractGateway
 {
-    public const GATEWAY_URL = '/v1/customer';
-    public const GATEWAY_URL_V2 = '/v2/customer';
-    public const GATEWAY_URL_V3 = '/v3/customer';
+    public const string GATEWAY_URL = '/v1/customer';
+    public const string GATEWAY_URL_V2 = '/v2/customer';
+    public const string GATEWAY_URL_V3 = '/v3/customer';
 
     public function getMerchantIntegrations(string $partnerId, string $merchantId, ApiContextInterface $context): MerchantIntegrations
     {

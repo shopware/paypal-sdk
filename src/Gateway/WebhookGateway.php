@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\WebhookList;
 
 class WebhookGateway extends AbstractGateway
 {
-    public const GATEWAY_URL = '/v1/notifications/webhooks';
+    public const string GATEWAY_URL = '/v1/notifications/webhooks';
 
     public function createWebhook(Webhook $webhook, ApiContextInterface $context): Webhook
     {
