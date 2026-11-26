@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Struct\V2;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\ConstantsV2;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Link;
 use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
@@ -23,10 +24,10 @@ class Order extends Struct
 {
     public const string PROCESSING_INSTRUCTION_COMPLETE_ON_APPROVAL = 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL';
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
     protected ?string $createTime;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
     protected ?string $updateTime;
 
     #[OA\Property(type: 'string')]
@@ -38,7 +39,7 @@ class Order extends Struct
     #[OA\Property(ref: Payer::class, nullable: true)]
     protected ?Payer $payer;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), minItems: 1, maxItems: 10, nullable: true)]
     protected ?PurchaseUnitCollection $purchaseUnits;
 
     #[OA\Property(ref: ApplicationContext::class, nullable: true)]

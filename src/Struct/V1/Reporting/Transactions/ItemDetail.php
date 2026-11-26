@@ -8,25 +8,26 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Reporting\Money;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_item_detail')]
 class ItemDetail extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 1000, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $itemCode = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $itemName = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $itemDescription = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 4000, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $itemOptions = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 4000, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $itemQuantity = null;
 
     #[OA\Property(ref: Money::class, nullable: true)]
@@ -44,10 +45,10 @@ class ItemDetail extends Struct
     #[OA\Property(ref: Money::class, nullable: true)]
     protected ?Money $giftWrapAmount = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', pattern: Pattern::DECIMAL, nullable: true)]
     protected ?string $taxPercentage = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: TaxAmount::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: TaxAmount::class), minItems: 1, nullable: true)]
     protected ?TaxAmountCollection $taxAmounts = null;
 
     #[OA\Property(ref: Money::class, nullable: true)]
@@ -65,10 +66,10 @@ class ItemDetail extends Struct
     #[OA\Property(ref: Money::class, nullable: true)]
     protected ?Money $totalItemAmount = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $invoiceNumber = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: CheckoutOption::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: CheckoutOption::class), minItems: 1, nullable: true)]
     protected ?CheckoutOptionCollection $checkoutOptions = null;
 
     public function getItemCode(): ?string

@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Referral\Operation\ApiIntegrationPreference;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Referral\Operation\ApiIntegrationPreference\RestApiIntegration\ThirdPartyDetails;
 
@@ -18,10 +19,10 @@ class RestApiIntegration extends Struct
     public const string INTEGRATION_METHOD_TYPE_SDK = 'SDK';
     public const string INTEGRATION_TYPE_THIRD_PARTY = 'THIRD_PARTY';
 
-    #[OA\Property(type: 'string', default: self::INTEGRATION_METHOD_TYPE_PAYPAL)]
+    #[OA\Property(type: 'string', default: self::INTEGRATION_METHOD_TYPE_PAYPAL, minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE_HYPHEN)]
     protected string $integrationMethod = self::INTEGRATION_METHOD_TYPE_PAYPAL;
 
-    #[OA\Property(type: 'string', default: self::INTEGRATION_TYPE_THIRD_PARTY)]
+    #[OA\Property(type: 'string', default: self::INTEGRATION_TYPE_THIRD_PARTY, minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE_HYPHEN)]
     protected string $integrationType = self::INTEGRATION_TYPE_THIRD_PARTY;
 
     #[OA\Property(ref: ThirdPartyDetails::class)]

@@ -8,21 +8,23 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Common;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_disputes_common_product_details')]
 class ProductDetails extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $productReceived;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $productReceivedTime;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: SubReason::class))]
-    protected SubReasonCollection $subReasons;
+    /** @var string[] */
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 10)]
+    protected array $subReasons = [];
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri')]
     protected string $purchaseUrl;
 
     #[OA\Property(ref: ReturnDetails::class)]
@@ -48,12 +50,18 @@ class ProductDetails extends Struct
         $this->productReceivedTime = $productReceivedTime;
     }
 
-    public function getSubReasons(): SubReasonCollection
+    /**
+     * @return string[]
+     */
+    public function getSubReasons(): array
     {
         return $this->subReasons;
     }
 
-    public function setSubReasons(SubReasonCollection $subReasons): void
+    /**
+     * @param string[] $subReasons
+     */
+    public function setSubReasons(array $subReasons): void
     {
         $this->subReasons = $subReasons;
     }

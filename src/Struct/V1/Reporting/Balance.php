@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_balance')]
 class Balance extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 3, maxLength: 3)]
     protected string $currency;
 
     #[OA\Property(ref: Money::class)]

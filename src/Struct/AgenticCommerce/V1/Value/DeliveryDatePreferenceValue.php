@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Contract\Struct\AgenticCommerce\V1\Value\ValueInterface;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -42,7 +43,7 @@ class DeliveryDatePreferenceValue extends Struct implements ValueInterface
      */
     #[OA\Property(
         type: 'string',
-        pattern: '^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
+        pattern: Pattern::TIME
     )]
     protected ?string $specificTime = null;
 

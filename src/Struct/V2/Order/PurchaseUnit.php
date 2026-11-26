@@ -23,7 +23,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit')]
 class PurchaseUnit extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 256, nullable: true)]
     protected ?string $referenceId;
 
     #[OA\Property(ref: Amount::class, nullable: true)]
@@ -35,13 +35,13 @@ class PurchaseUnit extends Struct
     #[OA\Property(ref: PaymentInstruction::class, nullable: true)]
     protected ?PaymentInstruction $paymentInstruction;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 3000, nullable: true)]
     protected ?string $description;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, nullable: true)]
     protected ?string $customId;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, nullable: true)]
     protected ?string $invoiceId;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), nullable: true)]

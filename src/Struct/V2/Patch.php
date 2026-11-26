@@ -16,8 +16,11 @@ class Patch extends Struct
     public const string OPERATION_ADD = 'add';
     public const string OPERATION_REPLACE = 'replace';
     public const string OPERATION_REMOVE = 'remove';
+    public const string OPERATION_MOVE = 'move';
+    public const string OPERATION_COPY = 'copy';
+    public const string OPERATION_TEST = 'test';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', enum: [self::OPERATION_ADD, self::OPERATION_REPLACE, self::OPERATION_REMOVE, self::OPERATION_MOVE, self::OPERATION_COPY, self::OPERATION_TEST])]
     protected string $op;
 
     #[OA\Property(type: 'string')]
@@ -26,7 +29,7 @@ class Patch extends Struct
     /** @var int|float|string|bool|mixed[]|null */
     #[OA\Property(nullable: true, oneOf: [
         new OA\Schema(type: 'integer'),
-        new OA\Schema(type: 'float'),
+        new OA\Schema(type: 'number'),
         new OA\Schema(type: 'string'),
         new OA\Schema(type: 'boolean'),
         new OA\Schema(type: 'array', items: new OA\Items(type: 'mixed')),

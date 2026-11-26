@@ -8,21 +8,22 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_balances')]
 class Balances extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Balance::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Balance::class), maxItems: 200)]
     protected BalanceCollection $balances;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID)]
     protected string $accountId;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $asOfTime;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $lastRefreshTime;
 
     public function getBalances(): BalanceCollection

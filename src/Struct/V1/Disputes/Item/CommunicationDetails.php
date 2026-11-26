@@ -8,18 +8,19 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_disputes_item_communication_details')]
 class CommunicationDetails extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'email', minLength: 3, maxLength: 254, pattern: Pattern::EMAIL_ADDRESS)]
     protected string $email;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: Pattern::MULTILINE_TEXT)]
     protected string $note;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $timePosted;
 
     public function getEmail(): string

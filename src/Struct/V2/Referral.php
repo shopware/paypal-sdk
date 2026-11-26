@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Link;
 use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
@@ -36,20 +37,20 @@ class Referral extends Struct
     #[OA\Property(ref: BusinessEntity::class)]
     protected BusinessEntity $businessEntity;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 10, pattern: Pattern::LANGUAGE_ALPHA_REGION)]
     protected string $preferredLanguageCode;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
     protected string $trackingId;
 
     #[OA\Property(ref: PartnerConfigOverride::class)]
     protected PartnerConfigOverride $partnerConfigOverride;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Operation::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Operation::class), minItems: 1, maxItems: 5)]
     protected OperationCollection $operations;
 
     /** @var string[] */
-    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 5)]
     protected array $products = [
         self::PRODUCT_TYPE_PPCP,
         self::PRODUCT_TYPE_PAYMENT_METHODS,
@@ -57,7 +58,7 @@ class Referral extends Struct
     ];
 
     /** @var string[] */
-    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 5)]
     protected array $capabilities = [
         self::CAPABILITY_PAY_UPON_INVOICE,
         self::CAPABILITY_PAYPAL_WALLET_VAULTING_ADVANCED,
@@ -65,13 +66,13 @@ class Referral extends Struct
         self::CAPABILITY_GOOGLE_PAY,
     ];
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: LegalConsent::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: LegalConsent::class), minItems: 1, maxItems: 5)]
     protected LegalConsentCollection $legalConsents;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]
     protected LinkCollection $links;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
     protected string $legalCountryCode;
 
     public function getBusinessEntity(): BusinessEntity

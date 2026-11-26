@@ -8,11 +8,12 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_blik')]
 class Blik extends AbstractAPMPaymentSource
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::EMAIL_ADDRESS)]
     protected string $email;
 
     public function getEmail(): string

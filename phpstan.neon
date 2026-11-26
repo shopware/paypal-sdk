@@ -33,6 +33,7 @@ parameters:
     paths:
         - src
         - tests
+        - tools
 
     ignoreErrors:
         - identifier: symplify.forbiddenExtendOfNonAbstractClass

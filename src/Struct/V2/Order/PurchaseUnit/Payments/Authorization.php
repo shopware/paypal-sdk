@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Common\SellerProtection;
 
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_authorization')]
@@ -16,7 +17,7 @@ class Authorization extends Payment
     #[OA\Property(ref: SellerProtection::class)]
     protected SellerProtection $sellerProtection;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $expirationTime;
 
     public function getSellerProtection(): SellerProtection

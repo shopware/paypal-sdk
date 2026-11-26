@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperties;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_payment_by_other_means')]
@@ -19,10 +20,10 @@ class PaymentByOtherMeans extends Struct
     #[OA\Property(type: 'boolean')]
     protected bool $receivedDuplicate;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $paymentMethod;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 4)]
     protected string $paymentInstrumentSuffix;
 
     public function isChargeDifferentFromOriginal(): bool

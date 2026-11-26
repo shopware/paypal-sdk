@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperties;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
@@ -17,7 +18,7 @@ class IncorrectTransactionAmount extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $correctTransactionAmount;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $correctTransactionTime;
 
     public function getCorrectTransactionAmount(): Money

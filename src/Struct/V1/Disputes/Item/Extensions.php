@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperties;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\MerchandizeDisputeProperties;
@@ -18,19 +19,19 @@ class Extensions extends Struct
     #[OA\Property(type: 'boolean')]
     protected bool $merchantContacted;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $merchantContactedOutcome;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $merchantContactedTime;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $merchantContactedMode;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $buyerContactedTime;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
     protected string $buyerContactedChannel;
 
     #[OA\Property(ref: BillingDisputeProperties::class)]

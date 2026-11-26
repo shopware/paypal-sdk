@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping\Tracker\Item;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping\Tracker\ItemCollection;
@@ -18,19 +19,19 @@ class Tracker extends Struct
     public const int MAX_LENGTH_TRACKING_NUMBER = 64;
     public const string CARRIER_OTHER = 'OTHER';
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 50, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected string $captureId;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_TRACKING_NUMBER)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_TRACKING_NUMBER, minLength: 1)]
     protected string $trackingNumber;
 
     #[OA\Property(type: 'string')]
     protected string $carrier;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 64, nullable: true)]
     protected ?string $carrierNameOther = null;
 
-    #[OA\Property(type: 'bool', default: false)]
+    #[OA\Property(type: 'boolean', default: false)]
     protected bool $notifyPayer = false;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]

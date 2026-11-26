@@ -26,13 +26,13 @@ class ThirdPartyDetails extends Struct
     public const string SIGNUP_MODE_VERIFY_WITH_PAYPAL = 'VERIFY_WITH_PAYPAL';
 
     /** @var string[] */
-    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), maxItems: 20)]
     protected array $features = [];
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
     protected string $signupMode;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
     protected string $organization;
 
     /**

@@ -5,7 +5,9 @@
 /devenv.nix export-ignore
 /devenv.lock export-ignore
 /README.md export-ignore
+/MIGRATION.md export-ignore
 /.envrc export-ignore
 /.php-cs-fixer.php export-ignore
 /phpstan.neon export-ignore
 /phpunit.xml export-ignore
+/tools export-ignore

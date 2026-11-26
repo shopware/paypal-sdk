@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_referral_partner_config_override')]
 class PartnerConfigOverride extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'uri', minLength: 1, maxLength: 127)]
     protected string $returnUrl;
 
     #[OA\Property(type: 'string')]

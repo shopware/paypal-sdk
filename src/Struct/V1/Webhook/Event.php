@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1\Webhook;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
@@ -72,16 +73,16 @@ class Event extends Struct
     ])]
     protected ?Struct $resource = null;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time')]
     protected string $createTime;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected LinkCollection $links;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', pattern: Pattern::VERSION)]
     protected string $eventVersion;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', pattern: Pattern::VERSION)]
     protected string $resourceVersion = '1.0';
 
     #[OA\Property(ref: ApplicationContext::class)]

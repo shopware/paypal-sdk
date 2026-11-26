@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
+use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\StoredCredential\NetworkTransactionReference;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_card_stored_credential')]
 class StoredCredential extends Struct
@@ -33,8 +34,8 @@ class StoredCredential extends Struct
     #[OA\Property(type: 'string', enum: [self::USAGE_DERIVED, self::USAGE_FIRST, self::USAGE_SUBSEQUENT])]
     protected string $usage;
 
-    #[OA\Property(type: 'string')]
-    protected string $previousNetworkTransactionReference;
+    #[OA\Property(ref: NetworkTransactionReference::class, nullable: true)]
+    protected ?NetworkTransactionReference $previousNetworkTransactionReference;
 
     public function getPaymentInitiator(): string
     {
@@ -66,12 +67,12 @@ class StoredCredential extends Struct
         $this->usage = $usage;
     }
 
-    public function getPreviousNetworkTransactionReference(): string
+    public function getPreviousNetworkTransactionReference(): ?NetworkTransactionReference
     {
-        return $this->previousNetworkTransactionReference;
+        return $this->previousNetworkTransactionReference ?? null;
     }
 
-    public function setPreviousNetworkTransactionReference(string $previousNetworkTransactionReference): void
+    public function setPreviousNetworkTransactionReference(?NetworkTransactionReference $previousNetworkTransactionReference): void
     {
         $this->previousNetworkTransactionReference = $previousNetworkTransactionReference;
     }

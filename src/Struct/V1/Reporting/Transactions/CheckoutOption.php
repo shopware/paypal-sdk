@@ -8,15 +8,16 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_checkout_option')]
 class CheckoutOption extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $checkoutOptionName = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $checkoutOptionValue = null;
 
     public function getCheckoutOptionName(): ?string

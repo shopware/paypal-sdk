@@ -17,8 +17,8 @@ class SellerProtection extends Struct
     protected string $status;
 
     /** @var string[] */
-    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
-    protected array $disputeCategories;
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), nullable: true)]
+    protected ?array $disputeCategories;
 
     public function getStatus(): string
     {
@@ -33,15 +33,15 @@ class SellerProtection extends Struct
     /**
      * @return string[]
      */
-    public function getDisputeCategories(): array
+    public function getDisputeCategories(): ?array
     {
-        return $this->disputeCategories;
+        return $this->disputeCategories ?? null;
     }
 
     /**
      * @param string[] $disputeCategories
      */
-    public function setDisputeCategories(array $disputeCategories): void
+    public function setDisputeCategories(?array $disputeCategories): void
     {
         $this->disputeCategories = $disputeCategories;
     }

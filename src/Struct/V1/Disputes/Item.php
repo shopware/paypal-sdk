@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
@@ -51,61 +52,61 @@ class Item extends Struct
         self::DISPUTE_STATE_APPEALABLE,
     ];
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_HYPHEN)]
     protected string $disputeId;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $createTime;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $updateTime;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: DisputedTransaction::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: DisputedTransaction::class), minItems: 1, maxItems: 1000, nullable: true)]
     protected ?DisputedTransactionCollection $disputedTransactions = null;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $reason;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $status;
 
-    #[OA\Property(type: 'string', enum: self::DISPUTE_STATES, nullable: true)]
+    #[OA\Property(type: 'string', enum: self::DISPUTE_STATES, minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE, nullable: true)]
     protected ?string $disputeState = null;
 
     #[OA\Property(ref: DisputeAmount::class)]
     protected DisputeAmount $disputeAmount;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: Pattern::ALNUM_DOT_UNDERSCORE_HYPHEN, nullable: true)]
     protected ?string $externalReasonCode = null;
 
     #[OA\Property(ref: DisputeOutcome::class, nullable: true)]
     protected ?DisputeOutcome $disputeOutcome = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Adjudication::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Adjudication::class), minItems: 1, maxItems: 10)]
     protected AdjudicationCollection $adjudications;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: MoneyMovement::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: MoneyMovement::class), minItems: 1, maxItems: 50)]
     protected MoneyMovementCollection $moneyMovements;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $disputeLifeCycleStage;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::DISPUTE_CHANNEL, nullable: true)]
     protected ?string $disputeChannel = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Message::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Message::class), minItems: 1, maxItems: 1000, nullable: true)]
     protected ?MessageCollection $messages = null;
 
     #[OA\Property(ref: Extensions::class)]
     protected Extensions $extensions;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Evidence::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Evidence::class), minItems: 1, maxItems: 100, nullable: true)]
     protected ?EvidenceCollection $evidences = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
     protected ?string $buyerResponseDueDate = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
     protected ?string $sellerResponseDueDate = null;
 
     #[OA\Property(ref: Offer::class, nullable: true)]
@@ -120,10 +121,10 @@ class Item extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: PartnerAction::class), nullable: true)]
     protected ?PartnerActionCollection $partnerActions = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: SupportingInfo::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: SupportingInfo::class), minItems: 1, maxItems: 100, nullable: true)]
     protected ?SupportingInfoCollection $supportingInfo = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]
     protected LinkCollection $links;
 
     public function getDisputeId(): string

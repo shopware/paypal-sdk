@@ -8,22 +8,23 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Reporting\Money;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_incentive_detail')]
 class IncentiveDetail extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $incentiveType = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $incentiveCode = null;
 
     #[OA\Property(ref: Money::class, nullable: true)]
     protected ?Money $incentiveAmount = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 100, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $incentiveProgramCode = null;
 
     public function getIncentiveType(): ?string

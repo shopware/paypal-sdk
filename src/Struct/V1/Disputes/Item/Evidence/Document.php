@@ -8,12 +8,13 @@
 namespace Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_disputes_item_evidence_document')]
 class Document extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: Pattern::FILE_NAME)]
     protected string $name;
 
     public function getName(): string

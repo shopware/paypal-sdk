@@ -8,12 +8,13 @@
 namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_customer')]
 class Customer extends Struct
 {
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 22, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN)]
     protected string $id;
 
     public function getId(): string

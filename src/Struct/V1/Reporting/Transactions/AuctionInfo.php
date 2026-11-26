@@ -8,21 +8,22 @@
 namespace Shopware\PayPalSDK\Struct\V1\Reporting\Transactions;
 
 use OpenApi\Attributes as OA;
+use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_auction_info')]
 class AuctionInfo extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 200, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $auctionSite = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 4000, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $auctionItemSite = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: Pattern::TEXT, nullable: true)]
     protected ?string $auctionBuyerId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
     protected ?string $auctionClosingDate = null;
 
     public function getAuctionSite(): ?string
