@@ -18,16 +18,7 @@ use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\ProductCollection;
 
 #[OA\Schema(
     schema: 'paypal_v1_merchant_integrations',
-    required: [
-        'merchantId',
-        'trackingId',
-        'paymentsReceivable',
-        'legalName',
-        'primaryEmail',
-        'primaryEmailConfirmed',
-        'primaryCurrency',
-        'country',
-    ]
+    required: ['merchantId', 'paymentsReceivable', 'legalName', 'primaryEmailConfirmed']
 )]
 class MerchantIntegrations extends Struct
 {
@@ -35,7 +26,7 @@ class MerchantIntegrations extends Struct
     protected string $merchantId;
 
     #[OA\Property(type: 'string')]
-    protected string $trackingId;
+    protected ?string $trackingId = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Product::class))]
     protected ?ProductCollection $products = null;
@@ -57,16 +48,16 @@ class MerchantIntegrations extends Struct
     protected string $legalName;
 
     #[OA\Property(type: 'string')]
-    protected string $primaryEmail;
+    protected ?string $primaryEmail = null;
 
     #[OA\Property(type: 'boolean')]
     protected bool $primaryEmailConfirmed;
 
     #[OA\Property(type: 'string')]
-    protected string $primaryCurrency;
+    protected ?string $primaryCurrency = null;
 
     #[OA\Property(type: 'string')]
-    protected string $country;
+    protected ?string $country = null;
 
     public function getMerchantId(): string
     {
@@ -78,12 +69,12 @@ class MerchantIntegrations extends Struct
         $this->merchantId = $merchantId;
     }
 
-    public function getTrackingId(): string
+    public function getTrackingId(): ?string
     {
         return $this->trackingId;
     }
 
-    public function setTrackingId(string $trackingId): void
+    public function setTrackingId(?string $trackingId): void
     {
         $this->trackingId = $trackingId;
     }
@@ -154,12 +145,12 @@ class MerchantIntegrations extends Struct
         $this->legalName = $legalName;
     }
 
-    public function getPrimaryEmail(): string
+    public function getPrimaryEmail(): ?string
     {
         return $this->primaryEmail;
     }
 
-    public function setPrimaryEmail(string $primaryEmail): void
+    public function setPrimaryEmail(?string $primaryEmail): void
     {
         $this->primaryEmail = $primaryEmail;
     }
@@ -174,22 +165,22 @@ class MerchantIntegrations extends Struct
         $this->primaryEmailConfirmed = $primaryEmailConfirmed;
     }
 
-    public function getPrimaryCurrency(): string
+    public function getPrimaryCurrency(): ?string
     {
         return $this->primaryCurrency;
     }
 
-    public function setPrimaryCurrency(string $primaryCurrency): void
+    public function setPrimaryCurrency(?string $primaryCurrency): void
     {
         $this->primaryCurrency = $primaryCurrency;
     }
 
-    public function getCountry(): string
+    public function getCountry(): ?string
     {
         return $this->country;
     }
 
-    public function setCountry(string $country): void
+    public function setCountry(?string $country): void
     {
         $this->country = $country;
     }

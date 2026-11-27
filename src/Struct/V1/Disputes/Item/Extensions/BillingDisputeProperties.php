@@ -17,37 +17,31 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperti
 
 #[OA\Schema(
     schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties',
-    required: [
-        'duplicateTransaction',
-        'incorrectTransactionAmount',
-        'paymentByOtherMeans',
-        'creditNotProcessed',
-        'canceledRecurringBilling',
-    ]
+    required: ['incorrectTransactionAmount']
 )]
 class BillingDisputeProperties extends Struct
 {
     #[OA\Property(ref: DuplicateTransaction::class)]
-    protected DuplicateTransaction $duplicateTransaction;
+    protected ?DuplicateTransaction $duplicateTransaction = null;
 
     #[OA\Property(ref: IncorrectTransactionAmount::class)]
     protected IncorrectTransactionAmount $incorrectTransactionAmount;
 
     #[OA\Property(ref: PaymentByOtherMeans::class)]
-    protected PaymentByOtherMeans $paymentByOtherMeans;
+    protected ?PaymentByOtherMeans $paymentByOtherMeans = null;
 
     #[OA\Property(ref: CreditNotProcessed::class)]
-    protected CreditNotProcessed $creditNotProcessed;
+    protected ?CreditNotProcessed $creditNotProcessed = null;
 
     #[OA\Property(ref: CanceledRecurringBilling::class)]
-    protected CanceledRecurringBilling $canceledRecurringBilling;
+    protected ?CanceledRecurringBilling $canceledRecurringBilling = null;
 
-    public function getDuplicateTransaction(): DuplicateTransaction
+    public function getDuplicateTransaction(): ?DuplicateTransaction
     {
         return $this->duplicateTransaction;
     }
 
-    public function setDuplicateTransaction(DuplicateTransaction $duplicateTransaction): void
+    public function setDuplicateTransaction(?DuplicateTransaction $duplicateTransaction): void
     {
         $this->duplicateTransaction = $duplicateTransaction;
     }
@@ -62,32 +56,32 @@ class BillingDisputeProperties extends Struct
         $this->incorrectTransactionAmount = $incorrectTransactionAmount;
     }
 
-    public function getPaymentByOtherMeans(): PaymentByOtherMeans
+    public function getPaymentByOtherMeans(): ?PaymentByOtherMeans
     {
         return $this->paymentByOtherMeans;
     }
 
-    public function setPaymentByOtherMeans(PaymentByOtherMeans $paymentByOtherMeans): void
+    public function setPaymentByOtherMeans(?PaymentByOtherMeans $paymentByOtherMeans): void
     {
         $this->paymentByOtherMeans = $paymentByOtherMeans;
     }
 
-    public function getCreditNotProcessed(): CreditNotProcessed
+    public function getCreditNotProcessed(): ?CreditNotProcessed
     {
         return $this->creditNotProcessed;
     }
 
-    public function setCreditNotProcessed(CreditNotProcessed $creditNotProcessed): void
+    public function setCreditNotProcessed(?CreditNotProcessed $creditNotProcessed): void
     {
         $this->creditNotProcessed = $creditNotProcessed;
     }
 
-    public function getCanceledRecurringBilling(): CanceledRecurringBilling
+    public function getCanceledRecurringBilling(): ?CanceledRecurringBilling
     {
         return $this->canceledRecurringBilling;
     }
 
-    public function setCanceledRecurringBilling(CanceledRecurringBilling $canceledRecurringBilling): void
+    public function setCanceledRecurringBilling(?CanceledRecurringBilling $canceledRecurringBilling): void
     {
         $this->canceledRecurringBilling = $canceledRecurringBilling;
     }

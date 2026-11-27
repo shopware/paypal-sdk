@@ -20,17 +20,7 @@ use Shopware\PayPalSDK\Struct\V1\Payment\TransactionCollection;
 
 #[OA\Schema(
     schema: 'paypal_v1_payment',
-    required: [
-        'id',
-        'intent',
-        'state',
-        'cart',
-        'payer',
-        'createTime',
-        'updateTime',
-        'redirectUrls',
-        'applicationContext',
-    ]
+    required: ['id', 'intent', 'state', 'payer', 'createTime', 'updateTime']
 )]
 class Payment extends Struct
 {
@@ -44,7 +34,7 @@ class Payment extends Struct
     protected string $state;
 
     #[OA\Property(type: 'string')]
-    protected string $cart;
+    protected ?string $cart = null;
 
     #[OA\Property(ref: Payer::class)]
     protected Payer $payer;
@@ -62,10 +52,10 @@ class Payment extends Struct
     protected ?LinkCollection $links = null;
 
     #[OA\Property(ref: RedirectUrls::class)]
-    protected RedirectUrls $redirectUrls;
+    protected ?RedirectUrls $redirectUrls = null;
 
     #[OA\Property(ref: ApplicationContext::class)]
-    protected ApplicationContext $applicationContext;
+    protected ?ApplicationContext $applicationContext = null;
 
     #[OA\Property(ref: PaymentInstruction::class)]
     protected ?PaymentInstruction $paymentInstruction = null;
@@ -100,12 +90,12 @@ class Payment extends Struct
         $this->state = $state;
     }
 
-    public function getCart(): string
+    public function getCart(): ?string
     {
         return $this->cart;
     }
 
-    public function setCart(string $cart): void
+    public function setCart(?string $cart): void
     {
         $this->cart = $cart;
     }
@@ -160,22 +150,22 @@ class Payment extends Struct
         $this->links = $links;
     }
 
-    public function getRedirectUrls(): RedirectUrls
+    public function getRedirectUrls(): ?RedirectUrls
     {
         return $this->redirectUrls;
     }
 
-    public function setRedirectUrls(RedirectUrls $redirectUrls): void
+    public function setRedirectUrls(?RedirectUrls $redirectUrls): void
     {
         $this->redirectUrls = $redirectUrls;
     }
 
-    public function getApplicationContext(): ApplicationContext
+    public function getApplicationContext(): ?ApplicationContext
     {
         return $this->applicationContext;
     }
 
-    public function setApplicationContext(ApplicationContext $applicationContext): void
+    public function setApplicationContext(?ApplicationContext $applicationContext): void
     {
         $this->applicationContext = $applicationContext;
     }

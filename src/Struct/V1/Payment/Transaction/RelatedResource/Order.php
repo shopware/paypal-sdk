@@ -11,31 +11,19 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: 'paypal_v1_payment_transaction_related_resource_order',
-    required: [
-        'id',
-        'state',
-        'amount',
-        'paymentMode',
-        'createTime',
-        'updateTime',
-        'protectionEligibility',
-        'protectionEligibilityType',
-        'receiptId',
-        'parentPayment',
-        'reasonCode',
-    ]
+    required: ['id', 'state', 'amount', 'createTime', 'parentPayment']
 )]
 class Order extends RelatedResource
 {
     #[OA\Property(type: 'string')]
-    protected string $reasonCode;
+    protected ?string $reasonCode = null;
 
-    public function getReasonCode(): string
+    public function getReasonCode(): ?string
     {
         return $this->reasonCode;
     }
 
-    public function setReasonCode(string $reasonCode): void
+    public function setReasonCode(?string $reasonCode): void
     {
         $this->reasonCode = $reasonCode;
     }

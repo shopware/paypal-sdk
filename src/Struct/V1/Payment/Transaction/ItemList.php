@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\ItemList\ShippingAddress;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\ItemList\ShippingOption;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\ItemList\ShippingOptionCollection;
 
-#[OA\Schema(schema: 'paypal_v1_payment_transaction_item_list', required: ['shippingAddress', 'shippingPhoneNumber'])]
+#[OA\Schema(schema: 'paypal_v1_payment_transaction_item_list', required: ['shippingAddress'])]
 class ItemList extends Struct
 {
     #[OA\Property(ref: ShippingAddress::class)]
@@ -28,7 +28,7 @@ class ItemList extends Struct
     protected ?ShippingOptionCollection $shippingOptions = null;
 
     #[OA\Property(type: 'string')]
-    protected string $shippingPhoneNumber;
+    protected ?string $shippingPhoneNumber = null;
 
     public function getShippingAddress(): ShippingAddress
     {
@@ -60,12 +60,12 @@ class ItemList extends Struct
         $this->shippingOptions = $shippingOptions;
     }
 
-    public function getShippingPhoneNumber(): string
+    public function getShippingPhoneNumber(): ?string
     {
         return $this->shippingPhoneNumber;
     }
 
-    public function setShippingPhoneNumber(string $shippingPhoneNumber): void
+    public function setShippingPhoneNumber(?string $shippingPhoneNumber): void
     {
         $this->shippingPhoneNumber = $shippingPhoneNumber;
     }

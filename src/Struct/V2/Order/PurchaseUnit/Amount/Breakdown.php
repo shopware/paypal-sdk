@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\V2\Common\Money;
 
 #[OA\Schema(
     schema: 'paypal_v2_order_purchase_unit_amount_breakdown',
-    required: ['itemTotal', 'shipping', 'handling', 'insurance', 'shippingDiscount', 'discount']
+    required: ['itemTotal']
 )]
 class Breakdown extends Struct
 {
@@ -21,22 +21,22 @@ class Breakdown extends Struct
     protected Money $itemTotal;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $shipping;
+    protected ?Money $shipping = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $handling;
+    protected ?Money $handling = null;
 
     #[OA\Property(ref: Money::class)]
     protected ?Money $taxTotal = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $insurance;
+    protected ?Money $insurance = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $shippingDiscount;
+    protected ?Money $shippingDiscount = null;
 
     #[OA\Property(ref: Money::class)]
-    protected Money $discount;
+    protected ?Money $discount = null;
 
     public function getItemTotal(): Money
     {
@@ -48,22 +48,22 @@ class Breakdown extends Struct
         $this->itemTotal = $itemTotal;
     }
 
-    public function getShipping(): Money
+    public function getShipping(): ?Money
     {
         return $this->shipping;
     }
 
-    public function setShipping(Money $shipping): void
+    public function setShipping(?Money $shipping): void
     {
         $this->shipping = $shipping;
     }
 
-    public function getHandling(): Money
+    public function getHandling(): ?Money
     {
         return $this->handling;
     }
 
-    public function setHandling(Money $handling): void
+    public function setHandling(?Money $handling): void
     {
         $this->handling = $handling;
     }
@@ -78,32 +78,32 @@ class Breakdown extends Struct
         $this->taxTotal = $taxTotal;
     }
 
-    public function getInsurance(): Money
+    public function getInsurance(): ?Money
     {
         return $this->insurance;
     }
 
-    public function setInsurance(Money $insurance): void
+    public function setInsurance(?Money $insurance): void
     {
         $this->insurance = $insurance;
     }
 
-    public function getShippingDiscount(): Money
+    public function getShippingDiscount(): ?Money
     {
         return $this->shippingDiscount;
     }
 
-    public function setShippingDiscount(Money $shippingDiscount): void
+    public function setShippingDiscount(?Money $shippingDiscount): void
     {
         $this->shippingDiscount = $shippingDiscount;
     }
 
-    public function getDiscount(): Money
+    public function getDiscount(): ?Money
     {
         return $this->discount;
     }
 
-    public function setDiscount(Money $discount): void
+    public function setDiscount(?Money $discount): void
     {
         $this->discount = $discount;
     }

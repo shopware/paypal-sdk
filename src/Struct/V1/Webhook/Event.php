@@ -25,7 +25,7 @@ use Shopware\PayPalSDK\Struct\V3\PaymentToken;
 
 #[OA\Schema(
     schema: 'paypal_v1_webhook_event',
-    required: ['id', 'eventType', 'summary', 'createTime', 'eventVersion', 'applicationContext']
+    required: ['id', 'eventType', 'summary', 'createTime', 'eventVersion']
 )]
 class Event extends Struct
 {
@@ -89,7 +89,7 @@ class Event extends Struct
     protected ?string $resourceVersion = null;
 
     #[OA\Property(ref: ApplicationContext::class)]
-    protected ApplicationContext $applicationContext;
+    protected ?ApplicationContext $applicationContext = null;
 
     public function assign(#[\SensitiveParameter] array $data): static
     {
@@ -208,12 +208,12 @@ class Event extends Struct
         $this->resourceVersion = $resourceVersion;
     }
 
-    public function getApplicationContext(): ApplicationContext
+    public function getApplicationContext(): ?ApplicationContext
     {
         return $this->applicationContext;
     }
 
-    public function setApplicationContext(ApplicationContext $applicationContext): void
+    public function setApplicationContext(?ApplicationContext $applicationContext): void
     {
         $this->applicationContext = $applicationContext;
     }

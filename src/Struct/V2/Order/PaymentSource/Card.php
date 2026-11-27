@@ -17,7 +17,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
 #[OA\Schema(
     schema: 'paypal_v2_order_payment_source_card',
-    required: ['name', 'countryCode', 'lastDigits', 'brand', 'type']
+    required: ['lastDigits', 'brand', 'type']
 )]
 class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInterface
 {

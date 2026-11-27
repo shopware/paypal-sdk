@@ -12,21 +12,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\Value;
 
 #[OA\Schema(
     schema: 'paypal_v1_payment_transaction_related_resource_capture',
-    required: [
-        'id',
-        'state',
-        'amount',
-        'paymentMode',
-        'createTime',
-        'updateTime',
-        'protectionEligibility',
-        'protectionEligibilityType',
-        'receiptId',
-        'parentPayment',
-        'custom',
-        'transactionFee',
-        'invoiceNumber',
-    ]
+    required: ['id', 'state', 'amount', 'createTime', 'parentPayment', 'custom', 'transactionFee', 'invoiceNumber']
 )]
 class Capture extends RelatedResource
 {

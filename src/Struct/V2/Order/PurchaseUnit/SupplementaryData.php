@@ -12,21 +12,21 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Card;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Risk;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data', required: ['card', 'risk'])]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data', required: ['risk'])]
 class SupplementaryData extends Struct
 {
     #[OA\Property(ref: Card::class)]
-    protected Card $card;
+    protected ?Card $card = null;
 
     #[OA\Property(ref: Risk::class)]
     protected Risk $risk;
 
-    public function getCard(): Card
+    public function getCard(): ?Card
     {
         return $this->card;
     }
 
-    public function setCard(Card $card): void
+    public function setCard(?Card $card): void
     {
         $this->card = $card;
     }

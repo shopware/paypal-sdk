@@ -15,16 +15,7 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\MerchandizeDisputeProp
 
 #[OA\Schema(
     schema: 'paypal_v1_disputes_item_extensions',
-    required: [
-        'merchantContacted',
-        'merchantContactedOutcome',
-        'merchantContactedTime',
-        'merchantContactedMode',
-        'buyerContactedTime',
-        'buyerContactedChannel',
-        'billingDisputeProperties',
-        'merchandizeDisputeProperties',
-    ]
+    required: ['merchantContacted', 'billingDisputeProperties']
 )]
 class Extensions extends Struct
 {
@@ -32,25 +23,25 @@ class Extensions extends Struct
     protected bool $merchantContacted;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
-    protected string $merchantContactedOutcome;
+    protected ?string $merchantContactedOutcome = null;
 
     #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
-    protected string $merchantContactedTime;
+    protected ?string $merchantContactedTime = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
-    protected string $merchantContactedMode;
+    protected ?string $merchantContactedMode = null;
 
     #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
-    protected string $buyerContactedTime;
+    protected ?string $buyerContactedTime = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
-    protected string $buyerContactedChannel;
+    protected ?string $buyerContactedChannel = null;
 
     #[OA\Property(ref: BillingDisputeProperties::class)]
     protected BillingDisputeProperties $billingDisputeProperties;
 
     #[OA\Property(ref: MerchandizeDisputeProperties::class)]
-    protected MerchandizeDisputeProperties $merchandizeDisputeProperties;
+    protected ?MerchandizeDisputeProperties $merchandizeDisputeProperties = null;
 
     public function isMerchantContacted(): bool
     {
@@ -62,52 +53,52 @@ class Extensions extends Struct
         $this->merchantContacted = $merchantContacted;
     }
 
-    public function getMerchantContactedOutcome(): string
+    public function getMerchantContactedOutcome(): ?string
     {
         return $this->merchantContactedOutcome;
     }
 
-    public function setMerchantContactedOutcome(string $merchantContactedOutcome): void
+    public function setMerchantContactedOutcome(?string $merchantContactedOutcome): void
     {
         $this->merchantContactedOutcome = $merchantContactedOutcome;
     }
 
-    public function getMerchantContactedTime(): string
+    public function getMerchantContactedTime(): ?string
     {
         return $this->merchantContactedTime;
     }
 
-    public function setMerchantContactedTime(string $merchantContactedTime): void
+    public function setMerchantContactedTime(?string $merchantContactedTime): void
     {
         $this->merchantContactedTime = $merchantContactedTime;
     }
 
-    public function getMerchantContactedMode(): string
+    public function getMerchantContactedMode(): ?string
     {
         return $this->merchantContactedMode;
     }
 
-    public function setMerchantContactedMode(string $merchantContactedMode): void
+    public function setMerchantContactedMode(?string $merchantContactedMode): void
     {
         $this->merchantContactedMode = $merchantContactedMode;
     }
 
-    public function getBuyerContactedTime(): string
+    public function getBuyerContactedTime(): ?string
     {
         return $this->buyerContactedTime;
     }
 
-    public function setBuyerContactedTime(string $buyerContactedTime): void
+    public function setBuyerContactedTime(?string $buyerContactedTime): void
     {
         $this->buyerContactedTime = $buyerContactedTime;
     }
 
-    public function getBuyerContactedChannel(): string
+    public function getBuyerContactedChannel(): ?string
     {
         return $this->buyerContactedChannel;
     }
 
-    public function setBuyerContactedChannel(string $buyerContactedChannel): void
+    public function setBuyerContactedChannel(?string $buyerContactedChannel): void
     {
         $this->buyerContactedChannel = $buyerContactedChannel;
     }
@@ -122,12 +113,12 @@ class Extensions extends Struct
         $this->billingDisputeProperties = $billingDisputeProperties;
     }
 
-    public function getMerchandizeDisputeProperties(): MerchandizeDisputeProperties
+    public function getMerchandizeDisputeProperties(): ?MerchandizeDisputeProperties
     {
         return $this->merchandizeDisputeProperties;
     }
 
-    public function setMerchandizeDisputeProperties(MerchandizeDisputeProperties $merchandizeDisputeProperties): void
+    public function setMerchandizeDisputeProperties(?MerchandizeDisputeProperties $merchandizeDisputeProperties): void
     {
         $this->merchandizeDisputeProperties = $merchandizeDisputeProperties;
     }

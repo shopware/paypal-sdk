@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_common_amount', required: ['total', 'currency', 'details'])]
+#[OA\Schema(schema: 'paypal_v1_common_amount', required: ['total', 'currency'])]
 class Amount extends Struct
 {
     #[OA\Property(type: 'string')]
@@ -20,7 +20,7 @@ class Amount extends Struct
     protected string $currency;
 
     #[OA\Property(ref: Details::class)]
-    protected Details $details;
+    protected ?Details $details = null;
 
     public function getTotal(): string
     {
@@ -42,12 +42,12 @@ class Amount extends Struct
         $this->currency = $currency;
     }
 
-    public function getDetails(): Details
+    public function getDetails(): ?Details
     {
         return $this->details;
     }
 
-    public function setDetails(Details $details): void
+    public function setDetails(?Details $details): void
     {
         $this->details = $details;
     }

@@ -11,35 +11,22 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: 'paypal_v1_payment_transaction_related_resource_authorization',
-    required: [
-        'id',
-        'state',
-        'amount',
-        'paymentMode',
-        'createTime',
-        'updateTime',
-        'protectionEligibility',
-        'protectionEligibilityType',
-        'receiptId',
-        'parentPayment',
-        'reasonCode',
-        'validUntil',
-    ]
+    required: ['id', 'state', 'amount', 'createTime', 'parentPayment', 'validUntil']
 )]
 class Authorization extends RelatedResource
 {
     #[OA\Property(type: 'string')]
-    protected string $reasonCode;
+    protected ?string $reasonCode = null;
 
     #[OA\Property(type: 'string')]
     protected string $validUntil;
 
-    public function getReasonCode(): string
+    public function getReasonCode(): ?string
     {
         return $this->reasonCode;
     }
 
-    public function setReasonCode(string $reasonCode): void
+    public function setReasonCode(?string $reasonCode): void
     {
         $this->reasonCode = $reasonCode;
     }

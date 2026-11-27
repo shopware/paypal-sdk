@@ -25,22 +25,22 @@ abstract class RelatedResource extends Struct
     protected Amount $amount;
 
     #[OA\Property(type: 'string')]
-    protected string $paymentMode;
+    protected ?string $paymentMode = null;
 
     #[OA\Property(type: 'string')]
     protected string $createTime;
 
     #[OA\Property(type: 'string')]
-    protected string $updateTime;
+    protected ?string $updateTime = null;
 
     #[OA\Property(type: 'string')]
-    protected string $protectionEligibility;
+    protected ?string $protectionEligibility = null;
 
     #[OA\Property(type: 'string')]
-    protected string $protectionEligibilityType;
+    protected ?string $protectionEligibilityType = null;
 
     #[OA\Property(type: 'string')]
-    protected string $receiptId;
+    protected ?string $receiptId = null;
 
     #[OA\Property(type: 'string')]
     protected string $parentPayment;
@@ -78,12 +78,12 @@ abstract class RelatedResource extends Struct
         $this->amount = $amount;
     }
 
-    public function getPaymentMode(): string
+    public function getPaymentMode(): ?string
     {
         return $this->paymentMode;
     }
 
-    public function setPaymentMode(string $paymentMode): void
+    public function setPaymentMode(?string $paymentMode): void
     {
         $this->paymentMode = $paymentMode;
     }
@@ -98,42 +98,42 @@ abstract class RelatedResource extends Struct
         $this->createTime = $createTime;
     }
 
-    public function getUpdateTime(): string
+    public function getUpdateTime(): ?string
     {
         return $this->updateTime;
     }
 
-    public function setUpdateTime(string $updateTime): void
+    public function setUpdateTime(?string $updateTime): void
     {
         $this->updateTime = $updateTime;
     }
 
-    public function getProtectionEligibility(): string
+    public function getProtectionEligibility(): ?string
     {
         return $this->protectionEligibility;
     }
 
-    public function setProtectionEligibility(string $protectionEligibility): void
+    public function setProtectionEligibility(?string $protectionEligibility): void
     {
         $this->protectionEligibility = $protectionEligibility;
     }
 
-    public function getProtectionEligibilityType(): string
+    public function getProtectionEligibilityType(): ?string
     {
         return $this->protectionEligibilityType;
     }
 
-    public function setProtectionEligibilityType(string $protectionEligibilityType): void
+    public function setProtectionEligibilityType(?string $protectionEligibilityType): void
     {
         $this->protectionEligibilityType = $protectionEligibilityType;
     }
 
-    public function getReceiptId(): string
+    public function getReceiptId(): ?string
     {
         return $this->receiptId;
     }
 
-    public function setReceiptId(string $receiptId): void
+    public function setReceiptId(?string $receiptId): void
     {
         $this->receiptId = $receiptId;
     }

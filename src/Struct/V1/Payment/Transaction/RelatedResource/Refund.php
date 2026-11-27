@@ -11,45 +11,32 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: 'paypal_v1_payment_transaction_related_resource_refund',
-    required: [
-        'id',
-        'state',
-        'amount',
-        'paymentMode',
-        'createTime',
-        'updateTime',
-        'protectionEligibility',
-        'protectionEligibilityType',
-        'receiptId',
-        'parentPayment',
-        'saleId',
-        'captureId',
-    ]
+    required: ['id', 'state', 'amount', 'createTime', 'parentPayment']
 )]
 class Refund extends RelatedResource
 {
     #[OA\Property(type: 'string')]
-    protected string $saleId;
+    protected ?string $saleId = null;
 
     #[OA\Property(type: 'string')]
-    protected string $captureId;
+    protected ?string $captureId = null;
 
-    public function getSaleId(): string
+    public function getSaleId(): ?string
     {
         return $this->saleId;
     }
 
-    public function setSaleId(string $saleId): void
+    public function setSaleId(?string $saleId): void
     {
         $this->saleId = $saleId;
     }
 
-    public function getCaptureId(): string
+    public function getCaptureId(): ?string
     {
         return $this->captureId;
     }
 
-    public function setCaptureId(string $captureId): void
+    public function setCaptureId(?string $captureId): void
     {
         $this->captureId = $captureId;
     }
