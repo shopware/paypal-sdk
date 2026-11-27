@@ -37,7 +37,7 @@ class Payment extends Struct
     protected Payer $payer;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Payment\Transaction::class))]
-    protected TransactionCollection $transactions;
+    protected ?TransactionCollection $transactions = null;
 
     #[OA\Property(type: 'string')]
     protected string $createTime;
@@ -46,7 +46,7 @@ class Payment extends Struct
     protected string $updateTime;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     #[OA\Property(ref: RedirectUrls::class)]
     protected RedirectUrls $redirectUrls;
@@ -109,10 +109,10 @@ class Payment extends Struct
 
     public function getTransactions(): TransactionCollection
     {
-        return $this->transactions;
+        return $this->transactions ??= new TransactionCollection();
     }
 
-    public function setTransactions(TransactionCollection $transactions): void
+    public function setTransactions(?TransactionCollection $transactions): void
     {
         $this->transactions = $transactions;
     }
@@ -139,10 +139,10 @@ class Payment extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

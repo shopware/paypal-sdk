@@ -24,16 +24,16 @@ class Tracker extends Struct
     protected string $id;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $status;
+    protected ?string $status = null;
 
     #[OA\Property(type: 'boolean', nullable: true)]
-    protected ?bool $notifyPayer;
+    protected ?bool $notifyPayer = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), nullable: true)]
-    protected ?ItemCollection $items;
+    protected ?ItemCollection $items = null;
 
     public function getId(): string
     {
@@ -47,7 +47,7 @@ class Tracker extends Struct
 
     public function getStatus(): ?string
     {
-        return $this->status ?? null;
+        return $this->status;
     }
 
     public function setStatus(?string $status): void
@@ -57,7 +57,7 @@ class Tracker extends Struct
 
     public function getNotifyPayer(): ?bool
     {
-        return $this->notifyPayer ?? null;
+        return $this->notifyPayer;
     }
 
     public function setNotifyPayer(?bool $notifyPayer): void
@@ -67,10 +67,10 @@ class Tracker extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

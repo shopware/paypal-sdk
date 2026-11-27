@@ -28,7 +28,7 @@ class OrderShippingCallback extends Struct
     protected ?ShippingOption $shippingOption = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class))]
-    protected PurchaseUnitCollection $purchaseUnits;
+    protected ?PurchaseUnitCollection $purchaseUnits = null;
 
     public function getId(): string
     {
@@ -62,10 +62,10 @@ class OrderShippingCallback extends Struct
 
     public function getPurchaseUnits(): PurchaseUnitCollection
     {
-        return $this->purchaseUnits;
+        return $this->purchaseUnits ??= new PurchaseUnitCollection();
     }
 
-    public function setPurchaseUnits(PurchaseUnitCollection $purchaseUnits): void
+    public function setPurchaseUnits(?PurchaseUnitCollection $purchaseUnits): void
     {
         $this->purchaseUnits = $purchaseUnits;
     }

@@ -49,7 +49,7 @@ class OrderTest extends TestCase
         static::assertNull($order->getPaymentSource());
         static::assertNull($order->getStatus());
         static::assertNull($order->getProcessingInstruction());
-        static::assertNull($order->getLinks());
+        static::assertCount(0, $order->getLinks());
         static::assertSame(['id' => 'ORDER-123'], $order->jsonSerialize());
     }
 
@@ -72,7 +72,6 @@ class OrderTest extends TestCase
         $order->setIntent(ConstantsV2::INTENT_CAPTURE);
         $order->setPayer(null);
         $order->setPurchaseUnits(new PurchaseUnitCollection());
-        $order->setProcessingInstruction('');
 
         static::assertSame(['intent' => ConstantsV2::INTENT_CAPTURE], $order->jsonSerialize());
     }

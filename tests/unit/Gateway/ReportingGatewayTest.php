@@ -149,7 +149,6 @@ class ReportingGatewayTest extends TestCase
         $response = $this->gateways->reportingGateway()->listTransactions($search, $context);
 
         static::assertSame('ACCOUNT123', $response->getAccountNumber());
-        static::assertNotNull($response->getTransactionDetails());
         static::assertCount(1, $response->getTransactionDetails());
         $transactionDetail = $response->getTransactionDetails()->first();
         static::assertNotNull($transactionDetail);

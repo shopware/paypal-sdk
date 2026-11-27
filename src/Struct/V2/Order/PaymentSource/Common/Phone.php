@@ -15,14 +15,14 @@ use Shopware\PayPalSDK\Struct\V2\Common\PhoneNumber;
 class Phone extends Struct
 {
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $phoneType;
+    protected ?string $phoneType = null;
 
     #[OA\Property(ref: PhoneNumber::class)]
     protected PhoneNumber $phoneNumber;
 
     public function getPhoneType(): ?string
     {
-        return $this->phoneType ?? null;
+        return $this->phoneType;
     }
 
     public function setPhoneType(?string $phoneType): void

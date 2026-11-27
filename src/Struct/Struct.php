@@ -88,7 +88,8 @@ abstract class Struct implements \JsonSerializable
         $data = [];
 
         foreach (\get_object_vars($this) as $property => $value) {
-            if ($value === null) {
+            // collection getters create empty collections on read, which must not change the output
+            if ($value === null || ($value instanceof Collection && $value->count() === 0)) {
                 continue;
             }
 

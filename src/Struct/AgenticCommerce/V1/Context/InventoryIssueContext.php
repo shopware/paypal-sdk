@@ -228,11 +228,11 @@ class InventoryIssueContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getSuggestedAlternatives(): ?array
+    public function getSuggestedAlternatives(): array
     {
-        return $this->suggestedAlternatives;
+        return $this->suggestedAlternatives ?? [];
     }
 
     /**

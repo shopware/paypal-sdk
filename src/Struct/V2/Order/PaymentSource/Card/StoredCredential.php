@@ -35,7 +35,7 @@ class StoredCredential extends Struct
     protected string $usage;
 
     #[OA\Property(ref: NetworkTransactionReference::class, nullable: true)]
-    protected ?NetworkTransactionReference $previousNetworkTransactionReference;
+    protected ?NetworkTransactionReference $previousNetworkTransactionReference = null;
 
     public function getPaymentInitiator(): string
     {
@@ -69,7 +69,7 @@ class StoredCredential extends Struct
 
     public function getPreviousNetworkTransactionReference(): ?NetworkTransactionReference
     {
-        return $this->previousNetworkTransactionReference ?? null;
+        return $this->previousNetworkTransactionReference;
     }
 
     public function setPreviousNetworkTransactionReference(?NetworkTransactionReference $previousNetworkTransactionReference): void

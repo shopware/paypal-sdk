@@ -24,7 +24,7 @@ class BillingInfo extends Struct
     protected OutstandingBalance $outstandingBalance;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: CycleExecution::class))]
-    protected CycleExecutionCollection $cycleExecutions;
+    protected ?CycleExecutionCollection $cycleExecutions = null;
 
     #[OA\Property(ref: LastPayment::class)]
     protected LastPayment $lastPayment;
@@ -47,10 +47,10 @@ class BillingInfo extends Struct
 
     public function getCycleExecutions(): CycleExecutionCollection
     {
-        return $this->cycleExecutions;
+        return $this->cycleExecutions ??= new CycleExecutionCollection();
     }
 
-    public function setCycleExecutions(CycleExecutionCollection $cycleExecutions): void
+    public function setCycleExecutions(?CycleExecutionCollection $cycleExecutions): void
     {
         $this->cycleExecutions = $cycleExecutions;
     }

@@ -72,9 +72,9 @@ class Error extends Struct
         $this->debugId = $debugId;
     }
 
-    public function getDetails(): ?DetailCollection
+    public function getDetails(): DetailCollection
     {
-        return $this->details;
+        return $this->details ??= new DetailCollection();
     }
 
     public function setDetails(?DetailCollection $details): void
@@ -82,9 +82,9 @@ class Error extends Struct
         $this->details = $details;
     }
 
-    public function getLinks(): ?LinkCollection
+    public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
     public function setLinks(?LinkCollection $links): void

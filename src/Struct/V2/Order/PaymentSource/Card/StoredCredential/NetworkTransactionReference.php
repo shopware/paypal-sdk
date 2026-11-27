@@ -18,13 +18,13 @@ class NetworkTransactionReference extends Struct
     protected string $id;
 
     #[OA\Property(type: 'string', minLength: 4, maxLength: 4, pattern: Pattern::DIGITS, nullable: true)]
-    protected ?string $date;
+    protected ?string $date = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $network;
+    protected ?string $network = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 36, pattern: Pattern::ACQUIRER_REFERENCE_NUMBER, nullable: true)]
-    protected ?string $acquirerReferenceNumber;
+    protected ?string $acquirerReferenceNumber = null;
 
     public function getId(): string
     {
@@ -38,7 +38,7 @@ class NetworkTransactionReference extends Struct
 
     public function getDate(): ?string
     {
-        return $this->date ?? null;
+        return $this->date;
     }
 
     public function setDate(?string $date): void
@@ -48,7 +48,7 @@ class NetworkTransactionReference extends Struct
 
     public function getNetwork(): ?string
     {
-        return $this->network ?? null;
+        return $this->network;
     }
 
     public function setNetwork(?string $network): void
@@ -58,7 +58,7 @@ class NetworkTransactionReference extends Struct
 
     public function getAcquirerReferenceNumber(): ?string
     {
-        return $this->acquirerReferenceNumber ?? null;
+        return $this->acquirerReferenceNumber;
     }
 
     public function setAcquirerReferenceNumber(?string $acquirerReferenceNumber): void

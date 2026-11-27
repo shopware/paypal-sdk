@@ -16,14 +16,14 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Card\Level
 class Card extends Struct
 {
     #[OA\Property(ref: Level2::class, nullable: true)]
-    protected ?Level2 $level2;
+    protected ?Level2 $level2 = null;
 
     #[OA\Property(ref: Level3::class, nullable: true)]
-    protected ?Level3 $level3;
+    protected ?Level3 $level3 = null;
 
     public function getLevel2(): ?Level2
     {
-        return $this->level2 ?? null;
+        return $this->level2;
     }
 
     public function setLevel2(?Level2 $level2): void
@@ -33,7 +33,7 @@ class Card extends Struct
 
     public function getLevel3(): ?Level3
     {
-        return $this->level3 ?? null;
+        return $this->level3;
     }
 
     public function setLevel3(?Level3 $level3): void

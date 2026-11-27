@@ -22,7 +22,7 @@ class EligibleMethodsData extends Struct
     protected EligibleMethods $eligibleMethods;
 
     #[OA\Property(ref: SupplementaryData::class, nullable: true)]
-    protected ?SupplementaryData $supplementaryData;
+    protected ?SupplementaryData $supplementaryData = null;
 
     public function getEligibleMethods(): EligibleMethods
     {
@@ -36,7 +36,7 @@ class EligibleMethodsData extends Struct
 
     public function getSupplementaryData(): ?SupplementaryData
     {
-        return $this->supplementaryData ?? null;
+        return $this->supplementaryData;
     }
 
     public function setSupplementaryData(?SupplementaryData $supplementaryData): void

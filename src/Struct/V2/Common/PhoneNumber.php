@@ -18,7 +18,7 @@ class PhoneNumber extends Struct
     protected string $nationalNumber;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 3, pattern: Pattern::PHONE_COUNTRY_CODE, nullable: true)]
-    protected ?string $countryCode;
+    protected ?string $countryCode = null;
 
     public function getNationalNumber(): string
     {
@@ -32,7 +32,7 @@ class PhoneNumber extends Struct
 
     public function getCountryCode(): ?string
     {
-        return $this->countryCode ?? null;
+        return $this->countryCode;
     }
 
     public function setCountryCode(?string $countryCode): void

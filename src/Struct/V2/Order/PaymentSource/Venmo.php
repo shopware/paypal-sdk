@@ -28,7 +28,7 @@ class Venmo extends AbstractPaymentSource implements VaultedPaymentSourceInterfa
     protected string $accountId;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN, nullable: true)]
-    protected ?string $vaultId;
+    protected ?string $vaultId = null;
 
     #[OA\Property(ref: Name::class)]
     protected Name $name;
@@ -74,7 +74,7 @@ class Venmo extends AbstractPaymentSource implements VaultedPaymentSourceInterfa
 
     public function getVaultId(): ?string
     {
-        return $this->vaultId ?? null;
+        return $this->vaultId;
     }
 
     public function setVaultId(?string $vaultId): void

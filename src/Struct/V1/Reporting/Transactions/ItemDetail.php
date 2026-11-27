@@ -184,7 +184,7 @@ class ItemDetail extends Struct
 
     public function getTaxAmounts(): TaxAmountCollection
     {
-        return $this->taxAmounts ?? $this->taxAmounts = new TaxAmountCollection();
+        return $this->taxAmounts ??= new TaxAmountCollection();
     }
 
     public function setTaxAmounts(?TaxAmountCollection $taxAmounts): void
@@ -254,7 +254,7 @@ class ItemDetail extends Struct
 
     public function getCheckoutOptions(): CheckoutOptionCollection
     {
-        return $this->checkoutOptions ?? $this->checkoutOptions = new CheckoutOptionCollection();
+        return $this->checkoutOptions ??= new CheckoutOptionCollection();
     }
 
     public function setCheckoutOptions(?CheckoutOptionCollection $checkoutOptions): void

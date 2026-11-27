@@ -59,7 +59,7 @@ class ShippingErrorContext extends AbstractContext
      * Suggested address corrections
      */
     #[OA\Property(type: 'array', items: new OA\Items(ref: SuggestedCorrection::class))]
-    protected SuggestedCorrectionCollection $suggestedCorrections;
+    protected ?SuggestedCorrectionCollection $suggestedCorrections = null;
 
     /**
      * Address validation quality score
@@ -127,11 +127,11 @@ class ShippingErrorContext extends AbstractContext
     protected ?string $providedAddress = null;
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getValidationFailures(): ?array
+    public function getValidationFailures(): array
     {
-        return $this->validationFailures;
+        return $this->validationFailures ?? [];
     }
 
     /**
@@ -149,17 +149,17 @@ class ShippingErrorContext extends AbstractContext
 
     public function getSuggestedCorrections(): SuggestedCorrectionCollection
     {
-        return $this->suggestedCorrections;
+        return $this->suggestedCorrections ??= new SuggestedCorrectionCollection();
     }
 
-    public function setSuggestedCorrections(SuggestedCorrectionCollection $suggestedCorrections): void
+    public function setSuggestedCorrections(?SuggestedCorrectionCollection $suggestedCorrections): void
     {
         $this->suggestedCorrections = $suggestedCorrections;
     }
 
     public function addSuggestedCorrection(SuggestedCorrection $suggestedCorrection): void
     {
-        $this->suggestedCorrections[] = $suggestedCorrection;
+        $this->getSuggestedCorrections()->add($suggestedCorrection);
     }
 
     public function getAddressQualityScore(): ?float
@@ -177,11 +177,11 @@ class ShippingErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getRestrictedItems(): ?array
+    public function getRestrictedItems(): array
     {
-        return $this->restrictedItems;
+        return $this->restrictedItems ?? [];
     }
 
     /**
@@ -242,11 +242,11 @@ class ShippingErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getSupportedCountries(): ?array
+    public function getSupportedCountries(): array
     {
-        return $this->supportedCountries;
+        return $this->supportedCountries ?? [];
     }
 
     /**

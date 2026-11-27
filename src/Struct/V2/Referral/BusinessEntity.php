@@ -16,14 +16,14 @@ use Shopware\PayPalSDK\Struct\V2\Referral\BusinessEntity\AddressCollection;
 class BusinessEntity extends Struct
 {
     #[OA\Property(type: 'array', items: new OA\Items(ref: Address::class), maxItems: 5)]
-    protected AddressCollection $addresses;
+    protected ?AddressCollection $addresses = null;
 
     public function getAddresses(): AddressCollection
     {
-        return $this->addresses;
+        return $this->addresses ??= new AddressCollection();
     }
 
-    public function setAddresses(AddressCollection $addresses): void
+    public function setAddresses(?AddressCollection $addresses): void
     {
         $this->addresses = $addresses;
     }

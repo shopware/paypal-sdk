@@ -26,13 +26,13 @@ class MerchantIntegrations extends Struct
     protected string $trackingId;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Product::class))]
-    protected ProductCollection $products;
+    protected ?ProductCollection $products = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Capability::class), nullable: true)]
     protected ?CapabilityCollection $capabilities = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: OauthIntegration::class))]
-    protected OauthIntegrationCollection $oauthIntegrations;
+    protected ?OauthIntegrationCollection $oauthIntegrations = null;
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
@@ -78,17 +78,17 @@ class MerchantIntegrations extends Struct
 
     public function getProducts(): ProductCollection
     {
-        return $this->products ?? new ProductCollection();
+        return $this->products ??= new ProductCollection();
     }
 
-    public function setProducts(ProductCollection $products): void
+    public function setProducts(?ProductCollection $products): void
     {
         $this->products = $products;
     }
 
-    public function getCapabilities(): ?CapabilityCollection
+    public function getCapabilities(): CapabilityCollection
     {
-        return $this->capabilities;
+        return $this->capabilities ??= new CapabilityCollection();
     }
 
     public function setCapabilities(?CapabilityCollection $capabilities): void
@@ -98,10 +98,10 @@ class MerchantIntegrations extends Struct
 
     public function getOauthIntegrations(): OauthIntegrationCollection
     {
-        return $this->oauthIntegrations;
+        return $this->oauthIntegrations ??= new OauthIntegrationCollection();
     }
 
-    public function setOauthIntegrations(OauthIntegrationCollection $oauthIntegrations): void
+    public function setOauthIntegrations(?OauthIntegrationCollection $oauthIntegrations): void
     {
         $this->oauthIntegrations = $oauthIntegrations;
     }

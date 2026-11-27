@@ -18,7 +18,7 @@ class SellerReceivableBreakdown extends Struct
     protected Money $grossAmount;
 
     #[OA\Property(ref: Money::class, nullable: true)]
-    protected ?Money $paypalFee;
+    protected ?Money $paypalFee = null;
 
     #[OA\Property(ref: Money::class)]
     protected Money $netAmount;
@@ -35,7 +35,7 @@ class SellerReceivableBreakdown extends Struct
 
     public function getPaypalFee(): ?Money
     {
-        return $this->paypalFee ?? null;
+        return $this->paypalFee;
     }
 
     public function setPaypalFee(?Money $paypalFee): void

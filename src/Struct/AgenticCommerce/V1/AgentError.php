@@ -64,9 +64,9 @@ class AgentError extends Struct
         $this->debugId = $debugId;
     }
 
-    public function getDetails(): ?AgentErrorDetailCollection
+    public function getDetails(): AgentErrorDetailCollection
     {
-        return $this->details;
+        return $this->details ??= new AgentErrorDetailCollection();
     }
 
     public function setDetails(?AgentErrorDetailCollection $details): void

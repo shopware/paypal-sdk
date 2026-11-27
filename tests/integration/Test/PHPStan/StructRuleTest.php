@@ -28,23 +28,31 @@ class StructRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/../../../fixture/Struct/PHPStanRuleStruct.php'], [
             [
                 'Property $wrongVisibility should be protected',
-                16,
+                17,
             ],
             [
                 'Property $snake_case_name should have a camelCased name of "snakeCaseName"',
-                18,
+                19,
             ],
             [
                 'Property $missingNativeType should have a native type',
-                20,
+                21,
+            ],
+            [
+                'Property $missingDefaultValue is nullable and should default to null',
+                23,
             ],
             [
                 'Property $missingSetter should have a setter "setMissingSetter"',
-                24,
+                25,
             ],
             [
                 'Property $missingGetter should have a getter "getMissingGetter"',
-                26,
+                27,
+            ],
+            [
+                'Property $notNullableCollection is a collection and should be nullable',
+                39,
             ],
         ]);
     }

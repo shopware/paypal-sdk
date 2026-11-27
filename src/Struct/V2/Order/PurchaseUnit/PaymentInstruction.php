@@ -26,7 +26,7 @@ class PaymentInstruction extends Struct
     public const int MAX_LENGTH_PAYEE_RECEIVABLE_FX_RATE_ID = 4000;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: PlatformFee::class), maxItems: 1)]
-    protected PlatformFeeCollection $platformFees;
+    protected ?PlatformFeeCollection $platformFees = null;
 
     /**
      * @phpstan-var self::DISBURSEMENT_MODE_INSTANT|self::DISBURSEMENT_MODE_DELAYED
@@ -42,10 +42,10 @@ class PaymentInstruction extends Struct
 
     public function getPlatformFees(): PlatformFeeCollection
     {
-        return $this->platformFees;
+        return $this->platformFees ??= new PlatformFeeCollection();
     }
 
-    public function setPlatformFees(PlatformFeeCollection $platformFees): void
+    public function setPlatformFees(?PlatformFeeCollection $platformFees): void
     {
         $this->platformFees = $platformFees;
     }

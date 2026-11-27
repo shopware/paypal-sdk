@@ -28,7 +28,7 @@ class Transaction extends Struct
     protected ?ItemList $itemList = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: RelatedResource::class))]
-    protected RelatedResourceCollection $relatedResources;
+    protected ?RelatedResourceCollection $relatedResources = null;
 
     #[OA\Property(type: 'string', nullable: true)]
     protected ?string $invoiceNumber = null;
@@ -74,10 +74,10 @@ class Transaction extends Struct
 
     public function getRelatedResources(): RelatedResourceCollection
     {
-        return $this->relatedResources;
+        return $this->relatedResources ??= new RelatedResourceCollection();
     }
 
-    public function setRelatedResources(RelatedResourceCollection $relatedResources): void
+    public function setRelatedResources(?RelatedResourceCollection $relatedResources): void
     {
         $this->relatedResources = $relatedResources;
     }

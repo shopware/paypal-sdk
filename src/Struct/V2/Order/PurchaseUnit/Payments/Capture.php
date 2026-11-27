@@ -31,10 +31,10 @@ class Capture extends Payment
     protected SellerReceivableBreakdown $sellerReceivableBreakdown;
 
     #[OA\Property(ref: ProcessorResponse::class, nullable: true)]
-    protected ?ProcessorResponse $processorResponse;
+    protected ?ProcessorResponse $processorResponse = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $disbursementMode;
+    protected ?string $disbursementMode = null;
 
     public function getInvoiceId(): ?string
     {
@@ -106,7 +106,7 @@ class Capture extends Payment
 
     public function getProcessorResponse(): ?ProcessorResponse
     {
-        return $this->processorResponse ?? null;
+        return $this->processorResponse;
     }
 
     public function setProcessorResponse(?ProcessorResponse $processorResponse): void
@@ -116,7 +116,7 @@ class Capture extends Payment
 
     public function getDisbursementMode(): ?string
     {
-        return $this->disbursementMode ?? null;
+        return $this->disbursementMode;
     }
 
     public function setDisbursementMode(?string $disbursementMode): void

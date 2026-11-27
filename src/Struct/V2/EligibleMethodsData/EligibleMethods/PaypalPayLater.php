@@ -20,14 +20,14 @@ class PaypalPayLater extends Paypal
      * ISO 3166-1 alpha-2 country code
      */
     #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE, nullable: true)]
-    protected ?string $countryCode;
+    protected ?string $countryCode = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $productCode;
+    protected ?string $productCode = null;
 
     public function getCountryCode(): ?string
     {
-        return $this->countryCode ?? null;
+        return $this->countryCode;
     }
 
     public function setCountryCode(?string $countryCode): void
@@ -37,7 +37,7 @@ class PaypalPayLater extends Paypal
 
     public function getProductCode(): ?string
     {
-        return $this->productCode ?? null;
+        return $this->productCode;
     }
 
     public function setProductCode(?string $productCode): void

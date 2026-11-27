@@ -79,7 +79,7 @@ class PayPalCart extends Struct
      * List of issues preventing checkout (empty = ready)
      */
     #[OA\Property(type: 'array', items: new OA\Items(ref: ValidationIssue::class))]
-    protected ValidationIssueCollection $validationIssues;
+    protected ?ValidationIssueCollection $validationIssues = null;
 
     #[OA\Property(ref: CartTotals::class)]
     protected ?CartTotals $totals = null;
@@ -106,7 +106,7 @@ class PayPalCart extends Struct
      * Products in the cart
      */
     #[OA\Property(type: 'array', items: new OA\Items(ref: CartItem::class))]
-    protected CartItemCollection $items;
+    protected ?CartItemCollection $items = null;
 
     #[OA\Property(ref: Customer::class)]
     protected ?Customer $customer = null;
@@ -130,7 +130,7 @@ class PayPalCart extends Struct
      * Discount coupons to apply or remove from cart
      */
     #[OA\Property(type: 'array', items: new OA\Items(ref: Coupon::class))]
-    protected CouponCollection $coupons;
+    protected ?CouponCollection $coupons = null;
 
     #[OA\Property(ref: GeoCoordinates::class)]
     protected ?GeoCoordinates $geoCoordinates = null;
@@ -167,17 +167,17 @@ class PayPalCart extends Struct
 
     public function getValidationIssues(): ValidationIssueCollection
     {
-        return $this->validationIssues;
+        return $this->validationIssues ??= new ValidationIssueCollection();
     }
 
-    public function setValidationIssues(ValidationIssueCollection $validationIssues): void
+    public function setValidationIssues(?ValidationIssueCollection $validationIssues): void
     {
         $this->validationIssues = $validationIssues;
     }
 
-    public function getAppliedCoupons(): ?AppliedCouponCollection
+    public function getAppliedCoupons(): AppliedCouponCollection
     {
-        return $this->appliedCoupons;
+        return $this->appliedCoupons ??= new AppliedCouponCollection();
     }
 
     public function setAppliedCoupons(?AppliedCouponCollection $appliedCoupons): void
@@ -195,9 +195,9 @@ class PayPalCart extends Struct
         $this->totals = $totals;
     }
 
-    public function getAvailableShippingOptions(): ?ShippingOptionCollection
+    public function getAvailableShippingOptions(): ShippingOptionCollection
     {
-        return $this->availableShippingOptions;
+        return $this->availableShippingOptions ??= new ShippingOptionCollection();
     }
 
     public function setAvailableShippingOptions(?ShippingOptionCollection $availableShippingOptions): void
@@ -205,9 +205,9 @@ class PayPalCart extends Struct
         $this->availableShippingOptions = $availableShippingOptions;
     }
 
-    public function getLinks(): ?LinkCollection
+    public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
     public function setLinks(?LinkCollection $links): void
@@ -217,10 +217,10 @@ class PayPalCart extends Struct
 
     public function getItems(): CartItemCollection
     {
-        return $this->items;
+        return $this->items ??= new CartItemCollection();
     }
 
-    public function setItems(CartItemCollection $items): void
+    public function setItems(?CartItemCollection $items): void
     {
         $this->items = $items;
     }
@@ -265,9 +265,9 @@ class PayPalCart extends Struct
         $this->paymentMethod = $paymentMethod;
     }
 
-    public function getCheckoutFields(): ?CheckoutFieldCollection
+    public function getCheckoutFields(): CheckoutFieldCollection
     {
-        return $this->checkoutFields;
+        return $this->checkoutFields ??= new CheckoutFieldCollection();
     }
 
     public function setCheckoutFields(?CheckoutFieldCollection $checkoutFields): void
@@ -277,10 +277,10 @@ class PayPalCart extends Struct
 
     public function getCoupons(): CouponCollection
     {
-        return $this->coupons;
+        return $this->coupons ??= new CouponCollection();
     }
 
-    public function setCoupons(CouponCollection $coupons): void
+    public function setCoupons(?CouponCollection $coupons): void
     {
         $this->coupons = $coupons;
     }

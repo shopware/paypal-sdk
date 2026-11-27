@@ -27,7 +27,7 @@ class ManagedAccount extends Struct
     protected string $legalCountryCode;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: IndividualOwner::class))]
-    protected IndividualOwnerCollection $individualOwners;
+    protected ?IndividualOwnerCollection $individualOwners = null;
 
     #[OA\Property(ref: BusinessEntity::class)]
     protected BusinessEntity $businessEntity;
@@ -45,10 +45,10 @@ class ManagedAccount extends Struct
     protected string $softDescriptor;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Capability::class))]
-    protected CapabilityCollection $capabilities;
+    protected ?CapabilityCollection $capabilities = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     public function getAccountId(): string
     {
@@ -72,10 +72,10 @@ class ManagedAccount extends Struct
 
     public function getIndividualOwners(): IndividualOwnerCollection
     {
-        return $this->individualOwners;
+        return $this->individualOwners ??= new IndividualOwnerCollection();
     }
 
-    public function setIndividualOwners(IndividualOwnerCollection $individualOwners): void
+    public function setIndividualOwners(?IndividualOwnerCollection $individualOwners): void
     {
         $this->individualOwners = $individualOwners;
     }
@@ -132,20 +132,20 @@ class ManagedAccount extends Struct
 
     public function getCapabilities(): CapabilityCollection
     {
-        return $this->capabilities ?? new CapabilityCollection();
+        return $this->capabilities ??= new CapabilityCollection();
     }
 
-    public function setCapabilities(CapabilityCollection $capabilities): void
+    public function setCapabilities(?CapabilityCollection $capabilities): void
     {
         $this->capabilities = $capabilities;
     }
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

@@ -24,44 +24,44 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData;
 class PurchaseUnit extends Struct
 {
     #[OA\Property(type: 'string', minLength: 1, maxLength: 256, nullable: true)]
-    protected ?string $referenceId;
+    protected ?string $referenceId = null;
 
     #[OA\Property(ref: Amount::class, nullable: true)]
-    protected ?Amount $amount;
+    protected ?Amount $amount = null;
 
     #[OA\Property(ref: Payee::class, nullable: true)]
-    protected ?Payee $payee;
+    protected ?Payee $payee = null;
 
     #[OA\Property(ref: PaymentInstruction::class, nullable: true)]
-    protected ?PaymentInstruction $paymentInstruction;
+    protected ?PaymentInstruction $paymentInstruction = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 3000, nullable: true)]
-    protected ?string $description;
+    protected ?string $description = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, nullable: true)]
-    protected ?string $customId;
+    protected ?string $customId = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 127, nullable: true)]
-    protected ?string $invoiceId;
+    protected ?string $invoiceId = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), nullable: true)]
-    protected ?ItemCollection $items;
+    protected ?ItemCollection $items = null;
 
     #[OA\Property(ref: Shipping::class, nullable: true)]
-    protected ?Shipping $shipping;
+    protected ?Shipping $shipping = null;
 
     #[OA\Property(ref: Payments::class, nullable: true)]
-    protected ?Payments $payments;
+    protected ?Payments $payments = null;
 
     #[OA\Property(ref: SupplementaryData::class, nullable: true)]
-    protected ?SupplementaryData $supplementaryData;
+    protected ?SupplementaryData $supplementaryData = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: ShippingOption::class), nullable: true)]
-    protected ?ShippingOptionCollection $shippingOptions;
+    protected ?ShippingOptionCollection $shippingOptions = null;
 
     public function getReferenceId(): ?string
     {
-        return $this->referenceId ?? null;
+        return $this->referenceId;
     }
 
     public function setReferenceId(?string $referenceId): void
@@ -71,7 +71,7 @@ class PurchaseUnit extends Struct
 
     public function getAmount(): ?Amount
     {
-        return $this->amount ?? null;
+        return $this->amount;
     }
 
     public function setAmount(?Amount $amount): void
@@ -81,7 +81,7 @@ class PurchaseUnit extends Struct
 
     public function getPayee(): ?Payee
     {
-        return $this->payee ?? null;
+        return $this->payee;
     }
 
     public function setPayee(?Payee $payee): void
@@ -91,7 +91,7 @@ class PurchaseUnit extends Struct
 
     public function getPaymentInstruction(): ?PaymentInstruction
     {
-        return $this->paymentInstruction ?? null;
+        return $this->paymentInstruction;
     }
 
     public function setPaymentInstruction(?PaymentInstruction $paymentInstruction): void
@@ -101,7 +101,7 @@ class PurchaseUnit extends Struct
 
     public function getDescription(): ?string
     {
-        return $this->description ?? null;
+        return $this->description;
     }
 
     public function setDescription(?string $description): void
@@ -111,7 +111,7 @@ class PurchaseUnit extends Struct
 
     public function getCustomId(): ?string
     {
-        return $this->customId ?? null;
+        return $this->customId;
     }
 
     public function setCustomId(?string $customId): void
@@ -121,7 +121,7 @@ class PurchaseUnit extends Struct
 
     public function getInvoiceId(): ?string
     {
-        return $this->invoiceId ?? null;
+        return $this->invoiceId;
     }
 
     public function setInvoiceId(?string $invoiceId): void
@@ -129,9 +129,9 @@ class PurchaseUnit extends Struct
         $this->invoiceId = $invoiceId;
     }
 
-    public function getItems(): ?ItemCollection
+    public function getItems(): ItemCollection
     {
-        return $this->items ?? null;
+        return $this->items ??= new ItemCollection();
     }
 
     public function setItems(?ItemCollection $items): void
@@ -141,7 +141,7 @@ class PurchaseUnit extends Struct
 
     public function getShipping(): ?Shipping
     {
-        return $this->shipping ?? null;
+        return $this->shipping;
     }
 
     public function setShipping(?Shipping $shipping): void
@@ -151,7 +151,7 @@ class PurchaseUnit extends Struct
 
     public function getPayments(): ?Payments
     {
-        return $this->payments ?? null;
+        return $this->payments;
     }
 
     public function setPayments(?Payments $payments): void
@@ -161,7 +161,7 @@ class PurchaseUnit extends Struct
 
     public function getSupplementaryData(): ?SupplementaryData
     {
-        return $this->supplementaryData ?? null;
+        return $this->supplementaryData;
     }
 
     public function setSupplementaryData(?SupplementaryData $supplementaryData): void
@@ -169,9 +169,9 @@ class PurchaseUnit extends Struct
         $this->supplementaryData = $supplementaryData;
     }
 
-    public function getShippingOptions(): ?ShippingOptionCollection
+    public function getShippingOptions(): ShippingOptionCollection
     {
-        return $this->shippingOptions ?? null;
+        return $this->shippingOptions ??= new ShippingOptionCollection();
     }
 
     public function setShippingOptions(?ShippingOptionCollection $shippingOptions): void

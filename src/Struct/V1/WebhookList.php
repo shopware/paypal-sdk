@@ -15,14 +15,14 @@ use Shopware\PayPalSDK\Struct\V1\Webhook\WebhookCollection;
 class WebhookList extends Struct
 {
     #[OA\Property(type: 'array', items: new OA\Items(ref: Webhook::class))]
-    protected WebhookCollection $webhooks;
+    protected ?WebhookCollection $webhooks = null;
 
     public function getWebhooks(): WebhookCollection
     {
-        return $this->webhooks;
+        return $this->webhooks ??= new WebhookCollection();
     }
 
-    public function setWebhooks(WebhookCollection $webhooks): void
+    public function setWebhooks(?WebhookCollection $webhooks): void
     {
         $this->webhooks = $webhooks;
     }

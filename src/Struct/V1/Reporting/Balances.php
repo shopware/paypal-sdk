@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 class Balances extends Struct
 {
     #[OA\Property(type: 'array', items: new OA\Items(ref: Balance::class), maxItems: 200)]
-    protected BalanceCollection $balances;
+    protected ?BalanceCollection $balances = null;
 
     #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID)]
     protected string $accountId;
@@ -28,10 +28,10 @@ class Balances extends Struct
 
     public function getBalances(): BalanceCollection
     {
-        return $this->balances;
+        return $this->balances ??= new BalanceCollection();
     }
 
-    public function setBalances(BalanceCollection $balances): void
+    public function setBalances(?BalanceCollection $balances): void
     {
         $this->balances = $balances;
     }

@@ -151,7 +151,7 @@ class StructTest extends TestCase
         $struct = (new TestStruct())->assign(['foo' => []]);
 
         static::assertInstanceOf(FooCollection::class, $struct->getVars()['foo'] ?? null);
-        static::assertSame(['foo' => []], $struct->jsonSerialize());
+        static::assertSame([], $struct->jsonSerialize());
     }
 
     /**

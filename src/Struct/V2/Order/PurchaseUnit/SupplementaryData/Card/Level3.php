@@ -32,7 +32,7 @@ class Level3 extends Struct
     protected string $shipsFromPostalCode;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: LineItem::class), minItems: 1, maxItems: 100)]
-    protected LineItemCollection $lineItems;
+    protected ?LineItemCollection $lineItems = null;
 
     public function getShippingAmount(): Money
     {
@@ -86,10 +86,10 @@ class Level3 extends Struct
 
     public function getLineItems(): LineItemCollection
     {
-        return $this->lineItems;
+        return $this->lineItems ??= new LineItemCollection();
     }
 
-    public function setLineItems(LineItemCollection $lineItems): void
+    public function setLineItems(?LineItemCollection $lineItems): void
     {
         $this->lineItems = $lineItems;
     }

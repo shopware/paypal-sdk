@@ -32,7 +32,7 @@ class MerchantIntegrationsTest extends TestCase
 
         static::assertCount(0, $integrations->getProducts());
         static::assertNull($integrations->getSpecificProduct('PAYMENT_METHODS'));
-        static::assertSame([], $integrations->jsonSerialize()['products']);
+        static::assertArrayNotHasKey('products', $integrations->jsonSerialize());
     }
 
     public function testSpecificProduct(): void

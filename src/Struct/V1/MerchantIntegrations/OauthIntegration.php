@@ -28,7 +28,7 @@ class OauthIntegration extends Struct
     protected string $status;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: OauthThirdParty::class))]
-    protected OauthThirdPartyCollection $oauthThirdParty;
+    protected ?OauthThirdPartyCollection $oauthThirdParty = null;
 
     public function getIntegrationMethod(): string
     {
@@ -62,10 +62,10 @@ class OauthIntegration extends Struct
 
     public function getOauthThirdParty(): OauthThirdPartyCollection
     {
-        return $this->oauthThirdParty;
+        return $this->oauthThirdParty ??= new OauthThirdPartyCollection();
     }
 
-    public function setOauthThirdParty(OauthThirdPartyCollection $oauthThirdParty): void
+    public function setOauthThirdParty(?OauthThirdPartyCollection $oauthThirdParty): void
     {
         $this->oauthThirdParty = $oauthThirdParty;
     }

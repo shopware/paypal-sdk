@@ -22,16 +22,16 @@ class Vault extends Struct
     protected ?string $id = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $storeInVault;
+    protected ?string $storeInVault = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $usageType;
+    protected ?string $usageType = null;
 
     #[OA\Property(type: 'string')]
     protected string $status;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $confirmPaymentToken;
+    protected ?string $confirmPaymentToken = null;
 
     #[OA\Property(type: 'boolean')]
     protected bool $permitMultiplePaymentTokens = true;
@@ -40,7 +40,7 @@ class Vault extends Struct
     protected ?Customer $customer = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10, nullable: true)]
-    protected ?LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     public function getId(): ?string
     {
@@ -54,7 +54,7 @@ class Vault extends Struct
 
     public function getStoreInVault(): ?string
     {
-        return $this->storeInVault ?? null;
+        return $this->storeInVault;
     }
 
     public function setStoreInVault(?string $storeInVault): void
@@ -64,7 +64,7 @@ class Vault extends Struct
 
     public function getUsageType(): ?string
     {
-        return $this->usageType ?? null;
+        return $this->usageType;
     }
 
     public function setUsageType(?string $usageType): void
@@ -84,7 +84,7 @@ class Vault extends Struct
 
     public function getConfirmPaymentToken(): ?string
     {
-        return $this->confirmPaymentToken ?? null;
+        return $this->confirmPaymentToken;
     }
 
     public function setConfirmPaymentToken(?string $confirmPaymentToken): void
@@ -112,9 +112,9 @@ class Vault extends Struct
         $this->customer = $customer;
     }
 
-    public function getLinks(): ?LinkCollection
+    public function getLinks(): LinkCollection
     {
-        return $this->links ?? null;
+        return $this->links ??= new LinkCollection();
     }
 
     public function setLinks(?LinkCollection $links): void

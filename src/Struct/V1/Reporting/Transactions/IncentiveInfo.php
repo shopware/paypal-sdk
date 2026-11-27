@@ -18,7 +18,7 @@ class IncentiveInfo extends Struct
 
     public function getIncentiveDetails(): IncentiveDetailCollection
     {
-        return $this->incentiveDetails ?? $this->incentiveDetails = new IncentiveDetailCollection();
+        return $this->incentiveDetails ??= new IncentiveDetailCollection();
     }
 
     public function setIncentiveDetails(?IncentiveDetailCollection $incentiveDetails): void
