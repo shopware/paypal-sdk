@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\PayUponInvoice\DepositBankD
 
 #[OA\Schema(
     schema: 'paypal_v2_order_payment_source_pay_upon_invoice',
-    required: ['name', 'email', 'birthDate', 'phone', 'billingAddress', 'paymentReference', 'depositBankDetails']
+    required: ['name', 'email', 'birthDate', 'phone', 'billingAddress']
 )]
 class PayUponInvoice extends AbstractPaymentSource
 {
@@ -35,10 +35,10 @@ class PayUponInvoice extends AbstractPaymentSource
     protected Address $billingAddress;
 
     #[OA\Property(type: 'string')]
-    protected string $paymentReference;
+    protected ?string $paymentReference = null;
 
     #[OA\Property(ref: DepositBankDetails::class)]
-    protected DepositBankDetails $depositBankDetails;
+    protected ?DepositBankDetails $depositBankDetails = null;
 
     public function getName(): Name
     {
@@ -90,22 +90,22 @@ class PayUponInvoice extends AbstractPaymentSource
         $this->billingAddress = $billingAddress;
     }
 
-    public function getPaymentReference(): string
+    public function getPaymentReference(): ?string
     {
         return $this->paymentReference;
     }
 
-    public function setPaymentReference(string $paymentReference): void
+    public function setPaymentReference(?string $paymentReference): void
     {
         $this->paymentReference = $paymentReference;
     }
 
-    public function getDepositBankDetails(): DepositBankDetails
+    public function getDepositBankDetails(): ?DepositBankDetails
     {
         return $this->depositBankDetails;
     }
 
-    public function setDepositBankDetails(DepositBankDetails $depositBankDetails): void
+    public function setDepositBankDetails(?DepositBankDetails $depositBankDetails): void
     {
         $this->depositBankDetails = $depositBankDetails;
     }

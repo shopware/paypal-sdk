@@ -17,7 +17,6 @@ use Shopware\PayPalSDK\Struct\V1\Common\Money;
     required: [
         'buyerTransactionId',
         'sellerTransactionId',
-        'referenceId',
         'createTime',
         'transactionStatus',
         'grossAmount',
@@ -36,7 +35,7 @@ class Transaction extends Struct
     protected string $sellerTransactionId;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
-    protected string $referenceId;
+    protected ?string $referenceId = null;
 
     #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected string $createTime;
@@ -82,12 +81,12 @@ class Transaction extends Struct
         $this->sellerTransactionId = $sellerTransactionId;
     }
 
-    public function getReferenceId(): string
+    public function getReferenceId(): ?string
     {
         return $this->referenceId;
     }
 
-    public function setReferenceId(string $referenceId): void
+    public function setReferenceId(?string $referenceId): void
     {
         $this->referenceId = $referenceId;
     }

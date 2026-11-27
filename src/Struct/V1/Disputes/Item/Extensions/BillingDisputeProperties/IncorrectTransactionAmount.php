@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
 #[OA\Schema(
     schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_incorrect_transaction_amount',
-    required: ['correctTransactionAmount', 'correctTransactionTime']
+    required: ['correctTransactionAmount']
 )]
 class IncorrectTransactionAmount extends Struct
 {
@@ -22,7 +22,7 @@ class IncorrectTransactionAmount extends Struct
     protected Money $correctTransactionAmount;
 
     #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
-    protected string $correctTransactionTime;
+    protected ?string $correctTransactionTime = null;
 
     public function getCorrectTransactionAmount(): Money
     {
@@ -34,12 +34,12 @@ class IncorrectTransactionAmount extends Struct
         $this->correctTransactionAmount = $correctTransactionAmount;
     }
 
-    public function getCorrectTransactionTime(): string
+    public function getCorrectTransactionTime(): ?string
     {
         return $this->correctTransactionTime;
     }
 
-    public function setCorrectTransactionTime(string $correctTransactionTime): void
+    public function setCorrectTransactionTime(?string $correctTransactionTime): void
     {
         $this->correctTransactionTime = $correctTransactionTime;
     }

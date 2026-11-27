@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Boletobancario\TaxInfo;
 
 #[OA\Schema(
     schema: 'paypal_v2_order_payment_source_boletobancario',
-    required: ['name', 'countryCode', 'email', 'expiryDate', 'taxInfo', 'billingAddress']
+    required: ['email', 'expiryDate', 'taxInfo', 'billingAddress']
 )]
 class Boletobancario extends AbstractAPMPaymentSource
 {

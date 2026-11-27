@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\V1\Payment\Payer\PayerInfo;
 
 #[OA\Schema(
     schema: 'paypal_v1_payment_payer',
-    required: ['paymentMethod', 'status', 'payerInfo', 'externalSelectedFundingInstrumentType']
+    required: ['paymentMethod', 'status', 'payerInfo']
 )]
 class Payer extends Struct
 {
@@ -27,7 +27,7 @@ class Payer extends Struct
     protected PayerInfo $payerInfo;
 
     #[OA\Property(type: 'string')]
-    protected string $externalSelectedFundingInstrumentType;
+    protected ?string $externalSelectedFundingInstrumentType = null;
 
     public function getPaymentMethod(): string
     {
@@ -59,12 +59,12 @@ class Payer extends Struct
         $this->payerInfo = $payerInfo;
     }
 
-    public function getExternalSelectedFundingInstrumentType(): string
+    public function getExternalSelectedFundingInstrumentType(): ?string
     {
         return $this->externalSelectedFundingInstrumentType;
     }
 
-    public function setExternalSelectedFundingInstrumentType(string $externalSelectedFundingInstrumentType): void
+    public function setExternalSelectedFundingInstrumentType(?string $externalSelectedFundingInstrumentType): void
     {
         $this->externalSelectedFundingInstrumentType = $externalSelectedFundingInstrumentType;
     }

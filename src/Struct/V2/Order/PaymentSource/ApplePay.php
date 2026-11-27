@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_apple_pay', required: ['name', 'countryCode'])]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_apple_pay')]
 class ApplePay extends AbstractAPMPaymentSource
 {
     #[OA\Property(ref: Card::class)]

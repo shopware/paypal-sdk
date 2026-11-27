@@ -41,9 +41,11 @@ class SpecShapeTest extends TestCase
 
         $data = (new SupplementaryData())->assign($payload);
 
-        $level3 = $data->getCard()->getLevel3();
+        $card = $data->getCard();
+        static::assertNotNull($card);
+        $level3 = $card->getLevel3();
         static::assertNotNull($level3);
-        static::assertSame('INV-1', $data->getCard()->getLevel2()?->getInvoiceId());
+        static::assertSame('INV-1', $card->getLevel2()?->getInvoiceId());
         static::assertSame('48624', $level3->getShipsFromPostalCode());
         static::assertSame(2, $level3->getLineItems()->first()?->getQuantity());
         static::assertSame('203.0.113.7', $data->getRisk()->getCustomer()?->getIpAddress());

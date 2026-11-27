@@ -35,16 +35,7 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\SupportingInfoCollection;
 
 #[OA\Schema(
     schema: 'paypal_v1_disputes_item',
-    required: [
-        'disputeId',
-        'createTime',
-        'updateTime',
-        'reason',
-        'status',
-        'disputeAmount',
-        'disputeLifeCycleStage',
-        'extensions',
-    ]
+    required: ['disputeId', 'createTime', 'updateTime', 'reason', 'status', 'disputeAmount', 'disputeLifeCycleStage']
 )]
 class Item extends Struct
 {
@@ -110,7 +101,7 @@ class Item extends Struct
     protected ?MessageCollection $messages = null;
 
     #[OA\Property(ref: Extensions::class)]
-    protected Extensions $extensions;
+    protected ?Extensions $extensions = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Evidence::class), minItems: 1, maxItems: 100)]
     protected ?EvidenceCollection $evidences = null;
@@ -289,12 +280,12 @@ class Item extends Struct
         $this->messages = $messages;
     }
 
-    public function getExtensions(): Extensions
+    public function getExtensions(): ?Extensions
     {
         return $this->extensions;
     }
 
-    public function setExtensions(Extensions $extensions): void
+    public function setExtensions(?Extensions $extensions): void
     {
         $this->extensions = $extensions;
     }

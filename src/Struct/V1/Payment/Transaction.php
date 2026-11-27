@@ -17,7 +17,7 @@ use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResourceCollection;
 
 #[OA\Schema(
     schema: 'paypal_v1_payment_transaction',
-    required: ['amount', 'payee', 'softDescriptor', 'description', 'custom']
+    required: ['amount', 'payee']
 )]
 class Transaction extends Struct
 {
@@ -37,13 +37,13 @@ class Transaction extends Struct
     protected ?string $invoiceNumber = null;
 
     #[OA\Property(type: 'string')]
-    protected string $softDescriptor;
+    protected ?string $softDescriptor = null;
 
     #[OA\Property(type: 'string')]
-    protected string $description;
+    protected ?string $description = null;
 
     #[OA\Property(type: 'string')]
-    protected string $custom;
+    protected ?string $custom = null;
 
     public function getAmount(): Amount
     {
@@ -95,32 +95,32 @@ class Transaction extends Struct
         $this->invoiceNumber = $invoiceNumber;
     }
 
-    public function getSoftDescriptor(): string
+    public function getSoftDescriptor(): ?string
     {
         return $this->softDescriptor;
     }
 
-    public function setSoftDescriptor(string $softDescriptor): void
+    public function setSoftDescriptor(?string $softDescriptor): void
     {
         $this->softDescriptor = $softDescriptor;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
-    public function getCustom(): string
+    public function getCustom(): ?string
     {
         return $this->custom;
     }
 
-    public function setCustom(string $custom): void
+    public function setCustom(?string $custom): void
     {
         $this->custom = $custom;
     }

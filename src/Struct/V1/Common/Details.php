@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 
 #[OA\Schema(
     schema: 'paypal_v1_common_details',
-    required: ['subtotal', 'shipping', 'tax', 'handlingFee', 'shippingDiscount', 'discount', 'insurance']
+    required: ['subtotal']
 )]
 class Details extends Struct
 {
@@ -20,22 +20,22 @@ class Details extends Struct
     protected string $subtotal;
 
     #[OA\Property(type: 'string')]
-    protected string $shipping;
+    protected ?string $shipping = null;
 
     #[OA\Property(type: 'string')]
-    protected string $tax;
+    protected ?string $tax = null;
 
     #[OA\Property(type: 'string')]
-    protected string $handlingFee;
+    protected ?string $handlingFee = null;
 
     #[OA\Property(type: 'string')]
-    protected string $shippingDiscount;
+    protected ?string $shippingDiscount = null;
 
     #[OA\Property(type: 'string')]
-    protected string $discount;
+    protected ?string $discount = null;
 
     #[OA\Property(type: 'string')]
-    protected string $insurance;
+    protected ?string $insurance = null;
 
     public function getSubtotal(): string
     {
@@ -47,62 +47,62 @@ class Details extends Struct
         $this->subtotal = $subtotal;
     }
 
-    public function getShipping(): string
+    public function getShipping(): ?string
     {
         return $this->shipping;
     }
 
-    public function setShipping(string $shipping): void
+    public function setShipping(?string $shipping): void
     {
         $this->shipping = $shipping;
     }
 
-    public function getTax(): string
+    public function getTax(): ?string
     {
         return $this->tax;
     }
 
-    public function setTax(string $tax): void
+    public function setTax(?string $tax): void
     {
         $this->tax = $tax;
     }
 
-    public function getHandlingFee(): string
+    public function getHandlingFee(): ?string
     {
         return $this->handlingFee;
     }
 
-    public function setHandlingFee(string $handlingFee): void
+    public function setHandlingFee(?string $handlingFee): void
     {
         $this->handlingFee = $handlingFee;
     }
 
-    public function getShippingDiscount(): string
+    public function getShippingDiscount(): ?string
     {
         return $this->shippingDiscount;
     }
 
-    public function setShippingDiscount(string $shippingDiscount): void
+    public function setShippingDiscount(?string $shippingDiscount): void
     {
         $this->shippingDiscount = $shippingDiscount;
     }
 
-    public function getDiscount(): string
+    public function getDiscount(): ?string
     {
         return $this->discount;
     }
 
-    public function setDiscount(string $discount): void
+    public function setDiscount(?string $discount): void
     {
         $this->discount = $discount;
     }
 
-    public function getInsurance(): string
+    public function getInsurance(): ?string
     {
         return $this->insurance;
     }
 
-    public function setInsurance(string $insurance): void
+    public function setInsurance(?string $insurance): void
     {
         $this->insurance = $insurance;
     }
