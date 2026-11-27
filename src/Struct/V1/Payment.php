@@ -18,7 +18,20 @@ use Shopware\PayPalSDK\Struct\V1\Payment\PaymentInstruction;
 use Shopware\PayPalSDK\Struct\V1\Payment\RedirectUrls;
 use Shopware\PayPalSDK\Struct\V1\Payment\TransactionCollection;
 
-#[OA\Schema(schema: 'paypal_v1_payment')]
+#[OA\Schema(
+    schema: 'paypal_v1_payment',
+    required: [
+        'id',
+        'intent',
+        'state',
+        'cart',
+        'payer',
+        'createTime',
+        'updateTime',
+        'redirectUrls',
+        'applicationContext',
+    ]
+)]
 class Payment extends Struct
 {
     #[OA\Property(type: 'string')]
@@ -54,7 +67,7 @@ class Payment extends Struct
     #[OA\Property(ref: ApplicationContext::class)]
     protected ApplicationContext $applicationContext;
 
-    #[OA\Property(ref: PaymentInstruction::class, nullable: true)]
+    #[OA\Property(ref: PaymentInstruction::class)]
     protected ?PaymentInstruction $paymentInstruction = null;
 
     public function getId(): string

@@ -15,28 +15,28 @@ use Shopware\PayPalSDK\Struct\V1\Common\Address;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_payer_info')]
 class PayerInfo extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 13, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 13, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $accountId = null;
 
-    #[OA\Property(type: 'string', format: 'email', minLength: 3, maxLength: 254, pattern: Pattern::LOOSE_EMAIL_ADDRESS, nullable: true)]
+    #[OA\Property(type: 'string', format: 'email', minLength: 3, maxLength: 254, pattern: Pattern::LOOSE_EMAIL_ADDRESS)]
     protected ?string $emailAddress = null;
 
-    #[OA\Property(ref: PhoneNumber::class, nullable: true)]
+    #[OA\Property(ref: PhoneNumber::class)]
     protected ?PhoneNumber $phoneNumber = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 1, pattern: Pattern::YES_NO, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 1, pattern: Pattern::YES_NO)]
     protected ?string $addressStatus = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 1, pattern: Pattern::YES_NO, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 1, pattern: Pattern::YES_NO)]
     protected ?string $payerStatus = null;
 
-    #[OA\Property(ref: Name::class, nullable: true)]
+    #[OA\Property(ref: Name::class)]
     protected ?Name $payerName = null;
 
-    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
     protected ?string $countryCode = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $address = null;
 
     public function getAccountId(): ?string

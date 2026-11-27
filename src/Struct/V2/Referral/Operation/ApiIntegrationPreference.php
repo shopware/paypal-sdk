@@ -15,14 +15,14 @@ use Shopware\PayPalSDK\Struct\V2\Referral\Operation\ApiIntegrationPreference\Res
 class ApiIntegrationPreference extends Struct
 {
     #[OA\Property(ref: RestApiIntegration::class)]
-    protected RestApiIntegration $restApiIntegration;
+    protected ?RestApiIntegration $restApiIntegration = null;
 
-    public function getRestApiIntegration(): RestApiIntegration
+    public function getRestApiIntegration(): ?RestApiIntegration
     {
         return $this->restApiIntegration;
     }
 
-    public function setRestApiIntegration(RestApiIntegration $restApiIntegration): void
+    public function setRestApiIntegration(?RestApiIntegration $restApiIntegration): void
     {
         $this->restApiIntegration = $restApiIntegration;
     }

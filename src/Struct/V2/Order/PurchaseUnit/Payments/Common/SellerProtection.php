@@ -10,14 +10,14 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_common_seller_protection')]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_common_seller_protection', required: ['status'])]
 class SellerProtection extends Struct
 {
     #[OA\Property(type: 'string')]
     protected string $status;
 
     /** @var string[] */
-    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     protected ?array $disputeCategories = null;
 
     public function getStatus(): string

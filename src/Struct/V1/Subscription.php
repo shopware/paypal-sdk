@@ -19,7 +19,22 @@ use Shopware\PayPalSDK\Struct\V1\Subscription\Subscriber;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_subscription')]
+#[OA\Schema(
+    schema: 'paypal_v1_subscription',
+    required: [
+        'id',
+        'planId',
+        'startTime',
+        'quantity',
+        'shippingAmount',
+        'subscriber',
+        'applicationContext',
+        'status',
+        'statusUpdateTime',
+        'createTime',
+        'updateTime',
+    ]
+)]
 class Subscription extends Struct
 {
     #[OA\Property(type: 'string')]
@@ -40,7 +55,7 @@ class Subscription extends Struct
     #[OA\Property(ref: Subscriber::class)]
     protected Subscriber $subscriber;
 
-    #[OA\Property(ref: BillingInfo::class, nullable: true)]
+    #[OA\Property(ref: BillingInfo::class)]
     protected ?BillingInfo $billingInfo = null;
 
     #[OA\Property(ref: ApplicationContext::class)]

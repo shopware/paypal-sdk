@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1\WalletDomain;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_wallet_domain_domain')]
+#[OA\Schema(schema: 'paypal_v1_wallet_domain_domain', required: ['name'])]
 class Domain extends Struct
 {
     #[OA\Property(type: 'string')]

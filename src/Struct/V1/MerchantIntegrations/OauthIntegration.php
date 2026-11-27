@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\OauthIntegration\OauthThir
 
 #[OA\Schema(
     schema: 'paypal_v1_merchant_integrations_oauth_integration',
-    required: ['integrationMethod', 'integrationType', 'oauthThirdParty']
+    required: ['integrationMethod', 'integrationType']
 )]
 class OauthIntegration extends Struct
 {
@@ -25,7 +25,7 @@ class OauthIntegration extends Struct
     protected string $integrationType;
 
     #[OA\Property(type: 'string')]
-    protected string $status;
+    protected ?string $status = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: OauthThirdParty::class))]
     protected ?OauthThirdPartyCollection $oauthThirdParty = null;
@@ -50,12 +50,12 @@ class OauthIntegration extends Struct
         $this->integrationType = $integrationType;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }

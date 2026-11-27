@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_evidence_evidence_info_tracking_info')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_evidence_evidence_info_tracking_info',
+    required: ['carrierName', 'carrierNameOther', 'trackingUrl', 'trackingNumber']
+)]
 class TrackingInfo extends Struct
 {
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]

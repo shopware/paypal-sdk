@@ -63,11 +63,13 @@ class ResolutionBuilderTest extends TestCase
         $resolution = $resolutions->first();
 
         static::assertNotNull($resolution);
-        static::assertSame('high', $resolution->getMetadata()->getCostImpact());
-        static::assertSame('medium', $resolution->getMetadata()->getWaist());
-        static::assertTrue($resolution->getMetadata()->isAutoApplicable());
-        static::assertSame('2 hours', $resolution->getMetadata()->getEstimatedTime());
-        static::assertFalse($resolution->getMetadata()->isRedirectRequired());
+        $metadata = $resolution->getMetadata();
+        static::assertNotNull($metadata);
+        static::assertSame('high', $metadata->getCostImpact());
+        static::assertSame('medium', $metadata->getWaist());
+        static::assertTrue($metadata->isAutoApplicable());
+        static::assertSame('2 hours', $metadata->getEstimatedTime());
+        static::assertFalse($metadata->isRedirectRequired());
 
         static::assertSame($validationIssueBuilder, $resolutionBuilder->end());
     }

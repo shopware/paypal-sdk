@@ -20,7 +20,7 @@ use Shopware\PayPalSDK\Struct\V3\ManagedAccount\IndividualOwner\BirthDetails;
 use Shopware\PayPalSDK\Struct\V3\ManagedAccount\IndividualOwner\IdentificationDocument;
 use Shopware\PayPalSDK\Struct\V3\ManagedAccount\IndividualOwner\IdentificationDocumentCollection;
 
-#[OA\Schema(schema: 'paypal_v3_managed_account_individual_owner')]
+#[OA\Schema(schema: 'paypal_v3_managed_account_individual_owner', required: ['id', 'primaryResidence', 'birthDetails'])]
 class IndividualOwner extends Struct
 {
     #[OA\Property(type: 'string')]

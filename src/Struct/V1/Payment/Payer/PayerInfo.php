@@ -23,7 +23,7 @@ class PayerInfo extends ExecutePayerInfo
     #[OA\Property(type: 'string')]
     protected string $lastName;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $billingAddress = null;
 
     #[OA\Property(ref: ShippingAddress::class)]

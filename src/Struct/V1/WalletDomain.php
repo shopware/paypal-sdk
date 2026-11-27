@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\WalletDomain\Domain;
 use Shopware\PayPalSDK\Struct\V1\WalletDomain\Merchant;
 
-#[OA\Schema(schema: 'paypal_v1_wallet_domain')]
+#[OA\Schema(schema: 'paypal_v1_wallet_domain', required: ['providerType', 'domain'])]
 class WalletDomain extends Struct
 {
     #[OA\Property(type: 'string')]
@@ -21,10 +21,10 @@ class WalletDomain extends Struct
     #[OA\Property(ref: Domain::class)]
     protected Domain $domain;
 
-    #[OA\Property(ref: Merchant::class, nullable: true)]
+    #[OA\Property(ref: Merchant::class)]
     protected ?Merchant $merchant = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $reason = null;
 
     public function getProviderType(): string

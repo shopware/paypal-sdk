@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bank\SepaDebit;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_bank')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_bank', required: ['sepaDebit'])]
 class Bank extends Struct
 {
     #[OA\Property(ref: SepaDebit::class)]

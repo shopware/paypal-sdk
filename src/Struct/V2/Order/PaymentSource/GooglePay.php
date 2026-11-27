@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_google_pay')]
 class GooglePay extends AbstractPaymentSource
 {
-    #[OA\Property(ref: Card::class, nullable: true)]
+    #[OA\Property(ref: Card::class)]
     protected ?Card $card = null;
 
-    #[OA\Property(ref: Attributes::class, nullable: true)]
+    #[OA\Property(ref: Attributes::class)]
     protected ?Attributes $attributes = null;
 
     public function getCard(): ?Card

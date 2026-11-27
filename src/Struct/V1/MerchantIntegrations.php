@@ -16,7 +16,19 @@ use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\OauthIntegrationCollection
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Product;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\ProductCollection;
 
-#[OA\Schema(schema: 'paypal_v1_merchant_integrations')]
+#[OA\Schema(
+    schema: 'paypal_v1_merchant_integrations',
+    required: [
+        'merchantId',
+        'trackingId',
+        'paymentsReceivable',
+        'legalName',
+        'primaryEmail',
+        'primaryEmailConfirmed',
+        'primaryCurrency',
+        'country',
+    ]
+)]
 class MerchantIntegrations extends Struct
 {
     #[OA\Property(type: 'string')]
@@ -28,7 +40,7 @@ class MerchantIntegrations extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Product::class))]
     protected ?ProductCollection $products = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Capability::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Capability::class))]
     protected ?CapabilityCollection $capabilities = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: OauthIntegration::class))]

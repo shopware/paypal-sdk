@@ -25,6 +25,7 @@ commit pinned in [`SpecRepository::REF`](SpecRepository.php) and cached in
 | ----------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | `type`      | the property type cannot hold the spec's value: assigning throws or loses data  | change the type                                                |
 | `getter`    | the getter throws on a missing field, and a full response example omits it      | make the getter nullable                                       |
+| `optional`  | a struct that is only sent has a non-nullable property for an optional field    | make the property nullable                                     |
 | `attribute` | a length, pattern, format or bound in `#[OA\Property]` differs from the spec    | `--fix`                                                        |
 | `enum`      | an enum value only one of SDK and spec knows                                    | add or remove the value                                        |
 | `field`     | the property is read or written under another name than the spec's field       | rename the property                                            |
@@ -67,7 +68,7 @@ the check and has to be removed.
 
 Set `SpecRepository::REF` to a newer commit and run the check.
 
-- `type`, `getter` and `field` findings are struct bugs.
+- `type`, `getter`, `optional` and `field` findings are struct bugs.
 - `attribute` findings are changed limits: review them, then run `--fix`.
 - Stale baseline entries are deviations PayPal resolved: remove them.
 - `--kind=spec-only` lists the fields PayPal added.
@@ -101,6 +102,12 @@ examples serve as evidence instead: a getter is reported only if it throws on a
 fresh instance and an example omits its field while including the parent object,
 like `Capture::$processorResponse`, which only card payments carry. Only the orders
 and payments specs have examples, so other getters are not checked.
+
+### Request fields
+
+Request schemas mark required fields reliably. In a struct that is only sent, a
+property is non-nullable only if every paired schema requires its field. A field
+no schema defines counts as optional.
 
 ### Facets
 

@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Amount\Breakdown;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_amount')]
 class Amount extends Money
 {
-    #[OA\Property(ref: Breakdown::class, nullable: true)]
+    #[OA\Property(ref: Breakdown::class)]
     protected ?Breakdown $breakdown = null;
 
     public function getBreakdown(): ?Breakdown

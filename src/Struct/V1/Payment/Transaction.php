@@ -15,7 +15,10 @@ use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\Payee;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResourceCollection;
 
-#[OA\Schema(schema: 'paypal_v1_payment_transaction')]
+#[OA\Schema(
+    schema: 'paypal_v1_payment_transaction',
+    required: ['amount', 'payee', 'softDescriptor', 'description', 'custom']
+)]
 class Transaction extends Struct
 {
     #[OA\Property(ref: Amount::class)]
@@ -24,13 +27,13 @@ class Transaction extends Struct
     #[OA\Property(ref: Payee::class)]
     protected Payee $payee;
 
-    #[OA\Property(ref: ItemList::class, nullable: true)]
+    #[OA\Property(ref: ItemList::class)]
     protected ?ItemList $itemList = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: RelatedResource::class))]
     protected ?RelatedResourceCollection $relatedResources = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $invoiceNumber = null;
 
     #[OA\Property(type: 'string')]

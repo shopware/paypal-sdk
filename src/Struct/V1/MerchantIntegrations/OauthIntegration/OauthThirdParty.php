@@ -17,7 +17,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 class OauthThirdParty extends Struct
 {
     #[OA\Property(type: 'string')]
-    protected string $accessToken;
+    protected ?string $accessToken = null;
 
     #[OA\Property(type: 'string')]
     protected string $merchantClientId;
@@ -26,18 +26,18 @@ class OauthThirdParty extends Struct
     protected string $partnerClientId;
 
     #[OA\Property(type: 'string')]
-    protected string $refreshToken;
+    protected ?string $refreshToken = null;
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     protected array $scopes;
 
-    public function getAccessToken(): string
+    public function getAccessToken(): ?string
     {
         return $this->accessToken;
     }
 
-    public function setAccessToken(string $accessToken): void
+    public function setAccessToken(?string $accessToken): void
     {
         $this->accessToken = $accessToken;
     }
@@ -62,12 +62,12 @@ class OauthThirdParty extends Struct
         $this->partnerClientId = $partnerClientId;
     }
 
-    public function getRefreshToken(): string
+    public function getRefreshToken(): ?string
     {
         return $this->refreshToken;
     }
 
-    public function setRefreshToken(string $refreshToken): void
+    public function setRefreshToken(?string $refreshToken): void
     {
         $this->refreshToken = $refreshToken;
     }

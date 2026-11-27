@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Item;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ItemCollection;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_tracker')]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_tracker', required: ['id'])]
 class Tracker extends Struct
 {
     public const string STATUS_SHIPPED = 'SHIPPED';
@@ -23,16 +23,16 @@ class Tracker extends Struct
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $status = null;
 
-    #[OA\Property(type: 'boolean', nullable: true)]
+    #[OA\Property(type: 'boolean')]
     protected ?bool $notifyPayer = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected ?LinkCollection $links = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]
     protected ?ItemCollection $items = null;
 
     public function getId(): string

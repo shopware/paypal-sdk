@@ -13,7 +13,24 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 use Shopware\PayPalSDK\Struct\V2\Common\Upc;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data_card_line_item')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_supplementary_data_card_line_item',
+    required: [
+        'name',
+        'quantity',
+        'description',
+        'sku',
+        'url',
+        'imageUrl',
+        'upc',
+        'unitAmount',
+        'tax',
+        'commodityCode',
+        'discountAmount',
+        'totalAmount',
+        'unitOfMeasure',
+    ]
+)]
 class LineItem extends Struct
 {
     #[OA\Property(type: 'string', maxLength: 127, minLength: 1)]

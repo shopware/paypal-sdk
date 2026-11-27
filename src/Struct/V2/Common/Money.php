@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_common_money')]
+#[OA\Schema(schema: 'paypal_v2_common_money', required: ['currencyCode', 'value'])]
 class Money extends Struct
 {
     #[OA\Property(type: 'string', maxLength: 3, minLength: 3)]

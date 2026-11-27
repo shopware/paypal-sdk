@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V3\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v3_common_phone_number')]
+#[OA\Schema(schema: 'paypal_v3_common_phone_number', required: ['id', 'nationalNumber', 'countryCode', 'type'])]
 class PhoneNumber extends Struct
 {
     #[OA\Property(type: 'string')]

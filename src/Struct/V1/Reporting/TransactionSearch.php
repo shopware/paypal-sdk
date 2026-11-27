@@ -10,22 +10,22 @@ namespace Shopware\PayPalSDK\Struct\V1\Reporting;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_reporting_transaction_search')]
+#[OA\Schema(schema: 'paypal_v1_reporting_transaction_search', required: ['startDate', 'endDate'])]
 class TransactionSearch extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true, minLength: 17, maxLength: 19)]
+    #[OA\Property(type: 'string', minLength: 17, maxLength: 19)]
     protected ?string $transactionId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $transactionType = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $transactionStatus = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $transactionAmount = null;
 
-    #[OA\Property(type: 'string', nullable: true, maxLength: 3, minLength: 3)]
+    #[OA\Property(type: 'string', maxLength: 3, minLength: 3)]
     protected ?string $transactionCurrency = null;
 
     #[OA\Property(type: 'string', format: 'date-time')]
@@ -34,25 +34,25 @@ class TransactionSearch extends Struct
     #[OA\Property(type: 'string', format: 'date-time')]
     protected \DateTimeInterface $endDate;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $paymentInstrumentType = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $storeId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $terminalId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $fields = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $balanceAffectingRecordsOnly = null;
 
-    #[OA\Property(type: 'integer', nullable: true, minimum: 1, maximum: 500)]
+    #[OA\Property(type: 'integer', minimum: 1, maximum: 500)]
     protected ?int $pageSize = null;
 
-    #[OA\Property(type: 'integer', nullable: true, minimum: 1, maximum: 2147483647)]
+    #[OA\Property(type: 'integer', minimum: 1, maximum: 2147483647)]
     protected ?int $page = null;
 
     public function getTransactionId(): ?string

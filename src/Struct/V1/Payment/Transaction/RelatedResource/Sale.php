@@ -10,7 +10,22 @@ namespace Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\V1\Common\Value;
 
-#[OA\Schema(schema: 'paypal_v1_payment_transaction_related_resource_sale')]
+#[OA\Schema(
+    schema: 'paypal_v1_payment_transaction_related_resource_sale',
+    required: [
+        'id',
+        'state',
+        'amount',
+        'paymentMode',
+        'createTime',
+        'updateTime',
+        'protectionEligibility',
+        'protectionEligibilityType',
+        'receiptId',
+        'parentPayment',
+        'transactionFee',
+    ]
+)]
 class Sale extends RelatedResource
 {
     #[OA\Property(ref: Value::class)]

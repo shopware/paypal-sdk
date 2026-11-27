@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_order_update_callback_config')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_payment_source_common_attributes_order_update_callback_config',
+    required: ['callbackUrl', 'callbackEvents']
+)]
 class OrderUpdateCallbackConfig extends Struct
 {
     public const string CALLBACK_EVENT_SHIPPING_ADDRESS = 'SHIPPING_ADDRESS';

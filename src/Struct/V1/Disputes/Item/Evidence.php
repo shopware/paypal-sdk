@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\Document;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\DocumentCollection;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\EvidenceInfo;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_evidence')]
+#[OA\Schema(schema: 'paypal_v1_disputes_item_evidence', required: ['evidenceType', 'evidenceInfo', 'notes', 'itemId'])]
 class Evidence extends Struct
 {
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]

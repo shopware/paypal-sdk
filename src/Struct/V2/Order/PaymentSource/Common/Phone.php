@@ -11,10 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\PhoneNumber;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_phone')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_phone', required: ['phoneNumber'])]
 class Phone extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $phoneType = null;
 
     #[OA\Property(ref: PhoneNumber::class)]

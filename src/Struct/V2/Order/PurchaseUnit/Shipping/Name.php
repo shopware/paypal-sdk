@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_name')]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_name', required: ['fullName'])]
 class Name extends Struct
 {
     #[OA\Property(type: 'string', maxLength: 300)]

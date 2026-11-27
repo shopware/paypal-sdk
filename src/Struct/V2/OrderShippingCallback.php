@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\ShippingOption;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
-#[OA\Schema(schema: 'paypal_v2_order_shipping_callback')]
+#[OA\Schema(schema: 'paypal_v2_order_shipping_callback', required: ['id', 'shippingAddress'])]
 class OrderShippingCallback extends Struct
 {
     #[OA\Property(type: 'string')]

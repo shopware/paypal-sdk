@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1\Payment\Payer;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_payment_payer_execute_payer_info')]
+#[OA\Schema(schema: 'paypal_v1_payment_payer_execute_payer_info', required: ['payerId'])]
 class ExecutePayerInfo extends Struct
 {
     #[OA\Property(type: 'string')]

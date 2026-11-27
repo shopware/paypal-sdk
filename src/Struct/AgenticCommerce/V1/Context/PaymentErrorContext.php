@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_payment_error_context')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_payment_error_context', required: ['specificIssue'])]
 class PaymentErrorContext extends AbstractContext
 {
     public const string ISSUE__PAYMENT_AMOUNT_TOO_LARGE = 'PAYMENT_AMOUNT_TOO_LARGE';

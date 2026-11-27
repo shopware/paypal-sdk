@@ -9,7 +9,22 @@ namespace Shopware\PayPalSDK\Struct\V1\Payment\Transaction\RelatedResource;
 
 use OpenApi\Attributes as OA;
 
-#[OA\Schema(schema: 'paypal_v1_payment_transaction_related_resource_order')]
+#[OA\Schema(
+    schema: 'paypal_v1_payment_transaction_related_resource_order',
+    required: [
+        'id',
+        'state',
+        'amount',
+        'paymentMode',
+        'createTime',
+        'updateTime',
+        'protectionEligibility',
+        'protectionEligibilityType',
+        'receiptId',
+        'parentPayment',
+        'reasonCode',
+    ]
+)]
 class Order extends RelatedResource
 {
     #[OA\Property(type: 'string')]

@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_inventory_issue_context')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_inventory_issue_context', required: ['specificIssue'])]
 class InventoryIssueContext extends AbstractContext
 {
     public const string ISSUE__ITEM_OUT_OF_STOCK = 'ITEM_OUT_OF_STOCK';

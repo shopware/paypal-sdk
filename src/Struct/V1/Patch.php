@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_patch')]
+#[OA\Schema(schema: 'paypal_v1_patch', required: ['op', 'path'])]
 class Patch extends Struct
 {
     public const string OPERATION_ADD = 'add';
@@ -27,11 +27,11 @@ class Patch extends Struct
     protected string $path;
 
     /** @var mixed[]|string */
-    #[OA\Property(oneOf: [
+    #[OA\Property(nullable: false, oneOf: [
         new OA\Schema(type: 'string'),
         new OA\Schema(type: 'array', items: new OA\Items(type: 'mixed')),
     ])]
-    protected array|string $value;
+    protected array|string|null $value = null;
 
     public function getOp(): string
     {
@@ -56,7 +56,7 @@ class Patch extends Struct
     /**
      * @return mixed[]|string
      */
-    public function getValue(): array|string
+    public function getValue(): array|string|null
     {
         return $this->value;
     }
@@ -64,7 +64,7 @@ class Patch extends Struct
     /**
      * @param mixed[]|string $value
      */
-    public function setValue(array|string $value): void
+    public function setValue(array|string|null $value): void
     {
         $this->value = $value;
     }

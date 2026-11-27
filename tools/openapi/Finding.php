@@ -23,6 +23,11 @@ final readonly class Finding
     public const string GETTER = 'getter';
 
     /**
+     * A struct that is only sent declares a field non-nullable that a request schema marks optional.
+     */
+    public const string OPTIONAL = 'optional';
+
+    /**
      * A {@see Facets::MANAGED} argument of `#[OA\Property]` differs from the spec.
      */
     public const string ATTRIBUTE = 'attribute';
@@ -55,7 +60,7 @@ final readonly class Finding
     /**
      * Kinds that fail the check.
      */
-    public const array GATING = [self::TYPE, self::GETTER, self::ATTRIBUTE, self::ENUM, self::FIELD, self::SDK_ONLY, self::UNPAIRED];
+    public const array GATING = [self::TYPE, self::GETTER, self::OPTIONAL, self::ATTRIBUTE, self::ENUM, self::FIELD, self::SDK_ONLY, self::UNPAIRED];
 
     public const array KINDS = [...self::GATING, self::SPEC_ONLY];
 

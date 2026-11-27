@@ -15,7 +15,10 @@ use Shopware\PayPalSDK\Struct\V1\Plan\BillingCycle\PricingScheme;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_plan_billing_cycle')]
+#[OA\Schema(
+    schema: 'paypal_v1_plan_billing_cycle',
+    required: ['frequency', 'tenureType', 'sequence', 'pricingScheme', 'totalCycles']
+)]
 class BillingCycle extends Struct
 {
     #[OA\Property(ref: Frequency::class)]

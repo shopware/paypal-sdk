@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_token')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_token', required: ['id'])]
 class Token extends Struct
 {
     public const string TYPE_BANK_REFERENCE_TOKEN = 'BANK_REFERENCE_TOKEN';

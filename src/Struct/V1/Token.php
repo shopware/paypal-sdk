@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V1;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_token')]
+#[OA\Schema(
+    schema: 'paypal_v1_token',
+    required: ['scope', 'nonce', 'accessToken', 'tokenType', 'appId', 'expiresIn', 'expireDateTime']
+)]
 class Token extends Struct
 {
     public const float TTL_THRESHOLD_PERCENT = 0.95; // -5%
@@ -42,7 +45,7 @@ class Token extends Struct
     #[OA\Property(type: 'string')]
     protected string $appId;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $idToken = null;
 
     /**

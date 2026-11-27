@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Common\SellerProtection;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_authorization')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_payments_authorization',
+    required: ['status', 'id', 'sellerProtection', 'expirationTime']
+)]
 class Authorization extends Payment
 {
     #[OA\Property(ref: SellerProtection::class)]

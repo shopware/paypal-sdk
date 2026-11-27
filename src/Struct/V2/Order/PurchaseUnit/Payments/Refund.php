@@ -10,13 +10,16 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Refund\SellerPayableBreakdown;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_refund')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_payments_refund',
+    required: ['status', 'id', 'sellerPayableBreakdown']
+)]
 class Refund extends Payment
 {
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_INVOICE_ID, minLength: 1, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_INVOICE_ID, minLength: 1)]
     protected ?string $invoiceId = null;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NOTE_TO_PAYER, minLength: 1, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NOTE_TO_PAYER, minLength: 1)]
     protected ?string $noteToPayer = null;
 
     #[OA\Property(ref: SellerPayableBreakdown::class)]

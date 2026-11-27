@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V1\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_common_details')]
+#[OA\Schema(
+    schema: 'paypal_v1_common_details',
+    required: ['subtotal', 'shipping', 'tax', 'handlingFee', 'shippingDiscount', 'discount', 'insurance']
+)]
 class Details extends Struct
 {
     #[OA\Property(type: 'string')]

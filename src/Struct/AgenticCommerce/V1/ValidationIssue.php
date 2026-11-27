@@ -93,7 +93,7 @@ class ValidationIssue extends Struct
     /**
      * Category-specific context information
      */
-    #[OA\Property(oneOf: [
+    #[OA\Property(nullable: false, oneOf: [
         new OA\Schema(ref: InventoryIssueContext::class),
         new OA\Schema(ref: PricingErrorContext::class),
         new OA\Schema(ref: ShippingErrorContext::class),

@@ -15,10 +15,13 @@ use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Reporting\Transactions\TransactionDetail;
 use Shopware\PayPalSDK\Struct\V1\Reporting\Transactions\TransactionDetailCollection;
 
-#[OA\Schema(schema: 'paypal_v1_reporting_transactions')]
+#[OA\Schema(
+    schema: 'paypal_v1_reporting_transactions',
+    required: ['accountNumber', 'startDate', 'endDate', 'lastRefreshedDatetime', 'page', 'totalItems', 'totalPages']
+)]
 class Transactions extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: TransactionDetail::class), minItems: 1, nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: TransactionDetail::class), minItems: 1)]
     protected ?TransactionDetailCollection $transactionDetails = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_OR_EMPTY)]

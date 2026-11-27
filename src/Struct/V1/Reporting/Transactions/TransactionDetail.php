@@ -13,25 +13,25 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_transaction_detail')]
 class TransactionDetail extends Struct
 {
-    #[OA\Property(ref: TransactionInfo::class, nullable: true)]
+    #[OA\Property(ref: TransactionInfo::class)]
     protected ?TransactionInfo $transactionInfo = null;
 
-    #[OA\Property(ref: PayerInfo::class, nullable: true)]
+    #[OA\Property(ref: PayerInfo::class)]
     protected ?PayerInfo $payerInfo = null;
 
-    #[OA\Property(ref: ShippingInfo::class, nullable: true)]
+    #[OA\Property(ref: ShippingInfo::class)]
     protected ?ShippingInfo $shippingInfo = null;
 
-    #[OA\Property(ref: CartInfo::class, nullable: true)]
+    #[OA\Property(ref: CartInfo::class)]
     protected ?CartInfo $cartInfo = null;
 
-    #[OA\Property(ref: StoreInfo::class, nullable: true)]
+    #[OA\Property(ref: StoreInfo::class)]
     protected ?StoreInfo $storeInfo = null;
 
-    #[OA\Property(ref: AuctionInfo::class, nullable: true)]
+    #[OA\Property(ref: AuctionInfo::class)]
     protected ?AuctionInfo $auctionInfo = null;
 
-    #[OA\Property(ref: IncentiveInfo::class, nullable: true)]
+    #[OA\Property(ref: IncentiveInfo::class)]
     protected ?IncentiveInfo $incentiveInfo = null;
 
     public function getTransactionInfo(): ?TransactionInfo

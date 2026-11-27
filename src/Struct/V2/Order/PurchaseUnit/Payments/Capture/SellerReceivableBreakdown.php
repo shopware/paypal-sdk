@@ -11,13 +11,16 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_capture_seller_receivable_breakdown')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_payments_capture_seller_receivable_breakdown',
+    required: ['grossAmount', 'netAmount']
+)]
 class SellerReceivableBreakdown extends Struct
 {
     #[OA\Property(ref: Money::class)]
     protected Money $grossAmount;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $paypalFee = null;
 
     #[OA\Property(ref: Money::class)]

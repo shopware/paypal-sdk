@@ -14,22 +14,37 @@ use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Common\Value;
 
-#[OA\Schema(schema: 'paypal_v1_webhook_resource')]
+#[OA\Schema(
+    schema: 'paypal_v1_webhook_resource',
+    required: [
+        'id',
+        'updateTime',
+        'amount',
+        'paymentMode',
+        'createTime',
+        'clearingTime',
+        'protectionEligibilityType',
+        'protectionEligibility',
+        'transactionFee',
+        'invoiceNumber',
+        'state',
+    ]
+)]
 class Resource extends Struct
 {
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $parentPayment = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $billingAgreementId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $saleId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $refundReasonCode = null;
 
     #[OA\Property(type: 'string')]
@@ -65,7 +80,7 @@ class Resource extends Struct
     #[OA\Property(type: 'string')]
     protected string $state;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $merchantId = null;
 
     public function getId(): string

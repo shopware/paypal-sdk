@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\Reporting\Money;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_tax_amount')]
 class TaxAmount extends Struct
 {
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $taxAmount = null;
 
     public function getTaxAmount(): ?Money

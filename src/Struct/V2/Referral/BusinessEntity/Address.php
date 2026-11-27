@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_referral_business_entity_address')]
+#[OA\Schema(schema: 'paypal_v2_referral_business_entity_address', required: ['countryCode', 'type'])]
 class Address extends Struct
 {
     public const string TYPE_WORK = 'WORK';

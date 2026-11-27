@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_value_custom_sizing_info_value')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_value_custom_sizing_info_value', required: ['measurements'])]
 class CustomSizingInfoValue extends Struct implements ValueInterface
 {
     public const string SIZE__TIGHT = 'tight';

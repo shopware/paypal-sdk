@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Card;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Risk;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data')]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data', required: ['card', 'risk'])]
 class SupplementaryData extends Struct
 {
     #[OA\Property(ref: Card::class)]

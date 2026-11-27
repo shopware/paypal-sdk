@@ -17,7 +17,10 @@ use Shopware\PayPalSDK\Struct\V1\Subscription\BillingInfo\OutstandingBalance;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_subscription_billing_info')]
+#[OA\Schema(
+    schema: 'paypal_v1_subscription_billing_info',
+    required: ['outstandingBalance', 'lastPayment', 'failedPaymentsCount']
+)]
 class BillingInfo extends Struct
 {
     #[OA\Property(ref: OutstandingBalance::class)]
@@ -29,7 +32,7 @@ class BillingInfo extends Struct
     #[OA\Property(ref: LastPayment::class)]
     protected LastPayment $lastPayment;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $nextBillingTime = null;
 
     #[OA\Property(type: 'integer')]

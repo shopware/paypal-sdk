@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_partner_action')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_partner_action',
+    required: ['id', 'name', 'createTime', 'updateTime', 'dueTime', 'status', 'amount']
+)]
 class PartnerAction extends Struct
 {
     #[OA\Property(type: 'string')]

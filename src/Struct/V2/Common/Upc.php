@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_common_upc')]
+#[OA\Schema(schema: 'paypal_v2_common_upc', required: ['type', 'code'])]
 class Upc extends Struct
 {
     #[OA\Property(type: 'string')]

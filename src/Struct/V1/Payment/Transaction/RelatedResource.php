@@ -25,19 +25,19 @@ class RelatedResource extends Struct
     public const string REFUND = 'refund';
     public const string CAPTURE = 'capture';
 
-    #[OA\Property(ref: Sale::class, nullable: true)]
+    #[OA\Property(ref: Sale::class)]
     protected ?Sale $sale = null;
 
-    #[OA\Property(ref: Authorization::class, nullable: true)]
+    #[OA\Property(ref: Authorization::class)]
     protected ?Authorization $authorization = null;
 
-    #[OA\Property(ref: Order::class, nullable: true)]
+    #[OA\Property(ref: Order::class)]
     protected ?Order $order = null;
 
-    #[OA\Property(ref: Refund::class, nullable: true)]
+    #[OA\Property(ref: Refund::class)]
     protected ?Refund $refund = null;
 
-    #[OA\Property(ref: Capture::class, nullable: true)]
+    #[OA\Property(ref: Capture::class)]
     protected ?Capture $capture = null;
 
     public function getSale(): ?Sale

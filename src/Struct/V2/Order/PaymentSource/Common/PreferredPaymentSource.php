@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_preferred_payment_source')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_preferred_payment_source', required: ['vaultId'])]
 class PreferredPaymentSource extends Struct
 {
     #[OA\Property(type: 'string')]

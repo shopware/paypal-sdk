@@ -85,21 +85,25 @@ class ValidationIssueBuilderTest extends TestCase
         static::assertSame('Remove item', $firstResolution->getLabel());
         static::assertSame('https://example.com/remove', $firstResolution->getUrl());
         static::assertSame(ResolutionOption::ACTION__ACCEPT_TERMS, $firstResolution->getAction());
-        static::assertSame('high', $firstResolution->getMetadata()->getCostImpact());
-        static::assertSame('medium', $firstResolution->getMetadata()->getWaist());
-        static::assertTrue($firstResolution->getMetadata()->isAutoApplicable());
-        static::assertSame('2 hours', $firstResolution->getMetadata()->getEstimatedTime());
-        static::assertFalse($firstResolution->getMetadata()->isRedirectRequired());
+        $firstMetadata = $firstResolution->getMetadata();
+        static::assertNotNull($firstMetadata);
+        static::assertSame('high', $firstMetadata->getCostImpact());
+        static::assertSame('medium', $firstMetadata->getWaist());
+        static::assertTrue($firstMetadata->isAutoApplicable());
+        static::assertSame('2 hours', $firstMetadata->getEstimatedTime());
+        static::assertFalse($firstMetadata->isRedirectRequired());
 
         $secondResolution = $resolutions->last();
         static::assertNotNull($secondResolution);
         static::assertSame('Contact support', $secondResolution->getLabel());
         static::assertSame('https://example.com/contact', $secondResolution->getUrl());
         static::assertSame(ResolutionOption::ACTION__CONTACT_SUPPORT, $secondResolution->getAction());
-        static::assertSame('low', $secondResolution->getMetadata()->getCostImpact());
-        static::assertSame('low', $secondResolution->getMetadata()->getWaist());
-        static::assertFalse($secondResolution->getMetadata()->isAutoApplicable());
-        static::assertSame('1 hour', $secondResolution->getMetadata()->getEstimatedTime());
-        static::assertTrue($secondResolution->getMetadata()->isRedirectRequired());
+        $secondMetadata = $secondResolution->getMetadata();
+        static::assertNotNull($secondMetadata);
+        static::assertSame('low', $secondMetadata->getCostImpact());
+        static::assertSame('low', $secondMetadata->getWaist());
+        static::assertFalse($secondMetadata->isAutoApplicable());
+        static::assertSame('1 hour', $secondMetadata->getEstimatedTime());
+        static::assertTrue($secondMetadata->isRedirectRequired());
     }
 }

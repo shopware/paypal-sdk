@@ -12,34 +12,34 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Link;
 use Shopware\PayPalSDK\Struct\V2\Common\LinkCollection;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_vault')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_common_attributes_vault', required: ['status'])]
 class Vault extends Struct
 {
     public const string STORE_IN_VAULT_ON_SUCCESS = 'ON_SUCCESS';
     public const string USAGE_TYPE_MERCHANT = 'MERCHANT';
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
     protected ?string $id = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $storeInVault = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $usageType = null;
 
     #[OA\Property(type: 'string')]
     protected string $status;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $confirmPaymentToken = null;
 
     #[OA\Property(type: 'boolean')]
     protected ?bool $permitMultiplePaymentTokens = null;
 
-    #[OA\Property(ref: Customer::class, nullable: true)]
+    #[OA\Property(ref: Customer::class)]
     protected ?Customer $customer = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10, nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]
     protected ?LinkCollection $links = null;
 
     public function getId(): ?string

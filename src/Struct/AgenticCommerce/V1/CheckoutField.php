@@ -128,7 +128,7 @@ class CheckoutField extends Struct
      * Structured value based on field type. Each checkout field type has a specific value schema.
      * Use oneOf to validate against the appropriate structure for the field type.
      */
-    #[OA\Property(oneOf: [
+    #[OA\Property(nullable: false, oneOf: [
         new OA\Schema(ref: AgeVerificationValue::class),
         new OA\Schema(ref: GiftRecipientEmailValue::class),
         new OA\Schema(ref: GiftRecipientNameValue::class),
@@ -141,7 +141,7 @@ class CheckoutField extends Struct
         new OA\Schema(ref: TermsAcceptanceValue::class),
         new OA\Schema(ref: PrivacyConsentValue::class),
     ])]
-    protected ValueInterface&Struct $value;
+    protected (ValueInterface&Struct)|null $value = null;
 
     /**
      * Additional context and metadata for the checkout field.
@@ -182,12 +182,12 @@ class CheckoutField extends Struct
         $this->status = $status;
     }
 
-    public function getValue(): ValueInterface&Struct
+    public function getValue(): (ValueInterface&Struct)|null
     {
         return $this->value;
     }
 
-    public function setValue(ValueInterface&Struct $value): void
+    public function setValue((ValueInterface&Struct)|null $value): void
     {
         $this->value = $value;
     }

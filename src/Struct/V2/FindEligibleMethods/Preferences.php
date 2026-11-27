@@ -24,66 +24,66 @@ class Preferences extends Struct
     public const string PAYMENT_FLOW_VAULT_WITHOUT_PAYMENT = 'VAULT_WITHOUT_PAYMENT';
 
     #[OA\Property(type: 'string', enum: [self::PAYMENT_FLOW_ONE_TIME_PAYMENT, self::PAYMENT_FLOW_RECURRING_PAYMENT, self::PAYMENT_FLOW_VAULT_WITH_PAYMENT, self::PAYMENT_FLOW_VAULT_WITHOUT_PAYMENT])]
-    protected string $paymentFlow;
+    protected ?string $paymentFlow = null;
 
     #[OA\Property(type: 'boolean')]
-    protected bool $commit;
+    protected ?bool $commit = null;
 
     #[OA\Property(type: 'string', enum: [ConstantsV2::INTENT_CAPTURE, ConstantsV2::INTENT_AUTHORIZE])]
-    protected string $intent;
+    protected ?string $intent = null;
 
     #[OA\Property(type: 'boolean')]
-    protected bool $vault;
+    protected ?bool $vault = null;
 
     #[OA\Property(ref: PaymentSourceConstraint::class)]
-    protected PaymentSourceConstraint $paymentSourceConstraint;
+    protected ?PaymentSourceConstraint $paymentSourceConstraint = null;
 
-    public function getPaymentFlow(): string
+    public function getPaymentFlow(): ?string
     {
         return $this->paymentFlow;
     }
 
-    public function setPaymentFlow(string $paymentFlow): void
+    public function setPaymentFlow(?string $paymentFlow): void
     {
         $this->paymentFlow = $paymentFlow;
     }
 
-    public function isCommit(): bool
+    public function isCommit(): ?bool
     {
         return $this->commit;
     }
 
-    public function setCommit(bool $commit): void
+    public function setCommit(?bool $commit): void
     {
         $this->commit = $commit;
     }
 
-    public function getIntent(): string
+    public function getIntent(): ?string
     {
         return $this->intent;
     }
 
-    public function setIntent(string $intent): void
+    public function setIntent(?string $intent): void
     {
         $this->intent = $intent;
     }
 
-    public function isVault(): bool
+    public function isVault(): ?bool
     {
         return $this->vault;
     }
 
-    public function setVault(bool $vault): void
+    public function setVault(?bool $vault): void
     {
         $this->vault = $vault;
     }
 
-    public function getPaymentSourceConstraint(): PaymentSourceConstraint
+    public function getPaymentSourceConstraint(): ?PaymentSourceConstraint
     {
         return $this->paymentSourceConstraint;
     }
 
-    public function setPaymentSourceConstraint(PaymentSourceConstraint $paymentSourceConstraint): void
+    public function setPaymentSourceConstraint(?PaymentSourceConstraint $paymentSourceConstraint): void
     {
         $this->paymentSourceConstraint = $paymentSourceConstraint;
     }

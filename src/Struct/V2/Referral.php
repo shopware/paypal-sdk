@@ -19,7 +19,10 @@ use Shopware\PayPalSDK\Struct\V2\Referral\Operation;
 use Shopware\PayPalSDK\Struct\V2\Referral\OperationCollection;
 use Shopware\PayPalSDK\Struct\V2\Referral\PartnerConfigOverride;
 
-#[OA\Schema(schema: 'paypal_v2_referral')]
+#[OA\Schema(
+    schema: 'paypal_v2_referral',
+    required: ['businessEntity', 'preferredLanguageCode', 'trackingId', 'partnerConfigOverride', 'legalCountryCode']
+)]
 class Referral extends Struct
 {
     public const string PRODUCT_TYPE_PPCP = 'PPCP';

@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Webhook\EventType;
 use Shopware\PayPalSDK\Struct\V1\Webhook\EventTypeCollection;
 
-#[OA\Schema(schema: 'paypal_v1_webhook')]
+#[OA\Schema(schema: 'paypal_v1_webhook', required: ['id', 'url'])]
 class Webhook extends Struct
 {
     #[OA\Property(type: 'string')]

@@ -15,7 +15,10 @@ use Shopware\PayPalSDK\Struct\V2\EligibleMethodsData\EligibleMethods\AdvancedCar
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_advanced_cards')]
+#[OA\Schema(
+    schema: 'paypal_v2_eligible_methods_data_eligible_methods_advanced_cards',
+    required: ['supportsInstallements', 'cobrandedEnabled']
+)]
 class AdvancedCards extends Struct
 {
     #[OA\Property(type: 'boolean')]

@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_customer')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_customer', required: ['name'])]
 class Customer extends Struct
 {
     #[OA\Property(ref: CustomerName::class)]

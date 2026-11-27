@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_p24')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_p24', required: ['name', 'countryCode', 'email'])]
 class P24 extends AbstractAPMPaymentSource
 {
     #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::EMAIL_ADDRESS)]

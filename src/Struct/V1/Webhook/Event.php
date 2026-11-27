@@ -23,7 +23,10 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Refund;
 use Shopware\PayPalSDK\Struct\V3\PaymentToken;
 
-#[OA\Schema(schema: 'paypal_v1_webhook_event')]
+#[OA\Schema(
+    schema: 'paypal_v1_webhook_event',
+    required: ['id', 'eventType', 'summary', 'createTime', 'eventVersion', 'applicationContext']
+)]
 class Event extends Struct
 {
     public const string RESOURCE_TYPE_AUTHORIZATION = 'authorization';
@@ -58,7 +61,7 @@ class Event extends Struct
     #[OA\Property(type: 'string')]
     protected string $summary;
 
-    #[OA\Property(nullable: true, oneOf: [
+    #[OA\Property(nullable: false, oneOf: [
         new OA\Schema(ref: PaymentToken::class),
         new OA\Schema(ref: Order::class),
         new OA\Schema(ref: Authorization::class),

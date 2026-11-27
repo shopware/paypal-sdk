@@ -16,16 +16,16 @@ use Shopware\PayPalSDK\Struct\V1\WalletDomain\WalletDomainCollection;
 #[OA\Schema(schema: 'paypal_v1_wallet_domains')]
 class WalletDomains extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $totalItems = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $totalPages = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: WalletDomain::class))]
     protected ?WalletDomainCollection $walletDomains = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected ?LinkCollection $links = null;
 
     public function getTotalItems(): ?string

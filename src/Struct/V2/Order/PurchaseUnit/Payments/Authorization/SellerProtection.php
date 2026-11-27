@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Authorization
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_authorization_seller_protection')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_payments_authorization_seller_protection',
+    required: ['status', 'disputeCategories']
+)]
 class SellerProtection extends Struct
 {
     #[OA\Property(type: 'string')]

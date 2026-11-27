@@ -12,16 +12,16 @@ use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payee\DisplayData;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payee')]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payee', required: ['emailAddress'])]
 class Payee extends Struct
 {
     #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::CONTAINS_EMAIL_ADDRESS)]
     protected string $emailAddress;
 
-    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID)]
     protected ?string $merchantId = null;
 
-    #[OA\Property(ref: DisplayData::class, nullable: true)]
+    #[OA\Property(ref: DisplayData::class)]
     protected ?DisplayData $displayData = null;
 
     public function getEmailAddress(): string

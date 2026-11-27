@@ -18,7 +18,10 @@ use Shopware\PayPalSDK\Struct\V3\Common\PhoneNumber;
 use Shopware\PayPalSDK\Struct\V3\Common\PhoneNumberCollection;
 use Shopware\PayPalSDK\Struct\V3\ManagedAccount\BusinessEntity\IncorporationDetails;
 
-#[OA\Schema(schema: 'paypal_v3_managed_account_business_entity')]
+#[OA\Schema(
+    schema: 'paypal_v3_managed_account_business_entity',
+    required: ['type', 'merchantCategoryCode', 'incorporationDetails', 'website', 'registeredBusinessAddress']
+)]
 class BusinessEntity extends Struct
 {
     #[OA\Property(type: 'string')]

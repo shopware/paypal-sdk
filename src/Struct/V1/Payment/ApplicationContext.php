@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1\Payment;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_payment_application_context')]
+#[OA\Schema(schema: 'paypal_v1_payment_application_context', required: ['brandName', 'locale', 'landingPage'])]
 class ApplicationContext extends Struct
 {
     public const string LANDING_PAGE_TYPE_LOGIN = 'Login';

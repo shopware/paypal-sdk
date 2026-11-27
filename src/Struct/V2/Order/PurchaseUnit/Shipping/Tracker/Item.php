@@ -17,38 +17,38 @@ class Item extends Struct
     public const int MAX_LENGTH_URL = 2048;
 
     #[OA\Property(type: 'string', minLength: 1)]
-    protected string $name;
+    protected ?string $name = null;
 
     #[OA\Property(type: 'integer')]
-    protected int $quantity;
+    protected ?int $quantity = null;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_SKU, minLength: 1, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_SKU, minLength: 1)]
     protected ?string $sku = null;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_URL, format: 'uri', minLength: 1, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_URL, format: 'uri', minLength: 1)]
     protected ?string $url = null;
 
-    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_URL, format: 'uri', minLength: 1, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_URL, format: 'uri', minLength: 1)]
     protected ?string $imageUrl = null;
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    public function getQuantity(): int
+    public function getQuantity(): ?int
     {
         return $this->quantity;
     }
 
-    public function setQuantity(int|string $quantity): void
+    public function setQuantity(int|string|null $quantity): void
     {
-        $this->quantity = (int) $quantity;
+        $this->quantity = $quantity === null ? null : (int) $quantity;
     }
 
     public function getSku(): ?string

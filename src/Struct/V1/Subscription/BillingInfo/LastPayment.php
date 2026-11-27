@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\Money;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_subscription_billing_info_last_payment')]
+#[OA\Schema(schema: 'paypal_v1_subscription_billing_info_last_payment', required: ['amount', 'time'])]
 class LastPayment extends Struct
 {
     #[OA\Property(ref: Money::class)]

@@ -18,10 +18,10 @@ use Shopware\PayPalSDK\Struct\V1\Subscription\Subscriber\ShippingAddress\Name;
 #[OA\Schema(schema: 'paypal_v1_subscription_subscriber_shipping_address')]
 class ShippingAddress extends Struct
 {
-    #[OA\Property(ref: Name::class, nullable: true)]
+    #[OA\Property(ref: Name::class)]
     protected ?Name $name = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $address = null;
 
     public function getName(): ?Name

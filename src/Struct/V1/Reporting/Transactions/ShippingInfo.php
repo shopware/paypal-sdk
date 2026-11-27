@@ -15,16 +15,16 @@ use Shopware\PayPalSDK\Struct\V1\Common\Address;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_shipping_info')]
 class ShippingInfo extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: Pattern::TEXT, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: Pattern::TEXT)]
     protected ?string $name = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: Pattern::TEXT, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 500, pattern: Pattern::TEXT)]
     protected ?string $method = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $address = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $secondaryShippingAddress = null;
 
     public function getName(): ?string

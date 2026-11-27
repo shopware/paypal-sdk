@@ -14,17 +14,17 @@ use Shopware\PayPalSDK\Struct\Struct;
 class PartnerConfigOverride extends Struct
 {
     #[OA\Property(type: 'string', format: 'uri', minLength: 1, maxLength: 127)]
-    protected string $returnUrl;
+    protected ?string $returnUrl = null;
 
     #[OA\Property(type: 'string')]
     protected ?string $partnerLogoUrl = null;
 
-    public function getReturnUrl(): string
+    public function getReturnUrl(): ?string
     {
         return $this->returnUrl;
     }
 
-    public function setReturnUrl(string $returnUrl): void
+    public function setReturnUrl(?string $returnUrl): void
     {
         $this->returnUrl = $returnUrl;
     }

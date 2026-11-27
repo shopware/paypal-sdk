@@ -12,7 +12,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\PaymentInstruction\PlatformFee;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\PaymentInstruction\PlatformFeeCollection;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payment_instruction')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_payment_instruction',
+    required: ['disbursementMode', 'payeePricingTierId', 'payeeReceivableFxRateId']
+)]
 class PaymentInstruction extends Struct
 {
     public const string DISBURSEMENT_MODE_INSTANT = 'INSTANT';

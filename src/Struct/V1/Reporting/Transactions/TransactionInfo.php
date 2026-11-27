@@ -15,106 +15,106 @@ use Shopware\PayPalSDK\Struct\V1\Reporting\Money;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_transaction_info')]
 class TransactionInfo extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 24, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 24, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $paypalAccountId = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 24, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 24, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $transactionId = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 24, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 24, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $paypalReferenceId = null;
 
-    #[OA\Property(type: 'string', minLength: 3, maxLength: 3, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 3, maxLength: 3, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $paypalReferenceIdType = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 5, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 5, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $transactionEventCode = null;
 
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected ?string $transactionInitiationDate = null;
 
-    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected ?string $transactionUpdatedDate = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $transactionAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $feeAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $discountAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $insuranceAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $salesTaxAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $shippingAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $shippingDiscountAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $shippingTaxAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $otherAmount = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $tipAmount = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 1, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 1, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $transactionStatus = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 256, pattern: Pattern::TEXT, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 256, pattern: Pattern::TEXT)]
     protected ?string $transactionSubject = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 4000, pattern: Pattern::TEXT, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 4000, pattern: Pattern::TEXT)]
     protected ?string $transactionNote = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $paymentTrackingId = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $bankReferenceId = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $endingBalance = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $availableBalance = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::TEXT, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::TEXT)]
     protected ?string $invoiceId = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::TEXT, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, pattern: Pattern::TEXT)]
     protected ?string $customField = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 2, pattern: Pattern::ALNUM_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 2, pattern: Pattern::ALNUM_OR_EMPTY)]
     protected ?string $protectionEligibility = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 25, pattern: Pattern::ALNUM_DOT_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 25, pattern: Pattern::ALNUM_DOT_OR_EMPTY)]
     protected ?string $creditTerm = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $creditTransactionalFee = null;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $creditPromotionalFee = null;
 
-    #[OA\Property(type: 'string', pattern: Pattern::DECIMAL, nullable: true)]
+    #[OA\Property(type: 'string', pattern: Pattern::DECIMAL)]
     protected ?string $annualPercentageRate = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 20, pattern: Pattern::ALNUM_HYPHEN_OR_EMPTY, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 20, pattern: Pattern::ALNUM_HYPHEN_OR_EMPTY)]
     protected ?string $paymentMethodType = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 64, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 64)]
     protected ?string $instrumentType = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 64, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 64)]
     protected ?string $instrumentSubType = null;
 
     public function getPaypalAccountId(): ?string

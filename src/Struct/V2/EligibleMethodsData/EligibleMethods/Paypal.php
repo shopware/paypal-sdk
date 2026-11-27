@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_paypal')]
+#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_eligible_methods_paypal', required: ['canBeVaulted'])]
 class Paypal extends Struct
 {
     #[OA\Property(type: 'boolean')]

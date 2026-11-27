@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_refund_details')]
+#[OA\Schema(schema: 'paypal_v1_disputes_item_refund_details', required: ['allowedRefundAmount'])]
 class RefundDetails extends Struct
 {
     #[OA\Property(ref: Money::class)]

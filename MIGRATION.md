@@ -28,6 +28,7 @@
 - `Reporting\Balance::isPrimary()`, `V2\Order\Tracker::isNotifyPayer()`, `Attributes\Vault::isPermitMultiplePaymentTokens()` and `GiftRecipientEmailValue::isVerified()` return `?bool`.
 - Boolean getters start with `is`, nullable or not: `Transactions\CartInfo::getTaxInclusive()`, `GiftOptions::getGiftWrap()`, `PricingErrorContext::getRequiredCurrencyConsistency()`, `ShippingErrorContext::getPoBoxDetected()` and `InventoryIssueContext::getUpgradeAvailable()` are now `is…()`.
 - `Webhook\Event::getResourceVersion()` and `getResourceType()` return `null` when PayPal leaves the field out. Such resources still resolve as version `1.0`.
+- Optional request fields are nullable, e.g. the URLs, `brandName` and `locale` of `ExperienceContext` and `V2\Order\ApplicationContext`, `FindEligibleMethods\Preferences`, `Patch::$from` and the referral operation fields.
 - `Struct::assign()` throws a `LogicException` for a property typed as an abstract struct or as a union with a struct or collection. Override `assign()` to hydrate such a property. An array for a property that accepts none is skipped instead of throwing a `TypeError`.
 
 The structs are now checked against PayPal's OpenAPI specs (see [`tools/openapi/README.md`](tools/openapi/README.md)):
@@ -41,3 +42,5 @@ The structs are now checked against PayPal's OpenAPI specs (see [`tools/openapi/
 - `PaymentSource::$myBank` is `$mybank` and is now sent as `mybank`. `getMyBank()` and `setMyBank()` keep working.
 - Disputes: `MoneyMovement::$amount` is `V1\Common\Money`. Sub-reasons and refund IDs are string arrays, and `SubReason`, `RefundId` and their collections are removed.
 - `#[OA\Property]` types `bool` and `float` are now `boolean` and `number`, which changes generated TypeScript types.
+- `#[OA\Property]` no longer sets `nullable`, since null is never serialized. `#[OA\Schema(required: …)]` lists the non-nullable properties, the fields that are always present, so generated TypeScript types mark the others optional instead of `| null`.
+- Fields their schema documents as optional are nullable: `CheckoutField::$value`, `ResolutionOption::$metadata`, `GiftRecipientNameValue::$firstName` and `$lastName`, `MerchantIntegrations\OauthIntegration::$status`, `OauthThirdParty::$accessToken` and `$refreshToken`, `MerchantIntegrations\Product::$status` and `$capabilities`.

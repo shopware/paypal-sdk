@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Token;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_token_stored_payment_source')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_payment_source_token_stored_payment_source',
+    required: ['paymentInitiator', 'paymentType', 'usage']
+)]
 class StoredPaymentSource extends Struct
 {
     #[OA\Property(type: 'string')]

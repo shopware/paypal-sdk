@@ -12,7 +12,10 @@ use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Referral\Operation\ApiIntegrationPreference\RestApiIntegration\ThirdPartyDetails;
 
-#[OA\Schema(schema: 'paypal_v2_referral_operation_api_integration_preference_rest_api_integration')]
+#[OA\Schema(
+    schema: 'paypal_v2_referral_operation_api_integration_preference_rest_api_integration',
+    required: ['integrationType']
+)]
 class RestApiIntegration extends Struct
 {
     public const string INTEGRATION_METHOD_TYPE_PAYPAL = 'PAYPAL';
@@ -26,7 +29,7 @@ class RestApiIntegration extends Struct
     protected string $integrationType;
 
     #[OA\Property(ref: ThirdPartyDetails::class)]
-    protected ThirdPartyDetails $thirdPartyDetails;
+    protected ?ThirdPartyDetails $thirdPartyDetails = null;
 
     public function getIntegrationMethod(): ?string
     {
@@ -48,12 +51,12 @@ class RestApiIntegration extends Struct
         $this->integrationType = $integrationType;
     }
 
-    public function getThirdPartyDetails(): ThirdPartyDetails
+    public function getThirdPartyDetails(): ?ThirdPartyDetails
     {
         return $this->thirdPartyDetails;
     }
 
-    public function setThirdPartyDetails(ThirdPartyDetails $thirdPartyDetails): void
+    public function setThirdPartyDetails(?ThirdPartyDetails $thirdPartyDetails): void
     {
         $this->thirdPartyDetails = $thirdPartyDetails;
     }

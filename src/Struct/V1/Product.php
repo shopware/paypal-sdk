@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_product')]
+#[OA\Schema(schema: 'paypal_v1_product', required: ['name', 'description', 'type'])]
 class Product extends Struct
 {
     #[OA\Property(type: 'string')]

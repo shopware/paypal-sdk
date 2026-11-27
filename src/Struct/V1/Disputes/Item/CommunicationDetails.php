@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_communication_details')]
+#[OA\Schema(schema: 'paypal_v1_disputes_item_communication_details', required: ['email', 'note', 'timePosted'])]
 class CommunicationDetails extends Struct
 {
     #[OA\Property(type: 'string', format: 'email', minLength: 3, maxLength: 254, pattern: Pattern::EMAIL_ADDRESS)]

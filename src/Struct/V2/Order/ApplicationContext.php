@@ -30,7 +30,7 @@ class ApplicationContext extends Struct
     public const string USER_ACTION_PAY_NOW = 'PAY_NOW';
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
-    protected string $brandName;
+    protected ?string $brandName = null;
 
     #[OA\Property(type: 'string', enum: self::LANDING_PAGE_TYPES)]
     protected ?string $landingPage = null;
@@ -45,17 +45,17 @@ class ApplicationContext extends Struct
     protected ?string $userAction = null;
 
     #[OA\Property(type: 'string', format: 'uri')]
-    protected string $returnUrl;
+    protected ?string $returnUrl = null;
 
     #[OA\Property(type: 'string', format: 'uri')]
-    protected string $cancelUrl;
+    protected ?string $cancelUrl = null;
 
-    public function getBrandName(): string
+    public function getBrandName(): ?string
     {
         return $this->brandName;
     }
 
-    public function setBrandName(string $brandName): void
+    public function setBrandName(?string $brandName): void
     {
         $this->brandName = $brandName;
     }
@@ -90,22 +90,22 @@ class ApplicationContext extends Struct
         $this->userAction = $userAction;
     }
 
-    public function getReturnUrl(): string
+    public function getReturnUrl(): ?string
     {
         return $this->returnUrl;
     }
 
-    public function setReturnUrl(string $returnUrl): void
+    public function setReturnUrl(?string $returnUrl): void
     {
         $this->returnUrl = $returnUrl;
     }
 
-    public function getCancelUrl(): string
+    public function getCancelUrl(): ?string
     {
         return $this->cancelUrl;
     }
 
-    public function setCancelUrl(string $cancelUrl): void
+    public function setCancelUrl(?string $cancelUrl): void
     {
         $this->cancelUrl = $cancelUrl;
     }

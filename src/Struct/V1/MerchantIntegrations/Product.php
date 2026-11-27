@@ -22,15 +22,15 @@ class Product extends Struct
     #[OA\Property(type: 'string')]
     protected string $name;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $vettingStatus = null;
 
     #[OA\Property(type: 'string')]
-    protected string $status;
+    protected ?string $status = null;
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
-    protected array $capabilities;
+    protected ?array $capabilities = null;
 
     public function getName(): string
     {
@@ -52,12 +52,12 @@ class Product extends Struct
         $this->vettingStatus = $vettingStatus;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }
@@ -67,13 +67,13 @@ class Product extends Struct
      */
     public function getCapabilities(): array
     {
-        return $this->capabilities;
+        return $this->capabilities ?? [];
     }
 
     /**
      * @param string[] $capabilities
      */
-    public function setCapabilities(array $capabilities): void
+    public function setCapabilities(?array $capabilities): void
     {
         $this->capabilities = $capabilities;
     }

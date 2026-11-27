@@ -12,7 +12,10 @@ use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_incorrect_transaction_amount')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_incorrect_transaction_amount',
+    required: ['correctTransactionAmount', 'correctTransactionTime']
+)]
 class IncorrectTransactionAmount extends Struct
 {
     #[OA\Property(ref: Money::class)]
