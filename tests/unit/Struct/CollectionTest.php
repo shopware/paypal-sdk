@@ -140,6 +140,29 @@ class CollectionTest extends TestCase
         static::assertEquals([0, 2], $filtered->getKeys());
     }
 
+    public function testFind(): void
+    {
+        $first = (new Money())->assign(['value' => '1']);
+        $second = (new Money())->assign(['value' => '2']);
+        $third = (new Money())->assign(['value' => '2']);
+        $collection = new TestCollection([$first, $second, $third]);
+
+        static::assertSame($second, $collection->find(static fn (Money $element) => $element->getValue() === '2'));
+        static::assertNull($collection->find(static fn (Money $element) => $element->getValue() === '3'));
+    }
+
+    public function testAny(): void
+    {
+        $collection = new TestCollection();
+        static::assertFalse($collection->any(static fn () => true));
+
+        $collection->add((new Money())->assign(['value' => '1']));
+        $collection->add((new Money())->assign(['value' => '2']));
+
+        static::assertTrue($collection->any(static fn (Money $element) => $element->getValue() === '2'));
+        static::assertFalse($collection->any(static fn (Money $element) => $element->getValue() === '3'));
+    }
+
     public function testSlice(): void
     {
         $collection = new TestCollection();
@@ -191,11 +214,11 @@ class CollectionTest extends TestCase
 
     public function testJsonSerializeRecursesIntoNestedStructs(): void
     {
-        $first = Foo::from(Foo::class, [
+        $first = Foo::from([
             'foo_baz' => 'firstFoo',
             'bar' => ['bar' => 'firstBar'],
         ]);
-        $second = Foo::from(Foo::class, [
+        $second = Foo::from([
             'foo_baz' => 'secondFoo',
             'bar' => ['bar' => 'secondBar'],
         ]);
@@ -219,7 +242,7 @@ class CollectionTest extends TestCase
 
     public function testJsonSerializeRoundTripsThroughJsonEncode(): void
     {
-        $collection = FooCollection::createFromAssociative([
+        $collection = FooCollection::from([
             ['foo_baz' => 'firstFoo', 'bar' => ['bar' => 'firstBar']],
             ['foo_baz' => 'secondFoo', 'bar' => ['bar' => 'secondBar']],
         ]);
@@ -233,8 +256,8 @@ class CollectionTest extends TestCase
     public function testJsonSerializeReindexesNonSequentialKeys(): void
     {
         $collection = new FooCollection();
-        $collection->set('a', Foo::from(Foo::class, ['foo_baz' => 'firstFoo']));
-        $collection->set('b', Foo::from(Foo::class, ['foo_baz' => 'secondFoo']));
+        $collection->set('a', Foo::from(['foo_baz' => 'firstFoo']));
+        $collection->set('b', Foo::from(['foo_baz' => 'secondFoo']));
 
         static::assertSame(
             [

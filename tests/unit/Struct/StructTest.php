@@ -119,7 +119,7 @@ class StructTest extends TestCase
     #[DataProvider('provideNullAssignmentsPreserveExistingValues')]
     public function testNullAssignmentsPreserveExistingValues(string $class, string $property, mixed $value): void
     {
-        $struct = Struct::from($class, [$property => $value]);
+        $struct = $class::from([$property => $value]);
         $previous = $struct->getVars()[$property];
         $struct->assign([$property => null]);
 

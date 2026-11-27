@@ -44,17 +44,19 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     abstract public static function getExpectedClass(): string;
 
     /**
-     * @param array<mixed> $associativeData
+     * Keys are not preserved.
+     *
+     * @param array<mixed> $data elements as structs or arrays
      */
-    public static function createFromAssociative(#[\SensitiveParameter] array $associativeData): static
+    public static function from(#[\SensitiveParameter] array $data): static
     {
         // @phpstan-ignore-next-line new.staticInAbstractClassStaticMethod assume class is not abstract anymore
         $collection = new static();
-        foreach (\array_filter($associativeData) as $value) {
+        foreach (\array_filter($data) as $value) {
             if ($value instanceof Struct) {
                 $collection->add($value);
             } elseif (\is_array($value)) {
-                $collection->add(Struct::from(static::getExpectedClass(), $value));
+                $collection->add(static::getExpectedClass()::from($value));
             }
         }
 
@@ -76,11 +78,7 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
      */
     public function get(string|int $key): ?Struct
     {
-        if ($this->has($key)) {
-            return $this->elements[$key];
-        }
-
-        return null;
+        return $this->elements[$key] ?? null;
     }
 
     public function has(string|int $key): bool
@@ -160,6 +158,24 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
         return $this->createNew(\array_filter($this->elements, $closure));
     }
 
+    /**
+     * @param \Closure(TElement, array-key): bool $closure
+     *
+     * @return TElement|null
+     */
+    public function find(\Closure $closure): ?Struct
+    {
+        return \array_find($this->elements, $closure);
+    }
+
+    /**
+     * @param \Closure(TElement, array-key): bool $closure
+     */
+    public function any(\Closure $closure): bool
+    {
+        return \array_any($this->elements, $closure);
+    }
+
     public function slice(int $offset, ?int $length = null): static
     {
         return $this->createNew(\array_slice($this->elements, $offset, $length, true));
@@ -186,7 +202,9 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
      */
     public function first(): ?Struct
     {
-        return \array_values($this->elements)[0] ?? null;
+        $key = \array_key_first($this->elements);
+
+        return $key === null ? null : $this->elements[$key];
     }
 
     /**
@@ -202,7 +220,9 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
      */
     public function last(): ?Struct
     {
-        return \array_values($this->elements)[\count($this->elements) - 1] ?? null;
+        $key = \array_key_last($this->elements);
+
+        return $key === null ? null : $this->elements[$key];
     }
 
     public function remove(string|int $key): void

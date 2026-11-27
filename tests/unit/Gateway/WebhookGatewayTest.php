@@ -72,7 +72,7 @@ class WebhookGatewayTest extends TestCase
     public function testUpdateWebhook(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = PatchCollection::createFromAssociative([[
+        $body = PatchCollection::from([[
             'op' => 'replace',
             'path' => '/some/path',
         ]]);

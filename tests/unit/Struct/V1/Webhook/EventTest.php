@@ -54,7 +54,7 @@ class EventTest extends TestCase
     #[DataProvider('provideResourceTypeFallback')]
     public function testResourceTypeFallback(string $resourceVersion, string $resourceType, string $expectedClass): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-TEST-123',
             'event_type' => 'TEST.EVENT',
             'summary' => 'Test event',
@@ -100,7 +100,7 @@ class EventTest extends TestCase
     #[DataProvider('provideIdentifyResourceByEventType')]
     public function testIdentifyResourceByEventType(string $eventType, string $resourceVersion, string $resourceType, string $expectedClass): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-TEST-123',
             'event_type' => $eventType,
             'summary' => 'Test event',
@@ -118,7 +118,7 @@ class EventTest extends TestCase
 
     public function testMissingEventTypeFallsBackToResourceType(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-NO-EVENT-TYPE',
             'summary' => 'Test event',
             'resource_type' => 'capture',
@@ -136,7 +136,7 @@ class EventTest extends TestCase
 
     public function testSubclassIdentifyResourceOverrideApplies(): void
     {
-        $event = Struct::from(ExtendedEvent::class, [
+        $event = ExtendedEvent::from([
             'id' => 'WH-SALE-COMPLETED',
             'event_type' => 'PAYMENT.SALE.COMPLETED',
             'summary' => 'A sale has been completed',
@@ -153,7 +153,7 @@ class EventTest extends TestCase
 
     public function testCheckoutOrderResourceHasId(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-CHECKOUT-ORDER',
             'event_type' => 'CHECKOUT.ORDER.APPROVED',
             'summary' => 'An order has been approved by buyer',
@@ -187,7 +187,7 @@ class EventTest extends TestCase
 
     public function testPaymentApprovalReversedResourceUsesOrderId(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-COC11055RA711503B-4YM959094A144403T',
             'event_type' => WebhookEventTypes::CHECKOUT_PAYMENT_APPROVAL_REVERSED,
             'summary' => 'A payment has been reversed after approval.',
@@ -222,7 +222,7 @@ class EventTest extends TestCase
 
     public function testDisputeResourcePreservesFields(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-DISPUTE-CREATED',
             'event_type' => 'CUSTOMER.DISPUTE.CREATED',
             'summary' => 'A dispute has been created',
@@ -266,7 +266,7 @@ class EventTest extends TestCase
 
     public function testManagedAccountsResourcePreservesFields(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-MANAGED-ACCOUNT-CREATED',
             'event_type' => 'CUSTOMER.MANAGED-ACCOUNT.ACCOUNT-CREATED',
             'summary' => 'Managed account created',
@@ -291,7 +291,7 @@ class EventTest extends TestCase
 
     public function testNullResourceForUnknownV2Type(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-UNKNOWN',
             'event_type' => 'TEST.EVENT',
             'summary' => 'Test event',
@@ -308,7 +308,7 @@ class EventTest extends TestCase
 
     public function testCaptureResourcePreservesSupplementaryData(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-CAPTURE-SUPPLEMENTARY',
             'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
             'summary' => 'A capture was completed',
@@ -347,7 +347,7 @@ class EventTest extends TestCase
 
     public function testRefundResourcePreservesSupplementaryData(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-REFUND-SUPPLEMENTARY',
             'event_type' => 'PAYMENT.CAPTURE.REFUNDED',
             'summary' => 'A capture was refunded',
@@ -388,7 +388,7 @@ class EventTest extends TestCase
 
     public function testNullResourceWhenResourceIsNull(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'id' => 'WH-NULL-RESOURCE',
             'event_type' => 'CHECKOUT.ORDER.APPROVED',
             'summary' => 'An order has been approved by buyer',
@@ -405,7 +405,7 @@ class EventTest extends TestCase
 
     public function testExplicitNullPreservesAnExistingResource(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
             'resource_version' => '2.0',
             'resource' => ['id' => 'CAPTURE-123'],
@@ -421,7 +421,7 @@ class EventTest extends TestCase
 
     public function testMissingResourcePreservesAnExistingResource(): void
     {
-        $event = Struct::from(Event::class, [
+        $event = Event::from([
             'event_type' => 'PAYMENT.CAPTURE.COMPLETED',
             'resource_version' => '2.0',
             'resource' => ['id' => 'CAPTURE-123'],

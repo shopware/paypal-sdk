@@ -100,7 +100,7 @@ class OrderGateway extends AbstractGateway
         $this->request(
             'PATCH',
             self::GATEWAY_URL . '/' . $orderId . '/trackers/' . $tracker->getCaptureId() . '-' . $tracker->getTrackingNumber(),
-            PatchCollection::createFromAssociative([[
+            PatchCollection::from([[
                 'op' => Patch::OPERATION_REPLACE,
                 'path' => '/status',
                 'value' => Order\PurchaseUnit\Shipping\Tracker::STATUS_CANCELLED,

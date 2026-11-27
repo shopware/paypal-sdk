@@ -105,7 +105,7 @@ class TestClientTest extends TestCase
         $this->gateways->setCachedToken($context);
 
         $this->gateways->orderGateway()->getOrder('order-id', $context);
-        $patches = PatchCollection::createFromAssociative([['op' => 'repalce', 'path' => '/path/to/value']]);
+        $patches = PatchCollection::from([['op' => 'repalce', 'path' => '/path/to/value']]);
         $this->gateways->orderGateway()->patchOrder('patch-order-id-1', $patches, $context);
         $this->gateways->orderGateway()->patchOrder('patch-order-id-2', $patches, $context);
         $order = (new Order())->assign([

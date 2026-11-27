@@ -103,7 +103,7 @@ class Event extends Struct
         $resourceClass = $this->identifyResource($eventType, $this->resourceVersion, $this->resourceType);
 
         if ($resourceClass !== null) {
-            $webhook->resource = Struct::from($resourceClass, $resourceData);
+            $webhook->resource = $resourceClass::from($resourceData);
         }
 
         return $webhook;
