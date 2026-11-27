@@ -66,11 +66,11 @@ class PrivacyConsentValue extends Struct implements ValueInterface
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getConsentTypes(): ?array
+    public function getConsentTypes(): array
     {
-        return $this->consentTypes;
+        return $this->consentTypes ?? [];
     }
 
     /**

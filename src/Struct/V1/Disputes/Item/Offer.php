@@ -59,9 +59,9 @@ class Offer extends Struct
         $this->offerType = $offerType;
     }
 
-    public function getHistory(): ?HistoryCollection
+    public function getHistory(): HistoryCollection
     {
-        return $this->history;
+        return $this->history ??= new HistoryCollection();
     }
 
     public function setHistory(?HistoryCollection $history): void

@@ -69,13 +69,13 @@ class CartItem extends Struct
     protected ?Money $price = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: SelectedAttribute::class))]
-    protected SelectedAttributeCollection $selectedAttributes;
+    protected ?SelectedAttributeCollection $selectedAttributes = null;
 
     #[OA\Property(ref: GiftOptions::class)]
     protected ?GiftOptions $giftOptions = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: CustomOption::class))]
-    protected CustomOptionCollection $customOptions;
+    protected ?CustomOptionCollection $customOptions = null;
 
     public function getItemId(): ?string
     {
@@ -159,10 +159,10 @@ class CartItem extends Struct
 
     public function getSelectedAttributes(): SelectedAttributeCollection
     {
-        return $this->selectedAttributes;
+        return $this->selectedAttributes ??= new SelectedAttributeCollection();
     }
 
-    public function setSelectedAttributes(SelectedAttributeCollection $selectedAttributes): void
+    public function setSelectedAttributes(?SelectedAttributeCollection $selectedAttributes): void
     {
         $this->selectedAttributes = $selectedAttributes;
     }
@@ -179,10 +179,10 @@ class CartItem extends Struct
 
     public function getCustomOptions(): CustomOptionCollection
     {
-        return $this->customOptions;
+        return $this->customOptions ??= new CustomOptionCollection();
     }
 
-    public function setCustomOptions(CustomOptionCollection $customOptions): void
+    public function setCustomOptions(?CustomOptionCollection $customOptions): void
     {
         $this->customOptions = $customOptions;
     }

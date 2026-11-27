@@ -31,10 +31,10 @@ class BusinessEntity extends Struct
     protected IncorporationDetails $incorporationDetails;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Name::class))]
-    protected NameCollection $names;
+    protected ?NameCollection $names = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Email::class))]
-    protected EmailCollection $emails;
+    protected ?EmailCollection $emails = null;
 
     #[OA\Property(type: 'string')]
     protected string $website;
@@ -43,7 +43,7 @@ class BusinessEntity extends Struct
     protected Address $registeredBusinessAddress;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: PhoneNumber::class))]
-    protected PhoneNumberCollection $phoneNumbers;
+    protected ?PhoneNumberCollection $phoneNumbers = null;
 
     public function getType(): string
     {
@@ -77,20 +77,20 @@ class BusinessEntity extends Struct
 
     public function getNames(): NameCollection
     {
-        return $this->names;
+        return $this->names ??= new NameCollection();
     }
 
-    public function setNames(NameCollection $names): void
+    public function setNames(?NameCollection $names): void
     {
         $this->names = $names;
     }
 
     public function getEmails(): EmailCollection
     {
-        return $this->emails;
+        return $this->emails ??= new EmailCollection();
     }
 
-    public function setEmails(EmailCollection $emails): void
+    public function setEmails(?EmailCollection $emails): void
     {
         $this->emails = $emails;
     }
@@ -117,10 +117,10 @@ class BusinessEntity extends Struct
 
     public function getPhoneNumbers(): PhoneNumberCollection
     {
-        return $this->phoneNumbers;
+        return $this->phoneNumbers ??= new PhoneNumberCollection();
     }
 
-    public function setPhoneNumbers(PhoneNumberCollection $phoneNumbers): void
+    public function setPhoneNumbers(?PhoneNumberCollection $phoneNumbers): void
     {
         $this->phoneNumbers = $phoneNumbers;
     }

@@ -32,13 +32,13 @@ class Item extends Struct
     protected Money $unitAmount;
 
     #[OA\Property(ref: Money::class, nullable: true)]
-    protected ?Money $tax;
+    protected ?Money $tax = null;
 
     #[OA\Property(oneOf: [new OA\Schema(type: 'string'), new OA\Schema(type: 'integer'), new OA\Schema(type: 'number')], nullable: true)]
-    protected string|int|float|null $taxRate;
+    protected string|int|float|null $taxRate = null;
 
     #[OA\Property(type: 'string', enum: [self::CATEGORY_PHYSICAL_GOODS, self::CATEGORY_DIGITAL_GOODS, self::CATEGORY_DONATION], nullable: true)]
-    protected ?string $category;
+    protected ?string $category = null;
 
     #[OA\Property(type: 'integer')]
     protected int $quantity;
@@ -77,7 +77,7 @@ class Item extends Struct
 
     public function getTax(): ?Money
     {
-        return $this->tax ?? null;
+        return $this->tax;
     }
 
     public function setTax(?Money $tax): void
@@ -87,7 +87,7 @@ class Item extends Struct
 
     public function getTaxRate(): float|int|string|null
     {
-        return $this->taxRate ?? null;
+        return $this->taxRate;
     }
 
     public function setTaxRate(float|int|string|null $taxRate): void
@@ -97,7 +97,7 @@ class Item extends Struct
 
     public function getCategory(): ?string
     {
-        return $this->category ?? null;
+        return $this->category;
     }
 
     public function setCategory(?string $category): void

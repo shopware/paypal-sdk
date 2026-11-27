@@ -23,7 +23,7 @@ class WalletDomains extends Struct
     protected ?string $totalPages = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: WalletDomain::class))]
-    protected WalletDomainCollection $walletDomains;
+    protected ?WalletDomainCollection $walletDomains = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), nullable: true)]
     protected ?LinkCollection $links = null;
@@ -50,17 +50,17 @@ class WalletDomains extends Struct
 
     public function getWalletDomains(): WalletDomainCollection
     {
-        return $this->walletDomains;
+        return $this->walletDomains ??= new WalletDomainCollection();
     }
 
-    public function setWalletDomains(WalletDomainCollection $walletDomains): void
+    public function setWalletDomains(?WalletDomainCollection $walletDomains): void
     {
         $this->walletDomains = $walletDomains;
     }
 
-    public function getLinks(): ?LinkCollection
+    public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
     public function setLinks(?LinkCollection $links): void

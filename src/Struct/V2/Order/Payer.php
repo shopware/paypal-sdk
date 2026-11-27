@@ -24,13 +24,13 @@ class Payer extends Struct
     protected string $emailAddress;
 
     #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
-    protected ?string $payerId;
+    protected ?string $payerId = null;
 
     #[OA\Property(ref: Phone::class, nullable: true)]
     protected ?Phone $phone = null;
 
     #[OA\Property(ref: Address::class, nullable: true)]
-    protected ?Address $address;
+    protected ?Address $address = null;
 
     public function getName(): Name
     {
@@ -54,7 +54,7 @@ class Payer extends Struct
 
     public function getPayerId(): ?string
     {
-        return $this->payerId ?? null;
+        return $this->payerId;
     }
 
     public function setPayerId(?string $payerId): void
@@ -74,7 +74,7 @@ class Payer extends Struct
 
     public function getAddress(): ?Address
     {
-        return $this->address ?? null;
+        return $this->address;
     }
 
     public function setAddress(?Address $address): void

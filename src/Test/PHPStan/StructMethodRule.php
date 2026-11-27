@@ -13,7 +13,10 @@ use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\VerbosityLevel;
+use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\Struct;
 
 /**
@@ -85,6 +88,12 @@ class StructMethodRule implements Rule
 
             if (\count($method->getParameters()) !== 0) {
                 $errors[] = self::message($node, 'should have no parameters', 'getter.parameterCount');
+            }
+
+            $listType = TypeCombinator::removeNull($propertyType);
+            $isList = $listType->isArray()->yes() || (new ObjectType(Collection::class))->isSuperTypeOf($listType)->yes();
+            if ($isList && !$method->getReturnType()->isNull()->no()) {
+                $errors[] = self::message($node, 'should not return null for a list', 'getter.list');
             }
         }
 

@@ -25,7 +25,7 @@ class AdvancedCards extends Struct
     protected bool $cobrandedEnabled;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Vendor::class))]
-    protected VendorCollection $vendors;
+    protected ?VendorCollection $vendors = null;
 
     public function isSupportsInstallements(): bool
     {
@@ -49,10 +49,10 @@ class AdvancedCards extends Struct
 
     public function getVendors(): VendorCollection
     {
-        return $this->vendors;
+        return $this->vendors ??= new VendorCollection();
     }
 
-    public function setVendors(VendorCollection $vendors): void
+    public function setVendors(?VendorCollection $vendors): void
     {
         $this->vendors = $vendors;
     }

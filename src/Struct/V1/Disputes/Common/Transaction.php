@@ -46,7 +46,7 @@ class Transaction extends Struct
     protected Seller $seller;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), minItems: 1, maxItems: 100)]
-    protected ItemCollection $items;
+    protected ?ItemCollection $items = null;
 
     public function getBuyerTransactionId(): string
     {
@@ -150,10 +150,10 @@ class Transaction extends Struct
 
     public function getItems(): ItemCollection
     {
-        return $this->items;
+        return $this->items ??= new ItemCollection();
     }
 
-    public function setItems(ItemCollection $items): void
+    public function setItems(?ItemCollection $items): void
     {
         $this->items = $items;
     }

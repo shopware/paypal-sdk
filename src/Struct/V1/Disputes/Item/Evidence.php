@@ -24,7 +24,7 @@ class Evidence extends Struct
     protected EvidenceInfo $evidenceInfo;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Document::class), minItems: 1, maxItems: 100)]
-    protected DocumentCollection $documents;
+    protected ?DocumentCollection $documents = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: Pattern::MULTILINE_TEXT)]
     protected string $notes;
@@ -54,10 +54,10 @@ class Evidence extends Struct
 
     public function getDocuments(): DocumentCollection
     {
-        return $this->documents;
+        return $this->documents ??= new DocumentCollection();
     }
 
-    public function setDocuments(DocumentCollection $documents): void
+    public function setDocuments(?DocumentCollection $documents): void
     {
         $this->documents = $documents;
     }

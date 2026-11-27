@@ -107,7 +107,7 @@ class ValidationIssue extends Struct
      * Available actions to resolve this issue
      */
     #[OA\Property(type: 'array', items: new OA\Items(ref: ResolutionOption::class))]
-    protected ResolutionOptionCollection $resolutionOptions;
+    protected ?ResolutionOptionCollection $resolutionOptions = null;
 
     public function getCode(): string
     {
@@ -189,10 +189,10 @@ class ValidationIssue extends Struct
 
     public function getResolutionOptions(): ResolutionOptionCollection
     {
-        return $this->resolutionOptions;
+        return $this->resolutionOptions ??= new ResolutionOptionCollection();
     }
 
-    public function setResolutionOptions(ResolutionOptionCollection $resolutionOptions): void
+    public function setResolutionOptions(?ResolutionOptionCollection $resolutionOptions): void
     {
         $this->resolutionOptions = $resolutionOptions;
     }

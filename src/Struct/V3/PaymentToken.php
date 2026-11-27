@@ -32,7 +32,7 @@ class PaymentToken extends Struct
     protected PaymentSource $paymentSource;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 32)]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     #[OA\Property(ref: Metadata::class, nullable: true)]
     protected ?Metadata $metadata = null;
@@ -79,10 +79,10 @@ class PaymentToken extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

@@ -33,13 +33,13 @@ abstract class Payment extends Struct
     protected ?string $customId = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
-    protected ?string $createTime;
+    protected ?string $createTime = null;
 
     #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
-    protected ?string $updateTime;
+    protected ?string $updateTime = null;
 
     #[OA\Property(ref: PaymentSupplementaryData::class, nullable: true)]
     protected ?PaymentSupplementaryData $supplementaryData = null;
@@ -86,17 +86,17 @@ abstract class Payment extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }
 
     public function getCreateTime(): ?string
     {
-        return $this->createTime ?? null;
+        return $this->createTime;
     }
 
     public function setCreateTime(?string $createTime): void
@@ -106,7 +106,7 @@ abstract class Payment extends Struct
 
     public function getUpdateTime(): ?string
     {
-        return $this->updateTime ?? null;
+        return $this->updateTime;
     }
 
     public function setUpdateTime(?string $updateTime): void

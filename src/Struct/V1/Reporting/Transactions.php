@@ -43,11 +43,11 @@ class Transactions extends Struct
     protected int $totalPages;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1)]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
-    public function getTransactionDetails(): ?TransactionDetailCollection
+    public function getTransactionDetails(): TransactionDetailCollection
     {
-        return $this->transactionDetails;
+        return $this->transactionDetails ??= new TransactionDetailCollection();
     }
 
     public function setTransactionDetails(?TransactionDetailCollection $transactionDetails): void
@@ -127,10 +127,10 @@ class Transactions extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

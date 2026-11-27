@@ -33,7 +33,7 @@ class Plan extends Struct
     protected string $status;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: BillingCycle::class))]
-    protected BillingCycleCollection $billingCycles;
+    protected ?BillingCycleCollection $billingCycles = null;
 
     #[OA\Property(ref: PaymentPreferences::class)]
     protected PaymentPreferences $paymentPreferences;
@@ -83,10 +83,10 @@ class Plan extends Struct
 
     public function getBillingCycles(): BillingCycleCollection
     {
-        return $this->billingCycles;
+        return $this->billingCycles ??= new BillingCycleCollection();
     }
 
-    public function setBillingCycles(BillingCycleCollection $billingCycles): void
+    public function setBillingCycles(?BillingCycleCollection $billingCycles): void
     {
         $this->billingCycles = $billingCycles;
     }

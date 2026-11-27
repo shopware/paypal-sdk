@@ -25,41 +25,41 @@ class Order extends Struct
     public const string PROCESSING_INSTRUCTION_COMPLETE_ON_APPROVAL = 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL';
 
     #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
-    protected ?string $createTime;
+    protected ?string $createTime = null;
 
     #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
-    protected ?string $updateTime;
+    protected ?string $updateTime = null;
 
     #[OA\Property(type: 'string')]
     protected string $id;
 
     #[OA\Property(type: 'string', enum: [ConstantsV2::INTENT_CAPTURE, ConstantsV2::INTENT_AUTHORIZE], nullable: true)]
-    protected ?string $intent;
+    protected ?string $intent = null;
 
     #[OA\Property(ref: Payer::class, nullable: true)]
-    protected ?Payer $payer;
+    protected ?Payer $payer = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), minItems: 1, maxItems: 10, nullable: true)]
-    protected ?PurchaseUnitCollection $purchaseUnits;
+    protected ?PurchaseUnitCollection $purchaseUnits = null;
 
     #[OA\Property(ref: ApplicationContext::class, nullable: true)]
-    protected ?ApplicationContext $applicationContext;
+    protected ?ApplicationContext $applicationContext = null;
 
     #[OA\Property(ref: PaymentSource::class, nullable: true)]
-    protected ?PaymentSource $paymentSource;
+    protected ?PaymentSource $paymentSource = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $status;
+    protected ?string $status = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $processingInstruction;
+    protected ?string $processingInstruction = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), nullable: true)]
-    protected ?LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     public function getCreateTime(): ?string
     {
-        return $this->createTime ?? null;
+        return $this->createTime;
     }
 
     public function setCreateTime(?string $createTime): void
@@ -69,7 +69,7 @@ class Order extends Struct
 
     public function getUpdateTime(): ?string
     {
-        return $this->updateTime ?? null;
+        return $this->updateTime;
     }
 
     public function setUpdateTime(?string $updateTime): void
@@ -89,7 +89,7 @@ class Order extends Struct
 
     public function getIntent(): ?string
     {
-        return $this->intent ?? null;
+        return $this->intent;
     }
 
     public function setIntent(?string $intent): void
@@ -99,7 +99,7 @@ class Order extends Struct
 
     public function getPayer(): ?Payer
     {
-        return $this->payer ?? null;
+        return $this->payer;
     }
 
     public function setPayer(?Payer $payer): void
@@ -119,7 +119,7 @@ class Order extends Struct
 
     public function getApplicationContext(): ?ApplicationContext
     {
-        return $this->applicationContext ?? null;
+        return $this->applicationContext;
     }
 
     public function setApplicationContext(?ApplicationContext $applicationContext): void
@@ -129,7 +129,7 @@ class Order extends Struct
 
     public function getPaymentSource(): ?PaymentSource
     {
-        return $this->paymentSource ?? null;
+        return $this->paymentSource;
     }
 
     public function setPaymentSource(?PaymentSource $paymentSource): void
@@ -139,7 +139,7 @@ class Order extends Struct
 
     public function getStatus(): ?string
     {
-        return $this->status ?? null;
+        return $this->status;
     }
 
     public function setStatus(?string $status): void
@@ -149,7 +149,7 @@ class Order extends Struct
 
     public function getProcessingInstruction(): ?string
     {
-        return $this->processingInstruction ?? null;
+        return $this->processingInstruction;
     }
 
     public function setProcessingInstruction(?string $processingInstruction): void
@@ -157,23 +157,13 @@ class Order extends Struct
         $this->processingInstruction = $processingInstruction;
     }
 
-    public function getLinks(): ?LinkCollection
+    public function getLinks(): LinkCollection
     {
-        return $this->links ?? null;
+        return $this->links ??= new LinkCollection();
     }
 
     public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
-    }
-
-    /**
-     * Omits empty values, so reading a field through a lazy getter like {@see self::getPurchaseUnits()} doesn't change the serialization.
-     *
-     * @return array<string, mixed>
-     */
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
     }
 }

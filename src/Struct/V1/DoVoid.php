@@ -35,7 +35,7 @@ class DoVoid extends Struct
     protected string $updateTime;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     public function getId(): string
     {
@@ -99,10 +99,10 @@ class DoVoid extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

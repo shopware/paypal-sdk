@@ -19,38 +19,38 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterface
 {
     #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::CONTAINS_EMAIL_ADDRESS, nullable: true)]
-    protected ?string $emailAddress;
+    protected ?string $emailAddress = null;
 
     #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
-    protected ?string $accountId;
+    protected ?string $accountId = null;
 
     #[OA\Property(type: 'string', minLength: 2, maxLength: 128, pattern: Pattern::BILLING_AGREEMENT_ID, nullable: true)]
-    protected ?string $billingAgreementId;
+    protected ?string $billingAgreementId = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN, nullable: true)]
-    protected ?string $vaultId;
+    protected ?string $vaultId = null;
 
     #[OA\Property(ref: Name::class, nullable: true)]
-    protected ?Name $name;
+    protected ?Name $name = null;
 
     #[OA\Property(ref: PhoneNumber::class, nullable: true)]
     protected ?PhoneNumber $phoneNumber = null;
 
     #[OA\Property(ref: Address::class, nullable: true)]
-    protected ?Address $address;
+    protected ?Address $address = null;
 
     #[OA\Property(type: 'string', minLength: 10, maxLength: 10, pattern: Pattern::DATE, nullable: true)]
-    protected ?string $birthDate;
+    protected ?string $birthDate = null;
 
     #[OA\Property(type: 'string', nullable: true)]
-    protected ?string $phoneType;
+    protected ?string $phoneType = null;
 
     #[OA\Property(ref: Attributes::class, nullable: true)]
     protected ?Attributes $attributes = null;
 
     public function getEmailAddress(): ?string
     {
-        return $this->emailAddress ?? null;
+        return $this->emailAddress;
     }
 
     public function setEmailAddress(?string $emailAddress): void
@@ -60,7 +60,7 @@ class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterf
 
     public function getAccountId(): ?string
     {
-        return $this->accountId ?? null;
+        return $this->accountId;
     }
 
     public function setAccountId(?string $accountId): void
@@ -70,7 +70,7 @@ class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterf
 
     public function getBillingAgreementId(): ?string
     {
-        return $this->billingAgreementId ?? null;
+        return $this->billingAgreementId;
     }
 
     public function setBillingAgreementId(?string $billingAgreementId): void
@@ -80,7 +80,7 @@ class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterf
 
     public function getVaultId(): ?string
     {
-        return $this->vaultId ?? null;
+        return $this->vaultId;
     }
 
     public function setVaultId(?string $vaultId): void
@@ -90,7 +90,7 @@ class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterf
 
     public function getName(): ?Name
     {
-        return $this->name ?? null;
+        return $this->name;
     }
 
     public function setName(?Name $name): void
@@ -110,7 +110,7 @@ class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterf
 
     public function getAddress(): ?Address
     {
-        return $this->address ?? null;
+        return $this->address;
     }
 
     public function setAddress(?Address $address): void
@@ -120,7 +120,7 @@ class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterf
 
     public function getBirthDate(): ?string
     {
-        return $this->birthDate ?? null;
+        return $this->birthDate;
     }
 
     public function setBirthDate(?string $birthDate): void
@@ -130,7 +130,7 @@ class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterf
 
     public function getPhoneType(): ?string
     {
-        return $this->phoneType ?? null;
+        return $this->phoneType;
     }
 
     public function setPhoneType(?string $phoneType): void

@@ -15,7 +15,8 @@
 - A REST error with HTTP 401 is an `ErrorApiException` with its details. An unstructured 401 response is an `ApiException`.
 - `$collection[] = $element` adds and validates the element.
 - `Struct::from(Order::class, $data)` is `Order::from($data)`, and `Collection::createFromAssociative()` is `Collection::from()`.
-- `Struct::jsonSerialize()` omits `null` properties and lists inherited properties first. Structs no longer filter their output with `array_filter()`, so `false`, `0` and `''` are serialized.
+- `Struct::jsonSerialize()` omits `null` properties and empty collections, and lists inherited properties first. Structs no longer filter their output with `array_filter()`, so `false`, `0` and `''` are serialized.
+- Collection getters return an empty collection instead of `null` or throwing, and keep it, so `$order->getLinks()->add($link)` persists. Collection setters accept `null`. Array getters return `[]` instead of `null`.
 - `Struct::assign()` throws a `LogicException` for a property typed as an abstract struct or as a union with a struct or collection. Override `assign()` to hydrate such a property. An array for a property that accepts none is skipped instead of throwing a `TypeError`.
 
 The structs are now checked against PayPal's OpenAPI specs (see [`tools/openapi/README.md`](tools/openapi/README.md)):

@@ -83,10 +83,10 @@ class Item extends Struct
     protected ?DisputeOutcome $disputeOutcome = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Adjudication::class), minItems: 1, maxItems: 10)]
-    protected AdjudicationCollection $adjudications;
+    protected ?AdjudicationCollection $adjudications = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: MoneyMovement::class), minItems: 1, maxItems: 50)]
-    protected MoneyMovementCollection $moneyMovements;
+    protected ?MoneyMovementCollection $moneyMovements = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $disputeLifeCycleStage;
@@ -125,7 +125,7 @@ class Item extends Struct
     protected ?SupportingInfoCollection $supportingInfo = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     public function getDisputeId(): string
     {
@@ -157,9 +157,9 @@ class Item extends Struct
         $this->updateTime = $updateTime;
     }
 
-    public function getDisputedTransactions(): ?DisputedTransactionCollection
+    public function getDisputedTransactions(): DisputedTransactionCollection
     {
-        return $this->disputedTransactions;
+        return $this->disputedTransactions ??= new DisputedTransactionCollection();
     }
 
     public function setDisputedTransactions(?DisputedTransactionCollection $disputedTransactions): void
@@ -229,20 +229,20 @@ class Item extends Struct
 
     public function getAdjudications(): AdjudicationCollection
     {
-        return $this->adjudications;
+        return $this->adjudications ??= new AdjudicationCollection();
     }
 
-    public function setAdjudications(AdjudicationCollection $adjudications): void
+    public function setAdjudications(?AdjudicationCollection $adjudications): void
     {
         $this->adjudications = $adjudications;
     }
 
     public function getMoneyMovements(): MoneyMovementCollection
     {
-        return $this->moneyMovements;
+        return $this->moneyMovements ??= new MoneyMovementCollection();
     }
 
-    public function setMoneyMovements(MoneyMovementCollection $moneyMovements): void
+    public function setMoneyMovements(?MoneyMovementCollection $moneyMovements): void
     {
         $this->moneyMovements = $moneyMovements;
     }
@@ -267,9 +267,9 @@ class Item extends Struct
         $this->disputeChannel = $disputeChannel;
     }
 
-    public function getMessages(): ?MessageCollection
+    public function getMessages(): MessageCollection
     {
-        return $this->messages;
+        return $this->messages ??= new MessageCollection();
     }
 
     public function setMessages(?MessageCollection $messages): void
@@ -287,9 +287,9 @@ class Item extends Struct
         $this->extensions = $extensions;
     }
 
-    public function getEvidences(): ?EvidenceCollection
+    public function getEvidences(): EvidenceCollection
     {
-        return $this->evidences;
+        return $this->evidences ??= new EvidenceCollection();
     }
 
     public function setEvidences(?EvidenceCollection $evidences): void
@@ -347,9 +347,9 @@ class Item extends Struct
         $this->communicationDetails = $communicationDetails;
     }
 
-    public function getPartnerActions(): ?PartnerActionCollection
+    public function getPartnerActions(): PartnerActionCollection
     {
-        return $this->partnerActions;
+        return $this->partnerActions ??= new PartnerActionCollection();
     }
 
     public function setPartnerActions(?PartnerActionCollection $partnerActions): void
@@ -357,9 +357,9 @@ class Item extends Struct
         $this->partnerActions = $partnerActions;
     }
 
-    public function getSupportingInfo(): ?SupportingInfoCollection
+    public function getSupportingInfo(): SupportingInfoCollection
     {
-        return $this->supportingInfo;
+        return $this->supportingInfo ??= new SupportingInfoCollection();
     }
 
     public function setSupportingInfo(?SupportingInfoCollection $supportingInfo): void
@@ -369,10 +369,10 @@ class Item extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

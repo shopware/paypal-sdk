@@ -16,14 +16,14 @@ use Shopware\PayPalSDK\Struct\V1\Shipping\TrackerCollection;
 class Shipping extends Struct
 {
     #[OA\Property(type: 'array', items: new OA\Items(ref: Tracker::class))]
-    protected TrackerCollection $trackers;
+    protected ?TrackerCollection $trackers = null;
 
     public function getTrackers(): TrackerCollection
     {
-        return $this->trackers;
+        return $this->trackers ??= new TrackerCollection();
     }
 
-    public function setTrackers(TrackerCollection $trackers): void
+    public function setTrackers(?TrackerCollection $trackers): void
     {
         $this->trackers = $trackers;
     }

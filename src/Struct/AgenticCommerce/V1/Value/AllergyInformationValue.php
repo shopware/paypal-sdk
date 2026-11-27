@@ -62,11 +62,11 @@ class AllergyInformationValue extends Struct implements ValueInterface
     protected ?string $emergencyContact = null;
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getAllergies(): ?array
+    public function getAllergies(): array
     {
-        return $this->allergies;
+        return $this->allergies ?? [];
     }
 
     /**
@@ -97,11 +97,11 @@ class AllergyInformationValue extends Struct implements ValueInterface
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getMedications(): ?array
+    public function getMedications(): array
     {
-        return $this->medications;
+        return $this->medications ?? [];
     }
 
     /**

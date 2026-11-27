@@ -21,11 +21,11 @@ class Disputes extends Struct
     protected ?ItemCollection $items = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
-    public function getItems(): ?ItemCollection
+    public function getItems(): ItemCollection
     {
-        return $this->items;
+        return $this->items ??= new ItemCollection();
     }
 
     public function setItems(?ItemCollection $items): void
@@ -35,10 +35,10 @@ class Disputes extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

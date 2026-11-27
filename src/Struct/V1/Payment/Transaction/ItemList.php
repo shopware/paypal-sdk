@@ -22,10 +22,10 @@ class ItemList extends Struct
     protected ShippingAddress $shippingAddress;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]
-    protected ItemCollection $items;
+    protected ?ItemCollection $items = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: ShippingOption::class))]
-    protected ShippingOptionCollection $shippingOptions;
+    protected ?ShippingOptionCollection $shippingOptions = null;
 
     #[OA\Property(type: 'string')]
     protected string $shippingPhoneNumber;
@@ -42,20 +42,20 @@ class ItemList extends Struct
 
     public function getItems(): ItemCollection
     {
-        return $this->items;
+        return $this->items ??= new ItemCollection();
     }
 
-    public function setItems(ItemCollection $items): void
+    public function setItems(?ItemCollection $items): void
     {
         $this->items = $items;
     }
 
     public function getShippingOptions(): ShippingOptionCollection
     {
-        return $this->shippingOptions;
+        return $this->shippingOptions ??= new ShippingOptionCollection();
     }
 
-    public function setShippingOptions(ShippingOptionCollection $shippingOptions): void
+    public function setShippingOptions(?ShippingOptionCollection $shippingOptions): void
     {
         $this->shippingOptions = $shippingOptions;
     }

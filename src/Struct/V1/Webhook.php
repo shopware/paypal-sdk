@@ -25,10 +25,10 @@ class Webhook extends Struct
     protected string $url;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: EventType::class), maxItems: 500)]
-    protected EventTypeCollection $eventTypes;
+    protected ?EventTypeCollection $eventTypes = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     public function getId(): string
     {
@@ -52,20 +52,20 @@ class Webhook extends Struct
 
     public function getEventTypes(): EventTypeCollection
     {
-        return $this->eventTypes;
+        return $this->eventTypes ??= new EventTypeCollection();
     }
 
-    public function setEventTypes(EventTypeCollection $eventTypes): void
+    public function setEventTypes(?EventTypeCollection $eventTypes): void
     {
         $this->eventTypes = $eventTypes;
     }
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

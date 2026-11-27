@@ -200,11 +200,11 @@ class PaymentErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getSupportedPaymentMethods(): ?array
+    public function getSupportedPaymentMethods(): array
     {
-        return $this->supportedPaymentMethods;
+        return $this->supportedPaymentMethods ?? [];
     }
 
     /**

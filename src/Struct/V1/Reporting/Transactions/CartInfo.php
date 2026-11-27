@@ -25,7 +25,7 @@ class CartInfo extends Struct
 
     public function getItemDetails(): ItemDetailCollection
     {
-        return $this->itemDetails ?? $this->itemDetails = new ItemDetailCollection();
+        return $this->itemDetails ??= new ItemDetailCollection();
     }
 
     public function setItemDetails(?ItemDetailCollection $itemDetails): void

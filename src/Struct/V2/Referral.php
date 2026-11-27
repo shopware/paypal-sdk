@@ -47,7 +47,7 @@ class Referral extends Struct
     protected PartnerConfigOverride $partnerConfigOverride;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Operation::class), minItems: 1, maxItems: 5)]
-    protected OperationCollection $operations;
+    protected ?OperationCollection $operations = null;
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 5)]
@@ -67,10 +67,10 @@ class Referral extends Struct
     ];
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: LegalConsent::class), minItems: 1, maxItems: 5)]
-    protected LegalConsentCollection $legalConsents;
+    protected ?LegalConsentCollection $legalConsents = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
     protected string $legalCountryCode;
@@ -117,10 +117,10 @@ class Referral extends Struct
 
     public function getOperations(): OperationCollection
     {
-        return $this->operations;
+        return $this->operations ??= new OperationCollection();
     }
 
-    public function setOperations(OperationCollection $operations): void
+    public function setOperations(?OperationCollection $operations): void
     {
         $this->operations = $operations;
     }
@@ -164,20 +164,20 @@ class Referral extends Struct
 
     public function getLegalConsents(): LegalConsentCollection
     {
-        return $this->legalConsents;
+        return $this->legalConsents ??= new LegalConsentCollection();
     }
 
-    public function setLegalConsents(LegalConsentCollection $legalConsents): void
+    public function setLegalConsents(?LegalConsentCollection $legalConsents): void
     {
         $this->legalConsents = $legalConsents;
     }
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }

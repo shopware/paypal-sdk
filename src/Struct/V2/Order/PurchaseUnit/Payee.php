@@ -19,10 +19,10 @@ class Payee extends Struct
     protected string $emailAddress;
 
     #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
-    protected ?string $merchantId;
+    protected ?string $merchantId = null;
 
     #[OA\Property(ref: DisplayData::class, nullable: true)]
-    protected ?DisplayData $displayData;
+    protected ?DisplayData $displayData = null;
 
     public function getEmailAddress(): string
     {
@@ -36,7 +36,7 @@ class Payee extends Struct
 
     public function getMerchantId(): ?string
     {
-        return $this->merchantId ?? null;
+        return $this->merchantId;
     }
 
     public function setMerchantId(?string $merchantId): void
@@ -46,7 +46,7 @@ class Payee extends Struct
 
     public function getDisplayData(): ?DisplayData
     {
-        return $this->displayData ?? null;
+        return $this->displayData;
     }
 
     public function setDisplayData(?DisplayData $displayData): void

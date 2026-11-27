@@ -41,7 +41,7 @@ class Error extends Struct
      * Detailed error information
      */
     #[OA\Property(type: 'array', items: new OA\Items(ref: AgentErrorDetail::class))]
-    protected AgentErrorDetailCollection $details;
+    protected ?AgentErrorDetailCollection $details = null;
 
     public function getName(): string
     {
@@ -75,10 +75,10 @@ class Error extends Struct
 
     public function getDetails(): AgentErrorDetailCollection
     {
-        return $this->details;
+        return $this->details ??= new AgentErrorDetailCollection();
     }
 
-    public function setDetails(AgentErrorDetailCollection $details): void
+    public function setDetails(?AgentErrorDetailCollection $details): void
     {
         $this->details = $details;
     }

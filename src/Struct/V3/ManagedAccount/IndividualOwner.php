@@ -27,22 +27,22 @@ class IndividualOwner extends Struct
     protected string $id;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Name::class))]
-    protected NameCollection $names;
+    protected ?NameCollection $names = null;
 
     #[OA\Property(ref: Address::class)]
     protected Address $primaryResidence;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: PhoneNumber::class))]
-    protected PhoneNumberCollection $phoneNumbers;
+    protected ?PhoneNumberCollection $phoneNumbers = null;
 
     #[OA\Property(ref: BirthDetails::class)]
     protected BirthDetails $birthDetails;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: IdentificationDocument::class))]
-    protected IdentificationDocumentCollection $identificationDocuments;
+    protected ?IdentificationDocumentCollection $identificationDocuments = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Email::class))]
-    protected EmailCollection $emails;
+    protected ?EmailCollection $emails = null;
 
     public function getId(): string
     {
@@ -56,10 +56,10 @@ class IndividualOwner extends Struct
 
     public function getNames(): NameCollection
     {
-        return $this->names;
+        return $this->names ??= new NameCollection();
     }
 
-    public function setNames(NameCollection $names): void
+    public function setNames(?NameCollection $names): void
     {
         $this->names = $names;
     }
@@ -76,10 +76,10 @@ class IndividualOwner extends Struct
 
     public function getPhoneNumbers(): PhoneNumberCollection
     {
-        return $this->phoneNumbers;
+        return $this->phoneNumbers ??= new PhoneNumberCollection();
     }
 
-    public function setPhoneNumbers(PhoneNumberCollection $phoneNumbers): void
+    public function setPhoneNumbers(?PhoneNumberCollection $phoneNumbers): void
     {
         $this->phoneNumbers = $phoneNumbers;
     }
@@ -96,20 +96,20 @@ class IndividualOwner extends Struct
 
     public function getIdentificationDocuments(): IdentificationDocumentCollection
     {
-        return $this->identificationDocuments;
+        return $this->identificationDocuments ??= new IdentificationDocumentCollection();
     }
 
-    public function setIdentificationDocuments(IdentificationDocumentCollection $identificationDocuments): void
+    public function setIdentificationDocuments(?IdentificationDocumentCollection $identificationDocuments): void
     {
         $this->identificationDocuments = $identificationDocuments;
     }
 
     public function getEmails(): EmailCollection
     {
-        return $this->emails;
+        return $this->emails ??= new EmailCollection();
     }
 
-    public function setEmails(EmailCollection $emails): void
+    public function setEmails(?EmailCollection $emails): void
     {
         $this->emails = $emails;
     }

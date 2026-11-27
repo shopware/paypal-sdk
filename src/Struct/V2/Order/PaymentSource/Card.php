@@ -28,7 +28,7 @@ class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInter
     protected string $type;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN, nullable: true)]
-    protected ?string $vaultId;
+    protected ?string $vaultId = null;
 
     #[OA\Property(ref: Address::class, nullable: true)]
     protected ?Address $billingAddress = null;
@@ -74,7 +74,7 @@ class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInter
 
     public function getVaultId(): ?string
     {
-        return $this->vaultId ?? null;
+        return $this->vaultId;
     }
 
     public function setVaultId(?string $vaultId): void

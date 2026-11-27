@@ -192,11 +192,11 @@ class DataErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getAllowedValues(): ?array
+    public function getAllowedValues(): array
     {
-        return $this->allowedValues;
+        return $this->allowedValues ?? [];
     }
 
     /**
@@ -213,11 +213,11 @@ class DataErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getRequiredFields(): ?array
+    public function getRequiredFields(): array
     {
-        return $this->requiredFields;
+        return $this->requiredFields ?? [];
     }
 
     /**
@@ -229,11 +229,11 @@ class DataErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getFieldDescriptions(): ?array
+    public function getFieldDescriptions(): array
     {
-        return $this->fieldDescriptions;
+        return $this->fieldDescriptions ?? [];
     }
 
     /**

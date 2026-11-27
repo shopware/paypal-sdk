@@ -8,6 +8,7 @@
 namespace Shopware\PayPalSDK\Struct\V1;
 
 use Shopware\PayPalSDK\Struct\Struct;
+use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\FooCollection;
 
 class PHPStanRuleStruct extends Struct
 {
@@ -34,6 +35,13 @@ class PHPStanRuleStruct extends Struct
     protected Struct $wrongGetSetTypes;
 
     protected Struct $wrongGetSetSignature;
+
+    protected FooCollection $notNullableCollection;
+
+    protected ?FooCollection $nullableCollectionGetter = null;
+
+    /** @var string[]|null */
+    protected ?array $nullableArrayGetter = null;
 
     public function getWrongVisibility(): string
     {
@@ -132,5 +140,41 @@ class PHPStanRuleStruct extends Struct
 
     public function setWrongGetSetSignature(int $value, string $extra): void
     {
+    }
+
+    public function getNotNullableCollection(): FooCollection
+    {
+        return $this->notNullableCollection;
+    }
+
+    public function setNotNullableCollection(FooCollection $notNullableCollection): void
+    {
+        $this->notNullableCollection = $notNullableCollection;
+    }
+
+    public function getNullableCollectionGetter(): ?FooCollection
+    {
+        return $this->nullableCollectionGetter;
+    }
+
+    public function setNullableCollectionGetter(?FooCollection $nullableCollectionGetter): void
+    {
+        $this->nullableCollectionGetter = $nullableCollectionGetter;
+    }
+
+    /**
+     * @return string[]|null
+     */
+    public function getNullableArrayGetter(): ?array
+    {
+        return $this->nullableArrayGetter;
+    }
+
+    /**
+     * @param string[]|null $nullableArrayGetter
+     */
+    public function setNullableArrayGetter(?array $nullableArrayGetter): void
+    {
+        $this->nullableArrayGetter = $nullableArrayGetter;
     }
 }

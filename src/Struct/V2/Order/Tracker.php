@@ -35,7 +35,7 @@ class Tracker extends Struct
     protected bool $notifyPayer = false;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]
-    protected ItemCollection $items;
+    protected ?ItemCollection $items = null;
 
     public function getCaptureId(): string
     {
@@ -102,10 +102,10 @@ class Tracker extends Struct
 
     public function getItems(): ItemCollection
     {
-        return $this->items;
+        return $this->items ??= new ItemCollection();
     }
 
-    public function setItems(ItemCollection $items): void
+    public function setItems(?ItemCollection $items): void
     {
         $this->items = $items;
     }

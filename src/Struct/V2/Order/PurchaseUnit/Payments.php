@@ -28,9 +28,9 @@ class Payments extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Refund::class), nullable: true)]
     protected ?RefundCollection $refunds = null;
 
-    public function getAuthorizations(): ?AuthorizationCollection
+    public function getAuthorizations(): AuthorizationCollection
     {
-        return $this->authorizations;
+        return $this->authorizations ??= new AuthorizationCollection();
     }
 
     public function setAuthorizations(?AuthorizationCollection $authorizations): void
@@ -38,9 +38,9 @@ class Payments extends Struct
         $this->authorizations = $authorizations;
     }
 
-    public function getCaptures(): ?CaptureCollection
+    public function getCaptures(): CaptureCollection
     {
-        return $this->captures;
+        return $this->captures ??= new CaptureCollection();
     }
 
     public function setCaptures(?CaptureCollection $captures): void
@@ -48,9 +48,9 @@ class Payments extends Struct
         $this->captures = $captures;
     }
 
-    public function getRefunds(): ?RefundCollection
+    public function getRefunds(): RefundCollection
     {
-        return $this->refunds;
+        return $this->refunds ??= new RefundCollection();
     }
 
     public function setRefunds(?RefundCollection $refunds): void

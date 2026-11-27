@@ -42,9 +42,9 @@ class PaymentApprovalReversed extends Struct
         $this->orderId = $orderId;
     }
 
-    public function getPurchaseUnits(): ?PurchaseUnitCollection
+    public function getPurchaseUnits(): PurchaseUnitCollection
     {
-        return $this->purchaseUnits;
+        return $this->purchaseUnits ??= new PurchaseUnitCollection();
     }
 
     public function setPurchaseUnits(?PurchaseUnitCollection $purchaseUnits): void

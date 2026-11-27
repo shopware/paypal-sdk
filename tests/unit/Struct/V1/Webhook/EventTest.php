@@ -216,7 +216,7 @@ class EventTest extends TestCase
         static::assertNotNull($resource);
         static::assertInstanceOf(PaymentApprovalReversed::class, $resource);
         static::assertSame('5O190127TN364715T', $resource->getOrderId());
-        static::assertSame('MERCHANT_CUSTOM_ID', $resource->getPurchaseUnits()?->first()?->getCustomId());
+        static::assertSame('MERCHANT_CUSTOM_ID', $resource->getPurchaseUnits()->first()?->getCustomId());
         static::assertNotNull($resource->getPaymentSource()?->getIdeal());
     }
 

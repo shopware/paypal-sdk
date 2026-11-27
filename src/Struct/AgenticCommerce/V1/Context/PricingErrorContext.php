@@ -170,7 +170,7 @@ class PricingErrorContext extends AbstractContext
      * Items with different currencies
      */
     #[OA\Property(type: 'array', items: new OA\Items(ref: MixedItem::class))]
-    protected MixedItemCollection $mixedItems;
+    protected ?MixedItemCollection $mixedItems = null;
 
     public function getItemId(): ?string
     {
@@ -297,11 +297,11 @@ class PricingErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getSupportedCurrencies(): ?array
+    public function getSupportedCurrencies(): array
     {
-        return $this->supportedCurrencies;
+        return $this->supportedCurrencies ?? [];
     }
 
     /**
@@ -318,11 +318,11 @@ class PricingErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getFoundCurrencies(): ?array
+    public function getFoundCurrencies(): array
     {
-        return $this->foundCurrencies;
+        return $this->foundCurrencies ?? [];
     }
 
     /**
@@ -380,10 +380,10 @@ class PricingErrorContext extends AbstractContext
 
     public function getMixedItems(): MixedItemCollection
     {
-        return $this->mixedItems;
+        return $this->mixedItems ??= new MixedItemCollection();
     }
 
-    public function setMixedItems(MixedItemCollection $mixedItems): void
+    public function setMixedItems(?MixedItemCollection $mixedItems): void
     {
         $this->mixedItems = $mixedItems;
     }

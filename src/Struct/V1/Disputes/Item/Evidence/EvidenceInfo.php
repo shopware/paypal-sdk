@@ -16,7 +16,7 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Evidence\EvidenceInfo\TrackingInf
 class EvidenceInfo extends Struct
 {
     #[OA\Property(type: 'array', items: new OA\Items(ref: TrackingInfo::class), minItems: 1, maxItems: 10)]
-    protected TrackingInfoCollection $trackingInfo;
+    protected ?TrackingInfoCollection $trackingInfo = null;
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 100)]
@@ -24,10 +24,10 @@ class EvidenceInfo extends Struct
 
     public function getTrackingInfo(): TrackingInfoCollection
     {
-        return $this->trackingInfo;
+        return $this->trackingInfo ??= new TrackingInfoCollection();
     }
 
-    public function setTrackingInfo(TrackingInfoCollection $trackingInfo): void
+    public function setTrackingInfo(?TrackingInfoCollection $trackingInfo): void
     {
         $this->trackingInfo = $trackingInfo;
     }

@@ -147,7 +147,7 @@ class BusinessRuleErrorContext extends AbstractContext
      * Store business hours
      */
     #[OA\Property(type: 'array', items: new OA\Items(ref: BusinessHour::class))]
-    protected BusinessHourCollection $businessHours;
+    protected ?BusinessHourCollection $businessHours = null;
 
     /**
      * Amount needed to meet minimum requirements
@@ -322,11 +322,11 @@ class BusinessRuleErrorContext extends AbstractContext
     }
 
     /**
-     * @return ?string[]
+     * @return string[]
      */
-    public function getRestrictedItems(): ?array
+    public function getRestrictedItems(): array
     {
-        return $this->restrictedItems;
+        return $this->restrictedItems ?? [];
     }
 
     /**
@@ -354,10 +354,10 @@ class BusinessRuleErrorContext extends AbstractContext
 
     public function getBusinessHours(): BusinessHourCollection
     {
-        return $this->businessHours;
+        return $this->businessHours ??= new BusinessHourCollection();
     }
 
-    public function setBusinessHours(BusinessHourCollection $businessHours): void
+    public function setBusinessHours(?BusinessHourCollection $businessHours): void
     {
         $this->businessHours = $businessHours;
     }

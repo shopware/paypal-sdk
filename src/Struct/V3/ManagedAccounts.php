@@ -14,14 +14,14 @@ use Shopware\PayPalSDK\Struct\Struct;
 class ManagedAccounts extends Struct
 {
     #[OA\Property(type: 'array', items: new OA\Items(ref: ManagedAccount::class))]
-    protected ManagedAccountCollection $managedAccounts;
+    protected ?ManagedAccountCollection $managedAccounts = null;
 
     public function getManagedAccounts(): ManagedAccountCollection
     {
-        return $this->managedAccounts;
+        return $this->managedAccounts ??= new ManagedAccountCollection();
     }
 
-    public function setManagedAccounts(ManagedAccountCollection $managedAccounts): void
+    public function setManagedAccounts(?ManagedAccountCollection $managedAccounts): void
     {
         $this->managedAccounts = $managedAccounts;
     }

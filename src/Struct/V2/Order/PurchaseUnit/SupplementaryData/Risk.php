@@ -15,11 +15,11 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Risk\Parti
 class Risk extends Struct
 {
     #[OA\Property(ref: ParticipantMetadata::class, nullable: true)]
-    protected ?ParticipantMetadata $customer;
+    protected ?ParticipantMetadata $customer = null;
 
     public function getCustomer(): ?ParticipantMetadata
     {
-        return $this->customer ?? null;
+        return $this->customer;
     }
 
     public function setCustomer(?ParticipantMetadata $customer): void

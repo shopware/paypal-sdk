@@ -8,7 +8,6 @@
 namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Builder;
 
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOption;
-use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOptionCollection;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ValidationIssue;
 
 /**
@@ -22,10 +21,6 @@ final class ResolutionBuilder
         private readonly ValidationIssue $issue,
         private readonly ValidationIssueBuilder $validationIssueBuilder,
     ) {
-        if (!$this->issue->isset('resolutionOptions')) {
-            $this->issue->setResolutionOptions(new ResolutionOptionCollection());
-        }
-
         $this->resolution = new ResolutionOption();
         $this->issue->getResolutionOptions()->add($this->resolution);
     }

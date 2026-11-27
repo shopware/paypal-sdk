@@ -13,6 +13,7 @@ use PHPStan\Node\ClassPropertyNode;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\ObjectType;
 use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\ConstantsV1;
 use Shopware\PayPalSDK\Struct\ConstantsV2;
@@ -63,6 +64,10 @@ class StructRule implements Rule
 
         if (!$node->getNativeType()) {
             $errors[] = self::message($node, 'should have a native type', 'type');
+        } elseif (!$node->getNativeType()->isNull()->no() && $node->getDefault() === null) {
+            $errors[] = self::message($node, 'is nullable and should default to null', 'default');
+        } elseif ($node->getNativeType()->isNull()->no() && (new ObjectType(Collection::class))->isSuperTypeOf($node->getNativeType())->yes()) {
+            $errors[] = self::message($node, 'is a collection and should be nullable', 'collection');
         }
 
         if ($node->getName() !== ($camelCaseName = CaseConverter::denormalize($node->getName()))) {

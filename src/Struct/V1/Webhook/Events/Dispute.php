@@ -46,7 +46,7 @@ class Dispute extends Struct
     protected ?DisputedTransactionCollection $disputedTransactions = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
-    protected LinkCollection $links;
+    protected ?LinkCollection $links = null;
 
     public function getDisputeId(): string
     {
@@ -128,9 +128,9 @@ class Dispute extends Struct
         $this->disputeLifeCycleStage = $disputeLifeCycleStage;
     }
 
-    public function getDisputedTransactions(): ?DisputedTransactionCollection
+    public function getDisputedTransactions(): DisputedTransactionCollection
     {
-        return $this->disputedTransactions;
+        return $this->disputedTransactions ??= new DisputedTransactionCollection();
     }
 
     public function setDisputedTransactions(?DisputedTransactionCollection $disputedTransactions): void
@@ -140,10 +140,10 @@ class Dispute extends Struct
 
     public function getLinks(): LinkCollection
     {
-        return $this->links;
+        return $this->links ??= new LinkCollection();
     }
 
-    public function setLinks(LinkCollection $links): void
+    public function setLinks(?LinkCollection $links): void
     {
         $this->links = $links;
     }
