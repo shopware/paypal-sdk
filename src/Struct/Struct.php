@@ -95,6 +95,9 @@ abstract class Struct implements \JsonSerializable
 
             if ($value instanceof \DateTimeInterface) {
                 $value = $value->format(\DateTimeInterface::ATOM);
+            } elseif ($value instanceof self) {
+                // json_encode() writes an empty array as [], but an empty struct is an object
+                $value = $value->jsonSerialize() ?: new \stdClass();
             } elseif ($value instanceof \JsonSerializable) {
                 $value = $value->jsonSerialize();
             }

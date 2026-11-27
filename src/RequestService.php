@@ -18,6 +18,7 @@ use Shopware\PayPalSDK\Contract\Context\CredentialsOAuthContextInterface;
 use Shopware\PayPalSDK\Contract\RequestServiceInterface;
 use Shopware\PayPalSDK\Exception\ApiException;
 use Shopware\PayPalSDK\Exception\ExceptionFactory;
+use Shopware\PayPalSDK\Struct\Struct;
 
 class RequestService implements RequestServiceInterface
 {
@@ -64,7 +65,10 @@ class RequestService implements RequestServiceInterface
             return $request;
         }
 
-        if ($body instanceof \JsonSerializable) {
+        if ($body instanceof Struct) {
+            // json_encode() writes an empty array as [], but an empty struct is an object
+            $body = $body->jsonSerialize() ?: new \stdClass();
+        } elseif ($body instanceof \JsonSerializable) {
             $body = $body->jsonSerialize();
             /** @var array<mixed> $body */
         }

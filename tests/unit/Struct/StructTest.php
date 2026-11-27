@@ -251,6 +251,24 @@ class StructTest extends TestCase
         static::assertSame(['flag' => false, 'count' => 0, 'zero' => '0', 'list' => []], $struct->jsonSerialize());
     }
 
+    public function testSerializeEmptyStructAsObject(): void
+    {
+        $struct = new class extends Struct {
+            protected ?Bar $bar = null;
+
+            /** @var string[] */
+            protected array $list = [];
+
+            public function setBar(Bar $bar): void
+            {
+                $this->bar = $bar;
+            }
+        };
+        $struct->setBar(new Bar());
+
+        static::assertSame('{"bar":{},"list":[]}', \json_encode($struct));
+    }
+
     public function testAssignSkipsArrayForNonArrayProperty(): void
     {
         static::assertEmpty($this->cycleStruct(['id' => ['not' => 'a string']]));
