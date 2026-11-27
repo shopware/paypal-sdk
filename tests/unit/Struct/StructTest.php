@@ -256,17 +256,24 @@ class StructTest extends TestCase
         static::assertEmpty($this->cycleStruct(['id' => ['not' => 'a string']]));
     }
 
-    public function testAssignDoesNotCacheUnknownKeys(): void
+    public function testAssignCachesOnlyCanonicalKeys(): void
     {
         $struct = new class extends Struct {
-            protected string $id;
+            protected string $orderId;
+
+            public function getOrderId(): string
+            {
+                return $this->orderId;
+            }
         };
-        $struct->assign(['id' => 'ORDER-1', 'unknown' => 'value']);
+        $struct->assign(['order__id' => 'ORDER-2', 'unknown' => 'value']);
+        static::assertSame('ORDER-2', $struct->getOrderId());
+        $struct->assign(['order_id' => 'ORDER-1', 'orderId' => 'ORDER-1']);
 
         $metadata = (new \ReflectionProperty(Struct::class, 'assignMetadata'))->getValue();
         static::assertIsArray($metadata);
         static::assertIsArray($metadata[$struct::class] ?? null);
-        static::assertSame(['id'], \array_keys($metadata[$struct::class]));
+        static::assertSame(['order_id', 'orderId'], \array_keys($metadata[$struct::class]));
     }
 
     public function testAssignThrowsForUnionWithStruct(): void

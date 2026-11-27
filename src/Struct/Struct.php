@@ -13,7 +13,8 @@ abstract class Struct implements \JsonSerializable
 {
     /**
      * Per class and input key: property name, setter, nested struct or collection class and whether
-     * the property accepts arrays. Unknown keys are not cached, so external input cannot grow it.
+     * the property accepts arrays. Only the property name and its snake_case form are cached, so external
+     * input cannot grow it with unknown keys or spellings like `purchase__units`.
      *
      * @var array<class-string<self>, array<array-key, array{string, ?string, class-string<self>|class-string<Collection>|null, bool}>>
      */
@@ -177,6 +178,11 @@ abstract class Struct implements \JsonSerializable
 
         $setter = 'set' . \ucfirst($name);
 
-        return self::$assignMetadata[$class][$key] = [$name, \method_exists($class, $setter) ? $setter : null, $target, $acceptsArray];
+        $metadata = [$name, \method_exists($class, $setter) ? $setter : null, $target, $acceptsArray];
+        if ($key === $name || $key === CaseConverter::normalize($name)) {
+            self::$assignMetadata[$class][$key] = $metadata;
+        }
+
+        return $metadata;
     }
 }
