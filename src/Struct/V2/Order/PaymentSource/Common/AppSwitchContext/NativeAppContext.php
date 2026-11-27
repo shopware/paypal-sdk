@@ -23,27 +23,27 @@ class NativeAppContext extends Struct
     ];
 
     #[OA\Property(type: 'string', enum: self::OS_TYPES)]
-    protected string $osType;
+    protected ?string $osType = null;
 
     #[OA\Property(type: 'string', maxLength: 64, minLength: 1)]
-    protected string $osVersion;
+    protected ?string $osVersion = null;
 
-    public function getOsType(): string
+    public function getOsType(): ?string
     {
         return $this->osType;
     }
 
-    public function setOsType(string $osType): void
+    public function setOsType(?string $osType): void
     {
         $this->osType = $osType;
     }
 
-    public function getOsVersion(): string
+    public function getOsVersion(): ?string
     {
         return $this->osVersion;
     }
 
-    public function setOsVersion(string $osVersion): void
+    public function setOsVersion(?string $osVersion): void
     {
         $this->osVersion = $osVersion;
     }

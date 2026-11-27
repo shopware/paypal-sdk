@@ -19,13 +19,13 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\RefundCollection;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments')]
 class Payments extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Authorization::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Authorization::class))]
     protected ?AuthorizationCollection $authorizations = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Capture::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Capture::class))]
     protected ?CaptureCollection $captures = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Refund::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Refund::class))]
     protected ?RefundCollection $refunds = null;
 
     public function getAuthorizations(): AuthorizationCollection

@@ -17,7 +17,18 @@ use Shopware\PayPalSDK\Struct\V3\ManagedAccount\BusinessEntity;
 use Shopware\PayPalSDK\Struct\V3\ManagedAccount\IndividualOwner;
 use Shopware\PayPalSDK\Struct\V3\ManagedAccount\IndividualOwnerCollection;
 
-#[OA\Schema(schema: 'paypal_v3_managed_account')]
+#[OA\Schema(
+    schema: 'paypal_v3_managed_account',
+    required: [
+        'accountId',
+        'legalCountryCode',
+        'businessEntity',
+        'externalId',
+        'organization',
+        'primaryCurrencyCode',
+        'softDescriptor',
+    ]
+)]
 class ManagedAccount extends Struct
 {
     #[OA\Property(type: 'string')]

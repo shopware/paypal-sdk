@@ -15,13 +15,13 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\DisputeAmount;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\DisputedTransaction;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\DisputedTransactionCollection;
 
-#[OA\Schema(schema: 'paypal_v1_webhook_events_dispute')]
+#[OA\Schema(schema: 'paypal_v1_webhook_events_dispute', required: ['disputeId', 'reason', 'status'])]
 class Dispute extends Struct
 {
     #[OA\Property(type: 'string')]
     protected string $disputeId;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $merchantId = null;
 
     #[OA\Property(type: 'string')]
@@ -30,19 +30,19 @@ class Dispute extends Struct
     #[OA\Property(type: 'string')]
     protected string $status;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $disputeState = null;
 
-    #[OA\Property(ref: DisputeAmount::class, nullable: true)]
+    #[OA\Property(ref: DisputeAmount::class)]
     protected ?DisputeAmount $disputeAmount = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $sellerResponseDueDate = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $disputeLifeCycleStage = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: DisputedTransaction::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: DisputedTransaction::class))]
     protected ?DisputedTransactionCollection $disputedTransactions = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]

@@ -22,10 +22,10 @@ class ManagedAccounts extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected ?LinkCollection $links = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $externalId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $accountId = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Capability::class))]

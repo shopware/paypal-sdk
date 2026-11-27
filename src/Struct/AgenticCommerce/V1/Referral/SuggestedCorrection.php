@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_suggested_correction')]
+#[OA\Schema(
+    schema: 'paypal_agentic_commerce_v1_referral_suggested_correction',
+    required: ['postalCode', 'addressLine1', 'adminArea2']
+)]
 class SuggestedCorrection extends Struct
 {
     #[OA\Property(type: 'string')]

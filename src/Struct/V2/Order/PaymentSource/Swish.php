@@ -9,7 +9,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_swish')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_swish', required: ['name', 'countryCode', 'phone'])]
 class Swish extends AbstractAPMPaymentSource
 {
     #[OA\Property(type: 'string')]

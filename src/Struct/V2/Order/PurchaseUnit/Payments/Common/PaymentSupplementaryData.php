@@ -21,7 +21,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_common_payment_supplementary_data')]
 class PaymentSupplementaryData extends Struct
 {
-    #[OA\Property(ref: RelatedIds::class, nullable: true)]
+    #[OA\Property(ref: RelatedIds::class)]
     protected ?RelatedIds $relatedIds = null;
 
     public function getRelatedIds(): ?RelatedIds

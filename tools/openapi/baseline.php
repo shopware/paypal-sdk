@@ -10,6 +10,8 @@ return [
     'attribute V2\Order\PurchaseUnit\Item::$name maxLength 127 -> 3000' => 'PayPal truncates longer names and may split a surrogate pair, see Utf16::truncate()',
     'attribute V2\Order\PurchaseUnit\Shipping\Tracker\Item::$name +maxLength 127' => 'the /track endpoint accepts longer names (tested in the sandbox)',
     'enum V2\Order\PaymentSource\Common\ExperienceContext::$landingPage +BILLING' => 'LANDING_PAGE_TYPES leaves BILLING out on purpose; GUEST_CHECKOUT replaces it',
+    'optional V1\Patch::$path' => 'RFC 6902 requires path on every operation',
+    'optional V2\Patch::$path' => 'RFC 6902 requires path on every operation',
     'sdk-only V1\Common\Address::$phone' => 'not in the v1 address schemas',
     'sdk-only V1\Common\Link::$encType' => 'not in the v1 link schemas',
     'sdk-only V1\Disputes\Item::$partnerActions' => 'not in the disputes spec',

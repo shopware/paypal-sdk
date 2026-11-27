@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\V2\Common\Name;
 use Shopware\PayPalSDK\Struct\V2\Common\PhoneNumber;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\PayUponInvoice\DepositBankDetails;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_pay_upon_invoice')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_payment_source_pay_upon_invoice',
+    required: ['name', 'email', 'birthDate', 'phone', 'billingAddress', 'paymentReference', 'depositBankDetails']
+)]
 class PayUponInvoice extends AbstractPaymentSource
 {
     #[OA\Property(ref: Name::class)]

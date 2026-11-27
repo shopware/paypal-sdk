@@ -9,7 +9,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_trustly')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_trustly', required: ['name', 'countryCode'])]
 class Trustly extends AbstractAPMPaymentSource
 {
 }

@@ -13,22 +13,22 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_subscription_subscriber_shipping_address_address')]
+#[OA\Schema(schema: 'paypal_v1_subscription_subscriber_shipping_address_address', required: ['countryCode'])]
 class Address extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $addressLine1 = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $addressLine2 = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $adminArea1 = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $adminArea2 = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $postalCode = null;
 
     #[OA\Property(type: 'string')]

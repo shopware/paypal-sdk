@@ -10,10 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V1\Webhook;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_webhook_application_context')]
+#[OA\Schema(schema: 'paypal_v1_webhook_application_context', required: ['eventContext'])]
 class ApplicationContext extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $actor = null;
 
     #[OA\Property(type: 'string')]

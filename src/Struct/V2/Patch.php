@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V2;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_patch')]
+#[OA\Schema(schema: 'paypal_v2_patch', required: ['op', 'path'])]
 class Patch extends Struct
 {
     public const string OPERATION_ADD = 'add';
@@ -27,7 +27,7 @@ class Patch extends Struct
     protected string $path;
 
     /** @var int|float|string|bool|mixed[]|null */
-    #[OA\Property(nullable: true, oneOf: [
+    #[OA\Property(nullable: false, oneOf: [
         new OA\Schema(type: 'integer'),
         new OA\Schema(type: 'number'),
         new OA\Schema(type: 'string'),
@@ -37,7 +37,7 @@ class Patch extends Struct
     protected int|float|string|bool|array|null $value = null;
 
     #[OA\Property(type: 'string')]
-    protected string $from;
+    protected ?string $from = null;
 
     public function getOp(): string
     {
@@ -75,12 +75,12 @@ class Patch extends Struct
         $this->value = $value;
     }
 
-    public function getFrom(): string
+    public function getFrom(): ?string
     {
         return $this->from;
     }
 
-    public function setFrom(string $from): void
+    public function setFrom(?string $from): void
     {
         $this->from = $from;
     }

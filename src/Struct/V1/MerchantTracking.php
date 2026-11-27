@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 
-#[OA\Schema(schema: 'paypal_v1_merchant_tracking')]
+#[OA\Schema(schema: 'paypal_v1_merchant_tracking', required: ['merchantId', 'trackingId'])]
 class MerchantTracking extends Struct
 {
     #[OA\Property(type: 'string')]

@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\AbstractPaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_bank_sepa_debit')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_bank_sepa_debit', required: ['iban', 'accountHolderName'])]
 class SepaDebit extends AbstractPaymentSource
 {
     #[OA\Property(type: 'string')]
@@ -21,13 +21,13 @@ class SepaDebit extends AbstractPaymentSource
     #[OA\Property(type: 'string')]
     protected string $accountHolderName;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $ibanLastChars = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $billingAddress = null;
 
-    #[OA\Property(ref: Attributes::class, nullable: true)]
+    #[OA\Property(ref: Attributes::class)]
     protected ?Attributes $attributes = null;
 
     public function getIban(): string

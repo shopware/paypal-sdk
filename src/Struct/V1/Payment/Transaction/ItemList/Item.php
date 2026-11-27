@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V1\Payment\Transaction\ItemList;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_payment_transaction_item_list_item')]
+#[OA\Schema(
+    schema: 'paypal_v1_payment_transaction_item_list_item',
+    required: ['name', 'currency', 'price', 'quantity', 'tax']
+)]
 class Item extends Struct
 {
     public const int MAX_LENGTH_NAME = 127;
@@ -28,7 +31,7 @@ class Item extends Struct
     #[OA\Property(type: 'integer')]
     protected int $quantity;
 
-    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_SKU)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_SKU)]
     protected ?string $sku = null;
 
     #[OA\Property(type: 'string')]

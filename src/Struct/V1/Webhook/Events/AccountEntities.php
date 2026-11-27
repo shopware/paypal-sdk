@@ -18,16 +18,16 @@ use Shopware\PayPalSDK\Struct\V1\Webhook\ApplicationContext;
 #[OA\Schema(schema: 'paypal_v1_webhook_events_account_entities')]
 class AccountEntities extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $externalId = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $accountId = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Capability::class))]
     protected ?CapabilityCollection $capabilities = null;
 
-    #[OA\Property(ref: ApplicationContext::class, nullable: true)]
+    #[OA\Property(ref: ApplicationContext::class)]
     protected ?ApplicationContext $applicationContext = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]

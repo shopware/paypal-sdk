@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\V1\Common\Amount;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 
-#[OA\Schema(schema: 'paypal_v1_do_void')]
+#[OA\Schema(
+    schema: 'paypal_v1_do_void',
+    required: ['id', 'amount', 'state', 'parentPayment', 'createTime', 'updateTime']
+)]
 class DoVoid extends Struct
 {
     #[OA\Property(type: 'string')]

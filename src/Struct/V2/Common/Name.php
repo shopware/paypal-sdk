@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_common_name')]
+#[OA\Schema(schema: 'paypal_v2_common_name', required: ['givenName', 'surname'])]
 class Name extends Struct
 {
     #[OA\Property(type: 'string', maxLength: 140)]

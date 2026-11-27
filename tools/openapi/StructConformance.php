@@ -252,6 +252,11 @@ final class StructConformance
             $name = $property->getName();
             $modelled[$name] = true;
 
+            $optionalIn = array_filter($pairings, static fn (Pairing $p): bool => !$p->isRequired($name));
+            if (!$isReceived && $optionalIn !== [] && !($property->getType()?->allowsNull() ?? true)) {
+                $findings[] = new Finding(Finding::OPTIONAL, $class, $name, 'non-nullable, but optional in ' . self::list(array_values($optionalIn)));
+            }
+
             $defining = array_values(array_filter($pairings, static fn (Pairing $p): bool => $p->fieldSchema($name) !== null));
             if ($defining === []) {
                 $findings[] = self::missingField($class, $name, $pairings);

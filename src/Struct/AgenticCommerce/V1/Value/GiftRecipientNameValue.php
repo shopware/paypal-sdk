@@ -30,13 +30,13 @@ class GiftRecipientNameValue extends Struct implements ValueInterface
      * Recipient's first name
      */
     #[OA\Property(type: 'string')]
-    protected string $firstName;
+    protected ?string $firstName = null;
 
     /**
      * Recipient's last name
      */
     #[OA\Property(type: 'string')]
-    protected string $lastName;
+    protected ?string $lastName = null;
 
     public function getName(): string
     {
@@ -48,22 +48,22 @@ class GiftRecipientNameValue extends Struct implements ValueInterface
         $this->name = $name;
     }
 
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): void
+    public function setFirstName(?string $firstName): void
     {
         $this->firstName = $firstName;
     }
 
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): void
+    public function setLastName(?string $lastName): void
     {
         $this->lastName = $lastName;
     }

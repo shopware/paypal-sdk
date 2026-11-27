@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_meta_data')]
+#[OA\Schema(
+    schema: 'paypal_agentic_commerce_v1_referral_meta_data',
+    required: ['costImpact', 'priority', 'waist', 'autoApplicable', 'estimatedTime', 'redirectRequired']
+)]
 class MetaData extends Struct
 {
     public const string PRIORITY__HIGH = 'HIGH';

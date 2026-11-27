@@ -37,13 +37,13 @@ class ExperienceContext extends Struct
     public const string ACQUIRING_CHANNEL_ECOMMERCE = 'ECOMMERCE';
 
     #[OA\Property(type: 'string', minLength: 2, maxLength: 10, pattern: Pattern::LANGUAGE)]
-    protected string $locale;
+    protected ?string $locale = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
-    protected string $brandName;
+    protected ?string $brandName = null;
 
     #[OA\Property(type: 'string')]
-    protected string $logoUrl;
+    protected ?string $logoUrl = null;
 
     #[OA\Property(type: 'string', enum: self::LANDING_PAGE_TYPES)]
     protected ?string $landingPage = null;
@@ -55,19 +55,19 @@ class ExperienceContext extends Struct
     protected ?string $userAction = null;
 
     #[OA\Property(type: 'string', format: 'uri')]
-    protected string $returnUrl;
+    protected ?string $returnUrl = null;
 
     #[OA\Property(type: 'string', format: 'uri')]
-    protected string $cancelUrl;
+    protected ?string $cancelUrl = null;
 
     #[OA\Property(type: 'string')]
-    protected string $acquiringChannel;
+    protected ?string $acquiringChannel = null;
 
     /**
      * Only: PayPal Wallet
      */
     #[OA\Property(type: 'string', enum: [self::PAYMENT_METHOD_PREFERENCE_UNRESTRICTED, self::PAYMENT_METHOD_PREFERENCE_IMMEDIATE_REQUIRED])]
-    protected string $paymentMethodPreference;
+    protected ?string $paymentMethodPreference = null;
 
     /**
      * Only: PUI
@@ -75,46 +75,46 @@ class ExperienceContext extends Struct
      * @var string[]
      */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
-    protected array $customerServiceInstructions;
+    protected ?array $customerServiceInstructions = null;
 
     #[OA\Property(ref: OrderUpdateCallbackConfig::class)]
     protected ?OrderUpdateCallbackConfig $orderUpdateCallbackConfig = null;
 
-    #[OA\Property(ref: AppSwitchContext::class, nullable: true)]
+    #[OA\Property(ref: AppSwitchContext::class)]
     protected ?AppSwitchContext $appSwitchContext = null;
 
     /**
      * Only: PayPal Wallet
      */
-    #[OA\Property(ref: PreferredPaymentSource::class, nullable: true)]
+    #[OA\Property(ref: PreferredPaymentSource::class)]
     protected ?PreferredPaymentSource $preferredPaymentSource = null;
 
-    public function getLocale(): string
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
 
-    public function setLocale(string $locale): void
+    public function setLocale(?string $locale): void
     {
         $this->locale = $locale;
     }
 
-    public function getBrandName(): string
+    public function getBrandName(): ?string
     {
         return $this->brandName;
     }
 
-    public function setBrandName(string $brandName): void
+    public function setBrandName(?string $brandName): void
     {
         $this->brandName = $brandName;
     }
 
-    public function getLogoUrl(): string
+    public function getLogoUrl(): ?string
     {
         return $this->logoUrl;
     }
 
-    public function setLogoUrl(string $logoUrl): void
+    public function setLogoUrl(?string $logoUrl): void
     {
         $this->logoUrl = $logoUrl;
     }
@@ -149,32 +149,32 @@ class ExperienceContext extends Struct
         $this->userAction = $userAction;
     }
 
-    public function getReturnUrl(): string
+    public function getReturnUrl(): ?string
     {
         return $this->returnUrl;
     }
 
-    public function setReturnUrl(string $returnUrl): void
+    public function setReturnUrl(?string $returnUrl): void
     {
         $this->returnUrl = $returnUrl;
     }
 
-    public function getCancelUrl(): string
+    public function getCancelUrl(): ?string
     {
         return $this->cancelUrl;
     }
 
-    public function setCancelUrl(string $cancelUrl): void
+    public function setCancelUrl(?string $cancelUrl): void
     {
         $this->cancelUrl = $cancelUrl;
     }
 
-    public function getPaymentMethodPreference(): string
+    public function getPaymentMethodPreference(): ?string
     {
         return $this->paymentMethodPreference;
     }
 
-    public function setPaymentMethodPreference(string $paymentMethodPreference): void
+    public function setPaymentMethodPreference(?string $paymentMethodPreference): void
     {
         $this->paymentMethodPreference = $paymentMethodPreference;
     }
@@ -184,13 +184,13 @@ class ExperienceContext extends Struct
      */
     public function getCustomerServiceInstructions(): array
     {
-        return $this->customerServiceInstructions;
+        return $this->customerServiceInstructions ?? [];
     }
 
     /**
      * @param string[] $customerServiceInstructions
      */
-    public function setCustomerServiceInstructions(array $customerServiceInstructions): void
+    public function setCustomerServiceInstructions(?array $customerServiceInstructions): void
     {
         $this->customerServiceInstructions = $customerServiceInstructions;
     }
@@ -215,12 +215,12 @@ class ExperienceContext extends Struct
         $this->appSwitchContext = $appSwitchContext;
     }
 
-    public function getAcquiringChannel(): string
+    public function getAcquiringChannel(): ?string
     {
         return $this->acquiringChannel;
     }
 
-    public function setAcquiringChannel(string $acquiringChannel): void
+    public function setAcquiringChannel(?string $acquiringChannel): void
     {
         $this->acquiringChannel = $acquiringChannel;
     }

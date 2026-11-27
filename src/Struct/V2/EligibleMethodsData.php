@@ -15,13 +15,13 @@ use Shopware\PayPalSDK\Struct\V2\EligibleMethodsData\SupplementaryData;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_eligible_methods_data')]
+#[OA\Schema(schema: 'paypal_v2_eligible_methods_data', required: ['eligibleMethods'])]
 class EligibleMethodsData extends Struct
 {
     #[OA\Property(ref: EligibleMethods::class)]
     protected EligibleMethods $eligibleMethods;
 
-    #[OA\Property(ref: SupplementaryData::class, nullable: true)]
+    #[OA\Property(ref: SupplementaryData::class)]
     protected ?SupplementaryData $supplementaryData = null;
 
     public function getEligibleMethods(): EligibleMethods

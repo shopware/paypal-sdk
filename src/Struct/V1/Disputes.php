@@ -17,7 +17,7 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\ItemCollection;
 #[OA\Schema(schema: 'paypal_v1_disputes')]
 class Disputes extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), minItems: 1, maxItems: 100, nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), minItems: 1, maxItems: 100)]
     protected ?ItemCollection $items = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 10)]

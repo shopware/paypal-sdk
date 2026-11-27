@@ -18,34 +18,34 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_paypal')]
 class Paypal extends AbstractPaymentSource implements VaultedPaymentSourceInterface
 {
-    #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::CONTAINS_EMAIL_ADDRESS, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::CONTAINS_EMAIL_ADDRESS)]
     protected ?string $emailAddress = null;
 
-    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID)]
     protected ?string $accountId = null;
 
-    #[OA\Property(type: 'string', minLength: 2, maxLength: 128, pattern: Pattern::BILLING_AGREEMENT_ID, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 2, maxLength: 128, pattern: Pattern::BILLING_AGREEMENT_ID)]
     protected ?string $billingAgreementId = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN)]
     protected ?string $vaultId = null;
 
-    #[OA\Property(ref: Name::class, nullable: true)]
+    #[OA\Property(ref: Name::class)]
     protected ?Name $name = null;
 
-    #[OA\Property(ref: PhoneNumber::class, nullable: true)]
+    #[OA\Property(ref: PhoneNumber::class)]
     protected ?PhoneNumber $phoneNumber = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $address = null;
 
-    #[OA\Property(type: 'string', minLength: 10, maxLength: 10, pattern: Pattern::DATE, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 10, maxLength: 10, pattern: Pattern::DATE)]
     protected ?string $birthDate = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $phoneType = null;
 
-    #[OA\Property(ref: Attributes::class, nullable: true)]
+    #[OA\Property(ref: Attributes::class)]
     protected ?Attributes $attributes = null;
 
     public function getEmailAddress(): ?string

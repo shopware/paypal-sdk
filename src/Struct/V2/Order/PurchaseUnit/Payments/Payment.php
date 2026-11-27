@@ -26,22 +26,22 @@ abstract class Payment extends Struct
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $amount = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
     protected ?string $customId = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected ?LinkCollection $links = null;
 
-    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected ?string $createTime = null;
 
-    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected ?string $updateTime = null;
 
-    #[OA\Property(ref: PaymentSupplementaryData::class, nullable: true)]
+    #[OA\Property(ref: PaymentSupplementaryData::class)]
     protected ?PaymentSupplementaryData $supplementaryData = null;
 
     public function getStatus(): string

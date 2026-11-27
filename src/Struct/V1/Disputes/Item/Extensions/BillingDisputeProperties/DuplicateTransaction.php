@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Common\Transaction;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_duplicate_transaction')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_duplicate_transaction',
+    required: ['receivedDuplicate', 'originalTransaction']
+)]
 class DuplicateTransaction extends Struct
 {
     #[OA\Property(type: 'boolean')]

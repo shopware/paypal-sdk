@@ -19,42 +19,42 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
 
-#[OA\Schema(schema: 'paypal_v2_order')]
+#[OA\Schema(schema: 'paypal_v2_order', required: ['id'])]
 class Order extends Struct
 {
     public const string PROCESSING_INSTRUCTION_COMPLETE_ON_APPROVAL = 'ORDER_COMPLETE_ON_PAYMENT_APPROVAL';
 
-    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected ?string $createTime = null;
 
-    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]
     protected ?string $updateTime = null;
 
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string', enum: [ConstantsV2::INTENT_CAPTURE, ConstantsV2::INTENT_AUTHORIZE], nullable: true)]
+    #[OA\Property(type: 'string', enum: [ConstantsV2::INTENT_CAPTURE, ConstantsV2::INTENT_AUTHORIZE])]
     protected ?string $intent = null;
 
-    #[OA\Property(ref: Payer::class, nullable: true)]
+    #[OA\Property(ref: Payer::class)]
     protected ?Payer $payer = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), minItems: 1, maxItems: 10, nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), minItems: 1, maxItems: 10)]
     protected ?PurchaseUnitCollection $purchaseUnits = null;
 
-    #[OA\Property(ref: ApplicationContext::class, nullable: true)]
+    #[OA\Property(ref: ApplicationContext::class)]
     protected ?ApplicationContext $applicationContext = null;
 
-    #[OA\Property(ref: PaymentSource::class, nullable: true)]
+    #[OA\Property(ref: PaymentSource::class)]
     protected ?PaymentSource $paymentSource = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $status = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $processingInstruction = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected ?LinkCollection $links = null;
 
     public function getCreateTime(): ?string

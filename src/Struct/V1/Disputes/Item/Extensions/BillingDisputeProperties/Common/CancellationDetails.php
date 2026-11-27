@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_common_cancellation_details')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_common_cancellation_details',
+    required: ['cancellationDate', 'cancellationNumber', 'cancelled', 'cancellationMode']
+)]
 class CancellationDetails extends Struct
 {
     #[OA\Property(type: 'string', format: 'date-time', minLength: 20, maxLength: 64, pattern: Pattern::DATE_TIME)]

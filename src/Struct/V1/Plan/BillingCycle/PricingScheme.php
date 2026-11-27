@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\Money;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_plan_billing_cycle_pricing_scheme')]
+#[OA\Schema(schema: 'paypal_v1_plan_billing_cycle_pricing_scheme', required: ['fixedPrice'])]
 class PricingScheme extends Struct
 {
     #[OA\Property(ref: Money::class)]

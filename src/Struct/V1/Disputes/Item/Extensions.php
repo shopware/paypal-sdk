@@ -13,7 +13,19 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperties;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\MerchandizeDisputeProperties;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_extensions')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_extensions',
+    required: [
+        'merchantContacted',
+        'merchantContactedOutcome',
+        'merchantContactedTime',
+        'merchantContactedMode',
+        'buyerContactedTime',
+        'buyerContactedChannel',
+        'billingDisputeProperties',
+        'merchandizeDisputeProperties',
+    ]
+)]
 class Extensions extends Struct
 {
     #[OA\Property(type: 'boolean')]

@@ -12,7 +12,10 @@ use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Name;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Klarna\AuthorizationContext;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_klarna')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_payment_source_klarna',
+    required: ['emailAddress', 'phone', 'name', 'countryCode']
+)]
 class Klarna extends AbstractPaymentSource
 {
     #[OA\Property(type: 'string')]
@@ -24,13 +27,13 @@ class Klarna extends AbstractPaymentSource
     #[OA\Property(ref: Name::class)]
     protected Name $name;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $billingAddress = null;
 
     #[OA\Property(type: 'string', maxLength: 2, minLength: 2)]
     protected string $countryCode;
 
-    #[OA\Property(ref: AuthorizationContext::class, nullable: true)]
+    #[OA\Property(ref: AuthorizationContext::class)]
     protected ?AuthorizationContext $authorizationContext = null;
 
     public function getEmailAddress(): string

@@ -141,7 +141,7 @@ class CheckoutField extends Struct
         new OA\Schema(ref: TermsAcceptanceValue::class),
         new OA\Schema(ref: PrivacyConsentValue::class),
     ])]
-    protected ValueInterface&Struct $value;
+    protected (ValueInterface&Struct)|null $value = null;
 
     /**
      * Additional context and metadata for the checkout field.
@@ -182,12 +182,12 @@ class CheckoutField extends Struct
         $this->status = $status;
     }
 
-    public function getValue(): ValueInterface&Struct
+    public function getValue(): (ValueInterface&Struct)|null
     {
         return $this->value;
     }
 
-    public function setValue(ValueInterface&Struct $value): void
+    public function setValue((ValueInterface&Struct)|null $value): void
     {
         $this->value = $value;
     }

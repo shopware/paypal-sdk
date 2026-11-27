@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1\MerchantIntegrations;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_merchant_integrations_credentials')]
+#[OA\Schema(schema: 'paypal_v1_merchant_integrations_credentials', required: ['clientId', 'clientSecret', 'payerId'])]
 class Credentials extends Struct
 {
     #[OA\Property(type: 'string')]

@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Tests\Unit\Tools\OpenApi;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Shopware\PayPalSDK\Tests\Unit\Tools\OpenApi\Fixture\Note;
 use Shopware\PayPalSDK\Tests\Unit\Tools\OpenApi\Fixture\Part;
 use Shopware\PayPalSDK\Tests\Unit\Tools\OpenApi\Fixture\Thing;
 use Shopware\PayPalSDK\Tests\Unit\Tools\OpenApi\Fixture\Uncovered;
@@ -57,6 +58,8 @@ class StructConformanceTest extends TestCase
             'spec-only Thing::$extra',
             // the full example omits `parts[].note`
             'getter Part::$note',
+            // only sent, and `note_request` does not require `author`
+            'optional Note::$author',
             'unpaired Orphan',
         ], self::ids(self::report()->findings));
     }
@@ -114,7 +117,10 @@ class StructConformanceTest extends TestCase
     {
         return new StructConformance(
             new SpecRepository(self::FIXTURE),
-            [new Operation('fixture_v1', 'POST', '/v1/things', sends: Thing::class, receives: Thing::class)],
+            [
+                new Operation('fixture_v1', 'POST', '/v1/things', sends: Thing::class, receives: Thing::class),
+                new Operation('fixture_v1', 'POST', '/v1/notes', sends: Note::class),
+            ],
             $uncovered,
             StructConformance::findStructs(self::FIXTURE, __NAMESPACE__ . '\Fixture'),
         );

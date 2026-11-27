@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\AuthenticationRe
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_card_authentication_result_3d_secure')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_payment_source_card_authentication_result_3d_secure',
+    required: ['enrollmentStatus']
+)]
 class ThreeDSecure extends Struct
 {
     #[OA\Property(type: 'string')]

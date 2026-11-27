@@ -11,36 +11,36 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_common_address')]
+#[OA\Schema(schema: 'paypal_v2_common_address', required: ['countryCode'])]
 class Address extends Struct
 {
     /**
      * The first line of the address. For example, number or street. For example, 173 Drury Lane.
      * Required for data entry and compliance and risk checks. Must contain the full address.
      */
-    #[OA\Property(type: 'string', maxLength: 300, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 300)]
     protected ?string $addressLine1 = null;
 
     /**
      * The second line of the address. For example, suite or apartment number.
      */
-    #[OA\Property(type: 'string', maxLength: 300, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 300)]
     protected ?string $addressLine2 = null;
 
     /**
      * A city, town, or village. Smaller than $adminArea1
      */
-    #[OA\Property(type: 'string', maxLength: 120, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 120)]
     protected ?string $adminArea2 = null;
 
     /**
      * The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision.
      * Format for postal delivery. For example, CA and not California.
      */
-    #[OA\Property(type: 'string', maxLength: 300, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 300)]
     protected ?string $adminArea1 = null;
 
-    #[OA\Property(type: 'string', maxLength: 60, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 60)]
     protected ?string $postalCode = null;
 
     #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]

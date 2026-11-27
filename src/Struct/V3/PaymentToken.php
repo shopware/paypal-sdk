@@ -16,7 +16,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes\Customer;
 use Shopware\PayPalSDK\Struct\V3\PaymentToken\Metadata;
 
-#[OA\Schema(schema: 'paypal_v3_payment_token')]
+#[OA\Schema(schema: 'paypal_v3_payment_token', required: ['id', 'status', 'paymentSource'])]
 class PaymentToken extends Struct
 {
     #[OA\Property(type: 'string', minLength: 1, maxLength: 36, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN)]
@@ -34,7 +34,7 @@ class PaymentToken extends Struct
     #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), minItems: 1, maxItems: 32)]
     protected ?LinkCollection $links = null;
 
-    #[OA\Property(ref: Metadata::class, nullable: true)]
+    #[OA\Property(ref: Metadata::class)]
     protected ?Metadata $metadata = null;
 
     public function getId(): string

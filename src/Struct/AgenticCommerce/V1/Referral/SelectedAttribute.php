@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_selected_attribute')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_selected_attribute', required: ['name', 'value'])]
 class SelectedAttribute extends Struct
 {
     #[OA\Property(type: 'string')]

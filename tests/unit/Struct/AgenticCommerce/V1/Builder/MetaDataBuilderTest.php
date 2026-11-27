@@ -37,6 +37,7 @@ class MetaDataBuilderTest extends TestCase
             ->withRedirectRequired(false);
 
         $metaData = $option->getMetadata();
+        static::assertNotNull($metaData);
 
         static::assertSame('high', $metaData->getCostImpact());
         static::assertSame('medium', $metaData->getWaist());

@@ -14,7 +14,20 @@ use Shopware\PayPalSDK\Struct\V1\Common\Amount;
 use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 
-#[OA\Schema(schema: 'paypal_v1_capture')]
+#[OA\Schema(
+    schema: 'paypal_v1_capture',
+    required: [
+        'amount',
+        'isFinalCapture',
+        'id',
+        'state',
+        'reasonCode',
+        'parentPayment',
+        'transactionFee',
+        'createTime',
+        'updateTime',
+    ]
+)]
 class Capture extends Struct
 {
     #[OA\Property(ref: Amount::class)]

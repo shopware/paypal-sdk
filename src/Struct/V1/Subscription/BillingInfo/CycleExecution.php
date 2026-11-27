@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_subscription_billing_info_cycle_execution')]
+#[OA\Schema(
+    schema: 'paypal_v1_subscription_billing_info_cycle_execution',
+    required: ['tenureType', 'sequence', 'cyclesCompleted', 'cyclesRemaining', 'totalCycles']
+)]
 class CycleExecution extends Struct
 {
     #[OA\Property(type: 'string')]

@@ -15,10 +15,10 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData\Card\Level
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data_card')]
 class Card extends Struct
 {
-    #[OA\Property(ref: Level2::class, nullable: true)]
+    #[OA\Property(ref: Level2::class)]
     protected ?Level2 $level2 = null;
 
-    #[OA\Property(ref: Level3::class, nullable: true)]
+    #[OA\Property(ref: Level3::class)]
     protected ?Level3 $level3 = null;
 
     public function getLevel2(): ?Level2

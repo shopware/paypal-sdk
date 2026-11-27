@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_amount_breakdown')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_amount_breakdown',
+    required: ['itemTotal', 'shipping', 'handling', 'insurance', 'shippingDiscount', 'discount']
+)]
 class Breakdown extends Struct
 {
     #[OA\Property(ref: Money::class)]
@@ -23,7 +26,7 @@ class Breakdown extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $handling;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $taxTotal = null;
 
     #[OA\Property(ref: Money::class)]

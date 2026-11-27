@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V1\Reporting;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_reporting_balance')]
+#[OA\Schema(
+    schema: 'paypal_v1_reporting_balance',
+    required: ['currency', 'totalBalance', 'availableBalance', 'withheldBalance']
+)]
 class Balance extends Struct
 {
     #[OA\Property(type: 'string', minLength: 3, maxLength: 3)]

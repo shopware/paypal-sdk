@@ -19,7 +19,7 @@ use Shopware\PayPalSDK\Struct\Struct;
  */
 #[OA\Schema(
     schema: 'paypal_agentic_commerce_v1_cart_item',
-    required: ['itemId', 'quantity', 'price']
+    required: ['quantity']
 )]
 class CartItem extends Struct
 {

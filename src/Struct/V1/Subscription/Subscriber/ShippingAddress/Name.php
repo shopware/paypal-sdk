@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_subscription_subscriber_shipping_address_name')]
+#[OA\Schema(schema: 'paypal_v1_subscription_subscriber_shipping_address_name', required: ['fullName'])]
 class Name extends Struct
 {
     #[OA\Property(type: 'string')]

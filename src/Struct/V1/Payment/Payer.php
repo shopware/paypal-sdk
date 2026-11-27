@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Payment\Payer\PayerInfo;
 
-#[OA\Schema(schema: 'paypal_v1_payment_payer')]
+#[OA\Schema(
+    schema: 'paypal_v1_payment_payer',
+    required: ['paymentMethod', 'status', 'payerInfo', 'externalSelectedFundingInstrumentType']
+)]
 class Payer extends Struct
 {
     #[OA\Property(type: 'string')]

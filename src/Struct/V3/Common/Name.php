@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V3\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v3_common_name')]
+#[OA\Schema(schema: 'paypal_v3_common_name', required: ['id', 'type'])]
 class Name extends Struct
 {
     #[OA\Property(type: 'string')]
@@ -22,7 +22,7 @@ class Name extends Struct
     #[OA\Property(type: 'string', maxLength: 140)]
     protected ?string $surname = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $businessName = null;
 
     #[OA\Property(type: 'string')]

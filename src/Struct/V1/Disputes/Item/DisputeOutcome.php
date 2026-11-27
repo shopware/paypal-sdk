@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_dispute_outcome')]
+#[OA\Schema(schema: 'paypal_v1_disputes_item_dispute_outcome', required: ['outcomeCode', 'amountRefunded'])]
 class DisputeOutcome extends Struct
 {
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]

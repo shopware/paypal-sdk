@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\SuggestedCorrectionCol
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_shipping_error_context')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_shipping_error_context', required: ['specificIssue'])]
 class ShippingErrorContext extends AbstractContext
 {
     public const string ISSUE__MISSING_SHIPPING_ADDRESS = 'MISSING_SHIPPING_ADDRESS';

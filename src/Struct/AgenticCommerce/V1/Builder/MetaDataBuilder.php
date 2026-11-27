@@ -15,53 +15,54 @@ use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\ResolutionOption;
  */
 final class MetaDataBuilder
 {
+    private readonly MetaData $metadata;
+
     public function __construct(
         private readonly ResolutionOption $resolutionOption,
         private readonly ResolutionBuilder $resolutionBuilder,
     ) {
-        if (!$this->resolutionOption->isset('metadata')) {
-            $this->resolutionOption->setMetadata(new MetaData());
-        }
+        $this->metadata = $this->resolutionOption->getMetadata() ?? new MetaData();
+        $this->resolutionOption->setMetadata($this->metadata);
     }
 
     public function withCostImpact(string $costImpact): self
     {
-        $this->resolutionOption->getMetadata()->setCostImpact($costImpact);
+        $this->metadata->setCostImpact($costImpact);
 
         return $this;
     }
 
     public function withPriority(string $priority): self
     {
-        $this->resolutionOption->getMetadata()->setPriority($priority);
+        $this->metadata->setPriority($priority);
 
         return $this;
     }
 
     public function withWaist(string $waist): self
     {
-        $this->resolutionOption->getMetadata()->setWaist($waist);
+        $this->metadata->setWaist($waist);
 
         return $this;
     }
 
     public function withAutoApplicable(bool $autoApplicable): self
     {
-        $this->resolutionOption->getMetadata()->setAutoApplicable($autoApplicable);
+        $this->metadata->setAutoApplicable($autoApplicable);
 
         return $this;
     }
 
     public function withEstimatedTime(string $estimatedTime): self
     {
-        $this->resolutionOption->getMetadata()->setEstimatedTime($estimatedTime);
+        $this->metadata->setEstimatedTime($estimatedTime);
 
         return $this;
     }
 
     public function withRedirectRequired(bool $redirectRequired): self
     {
-        $this->resolutionOption->getMetadata()->setRedirectRequired($redirectRequired);
+        $this->metadata->setRedirectRequired($redirectRequired);
 
         return $this;
     }

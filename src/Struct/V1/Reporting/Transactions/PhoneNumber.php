@@ -14,13 +14,13 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_phone_number')]
 class PhoneNumber extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 3, pattern: Pattern::PHONE_COUNTRY_CODE, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 3, pattern: Pattern::PHONE_COUNTRY_CODE)]
     protected ?string $countryCode = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 14, pattern: Pattern::PHONE_NATIONAL_NUMBER, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 14, pattern: Pattern::PHONE_NATIONAL_NUMBER)]
     protected ?string $nationalNumber = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 15, pattern: Pattern::PHONE_EXTENSION, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 15, pattern: Pattern::PHONE_EXTENSION)]
     protected ?string $extensionNumber = null;
 
     public function getCountryCode(): ?string

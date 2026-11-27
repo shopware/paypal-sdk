@@ -9,7 +9,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_oxxo')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_oxxo', required: ['name', 'countryCode', 'email'])]
 class Oxxo extends AbstractAPMPaymentSource
 {
     #[OA\Property(type: 'string')]

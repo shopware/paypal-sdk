@@ -14,7 +14,10 @@ use Shopware\PayPalSDK\Struct\V1\Common\Money;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Offer\History;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Offer\HistoryCollection;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_offer')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_offer',
+    required: ['buyerRequestedAmount', 'sellerOfferedAmount', 'offerType']
+)]
 class Offer extends Struct
 {
     #[OA\Property(ref: Money::class)]
@@ -26,7 +29,7 @@ class Offer extends Struct
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $offerType;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: History::class), minItems: 1, maxItems: 1000, nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: History::class), minItems: 1, maxItems: 1000)]
     protected ?HistoryCollection $history = null;
 
     public function getBuyerRequestedAmount(): Money

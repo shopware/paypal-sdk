@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_common_service_details')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_common_service_details',
+    required: ['description', 'serviceStarted', 'note', 'purchaseUrl']
+)]
 class ServiceDetails extends Struct
 {
     #[OA\Property(type: 'string', minLength: 1, maxLength: 2000, pattern: Pattern::MULTILINE_TEXT)]

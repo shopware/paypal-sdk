@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_incentive_info')]
 class IncentiveInfo extends Struct
 {
-    #[OA\Property(type: 'array', items: new OA\Items(ref: IncentiveDetail::class), minItems: 1, nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: IncentiveDetail::class), minItems: 1)]
     protected ?IncentiveDetailCollection $incentiveDetails = null;
 
     public function getIncentiveDetails(): IncentiveDetailCollection

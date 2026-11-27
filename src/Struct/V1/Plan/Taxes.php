@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_plan_taxes')]
+#[OA\Schema(schema: 'paypal_v1_plan_taxes', required: ['percentage', 'inclusive'])]
 class Taxes extends Struct
 {
     #[OA\Property(type: 'string')]

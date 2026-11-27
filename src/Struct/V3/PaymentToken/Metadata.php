@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V3\PaymentToken;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v3_payment_token_metadata')]
+#[OA\Schema(schema: 'paypal_v3_payment_token_metadata', required: ['orderId'])]
 class Metadata extends Struct
 {
     #[OA\Property(type: 'string')]

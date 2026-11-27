@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_common_agreed_refund_details')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_common_agreed_refund_details',
+    required: ['merchantAgreedRefund', 'merchantAgreedRefundTime']
+)]
 class AgreedRefundDetails extends Struct
 {
     #[OA\Property(type: 'boolean')]

@@ -9,7 +9,7 @@ namespace Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 
 use OpenApi\Attributes as OA;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_bancontact')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_bancontact', required: ['name', 'countryCode'])]
 class Bancontact extends AbstractAPMPaymentSource
 {
 }

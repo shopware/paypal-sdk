@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Token\StoredPaymentSource;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_token')]
+#[OA\Schema(schema: 'paypal_v2_order_payment_source_token', required: ['id', 'type'])]
 class Token extends AbstractPaymentSource
 {
     public const string TYPE_BILLING_AGREEMENT = 'BILLING_AGREEMENT';

@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Referral\Operation\ApiIntegrationPreference;
 
-#[OA\Schema(schema: 'paypal_v2_referral_operation')]
+#[OA\Schema(schema: 'paypal_v2_referral_operation', required: ['operation'])]
 class Operation extends Struct
 {
     public const string OPERATION_TYPE_API_INTEGRATION = 'API_INTEGRATION';
@@ -21,7 +21,7 @@ class Operation extends Struct
     protected string $operation;
 
     #[OA\Property(ref: ApiIntegrationPreference::class)]
-    protected ApiIntegrationPreference $apiIntegrationPreference;
+    protected ?ApiIntegrationPreference $apiIntegrationPreference = null;
 
     public function getOperation(): string
     {
@@ -33,12 +33,12 @@ class Operation extends Struct
         $this->operation = $operation;
     }
 
-    public function getApiIntegrationPreference(): ApiIntegrationPreference
+    public function getApiIntegrationPreference(): ?ApiIntegrationPreference
     {
         return $this->apiIntegrationPreference;
     }
 
-    public function setApiIntegrationPreference(ApiIntegrationPreference $apiIntegrationPreference): void
+    public function setApiIntegrationPreference(?ApiIntegrationPreference $apiIntegrationPreference): void
     {
         $this->apiIntegrationPreference = $apiIntegrationPreference;
     }

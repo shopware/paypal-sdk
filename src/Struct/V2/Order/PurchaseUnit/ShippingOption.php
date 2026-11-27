@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_option')]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping_option', required: ['id', 'label', 'amount', 'selected'])]
 class ShippingOption extends Struct
 {
     public const string TYPE_SHIPPING = 'SHIPPING';

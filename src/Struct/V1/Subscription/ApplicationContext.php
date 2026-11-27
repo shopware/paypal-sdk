@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_subscription_application_context')]
+#[OA\Schema(
+    schema: 'paypal_v1_subscription_application_context',
+    required: ['brandName', 'locale', 'returnUrl', 'cancelUrl']
+)]
 class ApplicationContext extends Struct
 {
     public const string USER_ACTION_TYPE_SUBSCRIBE_NOW = 'SUBSCRIBE_NOW';

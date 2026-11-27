@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_plan_billing_cycle_frequency')]
+#[OA\Schema(schema: 'paypal_v1_plan_billing_cycle_frequency', required: ['intervalUnit', 'intervalCount'])]
 class Frequency extends Struct
 {
     #[OA\Property(type: 'string')]

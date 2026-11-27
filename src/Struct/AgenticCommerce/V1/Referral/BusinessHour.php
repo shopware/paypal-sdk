@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_business_hour')]
+#[OA\Schema(
+    schema: 'paypal_agentic_commerce_v1_referral_business_hour',
+    required: ['openTime', 'closeTime', 'timezone']
+)]
 class BusinessHour extends Struct
 {
     #[OA\Property(type: 'string')]

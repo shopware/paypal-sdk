@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_supplementary_data')]
+#[OA\Schema(schema: 'paypal_v2_eligible_methods_data_supplementary_data', required: ['buyerCountryCode'])]
 class SupplementaryData extends Struct
 {
     /**

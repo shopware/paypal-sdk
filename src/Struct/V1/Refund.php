@@ -14,7 +14,25 @@ use Shopware\PayPalSDK\Struct\V1\Common\Link;
 use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Common\Value;
 
-#[OA\Schema(schema: 'paypal_v1_refund')]
+#[OA\Schema(
+    schema: 'paypal_v1_refund',
+    required: [
+        'amount',
+        'invoiceNumber',
+        'description',
+        'reason',
+        'id',
+        'createTime',
+        'updateTime',
+        'state',
+        'refundFromTransactionFee',
+        'totalRefundedAmount',
+        'refundFromReceivedAmount',
+        'saleId',
+        'captureId',
+        'parentPayment',
+    ]
+)]
 class Refund extends Struct
 {
     #[OA\Property(ref: Amount::class)]

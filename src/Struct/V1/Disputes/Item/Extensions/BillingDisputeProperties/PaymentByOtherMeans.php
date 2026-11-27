@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_payment_by_other_means')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_payment_by_other_means',
+    required: ['chargeDifferentFromOriginal', 'receivedDuplicate', 'paymentMethod', 'paymentInstrumentSuffix']
+)]
 class PaymentByOtherMeans extends Struct
 {
     #[OA\Property(type: 'boolean')]

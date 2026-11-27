@@ -17,13 +17,13 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping\TrackerCollection;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit_shipping')]
 class Shipping extends Struct
 {
-    #[OA\Property(ref: Name::class, nullable: true)]
+    #[OA\Property(ref: Name::class)]
     protected ?Name $name = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $address = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Tracker::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Tracker::class))]
     protected ?TrackerCollection $trackers = null;
 
     public function getName(): ?Name

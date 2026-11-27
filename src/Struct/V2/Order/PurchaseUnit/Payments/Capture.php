@@ -12,13 +12,16 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture\ProcessorRe
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Capture\SellerReceivableBreakdown;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payments\Common\SellerProtection;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_capture')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_payments_capture',
+    required: ['status', 'id', 'sellerProtection', 'finalCapture', 'sellerReceivableBreakdown']
+)]
 class Capture extends Payment
 {
-    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_INVOICE_ID)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_INVOICE_ID)]
     protected ?string $invoiceId = null;
 
-    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_NOTE_TO_PAYER)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_NOTE_TO_PAYER)]
     protected ?string $noteToPayer = null;
 
     #[OA\Property(ref: SellerProtection::class)]
@@ -30,10 +33,10 @@ class Capture extends Payment
     #[OA\Property(ref: SellerReceivableBreakdown::class)]
     protected SellerReceivableBreakdown $sellerReceivableBreakdown;
 
-    #[OA\Property(ref: ProcessorResponse::class, nullable: true)]
+    #[OA\Property(ref: ProcessorResponse::class)]
     protected ?ProcessorResponse $processorResponse = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $disbursementMode = null;
 
     public function getInvoiceId(): ?string

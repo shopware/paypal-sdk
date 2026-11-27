@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data_risk_participant_metadata')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_supplementary_data_risk_participant_metadata',
+    required: ['ipAddress']
+)]
 class ParticipantMetadata extends Struct
 {
     #[OA\Property(type: 'string', minLength: 7, maxLength: 39, pattern: Pattern::IP_ADDRESS_OR_HOST_NAME)]

@@ -12,7 +12,21 @@ use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_common_transaction')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_common_transaction',
+    required: [
+        'buyerTransactionId',
+        'sellerTransactionId',
+        'referenceId',
+        'createTime',
+        'transactionStatus',
+        'grossAmount',
+        'invoiceNumber',
+        'custom',
+        'buyer',
+        'seller',
+    ]
+)]
 class Transaction extends Struct
 {
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_HYPHEN)]

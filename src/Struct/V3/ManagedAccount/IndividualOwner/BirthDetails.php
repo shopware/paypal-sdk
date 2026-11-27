@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V3\ManagedAccount\IndividualOwner;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v3_managed_account_individual_owner_birth_details')]
+#[OA\Schema(schema: 'paypal_v3_managed_account_individual_owner_birth_details', required: ['dateOfBirth'])]
 class BirthDetails extends Struct
 {
     #[OA\Property(type: 'string')]

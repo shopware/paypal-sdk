@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_custom_option')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_custom_option', required: ['name', 'value', 'priceModifier'])]
 class CustomOption extends Struct
 {
     #[OA\Property(type: 'string')]

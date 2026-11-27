@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Payee;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payment_instruction_platform_fee')]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payment_instruction_platform_fee', required: ['amount', 'payee'])]
 class PlatformFee extends Struct
 {
     #[OA\Property(ref: Money::class)]

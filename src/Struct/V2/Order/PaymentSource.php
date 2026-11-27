@@ -35,67 +35,67 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Venmo;
 #[OA\Schema(schema: 'paypal_v2_order_payment_source')]
 class PaymentSource extends Struct
 {
-    #[OA\Property(ref: Afterpay::class, nullable: true)]
+    #[OA\Property(ref: Afterpay::class)]
     protected ?Afterpay $afterpay = null;
 
     #[OA\Property(ref: ApplePay::class)]
     protected ?ApplePay $applePay = null;
 
-    #[OA\Property(ref: PayUponInvoice::class, nullable: true)]
+    #[OA\Property(ref: PayUponInvoice::class)]
     protected ?PayUponInvoice $payUponInvoice = null;
 
-    #[OA\Property(ref: Bancontact::class, nullable: true)]
+    #[OA\Property(ref: Bancontact::class)]
     protected ?Bancontact $bancontact = null;
 
-    #[OA\Property(ref: Blik::class, nullable: true)]
+    #[OA\Property(ref: Blik::class)]
     protected ?Blik $blik = null;
 
-    #[OA\Property(ref: Boletobancario::class, nullable: true)]
+    #[OA\Property(ref: Boletobancario::class)]
     protected ?Boletobancario $boletobancario = null;
 
-    #[OA\Property(ref: Card::class, nullable: true)]
+    #[OA\Property(ref: Card::class)]
     protected ?Card $card = null;
 
-    #[OA\Property(ref: Eps::class, nullable: true)]
+    #[OA\Property(ref: Eps::class)]
     protected ?Eps $eps = null;
 
-    #[OA\Property(ref: Ideal::class, nullable: true)]
+    #[OA\Property(ref: Ideal::class)]
     protected ?Ideal $ideal = null;
 
-    #[OA\Property(ref: Klarna::class, nullable: true)]
+    #[OA\Property(ref: Klarna::class)]
     protected ?Klarna $klarna = null;
 
-    #[OA\Property(ref: Multibanco::class, nullable: true)]
+    #[OA\Property(ref: Multibanco::class)]
     protected ?Multibanco $multibanco = null;
 
-    #[OA\Property(ref: MyBank::class, nullable: true)]
+    #[OA\Property(ref: MyBank::class)]
     protected ?MyBank $mybank = null;
 
-    #[OA\Property(ref: Oxxo::class, nullable: true)]
+    #[OA\Property(ref: Oxxo::class)]
     protected ?Oxxo $oxxo = null;
 
-    #[OA\Property(ref: P24::class, nullable: true)]
+    #[OA\Property(ref: P24::class)]
     protected ?P24 $p24 = null;
 
-    #[OA\Property(ref: Paypal::class, nullable: true)]
+    #[OA\Property(ref: Paypal::class)]
     protected ?Paypal $paypal = null;
 
-    #[OA\Property(ref: Swish::class, nullable: true)]
+    #[OA\Property(ref: Swish::class)]
     protected ?Swish $swish = null;
 
-    #[OA\Property(ref: Token::class, nullable: true)]
+    #[OA\Property(ref: Token::class)]
     protected ?Token $token = null;
 
-    #[OA\Property(ref: Trustly::class, nullable: true)]
+    #[OA\Property(ref: Trustly::class)]
     protected ?Trustly $trustly = null;
 
-    #[OA\Property(ref: GooglePay::class, nullable: true)]
+    #[OA\Property(ref: GooglePay::class)]
     protected ?GooglePay $googlePay = null;
 
-    #[OA\Property(ref: Venmo::class, nullable: true)]
+    #[OA\Property(ref: Venmo::class)]
     protected ?Venmo $venmo = null;
 
-    #[OA\Property(ref: Bank::class, nullable: true)]
+    #[OA\Property(ref: Bank::class)]
     protected ?Bank $bank = null;
 
     public function getAfterpay(): ?Afterpay

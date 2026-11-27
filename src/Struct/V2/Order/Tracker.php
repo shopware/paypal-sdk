@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping\Tracker\Item;
 use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\Shipping\Tracker\ItemCollection;
 
-#[OA\Schema(schema: 'paypal_v2_order_tracker')]
+#[OA\Schema(schema: 'paypal_v2_order_tracker', required: ['captureId', 'trackingNumber', 'carrier'])]
 class Tracker extends Struct
 {
     public const int MAX_LENGTH_TRACKING_NUMBER = 64;
@@ -28,7 +28,7 @@ class Tracker extends Struct
     #[OA\Property(type: 'string')]
     protected string $carrier;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 64, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 64)]
     protected ?string $carrierNameOther = null;
 
     #[OA\Property(type: 'boolean')]

@@ -19,6 +19,12 @@
                     "400": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/error"}}}}
                 }
             }
+        },
+        "/v1/notes": {
+            "post": {
+                "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/note_request"}}}},
+                "responses": {"204": {}}
+            }
         }
     },
     "components": {
@@ -59,6 +65,7 @@
             "part_alias": {"$ref": "#/components/schemas/part"},
             "part": {"type": "object", "properties": {"code": {"type": "string"}, "note": {"type": "string"}}},
             "error": {"type": "object", "properties": {"name": {"type": "string"}}},
+            "note_request": {"type": "object", "required": ["text"], "properties": {"text": {"type": "string"}, "author": {"type": "string"}, "tag": {"type": "string"}}},
             "loop": {"allOf": [{"$ref": "#/components/schemas/loop"}, {"properties": {"a": {"type": "string"}}}]}
         }
     }

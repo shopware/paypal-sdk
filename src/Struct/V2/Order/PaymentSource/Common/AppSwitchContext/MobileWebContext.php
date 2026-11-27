@@ -24,7 +24,7 @@ class MobileWebContext extends Struct
     protected ?string $returnFlow = null;
 
     #[OA\Property(type: 'string', maxLength: 512, minLength: 1)]
-    protected string $buyerUserAgent;
+    protected ?string $buyerUserAgent = null;
 
     public function getReturnFlow(): ?string
     {
@@ -36,12 +36,12 @@ class MobileWebContext extends Struct
         $this->returnFlow = $returnFlow;
     }
 
-    public function getBuyerUserAgent(): string
+    public function getBuyerUserAgent(): ?string
     {
         return $this->buyerUserAgent;
     }
 
-    public function setBuyerUserAgent(string $buyerUserAgent): void
+    public function setBuyerUserAgent(?string $buyerUserAgent): void
     {
         $this->buyerUserAgent = $buyerUserAgent;
     }

@@ -12,7 +12,7 @@ use OpenApi\Attributes as OA;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_data_error_context')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_data_error_context', required: ['specificIssue'])]
 class DataErrorContext extends AbstractContext
 {
     public const string ISSUE__MISSING_CHECKOUT_FIELDS = 'MISSING_CHECKOUT_FIELDS';

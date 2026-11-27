@@ -39,6 +39,13 @@ final readonly class Pairing implements \Stringable
         return array_map(strval(...), array_keys($this->properties()));
     }
 
+    public function isRequired(string $property): bool
+    {
+        $required = $this->definition['required'] ?? null;
+
+        return \is_array($required) && \in_array($this->field($property), $required, true);
+    }
+
     /**
      * The field a property is assigned from, matched like
      * {@see Struct::assign()} (`line1` pairs with `line1`, not `line_1`).

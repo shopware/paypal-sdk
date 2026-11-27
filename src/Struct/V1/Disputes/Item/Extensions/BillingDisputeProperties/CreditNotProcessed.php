@@ -16,7 +16,17 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Common\ServiceDetails;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperties\Common\AgreedRefundDetails;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperties\Common\CancellationDetails;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_credit_not_processed')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties_credit_not_processed',
+    required: [
+        'issueType',
+        'expectedRefund',
+        'cancellationDetails',
+        'productDetails',
+        'serviceDetails',
+        'agreedRefundDetails',
+    ]
+)]
 class CreditNotProcessed extends Struct
 {
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]

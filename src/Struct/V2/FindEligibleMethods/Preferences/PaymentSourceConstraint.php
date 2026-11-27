@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v2_find_eligible_methods_preferences_payment_source_constraint')]
+#[OA\Schema(
+    schema: 'paypal_v2_find_eligible_methods_preferences_payment_source_constraint',
+    required: ['constraintType', 'paymentSources']
+)]
 class PaymentSourceConstraint extends Struct
 {
     public const string CONSTRAINT_TYPE_INCLUDE = 'INCLUDE';

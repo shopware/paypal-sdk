@@ -15,31 +15,31 @@ use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 #[OA\Schema(schema: 'paypal_error')]
 class Error extends Struct
 {
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $name = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $message = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $debugId = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Detail::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Detail::class))]
     protected ?DetailCollection $details = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Link::class))]
     protected ?LinkCollection $links = null;
 
     /**
      * Only set if OAuth error occurs
      */
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $error = null;
 
     /**
      * Only set if OAuth error occurs
      */
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $errorDescription = null;
 
     public function getName(): ?string

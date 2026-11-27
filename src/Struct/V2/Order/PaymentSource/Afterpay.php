@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Name;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_afterpay')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_payment_source_afterpay',
+    required: ['name', 'emailAddress', 'phone', 'birthDate', 'countryCode']
+)]
 class Afterpay extends AbstractPaymentSource
 {
     #[OA\Property(ref: Name::class)]
@@ -26,7 +29,7 @@ class Afterpay extends AbstractPaymentSource
     #[OA\Property(type: 'string', format: 'date')]
     protected string $birthDate;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $billingAddress = null;
 
     #[OA\Property(type: 'string', maxLength: 2, minLength: 2)]

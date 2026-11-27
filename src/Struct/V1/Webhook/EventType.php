@@ -11,7 +11,7 @@ namespace Shopware\PayPalSDK\Struct\V1\Webhook;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_webhook_event_type')]
+#[OA\Schema(schema: 'paypal_v1_webhook_event_type', required: ['name', 'description', 'status', 'resourceVersion'])]
 class EventType extends Struct
 {
     #[OA\Property(type: 'string')]

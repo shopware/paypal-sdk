@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_common_value')]
+#[OA\Schema(schema: 'paypal_v1_common_value', required: ['currency', 'value'])]
 class Value extends Struct
 {
     #[OA\Property(type: 'string')]

@@ -22,17 +22,17 @@ class Customer extends Struct
      * ISO 3166-1 alpha-2 country code
      */
     #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
-    protected string $countryCode;
+    protected ?string $countryCode = null;
 
     #[OA\Property(ref: Channel::class)]
     protected ?Channel $channel = null;
 
-    public function getCountryCode(): string
+    public function getCountryCode(): ?string
     {
         return $this->countryCode;
     }
 
-    public function setCountryCode(string $countryCode): void
+    public function setCountryCode(?string $countryCode): void
     {
         $this->countryCode = $countryCode;
     }

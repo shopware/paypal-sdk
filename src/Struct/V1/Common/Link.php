@@ -10,7 +10,7 @@ namespace Shopware\PayPalSDK\Struct\V1\Common;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_common_link')]
+#[OA\Schema(schema: 'paypal_v1_common_link', required: ['href', 'rel', 'method'])]
 class Link extends Struct
 {
     #[OA\Property(type: 'string')]
@@ -22,7 +22,7 @@ class Link extends Struct
     #[OA\Property(type: 'string')]
     protected string $method;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $encType = null;
 
     public function getHref(): string

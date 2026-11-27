@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Name;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Phone;
 
-#[OA\Schema(schema: 'paypal_v2_order_payer')]
+#[OA\Schema(schema: 'paypal_v2_order_payer', required: ['name', 'emailAddress'])]
 class Payer extends Struct
 {
     #[OA\Property(ref: Name::class)]
@@ -23,13 +23,13 @@ class Payer extends Struct
     #[OA\Property(type: 'string', minLength: 3, maxLength: 254, pattern: Pattern::CONTAINS_EMAIL_ADDRESS)]
     protected string $emailAddress;
 
-    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 13, maxLength: 13, pattern: Pattern::ACCOUNT_ID)]
     protected ?string $payerId = null;
 
-    #[OA\Property(ref: Phone::class, nullable: true)]
+    #[OA\Property(ref: Phone::class)]
     protected ?Phone $phone = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $address = null;
 
     public function getName(): Name

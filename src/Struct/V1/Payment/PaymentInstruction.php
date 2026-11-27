@@ -14,7 +14,10 @@ use Shopware\PayPalSDK\Struct\V1\Common\LinkCollection;
 use Shopware\PayPalSDK\Struct\V1\Common\Value;
 use Shopware\PayPalSDK\Struct\V1\Payment\PaymentInstruction\RecipientBankingInstruction;
 
-#[OA\Schema(schema: 'paypal_v1_payment_payment_instruction')]
+#[OA\Schema(
+    schema: 'paypal_v1_payment_payment_instruction',
+    required: ['referenceNumber', 'recipientBankingInstruction', 'amount', 'paymentDueDate', 'instructionType']
+)]
 class PaymentInstruction extends Struct
 {
     public const string TYPE_INVOICE = 'PAY_UPON_INVOICE';

@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\ItemList\ShippingAddress;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\ItemList\ShippingOption;
 use Shopware\PayPalSDK\Struct\V1\Payment\Transaction\ItemList\ShippingOptionCollection;
 
-#[OA\Schema(schema: 'paypal_v1_payment_transaction_item_list')]
+#[OA\Schema(schema: 'paypal_v1_payment_transaction_item_list', required: ['shippingAddress', 'shippingPhoneNumber'])]
 class ItemList extends Struct
 {
     #[OA\Property(ref: ShippingAddress::class)]

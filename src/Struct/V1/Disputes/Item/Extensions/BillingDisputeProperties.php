@@ -15,7 +15,16 @@ use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperti
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperties\IncorrectTransactionAmount;
 use Shopware\PayPalSDK\Struct\V1\Disputes\Item\Extensions\BillingDisputeProperties\PaymentByOtherMeans;
 
-#[OA\Schema(schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties')]
+#[OA\Schema(
+    schema: 'paypal_v1_disputes_item_extensions_billing_dispute_properties',
+    required: [
+        'duplicateTransaction',
+        'incorrectTransactionAmount',
+        'paymentByOtherMeans',
+        'creditNotProcessed',
+        'canceledRecurringBilling',
+    ]
+)]
 class BillingDisputeProperties extends Struct
 {
     #[OA\Property(ref: DuplicateTransaction::class)]

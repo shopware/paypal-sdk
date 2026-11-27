@@ -24,7 +24,7 @@ class FindEligibleMethods extends Struct
     protected ?Customer $customer = null;
 
     #[OA\Property(ref: Preferences::class)]
-    protected Preferences $preferences;
+    protected ?Preferences $preferences = null;
 
     /**
      * Does not have to be a full purchase unit.
@@ -43,12 +43,12 @@ class FindEligibleMethods extends Struct
         $this->customer = $customer;
     }
 
-    public function getPreferences(): Preferences
+    public function getPreferences(): ?Preferences
     {
         return $this->preferences;
     }
 
-    public function setPreferences(Preferences $preferences): void
+    public function setPreferences(?Preferences $preferences): void
     {
         $this->preferences = $preferences;
     }

@@ -11,7 +11,10 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_payments_refund_seller_payable_breakdown')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_payments_refund_seller_payable_breakdown',
+    required: ['grossAmount', 'paypalFee', 'netAmount', 'totalRefundedAmount']
+)]
 class SellerPayableBreakdown extends Struct
 {
     #[OA\Property(ref: Money::class)]

@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 use Shopware\PayPalSDK\Util\Utf16;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_item')]
+#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_item', required: ['name', 'unitAmount', 'quantity'])]
 class Item extends Struct
 {
     /**
@@ -31,19 +31,19 @@ class Item extends Struct
     #[OA\Property(ref: Money::class)]
     protected Money $unitAmount;
 
-    #[OA\Property(ref: Money::class, nullable: true)]
+    #[OA\Property(ref: Money::class)]
     protected ?Money $tax = null;
 
-    #[OA\Property(oneOf: [new OA\Schema(type: 'string'), new OA\Schema(type: 'integer'), new OA\Schema(type: 'number')], nullable: true)]
+    #[OA\Property(nullable: false, oneOf: [new OA\Schema(type: 'string'), new OA\Schema(type: 'integer'), new OA\Schema(type: 'number')])]
     protected string|int|float|null $taxRate = null;
 
-    #[OA\Property(type: 'string', enum: [self::CATEGORY_PHYSICAL_GOODS, self::CATEGORY_DIGITAL_GOODS, self::CATEGORY_DONATION], nullable: true)]
+    #[OA\Property(type: 'string', enum: [self::CATEGORY_PHYSICAL_GOODS, self::CATEGORY_DIGITAL_GOODS, self::CATEGORY_DONATION])]
     protected ?string $category = null;
 
     #[OA\Property(type: 'integer')]
     protected int $quantity;
 
-    #[OA\Property(type: 'string', nullable: true, maxLength: self::MAX_LENGTH_SKU)]
+    #[OA\Property(type: 'string', maxLength: self::MAX_LENGTH_SKU)]
     protected ?string $sku = null;
 
     public function getName(): string

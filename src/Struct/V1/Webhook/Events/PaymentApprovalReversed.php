@@ -20,16 +20,16 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnitCollection;
  * `order_id` instead of `id` and omits both `resource_type` and `resource_version`. It is
  * therefore resolved by event type in {@see \Shopware\PayPalSDK\Struct\V1\Webhook\Event::identifyResource()}.
  */
-#[OA\Schema(schema: 'paypal_v1_webhook_events_payment_approval_reversed')]
+#[OA\Schema(schema: 'paypal_v1_webhook_events_payment_approval_reversed', required: ['orderId'])]
 class PaymentApprovalReversed extends Struct
 {
     #[OA\Property(type: 'string')]
     protected string $orderId;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: PurchaseUnit::class))]
     protected ?PurchaseUnitCollection $purchaseUnits = null;
 
-    #[OA\Property(ref: PaymentSource::class, nullable: true)]
+    #[OA\Property(ref: PaymentSource::class)]
     protected ?PaymentSource $paymentSource = null;
 
     public function getOrderId(): string

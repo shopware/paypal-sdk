@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\BusinessHourCollection
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_business_rule_error_context')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_business_rule_error_context', required: ['specificIssue'])]
 class BusinessRuleErrorContext extends AbstractContext
 {
     public const string ISSUE__MINIMUM_ORDER_NOT_MET = 'MINIMUM_ORDER_NOT_MET';

@@ -10,16 +10,16 @@ namespace Shopware\PayPalSDK\Struct\V1\WalletDomain;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_wallet_domain_merchant')]
+#[OA\Schema(schema: 'paypal_v1_wallet_domain_merchant', required: ['accountId'])]
 class Merchant extends Struct
 {
     #[OA\Property(type: 'string')]
     protected string $accountId;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $businessName = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $url = null;
 
     public function getAccountId(): string

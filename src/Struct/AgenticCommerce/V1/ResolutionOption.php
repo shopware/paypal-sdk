@@ -93,7 +93,7 @@ class ResolutionOption extends Struct
      * Additional action metadata
      */
     #[OA\Property(ref: MetaData::class)]
-    protected MetaData $metadata;
+    protected ?MetaData $metadata = null;
 
     public function getAction(): string
     {
@@ -129,12 +129,12 @@ class ResolutionOption extends Struct
         $this->url = $url;
     }
 
-    public function getMetadata(): MetaData
+    public function getMetadata(): ?MetaData
     {
         return $this->metadata;
     }
 
-    public function setMetadata(MetaData $metadata): void
+    public function setMetadata(?MetaData $metadata): void
     {
         $this->metadata = $metadata;
     }

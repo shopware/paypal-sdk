@@ -15,7 +15,10 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\AuthenticationResult;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Card\StoredCredential;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\Attributes;
 
-#[OA\Schema(schema: 'paypal_v2_order_payment_source_card')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_payment_source_card',
+    required: ['name', 'countryCode', 'lastDigits', 'brand', 'type']
+)]
 class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInterface
 {
     #[OA\Property(type: 'string', minLength: 2, maxLength: 4, pattern: Pattern::CARD_LAST_DIGITS)]
@@ -27,19 +30,19 @@ class Card extends AbstractAPMPaymentSource implements VaultedPaymentSourceInter
     #[OA\Property(type: 'string')]
     protected string $type;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN)]
     protected ?string $vaultId = null;
 
-    #[OA\Property(ref: Address::class, nullable: true)]
+    #[OA\Property(ref: Address::class)]
     protected ?Address $billingAddress = null;
 
-    #[OA\Property(ref: AuthenticationResult::class, nullable: true)]
+    #[OA\Property(ref: AuthenticationResult::class)]
     protected ?AuthenticationResult $authenticationResult = null;
 
-    #[OA\Property(ref: Attributes::class, nullable: true)]
+    #[OA\Property(ref: Attributes::class)]
     protected ?Attributes $attributes = null;
 
-    #[OA\Property(ref: StoredCredential::class, nullable: true)]
+    #[OA\Property(ref: StoredCredential::class)]
     protected ?StoredCredential $storedCredential = null;
 
     public function getLastDigits(): string

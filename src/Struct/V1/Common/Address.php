@@ -11,13 +11,13 @@ use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Pattern;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_common_address')]
+#[OA\Schema(schema: 'paypal_v1_common_address', required: ['line1', 'city', 'countryCode', 'postalCode'])]
 class Address extends Struct
 {
     #[OA\Property(type: 'string')]
     protected string $line1;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $line2 = null;
 
     #[OA\Property(type: 'string')]
@@ -29,10 +29,10 @@ class Address extends Struct
     #[OA\Property(type: 'string')]
     protected string $postalCode;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $state = null;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $phone = null;
 
     public function getLine1(): string

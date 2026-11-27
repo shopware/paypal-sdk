@@ -13,25 +13,25 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_transactions_name')]
 class Name extends Struct
 {
-    #[OA\Property(type: 'string', maxLength: 140, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 140)]
     protected ?string $prefix = null;
 
-    #[OA\Property(type: 'string', maxLength: 140, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 140)]
     protected ?string $givenName = null;
 
-    #[OA\Property(type: 'string', maxLength: 140, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 140)]
     protected ?string $surname = null;
 
-    #[OA\Property(type: 'string', maxLength: 140, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 140)]
     protected ?string $middleName = null;
 
-    #[OA\Property(type: 'string', maxLength: 140, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 140)]
     protected ?string $suffix = null;
 
-    #[OA\Property(type: 'string', maxLength: 300, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 300)]
     protected ?string $alternateFullName = null;
 
-    #[OA\Property(type: 'string', maxLength: 300, nullable: true)]
+    #[OA\Property(type: 'string', maxLength: 300)]
     protected ?string $fullName = null;
 
     public function getPrefix(): ?string

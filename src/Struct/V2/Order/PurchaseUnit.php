@@ -23,40 +23,40 @@ use Shopware\PayPalSDK\Struct\V2\Order\PurchaseUnit\SupplementaryData;
 #[OA\Schema(schema: 'paypal_v2_order_purchase_unit')]
 class PurchaseUnit extends Struct
 {
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 256, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 256)]
     protected ?string $referenceId = null;
 
-    #[OA\Property(ref: Amount::class, nullable: true)]
+    #[OA\Property(ref: Amount::class)]
     protected ?Amount $amount = null;
 
-    #[OA\Property(ref: Payee::class, nullable: true)]
+    #[OA\Property(ref: Payee::class)]
     protected ?Payee $payee = null;
 
-    #[OA\Property(ref: PaymentInstruction::class, nullable: true)]
+    #[OA\Property(ref: PaymentInstruction::class)]
     protected ?PaymentInstruction $paymentInstruction = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 3000, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 3000)]
     protected ?string $description = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
     protected ?string $customId = null;
 
-    #[OA\Property(type: 'string', minLength: 1, maxLength: 127, nullable: true)]
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
     protected ?string $invoiceId = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]
     protected ?ItemCollection $items = null;
 
-    #[OA\Property(ref: Shipping::class, nullable: true)]
+    #[OA\Property(ref: Shipping::class)]
     protected ?Shipping $shipping = null;
 
-    #[OA\Property(ref: Payments::class, nullable: true)]
+    #[OA\Property(ref: Payments::class)]
     protected ?Payments $payments = null;
 
-    #[OA\Property(ref: SupplementaryData::class, nullable: true)]
+    #[OA\Property(ref: SupplementaryData::class)]
     protected ?SupplementaryData $supplementaryData = null;
 
-    #[OA\Property(type: 'array', items: new OA\Items(ref: ShippingOption::class), nullable: true)]
+    #[OA\Property(type: 'array', items: new OA\Items(ref: ShippingOption::class))]
     protected ?ShippingOptionCollection $shippingOptions = null;
 
     public function getReferenceId(): ?string

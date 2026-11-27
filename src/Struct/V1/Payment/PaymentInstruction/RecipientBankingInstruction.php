@@ -10,7 +10,10 @@ namespace Shopware\PayPalSDK\Struct\V1\Payment\PaymentInstruction;
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 
-#[OA\Schema(schema: 'paypal_v1_payment_payment_instruction_recipient_banking_instruction')]
+#[OA\Schema(
+    schema: 'paypal_v1_payment_payment_instruction_recipient_banking_instruction',
+    required: ['bankName', 'accountHolderName', 'internationalBankAccountNumber', 'bankIdentifierCode']
+)]
 class RecipientBankingInstruction extends Struct
 {
     #[OA\Property(type: 'string')]

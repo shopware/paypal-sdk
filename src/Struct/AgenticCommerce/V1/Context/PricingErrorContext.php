@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Referral\MixedItemCollection;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_pricing_error_context')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_context_pricing_error_context', required: ['specificIssue'])]
 class PricingErrorContext extends AbstractContext
 {
     public const string ISSUE__PRICE_MISMATCH = 'PRICE_MISMATCH';

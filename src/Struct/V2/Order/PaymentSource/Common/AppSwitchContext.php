@@ -15,10 +15,10 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\AppSwitchContext\Nat
 #[OA\Schema(schema: 'paypal_v2_order_payment_source_common_app_switch_context')]
 class AppSwitchContext extends Struct
 {
-    #[OA\Property(ref: NativeAppContext::class, nullable: true)]
+    #[OA\Property(ref: NativeAppContext::class)]
     protected ?NativeAppContext $nativeApp = null;
 
-    #[OA\Property(ref: MobileWebContext::class, nullable: true)]
+    #[OA\Property(ref: MobileWebContext::class)]
     protected ?MobileWebContext $mobileWeb = null;
 
     public function getNativeApp(): ?NativeAppContext

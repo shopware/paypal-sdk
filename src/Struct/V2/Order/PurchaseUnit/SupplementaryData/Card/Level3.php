@@ -13,7 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V2\Common\Address;
 use Shopware\PayPalSDK\Struct\V2\Common\Money;
 
-#[OA\Schema(schema: 'paypal_v2_order_purchase_unit_supplementary_data_card_level3')]
+#[OA\Schema(
+    schema: 'paypal_v2_order_purchase_unit_supplementary_data_card_level3',
+    required: ['shippingAmount', 'dutyAmount', 'discountAmount', 'shippingAddress', 'shipsFromPostalCode']
+)]
 class Level3 extends Struct
 {
     #[OA\Property(ref: Money::class)]

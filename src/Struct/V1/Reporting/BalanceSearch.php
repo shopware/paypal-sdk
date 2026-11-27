@@ -13,10 +13,10 @@ use Shopware\PayPalSDK\Struct\Struct;
 #[OA\Schema(schema: 'paypal_v1_reporting_balance_search')]
 class BalanceSearch extends Struct
 {
-    #[OA\Property(type: 'string', format: 'date-time', nullable: true)]
+    #[OA\Property(type: 'string', format: 'date-time')]
     protected ?\DateTimeInterface $asOfTime = null;
 
-    #[OA\Property(type: 'string', nullable: true, maxLength: 3, minLength: 3)]
+    #[OA\Property(type: 'string', maxLength: 3, minLength: 3)]
     protected ?string $currencyCode = null;
 
     public function getAsOfTime(): ?\DateTimeInterface

@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_plan_payment_preferences')]
+#[OA\Schema(schema: 'paypal_v1_plan_payment_preferences', required: ['autoBillOutstanding', 'paymentFailureThreshold'])]
 class PaymentPreferences extends Struct
 {
     #[OA\Property(type: 'boolean')]

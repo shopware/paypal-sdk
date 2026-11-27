@@ -17,7 +17,7 @@ use Shopware\PayPalSDK\Struct\V1\Plan\Taxes;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_v1_plan')]
+#[OA\Schema(schema: 'paypal_v1_plan', required: ['productId', 'name', 'status', 'paymentPreferences', 'taxes'])]
 class Plan extends Struct
 {
     #[OA\Property(type: 'string')]
@@ -26,7 +26,7 @@ class Plan extends Struct
     #[OA\Property(type: 'string')]
     protected string $name;
 
-    #[OA\Property(type: 'string', nullable: true)]
+    #[OA\Property(type: 'string')]
     protected ?string $description = null;
 
     #[OA\Property(type: 'string')]

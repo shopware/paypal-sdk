@@ -14,7 +14,7 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource;
 /**
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_confirm
  */
-#[OA\Schema(schema: 'paypal_v2_confirm_order')]
+#[OA\Schema(schema: 'paypal_v2_confirm_order', required: ['paymentSource'])]
 class ConfirmOrder extends Struct
 {
     #[OA\Property(ref: PaymentSource::class)]

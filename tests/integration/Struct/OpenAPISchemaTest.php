@@ -143,6 +143,43 @@ class OpenAPISchemaTest extends TestCase
         static::assertEmpty($failures, \implode(\PHP_EOL, $failures));
     }
 
+    /**
+     * `jsonSerialize()` leaves null out, so a field is absent rather than null, and `required` lists the fields that are always there.
+     */
+    public function testRequiredListsNonNullableProperties(): void
+    {
+        $failures = [];
+
+        foreach ($this->oa->_analysis->classes as $class => $classContext) {
+            $schema = $this->schemaForSource($class);
+
+            if (!$schema || !\class_exists($class) || !\is_array($schema->properties)) {
+                continue;
+            }
+
+            $expected = [];
+            foreach ($schema->properties as $property) {
+                if ($property->nullable === true) {
+                    $failures[] = $class . '::$' . $property->property . ' is nullable in the schema';
+                }
+
+                if (\property_exists($class, $property->property) && !(new \ReflectionProperty($class, $property->property))->getType()?->allowsNull()) {
+                    $expected[] = $property->property;
+                }
+            }
+
+            $required = \is_array($schema->required) ? $schema->required : [];
+            \sort($expected);
+            \sort($required);
+
+            if ($required !== $expected) {
+                $failures[] = \sprintf('%s requires [%s] instead of its non-nullable properties [%s]', $class, \implode(', ', $required), \implode(', ', $expected));
+            }
+        }
+
+        static::assertEmpty($failures, \implode(\PHP_EOL, $failures));
+    }
+
     public function testEmptyStructSchemasAreObjects(): void
     {
         $failures = [];

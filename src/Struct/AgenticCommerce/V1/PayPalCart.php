@@ -15,7 +15,7 @@ use Shopware\PayPalSDK\Struct\Struct;
  */
 #[OA\Schema(
     schema: 'paypal_agentic_commerce_v1_pay_pal_cart',
-    required: ['items', 'paymentMethod']
+    required: ['id', 'status', 'validationStatus']
 )]
 class PayPalCart extends Struct
 {

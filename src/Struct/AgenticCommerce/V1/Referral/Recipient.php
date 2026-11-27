@@ -13,7 +13,7 @@ use Shopware\PayPalSDK\Struct\Struct;
 /**
  * @experimental
  */
-#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_recipient')]
+#[OA\Schema(schema: 'paypal_agentic_commerce_v1_referral_recipient', required: ['name', 'email', 'phone'])]
 class Recipient extends Struct
 {
     #[OA\Property(type: 'string')]

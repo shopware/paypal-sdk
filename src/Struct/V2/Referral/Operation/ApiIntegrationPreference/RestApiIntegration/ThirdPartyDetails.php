@@ -30,10 +30,10 @@ class ThirdPartyDetails extends Struct
     protected ?array $features = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
-    protected string $signupMode;
+    protected ?string $signupMode = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
-    protected string $organization;
+    protected ?string $organization = null;
 
     /**
      * @return string[]
@@ -56,22 +56,22 @@ class ThirdPartyDetails extends Struct
         $this->features[] = $feature;
     }
 
-    public function getSignupMode(): string
+    public function getSignupMode(): ?string
     {
         return $this->signupMode;
     }
 
-    public function setSignupMode(string $signupMode): void
+    public function setSignupMode(?string $signupMode): void
     {
         $this->signupMode = $signupMode;
     }
 
-    public function getOrganization(): string
+    public function getOrganization(): ?string
     {
         return $this->organization;
     }
 
-    public function setOrganization(string $organization): void
+    public function setOrganization(?string $organization): void
     {
         $this->organization = $organization;
     }
