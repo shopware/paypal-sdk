@@ -28,7 +28,7 @@ class ClientToken extends Struct
     #[OA\Property(type: 'string', format: 'date-time')]
     protected \DateTimeImmutable $expireDateTime;
 
-    public function assign(array $data): static
+    public function assign(#[\SensitiveParameter] array $data): static
     {
         $newToken = parent::assign($data);
 

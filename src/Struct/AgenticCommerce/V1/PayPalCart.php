@@ -294,9 +294,4 @@ class PayPalCart extends Struct
     {
         $this->geoCoordinates = $geoCoordinates;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

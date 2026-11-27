@@ -55,9 +55,4 @@ class Channel extends Struct
     {
         $this->deviceType = $deviceType;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

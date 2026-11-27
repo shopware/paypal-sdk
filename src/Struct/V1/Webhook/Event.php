@@ -88,7 +88,7 @@ class Event extends Struct
     #[OA\Property(ref: ApplicationContext::class)]
     protected ApplicationContext $applicationContext;
 
-    public function assign(array $data): static
+    public function assign(#[\SensitiveParameter] array $data): static
     {
         $resourceData = $data['resource'] ?? null;
         unset($data['resource']);

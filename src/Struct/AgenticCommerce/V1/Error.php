@@ -82,9 +82,4 @@ class Error extends Struct
     {
         $this->details = $details;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

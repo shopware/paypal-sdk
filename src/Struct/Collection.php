@@ -46,7 +46,7 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     /**
      * @param array<mixed> $associativeData
      */
-    public static function createFromAssociative(array $associativeData): static
+    public static function createFromAssociative(#[\SensitiveParameter] array $associativeData): static
     {
         // @phpstan-ignore-next-line new.staticInAbstractClassStaticMethod assume class is not abstract anymore
         $collection = new static();

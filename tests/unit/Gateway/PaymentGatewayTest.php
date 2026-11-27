@@ -177,6 +177,6 @@ class PaymentGatewayTest extends TestCase
         static::assertNotNull($last);
         static::assertSame('POST', $last->getRequest()->getMethod());
         static::assertSame('/v2/payments/find-eligible-methods', $last->getRequest()->getUri()->getPath());
-        static::assertSame('{"purchase_units":[{"amount":{"breakdown":null,"currency_code":"USD"},"payee":{"merchant_id":"merchant-id"}}]}', (string) $last->getRequest()->getBody());
+        static::assertSame('{"purchase_units":[{"amount":{"currency_code":"USD"},"payee":{"merchant_id":"merchant-id"}}]}', (string) $last->getRequest()->getBody());
     }
 }

@@ -77,9 +77,4 @@ class Detail extends Struct
     {
         $this->description = $description;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

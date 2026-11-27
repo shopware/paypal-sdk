@@ -22,11 +22,6 @@ class Credentials extends Struct
     #[OA\Property(type: 'string')]
     protected string $payerId;
 
-    public function assign(#[\SensitiveParameter] array $data): static
-    {
-        return parent::assign($data);
-    }
-
     public function getClientId(): string
     {
         return $this->clientId;

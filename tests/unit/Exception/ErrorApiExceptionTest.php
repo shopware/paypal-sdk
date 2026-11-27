@@ -54,7 +54,7 @@ class ErrorApiExceptionTest extends TestCase
             'detail' => 'The error "INVALID_CLIENT" occurred with the following message: Some reason. | (some-field) Invalid format',
             'meta' => [
                 'details' => [['description' => 'Invalid format', 'field' => 'some-field', 'value' => 'some-value']],
-                'links' => [['rel' => 'some-rel', 'enc_type' => null, 'href' => 'some-href']],
+                'links' => [['rel' => 'some-rel', 'href' => 'some-href']],
             ],
         ], $exception->jsonSerialize());
         static::assertSame(

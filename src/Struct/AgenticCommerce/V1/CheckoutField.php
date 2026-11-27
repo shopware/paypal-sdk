@@ -211,9 +211,4 @@ class CheckoutField extends Struct
     {
         $this->validationIssue = $validationIssue;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

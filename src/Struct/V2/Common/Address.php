@@ -105,9 +105,4 @@ class Address extends Struct
     {
         $this->countryCode = $countryCode;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

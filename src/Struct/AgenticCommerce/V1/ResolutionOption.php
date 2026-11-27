@@ -138,9 +138,4 @@ class ResolutionOption extends Struct
     {
         $this->metadata = $metadata;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }
