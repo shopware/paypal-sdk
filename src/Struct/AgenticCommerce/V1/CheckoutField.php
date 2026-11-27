@@ -128,7 +128,7 @@ class CheckoutField extends Struct
      * Structured value based on field type. Each checkout field type has a specific value schema.
      * Use oneOf to validate against the appropriate structure for the field type.
      */
-    #[OA\Property(oneOf: [
+    #[OA\Property(nullable: false, oneOf: [
         new OA\Schema(ref: AgeVerificationValue::class),
         new OA\Schema(ref: GiftRecipientEmailValue::class),
         new OA\Schema(ref: GiftRecipientNameValue::class),
