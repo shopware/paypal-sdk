@@ -257,6 +257,15 @@ class RequestServiceTest extends TestCase
         static::assertSame('{"key":"value"}', (string) $request->getBody());
     }
 
+    public function testWithEmptyStructBodySendsAnObject(): void
+    {
+        $request = $this->service->createRequest('POST', '/some/endpoint', new ApiContext(new CredentialsOAuthContext('', ''), false));
+
+        $request = $this->service->withBody($request, new class extends Struct {});
+
+        static::assertSame('{}', (string) $request->getBody());
+    }
+
     public function testWithBodyUrlEncoded(): void
     {
         $context = (new ApiContext(

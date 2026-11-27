@@ -16,6 +16,7 @@
 - `$collection[] = $element` adds and validates the element.
 - `Struct::from(Order::class, $data)` is `Order::from($data)`, and `Collection::createFromAssociative()` is `Collection::from()`.
 - `Struct::jsonSerialize()` omits `null` properties and empty collections, and lists inherited properties first. Structs no longer filter their output with `array_filter()`, so `false`, `0` and `''` are serialized.
+- An empty struct is serialized as an object: `jsonSerialize()` holds a `\stdClass` for an empty nested struct or collection element, so `json_encode()` writes `{}`, and an empty request body is sent as `{}`.
 - Collection getters return an empty collection instead of `null` or throwing, and keep it, so `$order->getLinks()->add($link)` persists. Collection setters accept `null`. Array getters return `[]` instead of `null`.
 - Structs no longer preset fields, so a request only carries what you set. Set these where you relied on the old value:
   - `V2\Order\ApplicationContext` and `PaymentSource\Common\ExperienceContext`: `landingPage` (`NO_PREFERENCE`), `shippingPreference` (`SET_PROVIDED_ADDRESS`), `userAction` (`PAY_NOW`)

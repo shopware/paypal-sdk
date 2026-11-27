@@ -190,11 +190,13 @@ abstract class Collection implements \IteratorAggregate, \Countable, \JsonSerial
     }
 
     /**
-     * @return list<array>
+     * Empty elements become objects, as `json_encode()` writes an empty array as `[]`.
+     *
+     * @return list<array<string, mixed>|\stdClass>
      */
     public function jsonSerialize(): array
     {
-        return \array_values($this->map(static fn (Struct $e): array => $e->jsonSerialize()));
+        return \array_values($this->map(static fn (Struct $e): array|\stdClass => $e->jsonSerialize() ?: new \stdClass()));
     }
 
     /**

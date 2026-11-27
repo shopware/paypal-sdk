@@ -253,6 +253,11 @@ class CollectionTest extends TestCase
         static::assertSame($collection->jsonSerialize(), \json_decode($encoded, true));
     }
 
+    public function testJsonSerializeWritesEmptyElementsAsObjects(): void
+    {
+        static::assertSame('[{}]', \json_encode(new FooCollection([new Foo()])));
+    }
+
     public function testJsonSerializeReindexesNonSequentialKeys(): void
     {
         $collection = new FooCollection();
