@@ -50,7 +50,7 @@ $orderGateway = new OrderGateway();
 
 $toCreateOrder = new Order();
 $toCreateOrder->setIntent('CAPTURE');
-$toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::createFromAssociative([
+$toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::from([
     ['amount' => ['currency_code' => 'EUR', 'value' => '10.00']],
 ]));
 $toCreateOrder->setPaymentSource(...);
@@ -86,7 +86,7 @@ $orderGateway = new OrderGateway($client, $tokenGateway);
 
 $toCreateOrder = new Order();
 $toCreateOrder->setIntent('CAPTURE');
-$toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::createFromAssociative([
+$toCreateOrder->setPurchaseUnits(PurchaseUnitCollection::from([
     ['amount' => ['currency_code' => 'EUR', 'value' => '10.00']],
 ]));
 $toCreateOrder->setPaymentSource(...);

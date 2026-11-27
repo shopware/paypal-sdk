@@ -156,7 +156,7 @@ class OrderGatewayTest extends TestCase
     public function testPatchOrder(): void
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
-        $body = PatchCollection::createFromAssociative([[
+        $body = PatchCollection::from([[
             'op' => 'REPLACE',
             'path' => '/some/path',
         ]]);
@@ -198,7 +198,7 @@ class OrderGatewayTest extends TestCase
     {
         $context = new ApiContext(new CredentialsOAuthContext('client-id', 'client-secret'), true, 'merchant-id');
         $body = (new Order())->assign(['id' => 'some-order-id']);
-        $patch = PatchCollection::createFromAssociative([[
+        $patch = PatchCollection::from([[
             'op' => 'replace',
             'path' => '/status',
             'value' => Order\PurchaseUnit\Shipping\Tracker::STATUS_CANCELLED,

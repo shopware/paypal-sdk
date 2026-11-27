@@ -60,7 +60,7 @@ abstract class AbstractGateway implements GatewayInterface
     {
         $content = $this->requestAuthenticated($method, $path, $body, $context);
 
-        return $responseClass !== null && $content !== null ? Struct::from($responseClass, $content) : null;
+        return $responseClass !== null && $content !== null ? $responseClass::from($content) : null;
     }
 
     /**

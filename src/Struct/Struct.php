@@ -26,20 +26,14 @@ abstract class Struct implements \JsonSerializable
     final public function __construct() {}
 
     /**
-     * @template T of Struct
-     *
-     * @param class-string<T> $class
      * @param array<mixed> $data
      *
-     * @return T
+     * @throws \LogicException see {@see self::assign()}
      */
-    final public static function from(string $class, #[\SensitiveParameter] array $data): Struct
+    final public static function from(#[\SensitiveParameter] array $data): static
     {
-        if (!\class_exists($class) || !\is_a($class, Struct::class, true)) {
-            throw new \InvalidArgumentException('Class ' . $class . ' is not type of ' . self::class);
-        }
-
-        return (new $class())->assign($data);
+        // @phpstan-ignore-next-line new.staticInAbstractClassStaticMethod assume class is not abstract anymore
+        return (new static())->assign($data);
     }
 
     /**
@@ -67,9 +61,8 @@ abstract class Struct implements \JsonSerializable
             if (\is_array($value)) {
                 $value = match (true) {
                     $target === null => $acceptsArray ? $value : null,
-                    \is_a($target, Collection::class, true) => $target::createFromAssociative($value),
-                    $value === [] => null,
-                    default => (new $target())->assign($value),
+                    $value === [] && !\is_a($target, Collection::class, true) => null,
+                    default => $target::from($value),
                 };
 
                 if ($value === null) {

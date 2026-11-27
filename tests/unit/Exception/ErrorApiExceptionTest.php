@@ -26,12 +26,12 @@ class ErrorApiExceptionTest extends TestCase
     {
         $response = new Response(200, body: '{"key":"value"}');
 
-        $details = DetailCollection::createFromAssociative([[
+        $details = DetailCollection::from([[
             'description' => 'Invalid format',
             'field' => 'some-field',
             'value' => 'some-value',
         ]]);
-        $links = LinkCollection::createFromAssociative([[
+        $links = LinkCollection::from([[
             'rel' => 'some-rel',
             'href' => 'some-href',
         ]]);
@@ -68,7 +68,7 @@ class ErrorApiExceptionTest extends TestCase
     {
         $response = new Response(200, body: '{"key":"value"}');
 
-        $details = DetailCollection::createFromAssociative([[
+        $details = DetailCollection::from([[
             'description' => 'Invalid format',
             'field' => 'some-field',
             'value' => 'some-value',

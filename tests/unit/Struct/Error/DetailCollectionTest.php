@@ -22,7 +22,7 @@ class DetailCollectionTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->collection = DetailCollection::createFromAssociative([
+        $this->collection = DetailCollection::from([
             [
                 'issue' => 'INVALID_FORMAT',
                 'description' => 'Invalid format',
