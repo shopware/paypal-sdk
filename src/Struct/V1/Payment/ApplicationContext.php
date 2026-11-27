@@ -32,11 +32,11 @@ class ApplicationContext extends Struct
     #[OA\Property(type: 'string', enum: self::LANDING_PAGE_TYPES)]
     protected string $landingPage;
 
-    #[OA\Property(type: 'string', default: 'SET_PROVIDED_ADDRESS')]
-    protected string $shippingPreference = 'SET_PROVIDED_ADDRESS';
+    #[OA\Property(type: 'string')]
+    protected ?string $shippingPreference = null;
 
-    #[OA\Property(type: 'string', default: self::USER_ACTION_TYPE_COMMIT)]
-    protected string $userAction = self::USER_ACTION_TYPE_COMMIT;
+    #[OA\Property(type: 'string')]
+    protected ?string $userAction = null;
 
     public function getBrandName(): string
     {
@@ -68,22 +68,22 @@ class ApplicationContext extends Struct
         $this->landingPage = $landingPage;
     }
 
-    public function getShippingPreference(): string
+    public function getShippingPreference(): ?string
     {
         return $this->shippingPreference;
     }
 
-    public function setShippingPreference(string $shippingPreference): void
+    public function setShippingPreference(?string $shippingPreference): void
     {
         $this->shippingPreference = $shippingPreference;
     }
 
-    public function getUserAction(): string
+    public function getUserAction(): ?string
     {
         return $this->userAction;
     }
 
-    public function setUserAction(string $userAction): void
+    public function setUserAction(?string $userAction): void
     {
         $this->userAction = $userAction;
     }

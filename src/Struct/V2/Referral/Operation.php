@@ -17,8 +17,8 @@ class Operation extends Struct
 {
     public const string OPERATION_TYPE_API_INTEGRATION = 'API_INTEGRATION';
 
-    #[OA\Property(type: 'string', default: self::OPERATION_TYPE_API_INTEGRATION, minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE_HYPHEN)]
-    protected string $operation = self::OPERATION_TYPE_API_INTEGRATION;
+    #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE_HYPHEN)]
+    protected string $operation;
 
     #[OA\Property(ref: ApiIntegrationPreference::class)]
     protected ApiIntegrationPreference $apiIntegrationPreference;

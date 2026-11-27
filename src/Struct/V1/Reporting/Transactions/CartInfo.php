@@ -33,7 +33,7 @@ class CartInfo extends Struct
         $this->itemDetails = $itemDetails;
     }
 
-    public function getTaxInclusive(): ?bool
+    public function isTaxInclusive(): ?bool
     {
         return $this->taxInclusive;
     }

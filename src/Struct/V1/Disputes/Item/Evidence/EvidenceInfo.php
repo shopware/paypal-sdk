@@ -20,7 +20,7 @@ class EvidenceInfo extends Struct
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 100)]
-    protected array $refundIds = [];
+    protected ?array $refundIds = null;
 
     public function getTrackingInfo(): TrackingInfoCollection
     {
@@ -37,13 +37,13 @@ class EvidenceInfo extends Struct
      */
     public function getRefundIds(): array
     {
-        return $this->refundIds;
+        return $this->refundIds ?? [];
     }
 
     /**
      * @param string[] $refundIds
      */
-    public function setRefundIds(array $refundIds): void
+    public function setRefundIds(?array $refundIds): void
     {
         $this->refundIds = $refundIds;
     }

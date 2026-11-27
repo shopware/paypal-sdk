@@ -211,7 +211,7 @@ class ShippingErrorContext extends AbstractContext
         $this->restrictionReason = $restrictionReason;
     }
 
-    public function getPoBoxDetected(): ?bool
+    public function isPoBoxDetected(): ?bool
     {
         return $this->poBoxDetected;
     }

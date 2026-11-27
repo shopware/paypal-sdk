@@ -31,8 +31,8 @@ class Tracker extends Struct
     #[OA\Property(type: 'string', minLength: 1, maxLength: 64, nullable: true)]
     protected ?string $carrierNameOther = null;
 
-    #[OA\Property(type: 'boolean', default: false)]
-    protected bool $notifyPayer = false;
+    #[OA\Property(type: 'boolean')]
+    protected ?bool $notifyPayer = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: Item::class))]
     protected ?ItemCollection $items = null;
@@ -90,12 +90,12 @@ class Tracker extends Struct
         $this->carrierNameOther = $carrierNameOther;
     }
 
-    public function isNotifyPayer(): bool
+    public function isNotifyPayer(): ?bool
     {
         return $this->notifyPayer;
     }
 
-    public function setNotifyPayer(bool $notifyPayer): void
+    public function setNotifyPayer(?bool $notifyPayer): void
     {
         $this->notifyPayer = $notifyPayer;
     }

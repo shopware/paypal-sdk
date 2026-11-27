@@ -17,14 +17,14 @@ class Verification extends Struct
     public const string METHOD_SCA_ALWAYS = 'SCA_ALWAYS';
 
     #[OA\Property(type: 'string')]
-    protected string $method = self::METHOD_SCA_ALWAYS;
+    protected ?string $method = null;
 
-    public function getMethod(): string
+    public function getMethod(): ?string
     {
         return $this->method;
     }
 
-    public function setMethod(string $method): void
+    public function setMethod(?string $method): void
     {
         $this->method = $method;
     }

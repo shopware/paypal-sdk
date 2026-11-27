@@ -18,8 +18,8 @@ class Token extends Struct
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string', default: self::TYPE_BANK_REFERENCE_TOKEN)]
-    protected string $type = self::TYPE_BANK_REFERENCE_TOKEN;
+    #[OA\Property(type: 'string')]
+    protected ?string $type = null;
 
     public function getId(): string
     {
@@ -31,12 +31,12 @@ class Token extends Struct
         $this->id = $id;
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(string $type): void
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }

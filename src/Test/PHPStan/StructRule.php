@@ -7,6 +7,7 @@
 
 namespace Shopware\PayPalSDK\Test\PHPStan;
 
+use OpenApi\Attributes as OA;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassPropertyNode;
@@ -14,6 +15,7 @@ use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeCombinator;
 use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\ConstantsV1;
 use Shopware\PayPalSDK\Struct\ConstantsV2;
@@ -68,6 +70,8 @@ class StructRule implements Rule
             $errors[] = self::message($node, 'is nullable and should default to null', 'default');
         } elseif ($node->getNativeType()->isNull()->no() && (new ObjectType(Collection::class))->isSuperTypeOf($node->getNativeType())->yes()) {
             $errors[] = self::message($node, 'is a collection and should be nullable', 'collection');
+        } elseif ($node->getNativeType()->isNull()->no() && $node->getDefault() !== null && !self::mayHaveDefault($node)) {
+            $errors[] = self::message($node, 'should not have a default, unless it is @internal or its #[OA\Property] enum allows only that value', 'nonNullDefault');
         }
 
         if ($node->getName() !== ($camelCaseName = CaseConverter::denormalize($node->getName()))) {
@@ -85,7 +89,7 @@ class StructRule implements Rule
 
             $getter = match ((bool) \preg_match('/^is[A-Z]/', $node->getName())) {
                 true => $node->getName(),
-                false => ($type->isBoolean()->or($type->isNull())->yes() ? 'is' : 'get') . \ucfirst($node->getName()),
+                false => (TypeCombinator::removeNull($type)->isBoolean()->yes() ? 'is' : 'get') . \ucfirst($node->getName()),
             };
 
             if (!$class->hasMethod($getter)) {
@@ -94,6 +98,25 @@ class StructRule implements Rule
         }
 
         return $errors;
+    }
+
+    /**
+     * A default would be sent to PayPal although nobody chose it, or hide that PayPal left the field out.
+     */
+    private static function mayHaveDefault(ClassPropertyNode $node): bool
+    {
+        if (\str_contains($node->getPhpDoc() ?? '', '@internal')) {
+            return true;
+        }
+
+        $property = $node->getClassReflection()->getNativeReflection()->getProperty($node->getName());
+        foreach ($property->getAttributes(OA\Property::class) as $attribute) {
+            $enum = $attribute->getArguments()['enum'] ?? null;
+
+            return \is_array($enum) && $enum === [$property->getDefaultValue()];
+        }
+
+        return false;
     }
 
     private static function message(ClassPropertyNode $node, string $shouldMessage, string $identifier): IdentifierRuleError

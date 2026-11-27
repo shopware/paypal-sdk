@@ -22,7 +22,7 @@ class GiftOptions extends Struct
      * Whether this is a gift
      */
     #[OA\Property(type: 'boolean')]
-    protected bool $isGift = false;
+    protected ?bool $isGift = null;
 
     /**
      * Gift recipient information
@@ -64,12 +64,12 @@ class GiftOptions extends Struct
     #[OA\Property(type: 'boolean')]
     protected ?bool $giftWrap = null;
 
-    public function isGift(): bool
+    public function isGift(): ?bool
     {
         return $this->isGift;
     }
 
-    public function setIsGift(bool $isGift): void
+    public function setIsGift(?bool $isGift): void
     {
         $this->isGift = $isGift;
     }
@@ -114,7 +114,7 @@ class GiftOptions extends Struct
         $this->giftMessage = $giftMessage;
     }
 
-    public function getGiftWrap(): ?bool
+    public function isGiftWrap(): ?bool
     {
         return $this->giftWrap;
     }

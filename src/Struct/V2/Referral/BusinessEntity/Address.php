@@ -19,7 +19,7 @@ class Address extends Struct
     #[OA\Property(type: 'string', minLength: 2, maxLength: 2, pattern: Pattern::COUNTRY_CODE)]
     protected string $countryCode;
 
-    #[OA\Property(type: 'string', default: self::TYPE_WORK, minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
+    #[OA\Property(type: 'string', default: self::TYPE_WORK, enum: [self::TYPE_WORK], minLength: 1, maxLength: 255, pattern: Pattern::UPPER_ALNUM_UNDERSCORE)]
     protected string $type = self::TYPE_WORK;
 
     public function getCountryCode(): string

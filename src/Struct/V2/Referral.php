@@ -51,20 +51,11 @@ class Referral extends Struct
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 5)]
-    protected array $products = [
-        self::PRODUCT_TYPE_PPCP,
-        self::PRODUCT_TYPE_PAYMENT_METHODS,
-        self::PRODUCT_TYPE_ADVANCED_VAULTING,
-    ];
+    protected ?array $products = null;
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 5)]
-    protected array $capabilities = [
-        self::CAPABILITY_PAY_UPON_INVOICE,
-        self::CAPABILITY_PAYPAL_WALLET_VAULTING_ADVANCED,
-        self::CAPABILITY_APPLE_PAY,
-        self::CAPABILITY_GOOGLE_PAY,
-    ];
+    protected ?array $capabilities = null;
 
     #[OA\Property(type: 'array', items: new OA\Items(ref: LegalConsent::class), minItems: 1, maxItems: 5)]
     protected ?LegalConsentCollection $legalConsents = null;
@@ -130,13 +121,13 @@ class Referral extends Struct
      */
     public function getProducts(): array
     {
-        return $this->products;
+        return $this->products ?? [];
     }
 
     /**
      * @param string[] $products
      */
-    public function setProducts(array $products): void
+    public function setProducts(?array $products): void
     {
         $this->products = $products;
     }
@@ -151,13 +142,13 @@ class Referral extends Struct
      */
     public function getCapabilities(): array
     {
-        return $this->capabilities;
+        return $this->capabilities ?? [];
     }
 
     /**
      * @param string[] $capabilities
      */
-    public function setCapabilities(array $capabilities): void
+    public function setCapabilities(?array $capabilities): void
     {
         $this->capabilities = $capabilities;
     }

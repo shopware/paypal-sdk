@@ -30,10 +30,10 @@ class ShippingOption extends Struct
 
     /** @var self::TYPE_* */
     #[OA\Property(type: 'string', enum: [self::TYPE_SHIPPING, self::TYPE_PICKUP])]
-    protected string $type = self::TYPE_SHIPPING;
+    protected ?string $type = null;
 
     #[OA\Property(type: 'boolean')]
-    protected bool $selected = false;
+    protected bool $selected;
 
     public function getId(): string
     {
@@ -68,7 +68,7 @@ class ShippingOption extends Struct
     /**
      * @return self::TYPE_*
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -76,7 +76,7 @@ class ShippingOption extends Struct
     /**
      * @param self::TYPE_* $type
      */
-    public function setType(string $type): void
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }

@@ -17,7 +17,7 @@ class PartnerConfigOverride extends Struct
     protected string $returnUrl;
 
     #[OA\Property(type: 'string')]
-    protected string $partnerLogoUrl = 'https://assets.shopware.com/media/logos/shopware_logo_blue.svg';
+    protected ?string $partnerLogoUrl = null;
 
     public function getReturnUrl(): string
     {
@@ -29,12 +29,12 @@ class PartnerConfigOverride extends Struct
         $this->returnUrl = $returnUrl;
     }
 
-    public function getPartnerLogoUrl(): string
+    public function getPartnerLogoUrl(): ?string
     {
         return $this->partnerLogoUrl;
     }
 
-    public function setPartnerLogoUrl(string $partnerLogoUrl): void
+    public function setPartnerLogoUrl(?string $partnerLogoUrl): void
     {
         $this->partnerLogoUrl = $partnerLogoUrl;
     }

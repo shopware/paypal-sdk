@@ -32,18 +32,17 @@ class ApplicationContext extends Struct
     #[OA\Property(type: 'string', minLength: 1, maxLength: 127)]
     protected string $brandName;
 
-    #[OA\Property(type: 'string', default: self::LANDING_PAGE_TYPE_NO_PREFERENCE, enum: self::LANDING_PAGE_TYPES)]
-    protected string $landingPage = self::LANDING_PAGE_TYPE_NO_PREFERENCE;
+    #[OA\Property(type: 'string', enum: self::LANDING_PAGE_TYPES)]
+    protected ?string $landingPage = null;
 
     #[OA\Property(
         type: 'string',
-        default: self::SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS,
         enum: [self::SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS, self::SHIPPING_PREFERENCE_NO_SHIPPING, self::SHIPPING_PREFERENCE_GET_FROM_FILE],
     )]
-    protected string $shippingPreference = self::SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS;
+    protected ?string $shippingPreference = null;
 
-    #[OA\Property(type: 'string', default: self::USER_ACTION_PAY_NOW, enum: [self::USER_ACTION_CONTINUE, self::USER_ACTION_PAY_NOW])]
-    protected string $userAction = self::USER_ACTION_PAY_NOW;
+    #[OA\Property(type: 'string', enum: [self::USER_ACTION_CONTINUE, self::USER_ACTION_PAY_NOW])]
+    protected ?string $userAction = null;
 
     #[OA\Property(type: 'string', format: 'uri')]
     protected string $returnUrl;
@@ -61,32 +60,32 @@ class ApplicationContext extends Struct
         $this->brandName = $brandName;
     }
 
-    public function getLandingPage(): string
+    public function getLandingPage(): ?string
     {
         return $this->landingPage;
     }
 
-    public function setLandingPage(string $landingPage): void
+    public function setLandingPage(?string $landingPage): void
     {
         $this->landingPage = $landingPage;
     }
 
-    public function getShippingPreference(): string
+    public function getShippingPreference(): ?string
     {
         return $this->shippingPreference;
     }
 
-    public function setShippingPreference(string $shippingPreference): void
+    public function setShippingPreference(?string $shippingPreference): void
     {
         $this->shippingPreference = $shippingPreference;
     }
 
-    public function getUserAction(): string
+    public function getUserAction(): ?string
     {
         return $this->userAction;
     }
 
-    public function setUserAction(string $userAction): void
+    public function setUserAction(?string $userAction): void
     {
         $this->userAction = $userAction;
     }

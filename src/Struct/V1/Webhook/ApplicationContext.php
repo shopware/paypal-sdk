@@ -21,7 +21,7 @@ class ApplicationContext extends Struct
 
     /** @var list<string> */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
-    protected array $eventTargets = [];
+    protected ?array $eventTargets = null;
 
     public function getActor(): ?string
     {
@@ -48,13 +48,13 @@ class ApplicationContext extends Struct
      */
     public function getEventTargets(): array
     {
-        return $this->eventTargets;
+        return $this->eventTargets ?? [];
     }
 
     /**
      * @param list<string> $eventTargets
      */
-    public function setEventTargets(array $eventTargets): void
+    public function setEventTargets(?array $eventTargets): void
     {
         $this->eventTargets = $eventTargets;
     }
