@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Context\ShippingErrorContext;
+use Shopware\PayPalSDK\Struct\Collection;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Struct\V1\MerchantIntegrations\Product;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Bank\SepaDebit;
@@ -191,7 +192,7 @@ class StructTest extends TestCase
     public function testAssignEmptyNullableScalarArray(): void
     {
         // the SDK declares its scalar arrays nullable with a null default, e.g. DataErrorContext::$allowedValues,
-        // so the property is always serialized and an explicitly empty list must not come back out as null
+        // an explicitly empty list must still be serialized instead of being omitted like null
         $struct = new class extends Struct {
             /** @var string[]|null */
             protected ?array $allowedValues = null;
@@ -230,6 +231,104 @@ class StructTest extends TestCase
         $struct->setCreatedAt(new \DateTimeImmutable('2026-01-31T23:59:59+02:00'));
 
         static::assertSame(['created_at' => '2026-01-31T23:59:59+02:00'], $struct->jsonSerialize());
+    }
+
+    public function testSerializeOmitsNullAndKeepsFalsyValues(): void
+    {
+        $struct = new class extends Struct {
+            protected ?string $missing = null;
+
+            protected bool $flag = false;
+
+            protected int $count = 0;
+
+            protected string $zero = '0';
+
+            /** @var string[] */
+            protected array $list = [];
+        };
+
+        static::assertSame(['flag' => false, 'count' => 0, 'zero' => '0', 'list' => []], $struct->jsonSerialize());
+    }
+
+    public function testAssignSkipsArrayForNonArrayProperty(): void
+    {
+        static::assertEmpty($this->cycleStruct(['id' => ['not' => 'a string']]));
+    }
+
+    public function testAssignCachesOnlyCanonicalKeys(): void
+    {
+        $struct = new class extends Struct {
+            protected string $orderId;
+
+            public function getOrderId(): string
+            {
+                return $this->orderId;
+            }
+        };
+        $struct->assign(['order__id' => 'ORDER-2', 'unknown' => 'value']);
+        static::assertSame('ORDER-2', $struct->getOrderId());
+        $struct->assign(['order_id' => 'ORDER-1', 'orderId' => 'ORDER-1']);
+
+        $metadata = (new \ReflectionProperty(Struct::class, 'assignMetadata'))->getValue();
+        static::assertIsArray($metadata);
+        static::assertIsArray($metadata[$struct::class] ?? null);
+        static::assertSame(['order_id', 'orderId'], \array_keys($metadata[$struct::class]));
+    }
+
+    public function testAssignThrowsForUnionWithStruct(): void
+    {
+        $struct = new class extends Struct {
+            protected Bar|FooCollection $value;
+        };
+
+        $this->expectException(\LogicException::class);
+        $struct->assign(['value' => ['bar' => 'baz']]);
+    }
+
+    public function testAssignThrowsForAbstractStruct(): void
+    {
+        $struct = new class extends Struct {
+            protected ?Struct $value = null;
+        };
+
+        $this->expectException(\LogicException::class);
+        $struct->assign(['value' => ['bar' => 'baz']]);
+    }
+
+    /**
+     * {@see Struct::assign()} cannot tell which member of a union an array belongs to.
+     */
+    public function testStructsDoNotDeclareUnionsWithStructs(): void
+    {
+        $root = \dirname(__DIR__, 3) . '/src/Struct/';
+        $violations = [];
+
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root)) as $file) {
+            if (!$file instanceof \SplFileInfo || $file->getExtension() !== 'php') {
+                continue;
+            }
+
+            $class = 'Shopware\PayPalSDK\Struct\\' . \str_replace('/', '\\', \substr($file->getPathname(), \strlen($root), -4));
+            if (!\is_a($class, Struct::class, true)) {
+                continue;
+            }
+
+            foreach ((new \ReflectionClass($class))->getProperties() as $property) {
+                $type = $property->getType();
+                if (!$type instanceof \ReflectionUnionType || $property->getDeclaringClass()->getName() !== $class) {
+                    continue;
+                }
+
+                foreach ($type->getTypes() as $member) {
+                    if ($member instanceof \ReflectionNamedType && (\is_a($member->getName(), Struct::class, true) || \is_a($member->getName(), Collection::class, true))) {
+                        $violations[] = $class . '::$' . $property->getName();
+                    }
+                }
+            }
+        }
+
+        static::assertSame([], $violations);
     }
 
     /**

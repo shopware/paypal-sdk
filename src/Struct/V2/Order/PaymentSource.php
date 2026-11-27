@@ -313,11 +313,14 @@ class PaymentSource extends Struct
      */
     public function jsonSerialize(): array
     {
-        return \array_filter([
-            ...parent::jsonSerialize(),
-            'p_2_4' => null,
-            'p24' => $this->p24,
-        ]);
+        $data = parent::jsonSerialize();
+
+        if (isset($data['p_2_4'])) {
+            $data['p24'] = $data['p_2_4'];
+            unset($data['p_2_4']);
+        }
+
+        return $data;
     }
 
     /**

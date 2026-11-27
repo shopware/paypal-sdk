@@ -123,9 +123,4 @@ class GiftOptions extends Struct
     {
         $this->giftWrap = $giftWrap;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

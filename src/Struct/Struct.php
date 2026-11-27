@@ -11,6 +11,18 @@ use Shopware\PayPalSDK\Util\CaseConverter;
 
 abstract class Struct implements \JsonSerializable
 {
+    /**
+     * Per class and input key: property name, setter, nested struct or collection class and whether
+     * the property accepts arrays. Only the property name and its snake_case form are cached, so external
+     * input cannot grow it with unknown keys or spellings like `purchase__units`.
+     *
+     * @var array<class-string<self>, array<array-key, array{string, ?string, class-string<self>|class-string<Collection>|null, bool}>>
+     */
+    private static array $assignMetadata = [];
+
+    /** @var array<string, string> */
+    private static array $jsonKeys = [];
+
     final public function __construct() {}
 
     /**
@@ -21,7 +33,7 @@ abstract class Struct implements \JsonSerializable
      *
      * @return T
      */
-    final public static function from(string $class, array $data): Struct
+    final public static function from(string $class, #[\SensitiveParameter] array $data): Struct
     {
         if (!\class_exists($class) || !\is_a($class, Struct::class, true)) {
             throw new \InvalidArgumentException('Class ' . $class . ' is not type of ' . self::class);
@@ -31,46 +43,45 @@ abstract class Struct implements \JsonSerializable
     }
 
     /**
+     * Null values keep the current value. Arrays that fit neither a nested struct, a collection
+     * nor an array property are skipped.
+     *
      * @param array<mixed> $data
+     *
+     * @throws \LogicException for a property typed as an abstract struct, or as a union with a struct or collection
      */
-    public function assign(array $data): static
+    public function assign(#[\SensitiveParameter] array $data): static
     {
         foreach ($data as $key => $value) {
             if ($value === null) {
                 continue;
             }
 
-            $propertyName = CaseConverter::denormalize((string) $key);
-            if (!\property_exists($this, $propertyName)) {
+            $metadata = self::$assignMetadata[$this::class][$key] ?? self::describe($this::class, $key);
+            if ($metadata === null) {
                 continue;
             }
 
-            $property = new \ReflectionProperty($this, $propertyName);
-            if (!$type = $property->getType()) {
-                $this->assignValue($propertyName, $value);
+            [$name, $setter, $target, $acceptsArray] = $metadata;
 
-                continue;
+            if (\is_array($value)) {
+                $value = match (true) {
+                    $target === null => $acceptsArray ? $value : null,
+                    \is_a($target, Collection::class, true) => $target::createFromAssociative($value),
+                    $value === [] => null,
+                    default => (new $target())->assign($value),
+                };
+
+                if ($value === null) {
+                    continue;
+                }
             }
 
-            // Only assign empty arrays to collections and scalar arrays
-            $collectionClassName = $this->getPropertyClassType([$type], Collection::class);
-            if ($value === [] && !$this->acceptsArrayType([$type]) && !$collectionClassName) {
-                continue;
+            if ($setter !== null) {
+                $this->{$setter}($value);
+            } else {
+                $this->{$name} = $value;
             }
-
-            if (\is_array($value) && $collectionClassName) {
-                $this->assignValue($propertyName, $collectionClassName::createFromAssociative($value));
-
-                continue;
-            }
-
-            if (\is_array($value) && $className = $this->getPropertyClassType([$type], Struct::class)) {
-                $this->assignValue($propertyName, self::from($className, $value));
-
-                continue;
-            }
-
-            $this->assignValue($propertyName, $value);
         }
 
         return $this;
@@ -83,22 +94,18 @@ abstract class Struct implements \JsonSerializable
     {
         $data = [];
 
-        foreach (\array_keys(\get_class_vars($this::class)) as $property) {
-            if (!(new \ReflectionProperty($this, $property))->isInitialized($this)) {
+        foreach (\get_object_vars($this) as $property => $value) {
+            if ($value === null) {
                 continue;
             }
 
-            $value = $this->{$property};
-
             if ($value instanceof \DateTimeInterface) {
                 $value = $value->format(\DateTimeInterface::ATOM);
-            }
-
-            if ($value instanceof \JsonSerializable) {
+            } elseif ($value instanceof \JsonSerializable) {
                 $value = $value->jsonSerialize();
             }
 
-            $data[CaseConverter::normalize($property)] = $value;
+            $data[self::$jsonKeys[$property] ??= CaseConverter::normalize($property)] = $value;
         }
 
         return $data;
@@ -127,68 +134,55 @@ abstract class Struct implements \JsonSerializable
     }
 
     /**
-     * @template T
+     * @param class-string<self> $class
      *
-     * @param \ReflectionType[] $types
-     * @param class-string<T> $expectedClass
+     * @throws \LogicException
      *
-     * @return (class-string&T)|class-string<T>|null
+     * @return array{string, ?string, class-string<self>|class-string<Collection>|null, bool}|null
      */
-    private function getPropertyClassType(array $types, string $expectedClass): ?string
+    private static function describe(string $class, int|string $key): ?array
     {
-        foreach ($types as $type) {
-            $type = match (true) {
-                $type instanceof \ReflectionNamedType => $type,
-                $type instanceof \ReflectionUnionType => $this->getPropertyClassType($type->getTypes(), $expectedClass),
-                $type instanceof \ReflectionIntersectionType => $this->getPropertyClassType($type->getTypes(), $expectedClass),
-                default => null,
-            };
-
-            if (!$type instanceof \ReflectionNamedType || $type->isBuiltin()) {
-                return null;
-            }
-
-            $name = $type->getName();
-
-            if (\class_exists($name) && \is_a($name, $expectedClass, true)) {
-                return $name;
-            }
+        $name = CaseConverter::denormalize((string) $key);
+        if (!\property_exists($class, $name)) {
+            return null;
         }
 
-        return null;
-    }
+        $type = (new \ReflectionProperty($class, $name))->getType();
+        $members = $type instanceof \ReflectionUnionType ? $type->getTypes() : [$type];
+        $target = null;
+        $acceptsArray = $type === null;
 
-    /**
-     * @param \ReflectionType[] $types
-     */
-    private function acceptsArrayType(array $types): bool
-    {
-        foreach ($types as $type) {
-            if ($type instanceof \ReflectionNamedType) {
-                if (\in_array($type->getName(), ['array', 'iterable', 'mixed'], true)) {
-                    return true;
-                }
+        foreach ($members as $member) {
+            if (!$member instanceof \ReflectionNamedType) {
+                continue;
+            }
+
+            $typeName = $member->getName();
+
+            if ($member->isBuiltin()) {
+                $acceptsArray = $acceptsArray || \in_array($typeName, ['array', 'iterable', 'mixed'], true);
 
                 continue;
             }
 
-            // intersection types are object-only, so they can never admit an array
-            if ($type instanceof \ReflectionUnionType && $this->acceptsArrayType($type->getTypes())) {
-                return true;
+            if (!\is_a($typeName, self::class, true) && !\is_a($typeName, Collection::class, true)) {
+                continue;
             }
+
+            if (\count($members) > 1 || !(new \ReflectionClass($typeName))->isInstantiable()) {
+                throw new \LogicException(\sprintf('Unable to resolve a concrete class for %s::$%s, override assign() to hydrate it', $class, $name));
+            }
+
+            $target = $typeName;
         }
 
-        return false;
-    }
+        $setter = 'set' . \ucfirst($name);
 
-    private function assignValue(string $propertyName, mixed $value): void
-    {
-        $setterMethod = \sprintf('set%s', \ucfirst($propertyName));
-
-        if (\method_exists($this, $setterMethod)) {
-            $this->{$setterMethod}($value);
-        } else {
-            $this->{$propertyName} = $value;
+        $metadata = [$name, \method_exists($class, $setter) ? $setter : null, $target, $acceptsArray];
+        if ($key === $name || $key === CaseConverter::normalize($name)) {
+            self::$assignMetadata[$class][$key] = $metadata;
         }
+
+        return $metadata;
     }
 }

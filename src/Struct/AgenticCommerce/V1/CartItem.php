@@ -186,9 +186,4 @@ class CartItem extends Struct
     {
         $this->customOptions = $customOptions;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

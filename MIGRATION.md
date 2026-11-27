@@ -14,6 +14,8 @@
 - `Token` and `ClientToken` expiration dates are `DateTimeImmutable`. Pass the result of `modify()` to `setExpireDateTime()`.
 - A REST error with HTTP 401 is an `ErrorApiException` with its details. An unstructured 401 response is an `ApiException`.
 - `$collection[] = $element` adds and validates the element.
+- `Struct::jsonSerialize()` omits `null` properties and lists inherited properties first. Structs no longer filter their output with `array_filter()`, so `false`, `0` and `''` are serialized.
+- `Struct::assign()` throws a `LogicException` for a property typed as an abstract struct or as a union with a struct or collection. Override `assign()` to hydrate such a property. An array for a property that accepts none is skipped instead of throwing a `TypeError`.
 
 The structs are now checked against PayPal's OpenAPI specs (see [`tools/openapi/README.md`](tools/openapi/README.md)):
 

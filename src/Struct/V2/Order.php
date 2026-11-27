@@ -168,6 +168,8 @@ class Order extends Struct
     }
 
     /**
+     * Omits empty values, so reading a field through a lazy getter like {@see self::getPurchaseUnits()} doesn't change the serialization.
+     *
      * @return array<string, mixed>
      */
     public function jsonSerialize(): array

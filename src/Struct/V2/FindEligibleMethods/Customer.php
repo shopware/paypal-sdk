@@ -46,9 +46,4 @@ class Customer extends Struct
     {
         $this->channel = $channel;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

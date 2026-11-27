@@ -94,11 +94,6 @@ class Phone extends Struct
         $this->extensionNumber = $extensionNumber;
     }
 
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
-
     public function getFullPhoneNumber(): string
     {
         $number = '+' . $this->countryCode . ' ' . $this->nationalNumber;

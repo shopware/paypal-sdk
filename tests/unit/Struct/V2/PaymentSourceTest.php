@@ -18,7 +18,6 @@ use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\AppSwitchContext\Nat
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Common\ExperienceContext;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Klarna;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Klarna\AuthorizationContext;
-use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\P24;
 use Shopware\PayPalSDK\Struct\V2\Order\PaymentSource\Swish;
 
 /**
@@ -33,9 +32,7 @@ class PaymentSourceTest extends TestCase
             'p24' => ['email' => 'test@example.com'],
         ]);
 
-        static::assertEquals([
-            'p24' => (new P24())->assign(['email' => 'test@example.com']),
-        ], $paymentSource->jsonSerialize());
+        static::assertSame(['p24' => ['email' => 'test@example.com']], $paymentSource->jsonSerialize());
     }
 
     public function testKlarnaPaymentSource(): void

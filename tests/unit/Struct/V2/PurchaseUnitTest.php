@@ -80,7 +80,6 @@ class PurchaseUnitTest extends TestCase
         static::assertSame([
             'reference_id' => 'default',
             'amount' => [
-                'breakdown' => null,
                 'currency_code' => 'USD',
                 'value' => '10.00',
             ],

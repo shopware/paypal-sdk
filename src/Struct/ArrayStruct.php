@@ -12,7 +12,7 @@ use Shopware\PayPalSDK\Util\CaseConverter;
 #[\AllowDynamicProperties]
 class ArrayStruct extends Struct
 {
-    public function assign(array $data): static
+    public function assign(#[\SensitiveParameter] array $data): static
     {
         foreach ($data as $key => $value) {
             $this->{CaseConverter::denormalize((string) $key)} = $value;

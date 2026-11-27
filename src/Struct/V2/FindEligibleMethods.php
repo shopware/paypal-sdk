@@ -62,12 +62,4 @@ class FindEligibleMethods extends Struct
     {
         $this->purchaseUnits = $purchaseUnits;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter([
-            ...parent::jsonSerialize(),
-            'purchase_units' => \array_map(\array_filter(...), $this->purchaseUnits->jsonSerialize()),
-        ]);
-    }
 }

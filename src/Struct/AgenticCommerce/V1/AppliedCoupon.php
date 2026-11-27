@@ -54,9 +54,4 @@ class AppliedCoupon extends Struct
     {
         $this->discountAmount = $discountAmount;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

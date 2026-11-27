@@ -115,9 +115,4 @@ class ShippingOption extends Struct
     {
         $this->estimatedDelivery = $estimatedDelivery;
     }
-
-    public function jsonSerialize(): array
-    {
-        return \array_filter(parent::jsonSerialize());
-    }
 }

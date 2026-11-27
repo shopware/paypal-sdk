@@ -19,7 +19,7 @@ use Shopware\PayPalSDK\Struct\V1\Common\Address;
 class AddressTest extends TestCase
 {
     /**
-     * @param array<string, string|null> $data
+     * @param array<string, string> $data
      */
     #[DataProvider('provideJsonSerialize')]
     public function testJsonSerialize(array $data): void
@@ -31,7 +31,6 @@ class AddressTest extends TestCase
     {
         yield [[
             'city' => 'some-city',
-            'state' => null,
             'phone' => '0123456879',
             'line1' => 'some-line-1',
             'line2' => 'some-line-2',
@@ -39,7 +38,6 @@ class AddressTest extends TestCase
 
         yield [[
             'city' => 'some-city',
-            'state' => null,
             'phone' => '0123456879',
             'line2' => 'some-line-2',
         ]];
