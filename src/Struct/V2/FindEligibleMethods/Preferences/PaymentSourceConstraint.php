@@ -20,11 +20,11 @@ class PaymentSourceConstraint extends Struct
     public const string CONSTRAINT_TYPE_EXCLUDE = 'EXCLUDE';
 
     #[OA\Property(type: 'string', enum: [self::CONSTRAINT_TYPE_INCLUDE, self::CONSTRAINT_TYPE_EXCLUDE])]
-    protected string $constraintType = self::CONSTRAINT_TYPE_INCLUDE;
+    protected string $constraintType;
 
     /** @var list<string> */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 75)]
-    protected array $paymentSources = [];
+    protected array $paymentSources;
 
     public function getConstraintType(): string
     {

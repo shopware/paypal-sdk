@@ -368,7 +368,7 @@ class PricingErrorContext extends AbstractContext
         $this->discountAmount = $discountAmount;
     }
 
-    public function getRequiredCurrencyConsistency(): ?bool
+    public function isRequiredCurrencyConsistency(): ?bool
     {
         return $this->requiredCurrencyConsistency;
     }

@@ -20,7 +20,7 @@ class Balance extends Struct
     protected Money $totalBalance;
 
     #[OA\Property(type: 'boolean')]
-    protected bool $primary = false;
+    protected ?bool $primary = null;
 
     #[OA\Property(ref: Money::class)]
     protected Money $availableBalance;
@@ -48,12 +48,12 @@ class Balance extends Struct
         $this->totalBalance = $totalBalance;
     }
 
-    public function isPrimary(): bool
+    public function isPrimary(): ?bool
     {
         return $this->primary;
     }
 
-    public function setPrimary(bool $primary): void
+    public function setPrimary(?bool $primary): void
     {
         $this->primary = $primary;
     }

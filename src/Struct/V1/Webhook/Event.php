@@ -49,7 +49,7 @@ class Event extends Struct
     protected string $id;
 
     #[OA\Property(type: 'string')]
-    protected string $resourceType = '';
+    protected ?string $resourceType = null;
 
     /** @var WebhookEventTypes::* */
     #[OA\Property(type: 'string')]
@@ -83,7 +83,7 @@ class Event extends Struct
     protected string $eventVersion;
 
     #[OA\Property(type: 'string', pattern: Pattern::VERSION)]
-    protected string $resourceVersion = '1.0';
+    protected ?string $resourceVersion = null;
 
     #[OA\Property(ref: ApplicationContext::class)]
     protected ApplicationContext $applicationContext;
@@ -100,7 +100,7 @@ class Event extends Struct
 
         // The event type is only set when it was part of the payload, so guard the access.
         $eventType = $webhook->isset('eventType') ? $webhook->getEventType() : '';
-        $resourceClass = $this->identifyResource($eventType, $this->resourceVersion, $this->resourceType);
+        $resourceClass = $this->identifyResource($eventType, $this->resourceVersion ?? '1.0', $this->resourceType ?? '');
 
         if ($resourceClass !== null) {
             $webhook->resource = $resourceClass::from($resourceData);
@@ -119,12 +119,12 @@ class Event extends Struct
         $this->id = $id;
     }
 
-    public function getResourceType(): string
+    public function getResourceType(): ?string
     {
         return $this->resourceType;
     }
 
-    public function setResourceType(string $resourceType): void
+    public function setResourceType(?string $resourceType): void
     {
         $this->resourceType = $resourceType;
     }
@@ -195,12 +195,12 @@ class Event extends Struct
         $this->eventVersion = $eventVersion;
     }
 
-    public function getResourceVersion(): string
+    public function getResourceVersion(): ?string
     {
         return $this->resourceVersion;
     }
 
-    public function setResourceVersion(string $resourceVersion): void
+    public function setResourceVersion(?string $resourceVersion): void
     {
         $this->resourceVersion = $resourceVersion;
     }

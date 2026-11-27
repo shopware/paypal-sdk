@@ -20,15 +20,15 @@ class Mandate extends Struct
         self::TYPE_RECURRENT,
     ];
 
-    #[OA\Property(type: 'string', default: self::TYPE_ONE_OFF, enum: self::MANDATE_TYPES)]
-    protected string $type = self::TYPE_ONE_OFF;
+    #[OA\Property(type: 'string', enum: self::MANDATE_TYPES)]
+    protected ?string $type = null;
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(string $type): void
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }

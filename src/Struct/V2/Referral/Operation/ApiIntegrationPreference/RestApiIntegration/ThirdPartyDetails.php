@@ -27,7 +27,7 @@ class ThirdPartyDetails extends Struct
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), maxItems: 20)]
-    protected array $features = [];
+    protected ?array $features = null;
 
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255)]
     protected string $signupMode;
@@ -40,13 +40,13 @@ class ThirdPartyDetails extends Struct
      */
     public function getFeatures(): array
     {
-        return $this->features;
+        return $this->features ?? [];
     }
 
     /**
      * @param string[] $features
      */
-    public function setFeatures(array $features): void
+    public function setFeatures(?array $features): void
     {
         $this->features = $features;
     }

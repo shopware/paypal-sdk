@@ -19,7 +19,7 @@ class Token extends AbstractPaymentSource
     #[OA\Property(type: 'string', minLength: 1, maxLength: 255, pattern: Pattern::ALNUM_UNDERSCORE_HYPHEN)]
     protected string $id;
 
-    #[OA\Property(type: 'string')]
+    #[OA\Property(type: 'string', enum: [self::TYPE_BILLING_AGREEMENT])]
     protected string $type = self::TYPE_BILLING_AGREEMENT;
 
     #[OA\Property(ref: StoredPaymentSource::class)]

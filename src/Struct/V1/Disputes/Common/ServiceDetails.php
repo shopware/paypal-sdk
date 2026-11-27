@@ -25,7 +25,7 @@ class ServiceDetails extends Struct
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), minItems: 1, maxItems: 10)]
-    protected array $subReasons = [];
+    protected ?array $subReasons = null;
 
     #[OA\Property(type: 'string', format: 'uri')]
     protected string $purchaseUrl;
@@ -65,13 +65,13 @@ class ServiceDetails extends Struct
      */
     public function getSubReasons(): array
     {
-        return $this->subReasons;
+        return $this->subReasons ?? [];
     }
 
     /**
      * @param string[] $subReasons
      */
-    public function setSubReasons(array $subReasons): void
+    public function setSubReasons(?array $subReasons): void
     {
         $this->subReasons = $subReasons;
     }

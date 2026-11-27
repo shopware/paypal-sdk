@@ -7,6 +7,7 @@
 
 namespace Shopware\PayPalSDK\Struct\V1;
 
+use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Struct\Struct;
 use Shopware\PayPalSDK\Tests\Fixture\Struct\TestStruct\FooCollection;
 
@@ -42,6 +43,18 @@ class PHPStanRuleStruct extends Struct
 
     /** @var string[]|null */
     protected ?array $nullableArrayGetter = null;
+
+    protected string $nonNullDefault = 'value';
+
+    /**
+     * @internal
+     */
+    protected bool $internalDefault = false;
+
+    #[OA\Property(enum: ['ONLY'])]
+    protected string $singleEnumDefault = 'ONLY';
+
+    protected ?bool $nullableBool = null;
 
     public function getWrongVisibility(): string
     {
@@ -176,5 +189,45 @@ class PHPStanRuleStruct extends Struct
     public function setNullableArrayGetter(?array $nullableArrayGetter): void
     {
         $this->nullableArrayGetter = $nullableArrayGetter;
+    }
+
+    public function getNonNullDefault(): string
+    {
+        return $this->nonNullDefault;
+    }
+
+    public function setNonNullDefault(string $nonNullDefault): void
+    {
+        $this->nonNullDefault = $nonNullDefault;
+    }
+
+    public function isInternalDefault(): bool
+    {
+        return $this->internalDefault;
+    }
+
+    public function setInternalDefault(bool $internalDefault): void
+    {
+        $this->internalDefault = $internalDefault;
+    }
+
+    public function getSingleEnumDefault(): string
+    {
+        return $this->singleEnumDefault;
+    }
+
+    public function setSingleEnumDefault(string $singleEnumDefault): void
+    {
+        $this->singleEnumDefault = $singleEnumDefault;
+    }
+
+    public function isNullableBool(): ?bool
+    {
+        return $this->nullableBool;
+    }
+
+    public function setNullableBool(?bool $nullableBool): void
+    {
+        $this->nullableBool = $nullableBool;
     }
 }

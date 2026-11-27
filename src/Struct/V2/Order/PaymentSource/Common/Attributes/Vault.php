@@ -34,7 +34,7 @@ class Vault extends Struct
     protected ?string $confirmPaymentToken = null;
 
     #[OA\Property(type: 'boolean')]
-    protected bool $permitMultiplePaymentTokens = true;
+    protected ?bool $permitMultiplePaymentTokens = null;
 
     #[OA\Property(ref: Customer::class, nullable: true)]
     protected ?Customer $customer = null;
@@ -92,12 +92,12 @@ class Vault extends Struct
         $this->confirmPaymentToken = $confirmPaymentToken;
     }
 
-    public function isPermitMultiplePaymentTokens(): bool
+    public function isPermitMultiplePaymentTokens(): ?bool
     {
         return $this->permitMultiplePaymentTokens;
     }
 
-    public function setPermitMultiplePaymentTokens(bool $permitMultiplePaymentTokens): void
+    public function setPermitMultiplePaymentTokens(?bool $permitMultiplePaymentTokens): void
     {
         $this->permitMultiplePaymentTokens = $permitMultiplePaymentTokens;
     }

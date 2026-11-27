@@ -20,18 +20,18 @@ class MobileWebContext extends Struct
         self::RETURN_FLOW_MANUAL,
     ];
 
-    #[OA\Property(type: 'string', default: self::RETURN_FLOW_AUTO, enum: self::RETURN_FLOWS)]
-    protected string $returnFlow = self::RETURN_FLOW_AUTO;
+    #[OA\Property(type: 'string', enum: self::RETURN_FLOWS)]
+    protected ?string $returnFlow = null;
 
     #[OA\Property(type: 'string', maxLength: 512, minLength: 1)]
     protected string $buyerUserAgent;
 
-    public function getReturnFlow(): string
+    public function getReturnFlow(): ?string
     {
         return $this->returnFlow;
     }
 
-    public function setReturnFlow(string $returnFlow): void
+    public function setReturnFlow(?string $returnFlow): void
     {
         $this->returnFlow = $returnFlow;
     }

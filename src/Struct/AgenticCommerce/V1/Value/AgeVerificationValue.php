@@ -9,6 +9,7 @@ namespace Shopware\PayPalSDK\Struct\AgenticCommerce\V1\Value;
 
 use OpenApi\Attributes as OA;
 use Shopware\PayPalSDK\Contract\Struct\AgenticCommerce\V1\Value\ValueInterface;
+use Shopware\PayPalSDK\Struct\Struct;
 
 /**
  * @experimental
@@ -17,7 +18,7 @@ use Shopware\PayPalSDK\Contract\Struct\AgenticCommerce\V1\Value\ValueInterface;
     schema: 'paypal_agentic_commerce_v1_value_age_verification_value',
     required: ['confirmed']
 )]
-class AgeVerificationValue implements ValueInterface
+class AgeVerificationValue extends Struct implements ValueInterface
 {
     public const string METHOD__SELF_DECLARATION = 'self_declaration';
     public const string METHOD__ID_VERIFICATION = 'id_verification';
@@ -27,7 +28,7 @@ class AgeVerificationValue implements ValueInterface
      * Whether age verification was confirmed
      */
     #[OA\Property(type: 'boolean')]
-    protected bool $confirmed = false;
+    protected bool $confirmed;
 
     /**
      * Method used for age verification
@@ -61,7 +62,7 @@ class AgeVerificationValue implements ValueInterface
 
     public function setVerificationMethod(?string $verificationMethod): void
     {
-        if (!\in_array($verificationMethod, [self::METHOD__SELF_DECLARATION, self::METHOD__ID_VERIFICATION, self::METHOD__THIRD_PARTY], true)) {
+        if ($verificationMethod !== null && !\in_array($verificationMethod, [self::METHOD__SELF_DECLARATION, self::METHOD__ID_VERIFICATION, self::METHOD__THIRD_PARTY], true)) {
             throw new \InvalidArgumentException(\sprintf('Verification Method "%s" is not valid.', $verificationMethod));
         }
 

@@ -24,8 +24,8 @@ class Payment extends Struct
     #[OA\Property(type: 'string')]
     protected string $id;
 
-    #[OA\Property(type: 'string', default: ConstantsV1::INTENT_SALE, enum: [ConstantsV1::INTENT_SALE, ConstantsV1::INTENT_AUTHORIZE, ConstantsV1::INTENT_ORDER])]
-    protected string $intent = ConstantsV1::INTENT_SALE;
+    #[OA\Property(type: 'string', enum: [ConstantsV1::INTENT_SALE, ConstantsV1::INTENT_AUTHORIZE, ConstantsV1::INTENT_ORDER])]
+    protected string $intent;
 
     #[OA\Property(type: 'string')]
     protected string $state;

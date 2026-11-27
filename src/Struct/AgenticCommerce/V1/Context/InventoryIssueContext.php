@@ -248,7 +248,7 @@ class InventoryIssueContext extends AbstractContext
         $this->suggestedAlternatives[] = $suggestedAlternative;
     }
 
-    public function getUpgradeAvailable(): ?bool
+    public function isUpgradeAvailable(): ?bool
     {
         return $this->upgradeAvailable;
     }

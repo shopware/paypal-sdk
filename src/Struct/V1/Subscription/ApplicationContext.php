@@ -19,8 +19,8 @@ class ApplicationContext extends Struct
     public const string USER_ACTION_TYPE_SUBSCRIBE_NOW = 'SUBSCRIBE_NOW';
     public const string USER_ACTION_TYPE_CONTINUE = 'CONTINUE';
 
-    #[OA\Property(type: 'string', default: self::USER_ACTION_TYPE_SUBSCRIBE_NOW)]
-    protected string $userAction = self::USER_ACTION_TYPE_SUBSCRIBE_NOW;
+    #[OA\Property(type: 'string')]
+    protected ?string $userAction = null;
 
     #[OA\Property(type: 'string')]
     protected string $brandName;
@@ -28,8 +28,8 @@ class ApplicationContext extends Struct
     #[OA\Property(type: 'string')]
     protected string $locale;
 
-    #[OA\Property(type: 'string', default: 'SET_PROVIDED_ADDRESS')]
-    protected string $shippingPreference = 'SET_PROVIDED_ADDRESS';
+    #[OA\Property(type: 'string')]
+    protected ?string $shippingPreference = null;
 
     #[OA\Property(type: 'string')]
     protected string $returnUrl;
@@ -37,12 +37,12 @@ class ApplicationContext extends Struct
     #[OA\Property(type: 'string')]
     protected string $cancelUrl;
 
-    public function getUserAction(): string
+    public function getUserAction(): ?string
     {
         return $this->userAction;
     }
 
-    public function setUserAction(string $userAction): void
+    public function setUserAction(?string $userAction): void
     {
         $this->userAction = $userAction;
     }
@@ -67,12 +67,12 @@ class ApplicationContext extends Struct
         $this->locale = $locale;
     }
 
-    public function getShippingPreference(): string
+    public function getShippingPreference(): ?string
     {
         return $this->shippingPreference;
     }
 
-    public function setShippingPreference(string $shippingPreference): void
+    public function setShippingPreference(?string $shippingPreference): void
     {
         $this->shippingPreference = $shippingPreference;
     }

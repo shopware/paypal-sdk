@@ -16,11 +16,11 @@ class LegalConsent extends Struct
 {
     public const string CONSENT_TYPE_SHARE_DATA = 'SHARE_DATA_CONSENT';
 
-    #[OA\Property(type: 'string', default: self::CONSENT_TYPE_SHARE_DATA, minLength: 1, maxLength: 127, pattern: Pattern::UPPER_ALNUM_UNDERSCORE_HYPHEN)]
+    #[OA\Property(type: 'string', default: self::CONSENT_TYPE_SHARE_DATA, enum: [self::CONSENT_TYPE_SHARE_DATA], minLength: 1, maxLength: 127, pattern: Pattern::UPPER_ALNUM_UNDERSCORE_HYPHEN)]
     protected string $type = self::CONSENT_TYPE_SHARE_DATA;
 
     #[OA\Property(type: 'boolean')]
-    protected bool $granted = true;
+    protected bool $granted;
 
     public function getType(): string
     {

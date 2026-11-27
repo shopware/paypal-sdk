@@ -36,7 +36,7 @@ class MerchantIntegrations extends Struct
 
     /** @var string[] */
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
-    protected array $grantedPermissions = [];
+    protected ?array $grantedPermissions = null;
 
     #[OA\Property(type: 'boolean')]
     protected bool $paymentsReceivable;
@@ -111,13 +111,13 @@ class MerchantIntegrations extends Struct
      */
     public function getGrantedPermissions(): array
     {
-        return $this->grantedPermissions;
+        return $this->grantedPermissions ?? [];
     }
 
     /**
      * @param string[] $grantedPermissions
      */
-    public function setGrantedPermissions(array $grantedPermissions): void
+    public function setGrantedPermissions(?array $grantedPermissions): void
     {
         $this->grantedPermissions = $grantedPermissions;
     }

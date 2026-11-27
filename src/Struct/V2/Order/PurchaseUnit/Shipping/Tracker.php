@@ -55,7 +55,7 @@ class Tracker extends Struct
         $this->status = $status;
     }
 
-    public function getNotifyPayer(): ?bool
+    public function isNotifyPayer(): ?bool
     {
         return $this->notifyPayer;
     }
